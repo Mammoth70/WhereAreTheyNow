@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Где они сейчас?</string>
+    <string name="description">Определение местоположения родственников и друзей</string>
+    <string name="version">Версия:</string>
+    <string name="for_about">Автор: Андрей Яковлев © 2025
+        \nhttps://github.com/mammoth70
+        \n\nУсловия использования отдельных сервисов Яндекс Карт:
+        \nhttps://yandex.ru/legal/maps_api/</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="add">Добавить</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
+    <string name="save">Сохранить</string>
+    <string name="error">Ошибка</string>
+
+    <string name="permissions">разрешения</string>
+    <string name="titlePermissions">Необходимые разрешения</string>
+    <string name="users">контакты</string>
+    <string name="titleUsers">Список контактов</string>
+    <string name="titleUser">Карточка контакта</string>
+    <string name="titleColors">Выберите цвет метки</string>
+    <string name="map">карта</string>
+    <string name="settings">настройки</string>
+    <string name="titleSettings">Настройки</string>
+    <string name="about">инфо</string>
+    <string name="titleAbout">О программе</string>
+
+    <string name="selectMap">Выбрать карту</string>
+    <string name="map_text">вывести координаты текстом</string>
+    <string name="map_openstreet_org">карты OpenStreet</string>
+    <string name="map_yandex_ru">Яндекс Карты</string>
+    <string name="my_phone_number">Мой номер телефона</string>
+    <string name="selectService">Работать как сервис</string>
+    <string name="mapZoom">Масштаб карты</string>
+    <string name="mapTilt">Наклон камеры \u00b0</string>
+    <string name="mapNord">Повернуть карту на север</string>
+    <string name="mapZoomIn">Увеличить масштаб карты</string>
+    <string name="mapZoomOut">Уменьшить масштаб карты</string>
+    <string name="map2d">Карту в 2D</string>
+    <string name="map3d">Карту в 3D</string>
+    <string name="mapCircle">Показывать круг</string>
+
+    <string name="selectTheme">Выбрать тему</string>
+    <string name="themeDay">дневная</string>
+    <string name="themeSystem">системная</string>
+    <string name="themeNight">ночная</string>
+
+    <string name="denied">"запрещено"</string>
+    <string name="granted">"разрешено"</string>
+    <string name="request">"запросить"</string>
+    <string name="access_coarse_location">Примерное местоположение</string>
+    <string name="access_fine_location">Точное местоположение</string>
+    <string name="access_background_location">Работа в фоновом режиме</string>
+    <string name="access_any_mode">(Разрешить в любом режиме)</string>
+    <string name="access_Receive_SMS">Получение SMS</string>
+    <string name="access_Send_SMS">Отправка SMS</string>
+    <string name="allow_fine_location">Разрешите определение точного местоположения.</string>
+    <string name="allow_background_location">Разрешите работу геолокации в любом режиме.</string>
+    <string name="allow_SMS">Разрешите приём и отправку SMS.</string>
+    <string name="request_blocked">Запрос заблокирован.</string>
+    <string name="location_request_blocked">Запрос разрешений геолокации заблокирован.</string>
+    <string name="location_bg_request_blocked">Запрос работы в фоновом режиме заблокирован.</string>
+    <string name="sms_request_blocked">Запрос разрешений СМС заблокирован.</string>
+    <string name="set_access_manually">Установите разрешения вручную.</string>
+
+    <string name="bootom_sheet_title">Зачем нужны разрешения?</string>
+    <string name="bootom_sheet_text">Приложение определяет местоположение родственников и друзей.
+        \nПоэтому, для работы ему нужно разрешение на определение точного местоположения.
+        \n\nМы хотим узнать местоположение близкого человека, даже если его телефон находится в спящем режиме или его экран заблокирован.
+        \nПоэтому, приложению нужны права на работу в фоновом режиме. На экране выдачи разрешений эта опция называется, как
+        \"Разрешить в любом режиме\".
+        \n\nЗапросы на получение геолокации и ответы с координатами передаются SMS-сообщениями.
+        \nПоэтому, приложению нужны права на получение и отправку SMS.</string>
+
+    <string name="phone">телефон</string>
+    <string name="latitude">широта</string>
+    <string name="longitude">долгота</string>
+    <string name="time">время</string>
+    <string name="now">сейчас</string>
+    <string name="long_ago">давно</string>
+    <string name="minutes_ago">%1$d мин. назад</string>
+
+    <string name="menu_add_user">Добавить контакт</string>
+    <string name="menu_delete_user">Удалить контакт</string>
+    <string name="menu_edit_user">Изменить контакт</string>
+    <string name="menu_sms_request_user">Узнать местоположение</string>
+    <string name="menu_sms_answer_user">Я здесь</string>
+    <string name="failed_to_add_user">Не удалось добавить контакт</string>
+    <string name="failed_to_delete_user">Не удалось удалить контакт</string>
+    <string name="failed_to_change_user">Не удалось изменить контакт</string>
+    <string name="err_empty_user">Нужно ввести имя контакта</string>
+    <string name="err_empty_phone">Нужно ввести уникальный номер телефона контакта</string>
+    <string name="err_empty_filelds">Нужно заполнить все поля</string>
+    <string name="err_empty_color">Нужно выбрать цвет маркера</string>
+    <string name="err_not_unique_phone">Уже существует такой номер телефона</string>
+
+    <string name="ed_phone">Номер телефона</string>
+    <string name="ed_name">Имя Фамилия</string>
+    <string name="ed_label">Метка</string>
+    <string name="ed_color">цвет</string>
+
+    <!-- <string name="denied1" translatable="false">\u2716</string> -->
+    <!-- <string name="granted1" translatable="false">\u2714</string> -->
+</resources>

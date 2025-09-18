@@ -1,0 +1,353 @@
+package ru.mammoth70.wherearetheynow;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+public class MainActivity extends AppCompatActivity {
+    // Главная activity приложения.
+    // Выводит список контактов и bottom Navigatin bar.
+    public static DBhelper dbHelper;
+    private NavigationBarView navigationBarView;
+    private SimpleAdapter sAdapter;
+    private ArrayList<Map<String, Object>> data;
+
+    private static final int CM_SMS_REQUEST = 0;
+    private static final int CM_SMS_ANSWER = 1;
+    private static final int CM_EDIT_ID = 2;
+    private static final int CM_ADD_ID = 3;
+    private static final int CM_DELETE_ID = 4;
+
+    private static final int NM_MAP_ID = 0;
+    private static final int NM_USERS_ID = 1;
+    //private static final int NM_SETTINGS_ID = 2;
+    //private static final int NM_PERMISSIONS_ID = 3;
+    //private static final int NM_ABOUT_ID = 4;
+
+    private static final String columnPhone = "phone";
+    private static final String columnName = "name";
+    private static final String columnColor = "color";
+    private static final String columnBack = "background";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // Метод вызывается при создании Activity.
+        // Считываются списки и словари пользователей из БД.
+        // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings),
+                (v, insets) -> {
+                    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                    return insets;
+                });
+        TextView tvName = findViewById(R.id.tvTitle);
+        tvName.setText(R.string.titleUsers);
+        dbHelper = new DBhelper(this);
+        dbHelper.getUsers();
+
+        data = new ArrayList<>(Util.phones.size());
+        refreshData();
+        String[] from = {columnPhone, columnName, columnColor, columnBack};
+        int[] to = {R.id.itemUserPhone, R.id.itemUserName, R.id.itemUserLabel, R.id.itemUserLayout};
+
+        sAdapter = new SimpleAdapter(this, data, R.layout.item_user, from, to);
+        sAdapter.setViewBinder(new viewBinder());
+
+        ListView lvSimple = findViewById(R.id.lvUsersSimple);
+        lvSimple.setAdapter(sAdapter);
+        lvSimple.setClickable(true);
+        registerForContextMenu(lvSimple);
+        lvSimple.setOnItemClickListener((parent, view, position, id)
+                -> EditUser(position));
+
+        if (!checkAllPermissions()) {
+            startPermissionActivity();
+        }
+        navigationBarView= findViewById(R.id.bottom_navigation);
+        navigationBarView.getMenu().getItem(NM_MAP_ID).
+                setEnabled(!Objects.equals(MapUtil.getLastAnswer(this).phone, ""));
+        navigationBarView.getMenu().getItem(NM_USERS_ID).setChecked(true);
+
+        /*
+        TextView txtAuthor = findViewById(R.id.author);
+        txtAuthor.setText(Html.fromHtml(getString(R.string.copyright),
+                HtmlCompat.FROM_HTML_MODE_LEGACY));
+        txtAuthor.setMovementMethod(LinkMovementMethod.getInstance());
+         */
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MapUtil.getLastAnswer(this);
+        navigationBarView.getMenu().getItem(NM_MAP_ID).
+                setEnabled(!Objects.equals(MapUtil.getLastAnswer(this).phone, ""));
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        // Метод создаёт контекстное меню
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, CM_SMS_REQUEST, 0, R.string.menu_sms_request_user);
+        menu.add(0, CM_SMS_ANSWER, 1, R.string.menu_sms_answer_user);
+        menu.add(1, CM_EDIT_ID, 2, R.string.menu_edit_user);
+        menu.add(1, CM_ADD_ID, 3, R.string.menu_add_user);
+        menu.add(1, CM_DELETE_ID, 4, R.string.menu_delete_user);
+        menu.setGroupDividerEnabled(true);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        // Метод обрабатывает контекстное меню.
+        AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if (acmi == null) {
+            return false;
+        }
+        switch (item.getItemId()) {
+            case (CM_ADD_ID):
+                AddUser();
+                return true;
+            case (CM_EDIT_ID):
+                EditUser(acmi.position);
+                return true;
+            case (CM_DELETE_ID):
+                DeleteUser(acmi.position);
+                return true;
+            case (CM_SMS_REQUEST):
+                SMSrequestUser(acmi.position);
+                return true;
+            case (CM_SMS_ANSWER):
+                SMSanswerUser(acmi.position);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    private void AddUser() {
+        // Метод добавляет пользователя.
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_ADD_USER);
+        startActivityIntent.launch(intent);
+    }
+    private void EditUser(int position) {
+        // Метод редактирует пользователя.
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_EDIT_USER);
+        String phone;
+        phone = Util.phones.get(position);
+        intent.putExtra(UserActivity.INTENT_EXTRA_ID, Util.phone2id.get(phone));
+        intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone);
+        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name.get(phone));
+        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color.get(phone));
+        startActivityIntent.launch(intent);
+    }
+
+    private void DeleteUser(int position) {
+        // Метод удаляет пользователя.
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_DELETE_USER);
+        String phone;
+        phone = Util.phones.get(position);
+        intent.putExtra(UserActivity.INTENT_EXTRA_ID, Util.phone2id.get(phone));
+        intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone);
+        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name.get(phone));
+        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color.get(phone));
+        startActivityIntent.launch(intent);
+    }
+
+    private void SMSrequestUser(int position) {
+        // Метод посылает пользователю запрос координат.
+        String phone;
+        phone = Util.phones.get(position);
+        if (Objects.equals(phone, Util.myphone)) {
+            SelfPosition();
+        } else {
+            if (Util.useService) {
+                // Метод передаёт обработку запроса геолокации в GetLocationService.
+                Intent intent = new Intent(this, GetLocationService.class);
+                intent.putExtra(Util.INTENT_EXTRA_SMS_TO, phone);
+                intent.putExtra(Util.INTENT_EXTRA_NEW_VERSION_REQUEST, true);
+                this.startService(intent);
+            } else {
+                // Метод передаёт обработку запроса геолокации в GetLocation.
+                GetLocation getLocation = new GetLocation();
+                getLocation.sendLocation(this, GetLocation.WAY_SMS, phone, true);
+            }
+        }
+    }
+
+    private void SMSanswerUser(int position) {
+        // Метод посылает пользователю геолокацию.
+        String phone;
+        phone = Util.phones.get(position);
+        if (Objects.equals(phone, Util.myphone)) {
+            SelfPosition();
+        } else {
+            if (Util.useService) {
+                // Метод передаёт обработку запроса геолокации в GetLocationService.
+                Intent intent = new Intent(this, GetLocationService.class);
+                intent.putExtra(Util.INTENT_EXTRA_SMS_TO, phone);
+                this.startService(intent);
+            } else {
+                // Метод передаёт обработку запроса геолокации в GetLocation.
+                GetLocation getLocation = new GetLocation();
+                getLocation.sendLocation(this, GetLocation.WAY_SMS, phone, false);
+            }
+        }
+    }
+
+    private void SelfPosition() {
+        // Метод определяет собственную геолокацию пользователя и вызывает карту.
+        GetLocation getLocation = new GetLocation();
+        getLocation.sendLocation(this, GetLocation.WAY_LOCAL, "",false);
+    }
+
+    private void refreshData() {
+        // Метод обновляет данные для списка пользователей из БД.
+        data.clear();
+        for (String phone : Util.phones) {
+            Map<String, Object> m = new HashMap<>();
+            m.put(columnPhone, phone);
+            m.put(columnName, Util.phone2name.get(phone));
+            m.put(columnColor, Util.phone2color.get(phone));
+            m.put(columnBack, Util.phone2color.get(phone));
+            data.add(m);
+        }
+    }
+
+    public void onPermissionClicked(MenuItem intem) {
+        // Метод - обработчик кнопки меню "разрешения".
+        // Вызывает соответствующую Activity.
+        startPermissionActivity();
+    }
+
+    public void onMapClicked(MenuItem intem) {
+        // Метод - обработчик кнопки меню "карта".
+        // Вызывает соответствующую Activity.
+        PointRecord record = MapUtil.getLastAnswer(this);
+        MapUtil.ViewLocation(this, record, false);
+    }
+
+    public void onSettingsClicked(MenuItem intem) {
+        // Метод - обработчик кнопки меню "настройки".
+        // Вызывает соответствующую Activity.
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void startPermissionActivity() {
+        // Метод запускает PermissionActivity.
+        Intent intent = new Intent(this, PermissionActivity.class);
+        startActivity(intent);
+    }
+
+    private boolean checkAllPermissions() {
+        // Метод проверяет все необходимые разрешения (если их не хватает, нужно запустить PermissionActivity).
+        return ((ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) &&
+            (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) &&
+            (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) &&
+            (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) &&
+            (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED));
+    }
+
+    public void onAddUserClicked(View view) {
+        // Метод - обработчик кнопки "+" (добавить пользователя).
+        AddUser();
+    }
+
+    public void onAboutClicked(MenuItem intem) {
+        // Метод - обработчик кнопки меню "about".
+        Bundle bundle = new Bundle();
+        String title =
+                getString(R.string.app_name);
+
+        bundle.putString(AboutBox.DIALOG_TITLE, title);
+        String text =
+                getString(R.string.description) + "\n" +
+                getString(R.string.version) + " " +
+                BuildConfig.VERSION_NAME;
+        bundle.putString(AboutBox.DIALOG_MESSAGE, text);
+        AboutBox aboutBox = new AboutBox();
+        aboutBox.setArguments(bundle);
+        aboutBox.show(this.getSupportFragmentManager(), "MESSAGE_DIALOG");
+    }
+
+    public void onUsersClicked(MenuItem intem) {
+        // Метод - обработчик кнопки меню "list".
+    }
+
+    private static class viewBinder implements SimpleAdapter.ViewBinder {
+        // Класс обрабатывает форматирование вывода на экран списка пользователей.
+        @Override
+        public boolean setViewValue(View view, Object data,
+                                    String textRepresentation) {
+            String color;
+            if (view.getId() == R.id.itemUserLayout) {
+                color = ((String) data);
+                view.setBackgroundColor(Color.parseColor(AppColors.getColorAlpha16(color)));
+                return true;
+            } else if (view.getId() == R.id.itemUserLabel) {
+                color = ((String) data);
+                view.setBackgroundResource(AppColors.getColorMarker(color));
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+            // Метод возвращает результат вызова формы пользователя.
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intent = result.getData();
+                    if (intent != null) {
+                        refreshData();
+                    }
+                    sAdapter.notifyDataSetChanged();
+                }
+            });
+
+}

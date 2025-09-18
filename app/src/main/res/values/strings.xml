@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Where are they now?</string>
+    <string name="description">Determining the location of relatives and friends</string>
+    <string name="version">Version:</string>
+    <string name="for_about">Author: Andrey Yakovlev © 2025
+        \nhttps://github.com/mammoth70
+        \n\nTerms of use of individual Yandex Maps services:
+        \n https://yandex.ru/legal/maps_api/</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="error">Error</string>
+
+    <string name="permissions">permissions</string>
+    <string name="titlePermissions">Necessary permissions</string>
+    <string name="users">contacts</string>
+    <string name="titleUsers">List of contacts</string>
+    <string name="titleUser">Contact card</string>
+    <string name="titleColors">Select the color of the label</string>
+    <string name="map">map</string>
+    <string name="settings">settings</string>
+    <string name="titleSettings">Settings</string>
+    <string name="about">about</string>
+    <string name="titleAbout">About</string>
+
+    <string name="selectMap">Select a map</string>
+    <string name="map_text">output coordinates as text</string>
+    <string name="map_openstreet_org">OpenStreet maps</string>
+    <string name="map_yandex_ru">Yandex Maps</string>
+    <string name="my_phone_number">My phone number</string>
+    <string name="selectService">Work as a service</string>
+    <string name="mapZoom">Map zoom</string>
+    <string name="mapTilt">Camera tilt \u00b0</string>
+    <string name="mapNord">Rotate the map to the north</string>
+    <string name="mapZoomIn">Map Zoom in</string>
+    <string name="mapZoomOut">Map Zoom out</string>
+    <string name="map2d">Map 2D</string>
+    <string name="map3d">Map 3D</string>
+    <string name="mapCircle">Show circle</string>
+
+    <string name="selectTheme">Select theme</string>
+    <string name="themeDay">day</string>
+    <string name="themeSystem">system</string>
+    <string name="themeNight">night</string>
+
+    <string name="denied">"denied"</string>
+    <string name="granted">"granted"</string>
+    <string name="request">"request"</string>
+
+    <string name="access_coarse_location">Coarse location</string>
+    <string name="access_fine_location">Fine location</string>
+    <string name="access_background_location">Background location</string>
+    <string name="access_any_mode">(Allow in any mode)</string>
+    <string name="access_Receive_SMS">Receive SMS</string>
+    <string name="access_Send_SMS">Send SMS</string>
+    <string name="allow_fine_location">Please allow the fine location permission.</string>
+    <string name="allow_background_location">Please allow the background location permission.</string>
+    <string name="allow_SMS">Please allow the SMS permission.</string>
+    <string name="request_blocked">Request blocked.</string>
+    <string name="location_request_blocked">Geolocation permission request blocked.</string>
+    <string name="location_bg_request_blocked">Background work request blocked.</string>
+    <string name="sms_request_blocked">SMS permission request blocked.</string>
+    <string name="set_access_manually">Set permissions manually.</string>
+
+    <string name="bootom_sheet_title">Why do you need permits?</string>
+    <string name="bootom_sheet_text">The application determines the location of relatives and friends.
+        \nTherefore, it needs permission to determine the exact location to work.
+        \n\nWe want to know the location of a loved one, even if his phone is in sleep mode or his screen is locked.
+        \nTherefore, the application needs rights to work in the background. On the permission screen, this option is called
+        \"Allow in any mode\".
+        \n\nRequests for geolocation and responses with coordinates are transmitted via SMS messages.
+        \nTherefore, the application needs rights to receive and send SMS.</string>
+
+    <string name="phone">phone</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="time">time</string>
+    <string name="now">now</string>
+    <string name="long_ago">long ago</string>
+    <string name="minutes_ago">%1$d minutes ago</string>
+
+    <string name="menu_add_user">Add contact</string>
+    <string name="menu_delete_user">Delete contact</string>
+    <string name="menu_edit_user">Edit contact</string>
+    <string name="menu_sms_request_user">Find out location</string>
+    <string name="menu_sms_answer_user">I\'m here.</string>
+    <string name="failed_to_add_user">Failed to add contact</string>
+    <string name="failed_to_delete_user">Failed to delete contact</string>
+    <string name="failed_to_change_user">Failed to change contact</string>
+    <string name="err_empty_user">You must enter the contact name</string>
+    <string name="err_empty_phone">You must enter a unique contact phone number.</string>
+    <string name="err_empty_filelds">All fields must be filled in</string>
+    <string name="err_empty_color">You need to select the marker color</string>
+    <string name="err_not_unique_phone">There is already such a phone number</string>
+
+    <string name="ed_phone">Phone number</string>
+    <string name="ed_name">Name Surname</string>
+    <string name="ed_label">Mark</string>
+    <string name="ed_color">color</string>
+
+    <string name="denied1" translatable="false">\u2716</string>
+    <string name="granted1" translatable="false">\u2714</string>
+</resources>

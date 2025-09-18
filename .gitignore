@@ -1,0 +1,29 @@
+# Local configuration file
+local.properties
+*.properties
+!gradle.properties
+!gradle-wrapper.properties
+
+# Keystore files
+*.jks
+*.keystore
+
+# My temporary files
+history.txt
+issues.txt
+
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# IntelliJ
+*.iml
+.idea
+
+# Gradle files
+.gradle
+**/build
+gradlew
+gradlew.bat

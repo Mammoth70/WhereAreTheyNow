@@ -1,0 +1,54 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'ru.mammoth70.wherearetheynow'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "ru.mammoth70.wherearetheynow"
+        minSdk 30
+        targetSdk 36
+        versionCode 215
+        versionName "2.15"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "MAPKIT_API_KEY", "\"${mapkitApiKey}\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+	buildConfig = true
+    }
+
+    packagingOptions {
+        jniLibs {
+            //useLegacyPackaging = true // меньше размер apk (в два раза, со 100 до 50 МБ), но больше размер приложения в памяти
+            useLegacyPackaging = false  // больше размер apk, но меньше размер приложения в памяти
+        }
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    implementation 'com.google.android.gms:play-services-location:21.3.0'
+    implementation 'com.yandex.android:maps.mobile:4.19.0-lite'
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
