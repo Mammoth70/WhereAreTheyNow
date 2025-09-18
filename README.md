@@ -12,3 +12,9 @@
 This project is licensed under the **GNU General Public License v3.0 (GPLv3)**  
 See the [LICENSE](LICENSE) file for details.  
 Copyright 2025 Andrey Yakovlev <andrey-yakovlev@yandex.ru>
+
+Android Material Icons are available under the permissive Apache License 2.0,  
+which means they are free to use for personal, educational, or commercial projects without cost.
+
+Terms of Use for Individual Yandex Maps Services:  
+https://yandex.ru/legal/maps_api
