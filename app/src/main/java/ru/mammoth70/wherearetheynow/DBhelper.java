@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.Locale;
 
 public class DBhelper extends SQLiteOpenHelper {
-    // Класс обслуживает базу данных со списком пользователей и прочими структурами пользователей.
+    // Класс обслуживает базу данных со списком контактов и прочими структурами контактов.
     private static final int DB_VERSION = 3; // версия БД
 
     public DBhelper(Context context) {
@@ -63,7 +63,7 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public void getUsers() {
-        // Метод считывает список разрешенных телефонов и словари пользователей из БД.
+        // Метод считывает список разрешенных телефонов и словари контактов из БД.
         SQLiteDatabase db = getReadableDatabase();
         String execSting = "SELECT * FROM users;";
                 Cursor cursor = db.rawQuery(execSting, null);
@@ -122,7 +122,7 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public boolean addUser(String phone, String name, String color) {
-        // Метод добавляет запись пользователя в БД и обновляет структуры.
+        // Метод добавляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
         if (!Util.phones.contains(phone)) {
             SQLiteDatabase db = getReadableDatabase();
@@ -143,7 +143,7 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public boolean editUser(int id, String phone, String name, String color) {
-        // Метод изменяет запись пользователя в БД и обновляет структуры.
+        // Метод изменяет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
         if (Util.id2phone.containsKey(id)) {
             SQLiteDatabase db = getReadableDatabase();
@@ -167,7 +167,7 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public boolean deleteUser(int id) {
-        // Метод удаляет запись пользователя в БД и обновляет структуры.
+        // Метод удаляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
         if (Util.id2phone.containsKey(id)) {
             String phone = Util.id2phone.get(id);
@@ -190,7 +190,7 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public void setLastPoint(PointRecord record) {
-        // Метод заносит в таблицу points последние известные координаты пользователя.
+        // Метод заносит в таблицу points последние известные координаты контакта.
         if (Util.phones.contains(record.phone)) {
             String latitude = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.latitude);
             String longitude = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.longitude);

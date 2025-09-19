@@ -38,9 +38,10 @@ public class Util {
 
 
     public static ArrayList<String> phones = new ArrayList<>(); // список телефонов
-    public static ArrayList<String> menuPhones = new ArrayList<>(); // список телефонов, ограниченный свежими записями
+    public static ArrayList<String> menuPhones = new ArrayList<>(); // список телефонов, ограниченный
+                                                                    // наличием записей геолокации
 
-    public static HashMap<String, String> phone2name = new HashMap<>(); // словарь телефон:пользователь
+    public static HashMap<String, String> phone2name = new HashMap<>(); // словарь телефон:контакт
     public static HashMap<Integer, String> id2phone = new HashMap<>(); // словарь id:телефон
     public static HashMap<String, Integer> phone2id = new HashMap<>(); // словарь телефон:id
     public static HashMap<String, String> phone2color = new HashMap<>(); // словарь телефон:цвет

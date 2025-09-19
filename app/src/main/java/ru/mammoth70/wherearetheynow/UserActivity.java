@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.Set;
 
 public class UserActivity extends AppCompatActivity {
-    // Activity выводит карточку пользователя для добавления, редактирования, удаления
+    // Activity выводит карточку контакта для добавления, редактирования, удаления.
 
     static final String INTENT_EXTRA_ACTION = "action";
     static final String INTENT_EXTRA_RESULT = "refresh";
@@ -47,6 +47,7 @@ public class UserActivity extends AppCompatActivity {
     TextInputLayout ilName;
     TextInputEditText edName;
     MaterialCardView cardColor;
+    TextView tvColorError;
     int id;
 
     private Button btnAction;
@@ -56,7 +57,7 @@ public class UserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Метод вызывается при создании Activity.
-        // Подготавливаются структуры данных для вывода карточки пользователя.
+        // Подготавливаются структуры данных для вывода карточки контакта.
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_user);
@@ -71,15 +72,26 @@ public class UserActivity extends AppCompatActivity {
         btnAction = findViewById(R.id.btnAction);
         ilPhone = findViewById(R.id.ilPhone);
         edPhone = findViewById(R.id.edPhone);
+        edPhone.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                ilPhone.setError(null);
+            }
+        });
         ilName = findViewById(R.id.ilName);
         edName = findViewById(R.id.edName);
+        edName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                ilName.setError(null);//
+            }
+        });
         cardColor = findViewById(R.id.cardColor);
         tvColor = findViewById(R.id.tvColor);
+        tvColorError = findViewById(R.id.tvColorError);
         getAction(intent);
     }
 
     private void getAction(Intent intent) {
-        // Метод выясняет, какое действие над записью пользователя будем выполнять.
+        // Метод выясняет, какое действие над записью контакта будем выполнять.
         // Получает через intent поля из запускающей activity.
         // Соотвественно настраивает поля и кнопки.
         action = intent.getStringExtra(INTENT_EXTRA_ACTION);
@@ -109,6 +121,9 @@ public class UserActivity extends AppCompatActivity {
 
     public void onColorClicked(View view) {
         // Метод - обработчик кнопки "цвет" (выбор цвета).
+        cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_outline,null));
+        tvColorError.setText("");
+        tvColor.setTextColor(getResources().getColor(R.color.white,null));
         Intent intent = new Intent(this, ColorsActivity.class);
         startActivityIntent.launch(intent);
   }
@@ -152,6 +167,7 @@ public class UserActivity extends AppCompatActivity {
                 tvColor.setBackgroundResource(R.drawable.ic_pin_black_64);
                 break;
             default:
+                selectedColorTemp = "";
                 tvColor.setText(R.string.ed_color);
         }
     }
@@ -160,27 +176,29 @@ public class UserActivity extends AppCompatActivity {
         String phone = String.valueOf(edPhone.getText());
         String name = String.valueOf((edName.getText()));
         phone = phone.replaceAll(REGEXP_CLEAR_PHONE,"");
+        String color = String.valueOf((tvColor.getText()));
         if (phone.isEmpty()) {
             ilPhone.setError(getString(R.string.error));
         }
         if (name.isEmpty()) {
             ilName.setError(getString(R.string.error));
         }
-        if (selectedColorTemp.isEmpty()) {
-            cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_onErrorContainer,null));
+        if (color.equals(getString(R.string.ed_color)) || selectedColorTemp.isEmpty()) {
+            cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_error,null));
+            tvColor.setTextColor(getColor(R.color.md_theme_error));
+            tvColorError.setText(R.string.error);
         }
-        if (phone.isEmpty() || name.isEmpty() || selectedColorTemp.isEmpty()) {
+        if (phone.isEmpty() || name.isEmpty() ||
+                color.equals(getString(R.string.ed_color)) || selectedColorTemp.isEmpty()) {
             Toast.makeText(this, R.string.err_empty_filelds,Toast.LENGTH_SHORT).show();
             return;
         }
-        if (selectedColorTemp.equals(getString(R.string.ed_color)) || (selectedColorTemp.isEmpty())) {
-            Toast.makeText(this, R.string.err_empty_color,Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         if (Objects.equals(action, ACTION_ADD_USER)) {
             // Проверяем на уникальность
             if (Util.phones.contains(phone)) {
                 ilPhone.setError(getString(R.string.error));
+                //ilPhone.setError(" ");
                 Toast.makeText(this, R.string.err_not_unique_phone,Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -236,6 +254,7 @@ public class UserActivity extends AppCompatActivity {
                     Intent intent = result.getData();
                     if (intent != null) {
                         setColorButton(intent.getStringExtra(Util.INTENT_EXTRA_COLOR));
+                        String color = String.valueOf((tvColor.getText()));
                     }
                 }
             });

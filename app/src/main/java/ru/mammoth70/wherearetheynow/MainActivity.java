@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Метод вызывается при создании Activity.
-        // Считываются списки и словари пользователей из БД.
+        // Считываются списки и словари контактов из БД.
         // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -96,13 +96,6 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView.getMenu().getItem(NM_MAP_ID).
                 setEnabled(!Objects.equals(MapUtil.getLastAnswer(this).phone, ""));
         navigationBarView.getMenu().getItem(NM_USERS_ID).setChecked(true);
-
-        /*
-        TextView txtAuthor = findViewById(R.id.author);
-        txtAuthor.setText(Html.fromHtml(getString(R.string.copyright),
-                HtmlCompat.FROM_HTML_MODE_LEGACY));
-        txtAuthor.setMovementMethod(LinkMovementMethod.getInstance());
-         */
     }
 
     @Override
@@ -160,13 +153,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void AddUser() {
-        // Метод добавляет пользователя.
+        // Метод добавляет контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_ADD_USER);
         startActivityIntent.launch(intent);
     }
     private void EditUser(int position) {
-        // Метод редактирует пользователя.
+        // Метод редактирует контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_EDIT_USER);
         String phone;
@@ -179,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void DeleteUser(int position) {
-        // Метод удаляет пользователя.
+        // Метод удаляет контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_DELETE_USER);
         String phone;
@@ -192,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SMSrequestUser(int position) {
-        // Метод посылает пользователю запрос координат.
+        // Метод посылает контакту запрос координат.
         String phone;
         phone = Util.phones.get(position);
         if (Objects.equals(phone, Util.myphone)) {
@@ -213,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SMSanswerUser(int position) {
-        // Метод посылает пользователю геолокацию.
+        // Метод посылает контакту геолокацию.
         String phone;
         phone = Util.phones.get(position);
         if (Objects.equals(phone, Util.myphone)) {
@@ -233,13 +226,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SelfPosition() {
-        // Метод определяет собственную геолокацию пользователя и вызывает карту.
+        // Метод определяет собственную геолокацию и вызывает карту.
         GetLocation getLocation = new GetLocation();
         getLocation.sendLocation(this, GetLocation.WAY_LOCAL, "",false);
     }
 
     private void refreshData() {
-        // Метод обновляет данные для списка пользователей из БД.
+        // Метод обновляет данные для списка контактов из БД.
         data.clear();
         for (String phone : Util.phones) {
             Map<String, Object> m = new HashMap<>();
@@ -292,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddUserClicked(View view) {
-        // Метод - обработчик кнопки "+" (добавить пользователя).
+        // Метод - обработчик кнопки FAB "Добавить контакт".
         AddUser();
     }
 
@@ -318,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class viewBinder implements SimpleAdapter.ViewBinder {
-        // Класс обрабатывает форматирование вывода на экран списка пользователей.
+        // Класс обрабатывает форматирование вывода на экран списка контактов.
         @Override
         public boolean setViewValue(View view, Object data,
                                     String textRepresentation) {
@@ -338,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
-            // Метод возвращает результат вызова формы пользователя.
+            // Метод возвращает результат вызова формы контакта.
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {

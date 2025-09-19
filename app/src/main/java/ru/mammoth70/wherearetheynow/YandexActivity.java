@@ -9,6 +9,7 @@ import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.runtime.image.ImageProvider;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class YandexActivity extends LocationActivity implements CameraListener, SizeChangedListener {
@@ -54,7 +56,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Метод вызывается при создании Activity.
-        // Из intent получается координаты и выводится карта с метками.
+        // Из intent получается координаты и выводится карта с маркерами.
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         MapKitFactory.initialize(this);
@@ -160,7 +162,6 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     private final MapObjectTapListener mapObjectTapListener = (mapObject, point) -> {
         // Метод, отвечающий за тапы по различным объектам на карте.
         String phone = (String)mapObject.getUserData();
-        String name = Util.phone2name.get(phone);
         PointRecord rec = Util.phone2record.get(phone);
         if (rec != null) {
             CameraPosition currCameraPosition = map.getCameraPosition();
@@ -178,12 +179,9 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
                     0,
                     currCameraPosition.getTilt());
             map.move(newCameraPosition);
-            /*
-            String message = name + "\n" +
-                    String.format(Locale.US, PointRecord.FORMAT_POINT,
-                            point.getLatitude(), point.getLongitude());
+            String message = String.format(Locale.US, PointRecord.FORMAT_POINT,
+                             point.getLatitude(), point.getLongitude());
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-            */
         }
         return true;
     };
@@ -222,7 +220,41 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         super.onStop();
     }
 
+    private void start2D3D() {
+        // Метод устанавливает в начальное состояние кнопку FAB "2D/3D".
+        if (mapTilt == 0f) {
+            fab2D3D.setContentDescription(getString(R.string.map3d));
+            fab2D3D.setImageResource(R.drawable.ic_action_3d);
+        } else {
+            fab2D3D.setContentDescription(getString(R.string.map2d));
+            fab2D3D.setImageResource(R.drawable.ic_action_2d);
+        }
+    }
+    public void onMap2D3D(View view) {
+        // Обработчик кнопки FAB "2D/3D".
+        // Метод меняет режим карты 2D / 3D.
+        CameraPosition currCameraPosition = map.getCameraPosition();
+        float currTilt = currCameraPosition.getTilt();
+        float newTilt;
+        if (currTilt == 0f) {
+            if (mapTilt == 0f) {
+                newTilt = MapUtil.MAP_TILT_DEFAULT;
+            } else {
+                newTilt = mapTilt;
+            }
+        } else {
+            newTilt = 0f;
+        }
+        CameraPosition newCameraPosition = new CameraPosition(
+                currCameraPosition.getTarget(),
+                currCameraPosition.getZoom(),
+                currCameraPosition.getAzimuth(),
+                newTilt);
+        map.move(newCameraPosition);
+    }
+
     public void onMapNordClicked(View view) {
+        // Обработчик кнопки FAB "На север".
         // Метод поворачивает карту в положение север сверху.
         CameraPosition currCameraPosition = map.getCameraPosition();
         CameraPosition newCameraPosition = new CameraPosition(
@@ -234,6 +266,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     }
 
     public void onMapZoomIn(View view) {
+        // Обработчик кнопки FAB "Zoom In".
         // Метод приближает объекты на карте.
         CameraPosition currCameraPosition = map.getCameraPosition();
         float newZoom = currCameraPosition.getZoom() + 1f;
@@ -248,6 +281,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     }
 
     public void onMapZoomOut(View view) {
+        // Обработчик кнопки FAB "Zoom Out".
         // Метод отдаляет от объектов на карте.
         CameraPosition currCameraPosition = map.getCameraPosition();
         float newZoom = currCameraPosition.getZoom() - 1f;
@@ -262,19 +296,8 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         map.move(newCameraPosition);
     }
 
-    private void start2D3D() {
-        // Метод устанавливает в начальное состояние FAB Tilt.
-        if (mapTilt == 0f) {
-            fab2D3D.setContentDescription(getString(R.string.map3d));
-            fab2D3D.setImageResource(R.drawable.ic_action_3d);
-        } else {
-            fab2D3D.setContentDescription(getString(R.string.map2d));
-            fab2D3D.setImageResource(R.drawable.ic_action_2d);
-        }
-    }
-
-    public void setfabStatus() {
-        // Метод устанавливает в разрешенное состояние FAB-ы.
+    private void setFabStatus() {
+        // Метод устанавливает в правильное состояние все FAB-ы.
         CameraPosition currCameraPosition = map.getCameraPosition();
         float zoom = currCameraPosition.getZoom();
         if (zoom <= map.getCameraBounds().getMinZoom()) {
@@ -299,29 +322,6 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         } else {
             fabNord.show();
         }
-
-    }
-
-    public void onMap2D3D(View view) {
-        // Метод меняет режим карты 2D / 3D.
-        CameraPosition currCameraPosition = map.getCameraPosition();
-        float currTilt = currCameraPosition.getTilt();
-        float newTilt;
-        if (currTilt == 0f) {
-            if (mapTilt == 0f) {
-                newTilt = MapUtil.MAP_TILT_DEFAULT;
-            } else {
-                newTilt = mapTilt;
-            }
-        } else {
-            newTilt = 0f;
-        }
-        CameraPosition newCameraPosition = new CameraPosition(
-                currCameraPosition.getTarget(),
-                currCameraPosition.getZoom(),
-                currCameraPosition.getAzimuth(),
-                newTilt);
-        map.move(newCameraPosition);
     }
 
     @Override
@@ -330,7 +330,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
                                         boolean finished) {
         // Интерфейс для подписки на изменение положения камеры.
         if (finished) {
-            setfabStatus();
+            setFabStatus();
         }
     }
 
@@ -339,7 +339,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
                                        int newWidth,
                                        int newHeight) {
         // Интерфейс для подписки на изменение размеров карты.
-        setfabStatus();
+        setFabStatus();
     }
 
 }

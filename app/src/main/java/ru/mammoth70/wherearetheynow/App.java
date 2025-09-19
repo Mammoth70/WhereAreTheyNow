@@ -3,8 +3,6 @@ package ru.mammoth70.wherearetheynow;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import androidx.appcompat.app.AppCompatDelegate;
-
 import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
@@ -27,12 +25,12 @@ public class App extends Application {
         // Инициализируем чтение из SharedPreferences.
         SharedPreferences settings = getSharedPreferences(Util.nameSettings, MODE_PRIVATE);
 
-        // Считываем из SharedPreferences как определять тему.
+        // Считываем из SharedPreferences, как определять тему.
         Util.modeNight = settings.getInt(Util.nameThemeMode, Util.modeNight);
         // Включение ночной темы.
         Util.setNightTheme(Util.modeNight);
 
-        // Считываем из SharedPreferences как определять геолокацию - через сервис или напрямую.
+        // Считываем из SharedPreferences, как определять геолокацию - через сервис или напрямую.
         Util.useService = settings.getBoolean(Util.nameUseService, Util.useService);
 
         // Считываем из SharedPreferences вид и настройки выбранной карты для вывода геолокации.
@@ -42,7 +40,7 @@ public class App extends Application {
         MapUtil.selectedMapCircle = settings.getBoolean(MapUtil.nameMapCircle, MapUtil.MAP_CIRCLE_DEFAULT);
 
         // Считываем из SharedPreferences номер собственного телефона.
-        // Он нужен, чтобы не отправлять самому себе SMS-сообщения, а получить геолокацию напрямую.
+        // Он нужен, чтобы не отправлять самому себе SMS-сообщения, а получать геолокацию напрямую.
         Util.myphone = settings.getString(Util.nameMyPhone, Util.myphone);
 
         // Считываем из SharedPreferences множество разрешенных к работе телефонов.

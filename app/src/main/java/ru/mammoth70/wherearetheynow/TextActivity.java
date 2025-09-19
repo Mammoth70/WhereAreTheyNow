@@ -67,7 +67,7 @@ public class TextActivity extends LocationActivity {
     }
 
     private void refreshData() {
-        // Метод обновляет данные для списка пользователей с координатами.
+        // Метод обновляет данные для списка контактов с координатами.
         data.clear();
         for (String phone : Util.phones) {
             if (Util.phone2record.containsKey(phone)) {
@@ -89,7 +89,7 @@ public class TextActivity extends LocationActivity {
 
     private static class viewBinder implements SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран
-        // списка пользователей с координатами и датами получения геолокации.
+        // списка контактов с координатами и датами получения геолокации.
         @Override
         public boolean setViewValue(View view, Object data,
                                     String textRepresentation) {
