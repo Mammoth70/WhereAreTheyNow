@@ -1,11 +1,13 @@
 # WhereAreTheyNow?
 ## (Где они сейчас?)
 
-[![GitHub license][1]][2] [![GitHub code size in bytes][3]]()
+[![Android][1]][2] [![GitHub license][3]][4] [![GitHub code size in bytes][5]]()
 
-[1]: https://img.shields.io/github/license/Mammoth70/WhereAreTheyNow.svg
-[2]: LICENSE
-[3]: https://img.shields.io/github/languages/code-size/Mammoth70/WhereAreTheyNow.svg?color=teal
+[1]: https://img.shields.io/badge/Android-11+-blue.svg?logoColor=white&color=green
+[2]: https://android.com/
+[3]: https://img.shields.io/github/license/Mammoth70/WhereAreTheyNow.svg
+[4]: LICENSE
+[5]: https://img.shields.io/github/languages/code-size/Mammoth70/WhereAreTheyNow.svg?color=teal
 
 Андроид-приложение для определения геолокации родственников и друзей. Обмен данными идёт с помощью SMS.  
 Может подойти для тех, у кого в тарифном плане много неиспользуемых SMS.
