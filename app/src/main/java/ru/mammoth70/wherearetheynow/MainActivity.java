@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,12 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationBarView navigationBarView;
     private SimpleAdapter sAdapter;
     private ArrayList<Map<String, Object>> data;
-
-    private static final int CM_SMS_REQUEST = 0;
-    private static final int CM_SMS_ANSWER = 1;
-    private static final int CM_EDIT_ID = 2;
-    private static final int CM_ADD_ID = 3;
-    private static final int CM_DELETE_ID = 4;
 
     private static final int NM_MAP_ID = 0;
     private static final int NM_USERS_ID = 1;
@@ -116,11 +111,8 @@ public class MainActivity extends AppCompatActivity {
                                     ContextMenu.ContextMenuInfo menuInfo) {
         // Метод создаёт контекстное меню
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, CM_SMS_REQUEST, 0, R.string.menu_sms_request_user);
-        menu.add(0, CM_SMS_ANSWER, 1, R.string.menu_sms_answer_user);
-        menu.add(1, CM_EDIT_ID, 2, R.string.menu_edit_user);
-        menu.add(1, CM_ADD_ID, 3, R.string.menu_add_user);
-        menu.add(1, CM_DELETE_ID, 4, R.string.menu_delete_user);
+        MenuInflater inflater = new MenuInflater(this);
+        inflater.inflate(R.menu.context_menu, menu);
         menu.setGroupDividerEnabled(true);
     }
 
@@ -132,19 +124,19 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         switch (item.getItemId()) {
-            case (CM_ADD_ID):
+            case (R.id.item_add_user):
                 AddUser();
                 return true;
-            case (CM_EDIT_ID):
+            case (R.id.item_edit_user):
                 EditUser(acmi.position);
                 return true;
-            case (CM_DELETE_ID):
+            case (R.id.item_delete_user):
                 DeleteUser(acmi.position);
                 return true;
-            case (CM_SMS_REQUEST):
+            case (R.id.item_sms_request_user):
                 SMSrequestUser(acmi.position);
                 return true;
-            case (CM_SMS_ANSWER):
+            case (R.id.item_sms_answer_user):
                 SMSanswerUser(acmi.position);
                 return true;
             default:
