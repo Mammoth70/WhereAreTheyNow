@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="denied">#B71C1C</color>
-    <color name="granted">#1B5E20</color>
-
     <color name="black">#FF000000</color>
     <color name="black_alpha">#48000000</color>
     <color name="black_alpha16">#16000000</color>
@@ -49,6 +46,7 @@
     <color name="md_theme_onTertiary">#FFFFFF</color>
     <color name="md_theme_tertiaryContainer">#D5E3FF</color>
     <color name="md_theme_onTertiaryContainer">#364764</color>
+    <color name="md_theme_granted">#0F7A13</color>
     <color name="md_theme_error">#BA1A1A</color>
     <color name="md_theme_onError">#FFFFFF</color>
     <color name="md_theme_errorContainer">#FFDAD6</color>

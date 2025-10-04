@@ -28,8 +28,8 @@ public class SettingsActivity extends AppCompatActivity {
     private Slider sliderMapZoom;
     private Slider sliderMapTilt;
 
-    private static int selectedMapTemp;
-    private static int selectedModeNightTemp;
+    private int selectedMapTemp;
+    private int selectedModeNightTemp;
 
     @SuppressLint("NonConstantResourceId")
     @Override

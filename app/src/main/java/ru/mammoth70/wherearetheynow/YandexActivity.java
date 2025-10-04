@@ -56,7 +56,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Метод вызывается при создании Activity.
-        // Из intent получается координаты и выводится карта с маркерами.
+        // Из intent получаются координаты и выводится карта с метками.
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         MapKitFactory.initialize(this);
@@ -100,7 +100,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         ArrayList<String> markerUserData = new ArrayList<>();
         ArrayList<CircleMapObject> circleMapObjects = new ArrayList<>();
 
-        // Добавляем все маркеры. Цикл по списку разрешённых телефонов.
+        // Добавляем все метки. Цикл по списку разрешённых телефонов.
         for (String key : Util.phones) {
             if (Util.phone2record.containsKey(key)) {
                 PointRecord value = Util.phone2record.get(key);
@@ -118,11 +118,11 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
             }
         }
 
-        // Стиль иконки маркера.
+        // Стиль иконки метки.
         IconStyle iconStyle = new IconStyle();
         iconStyle.setAnchor(new PointF(0.5f,1f));
 
-        // Стиль текста над маркером.
+        // Стиль текста над меткой.
         TextStyle textStyle = new TextStyle();
         textStyle.setSize(12);
         textStyle.setColor(getColor(R.color.md_theme_onBackground));
@@ -130,20 +130,20 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         textStyle.setOutlineWidth(4);
         textStyle.setPlacement(TextStyle.Placement.TOP);
 
-        // Настраиваем свойства объектов-маркеров на карте.
+        // Настраиваем свойства объектов-меток на карте.
         for (int i = 0; i < points.size(); i++) {
             placemarkMapObjects.get(i).setGeometry(points.get(i));
             placemarkMapObjects.get(i).setIcon(imageProviders.get(i),iconStyle);
             placemarkMapObjects.get(i).setUserData(markerUserData.get(i));
             placemarkMapObjects.get(i).addTapListener(mapObjectTapListener);
+            placemarkMapObjects.get(i).setText(Objects.requireNonNull
+                    (Util.phone2name.get(markerUserData.get(i))),textStyle);
             if (mapCircle) {
                 circleMapObjects.get(i).setStrokeColor(Color.parseColor(Util.phone2color.get(
                         (String) placemarkMapObjects.get(i).getUserData())));
                 circleMapObjects.get(i).setStrokeWidth(1.f);
                 circleMapObjects.get(i).setFillColor(Color.parseColor(AppColors.getColorAlpha(
                         Util.phone2color.get((String) placemarkMapObjects.get(i).getUserData()))));
-                placemarkMapObjects.get(i).setText(Objects.requireNonNull
-                        (Util.phone2name.get(markerUserData.get(i))),textStyle);
             }
         }
 
@@ -162,6 +162,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     private final MapObjectTapListener mapObjectTapListener = (mapObject, point) -> {
         // Метод, отвечающий за тапы по различным объектам на карте.
         String phone = (String)mapObject.getUserData();
+        String name = Util.phone2name.get(phone);
         PointRecord rec = Util.phone2record.get(phone);
         if (rec != null) {
             CameraPosition currCameraPosition = map.getCameraPosition();
@@ -179,8 +180,9 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
                     0,
                     currCameraPosition.getTilt());
             map.move(newCameraPosition);
-            String message = String.format(Locale.US, PointRecord.FORMAT_POINT,
-                             point.getLatitude(), point.getLongitude());
+            String message = name + "\n" +
+                    String.format(Locale.US, PointRecord.FORMAT_POINT,
+                            point.getLatitude(), point.getLongitude());
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         }
         return true;
@@ -202,7 +204,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
     }
 
     private Bitmap getBitmapFromColor(String color) {
-        // Метод возвращает маркер заданного цвета.
+        // Метод возвращает метку заданного цвета.
         return createBitmapFromVector(AppColors.getColorMarkerSmall(color));
     }
 

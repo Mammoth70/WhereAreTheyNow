@@ -52,7 +52,7 @@
                         android:id="@+id/ilPhone"
                         android:autofillHints=""
                         app:errorEnabled="true"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
@@ -140,11 +140,12 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_margin="8dp"
-                            android:background="@drawable/ic_pin_black_64"
+                            android:background="@drawable/ic_pin_empty_64"
                             android:gravity="center"
                             android:onClick="onColorClicked"
-                            android:text="@string/ed_color"
-                            android:textColor="@color/white"
+                            android:text="@string/ed_label"
+                            android:textAppearance="?attr/textAppearanceBodyLarge"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             />
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>

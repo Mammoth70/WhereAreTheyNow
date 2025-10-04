@@ -16,7 +16,6 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
-    <string name="error">Error</string>
 
     <string name="permissions">permissions</string>
     <string name="titlePermissions">Necessary permissions</string>
@@ -95,15 +94,13 @@
     <string name="failed_to_delete_user">Failed to delete contact</string>
     <string name="failed_to_change_user">Failed to change contact</string>
     <string name="err_empty_user">You must enter the contact name</string>
-    <string name="err_empty_phone">You must enter a unique contact phone number.</string>
-    <string name="err_empty_filelds">All fields must be filled in</string>
-    <string name="err_empty_color">You need to select the marker color</string>
-    <string name="err_not_unique_phone">There is already such a phone number</string>
+    <string name="err_empty_phone">You must enter the phone number.</string>
+    <string name="err_not_unique_phone">The phone must be unique</string>
+    <string name="err_empty_label">You need to select a label</string>
 
     <string name="ed_phone">Phone number</string>
     <string name="ed_name">Name Surname</string>
-    <string name="ed_label">Mark</string>
-    <string name="ed_color">color</string>
+    <string name="ed_label">Label</string>
 
     <string name="denied1" translatable="false">\u2716</string>
     <string name="granted1" translatable="false">\u2714</string>

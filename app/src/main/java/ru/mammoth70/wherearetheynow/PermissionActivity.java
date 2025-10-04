@@ -183,76 +183,76 @@ public class PermissionActivity extends AppCompatActivity {
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             tvCoarseLocation.setText(R.string.access_coarse_location);
-            tvCoarseLocation.setTextColor(getResources().getColor(R.color.granted,null));
+            tvCoarseLocation.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             tvCoarseLocation1.setText(R.string.granted1);
-            tvCoarseLocation1.setTextColor(getResources().getColor(R.color.granted,null));
+            tvCoarseLocation1.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
 
         } else {
             spCoarseLocation.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_coarse_location).length(), 0);
             tvCoarseLocation.setText(spCoarseLocation);
-            tvCoarseLocation.setTextColor(getResources().getColor(R.color.denied,null));
+            tvCoarseLocation.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             tvCoarseLocation1.setText(R.string.denied1);
-            tvCoarseLocation1.setTextColor(getResources().getColor(R.color.denied,null));
+            tvCoarseLocation1.setTextColor(getResources().getColor(R.color.md_theme_error,null));
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             tvFineLocation.setText(R.string.access_fine_location);
-            tvFineLocation.setTextColor(getResources().getColor(R.color.granted,null));
+            tvFineLocation.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             tvFineLocation1.setText(R.string.granted1);
-            tvFineLocation1.setTextColor(getResources().getColor(R.color.granted,null));
+            tvFineLocation1.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             btnLocation.setEnabled(false);
             btnLocation.setVisibility(View.INVISIBLE);
         } else {
             spFineLocation.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_fine_location).length(), 0);
             tvFineLocation.setText(spFineLocation);
-            tvFineLocation.setTextColor(getResources().getColor(R.color.denied,null));
+            tvFineLocation.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             tvFineLocation1.setText(R.string.denied1);
-            tvFineLocation1.setTextColor(getResources().getColor(R.color.denied,null));
+            tvFineLocation1.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             btnLocation.setEnabled(true);
             btnLocation.setVisibility(View.VISIBLE);
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             tvBackgroundLocation.setText(R.string.access_background_location);
-            tvBackgroundLocation.setTextColor(getResources().getColor(R.color.granted,null));
+            tvBackgroundLocation.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             tvBackgroundLocation1.setText(R.string.granted1);
-            tvBackgroundLocation1.setTextColor(getResources().getColor(R.color.granted,null));
+            tvBackgroundLocation1.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             btnBackgroundLocation.setEnabled(false);
             btnBackgroundLocation.setVisibility(View.INVISIBLE);
         } else {
             spBackgroundLocation.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_background_location).length(), 0);
             tvBackgroundLocation.setText(spBackgroundLocation);
-            tvBackgroundLocation.setTextColor(getResources().getColor(R.color.denied,null));
+            tvBackgroundLocation.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             tvBackgroundLocation1.setText(R.string.denied1);
-            tvBackgroundLocation1.setTextColor(getResources().getColor(R.color.denied,null));
+            tvBackgroundLocation1.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             btnBackgroundLocation.setEnabled(true);
             btnBackgroundLocation.setVisibility(View.VISIBLE);
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED)) {
             tvReceiveSMS.setText(R.string.access_Receive_SMS);
-            tvReceiveSMS.setTextColor(getResources().getColor(R.color.granted,null));
+            tvReceiveSMS.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             tvReceiveSMS1.setText(R.string.granted1);
-            tvReceiveSMS1.setTextColor(getResources().getColor(R.color.granted,null));
+            tvReceiveSMS1.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
         } else {
             spReceiveSMS.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_Receive_SMS).length(), 0);
             tvReceiveSMS.setText(spReceiveSMS);
-            tvReceiveSMS.setTextColor(getResources().getColor(R.color.denied,null));
+            tvReceiveSMS.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             tvReceiveSMS1.setText(R.string.denied1);
-            tvReceiveSMS1.setTextColor(getResources().getColor(R.color.denied,null));
+            tvReceiveSMS1.setTextColor(getResources().getColor(R.color.md_theme_error,null));
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
             tvSendSMS.setText(R.string.access_Send_SMS);
-            tvSendSMS.setTextColor(getResources().getColor(R.color.granted,null));
+            tvSendSMS.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
             tvSendSMS1.setText(R.string.granted1);
-            tvSendSMS1.setTextColor(getResources().getColor(R.color.granted,null));
+            tvSendSMS1.setTextColor(getResources().getColor(R.color.md_theme_granted,null));
         } else {
             spSendSMS.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_Send_SMS).length(), 0);
             tvSendSMS.setText(spSendSMS);
-            tvSendSMS.setTextColor(getResources().getColor(R.color.denied,null));
+            tvSendSMS.setTextColor(getResources().getColor(R.color.md_theme_error,null));
             tvSendSMS1.setText(R.string.denied1);
-            tvSendSMS1.setTextColor(getResources().getColor(R.color.denied,null));
+            tvSendSMS1.setTextColor(getResources().getColor(R.color.md_theme_error,null));
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) &&

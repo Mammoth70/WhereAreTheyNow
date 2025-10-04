@@ -5,9 +5,9 @@ import java.util.Locale;
 
 public class PointRecord {
     // Класс - record для передачи телефона, координат и времени.
-    static final String FORMAT_DOUBLE = "%1$.6f";
-    static final String FORMAT_POINT = "%1$.6f %2$.6f";
-    static final String FORMAT_DATE = "%1$tF %1$tT";
+    public static final String FORMAT_DOUBLE = "%1$.6f";
+    public static final String FORMAT_POINT = "%1$.6f %2$.6f";
+    public static final String FORMAT_DATE = "%1$tF %1$tT";
 
     public String phone = "";
     public double latitude;

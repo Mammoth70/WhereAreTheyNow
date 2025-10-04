@@ -39,7 +39,7 @@ public class AppColors {
     }
 
     public static int getColorMarker(String color) {
-        // Метод возвращает большой маркер по строке с цветом.
+        // Метод возвращает большую метку по строке с цветом.
         switch (Objects.requireNonNull(color)) {
             case (COLOR_WHITE):
                 return R.drawable.ic_pin_white_64;
@@ -67,7 +67,7 @@ public class AppColors {
     }
 
     public static int getColorMarkerSmall(String color) {
-        // Метод возвращает маленький маркер по строке с цветом.
+        // Метод возвращает маленькую метку по строке с цветом.
         switch (Objects.requireNonNull(color)) {
             case (COLOR_WHITE):
                 return R.drawable.ic_pin_white_48;

@@ -28,31 +28,31 @@ import java.util.Set;
 public class UserActivity extends AppCompatActivity {
     // Activity выводит карточку контакта для добавления, редактирования, удаления.
 
-    static final String INTENT_EXTRA_ACTION = "action";
-    static final String INTENT_EXTRA_RESULT = "refresh";
-    static final String INTENT_EXTRA_ID = "id";
-    static final String INTENT_EXTRA_PHONE = "phone";
-    static final String INTENT_EXTRA_NAME = "name";
-    static final String INTENT_EXTRA_COLOR = "color";
+    public static final String INTENT_EXTRA_ACTION = "action";
+    public static final String INTENT_EXTRA_RESULT = "refresh";
+    public static final String INTENT_EXTRA_ID = "id";
+    public static final String INTENT_EXTRA_PHONE = "phone";
+    public static final String INTENT_EXTRA_NAME = "name";
+    public static final String INTENT_EXTRA_COLOR = "color";
 
-    static final String REGEXP_CLEAR_PHONE = "[- ()]";
+    public static final String REGEXP_CLEAR_PHONE = "[- ()]";
 
-    static final String ACTION_ADD_USER = "add user";
-    static final String ACTION_EDIT_USER = "edit user";
-    static final String ACTION_DELETE_USER = "delete user";
+    public static final String ACTION_ADD_USER = "add user";
+    public static final String ACTION_EDIT_USER = "edit user";
+    public static final String ACTION_DELETE_USER = "delete user";
     private String action;
 
-    TextInputLayout ilPhone;
-    TextInputEditText edPhone;
-    TextInputLayout ilName;
-    TextInputEditText edName;
-    MaterialCardView cardColor;
-    TextView tvColorError;
-    int id;
+    private TextInputLayout ilPhone;
+    private TextInputEditText edPhone;
+    private TextInputLayout ilName;
+    private TextInputEditText edName;
+    private MaterialCardView cardColor;
+    private TextView tvColorError;
+    private int id;
 
     private Button btnAction;
     private TextView tvColor;
-    static String selectedColorTemp = "";
+    private String selectedColorTemp = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,9 +121,12 @@ public class UserActivity extends AppCompatActivity {
 
     public void onColorClicked(View view) {
         // Метод - обработчик кнопки "цвет" (выбор цвета).
-        cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_outline,null));
-        tvColorError.setText("");
-        tvColor.setTextColor(getResources().getColor(R.color.white,null));
+        if (selectedColorTemp.isEmpty()) {
+            tvColor.setTextColor(getResources().getColor(R.color.md_theme_onSurfaceVariant, null));
+            tvColor.setBackgroundResource(R.drawable.ic_pin_empty_64);
+            cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_outline, null));
+            tvColorError.setText("");
+        }
         Intent intent = new Intent(this, ColorsActivity.class);
         startActivityIntent.launch(intent);
   }
@@ -163,12 +166,8 @@ public class UserActivity extends AppCompatActivity {
             case (AppColors.COLOR_MAGENTA):
                 tvColor.setBackgroundResource(R.drawable.ic_pin_magenta_64);
                 break;
-            case (AppColors.COLOR_BLACK):
-                tvColor.setBackgroundResource(R.drawable.ic_pin_black_64);
-                break;
             default:
-                selectedColorTemp = "";
-                tvColor.setText(R.string.ed_color);
+                tvColor.setBackgroundResource(R.drawable.ic_pin_black_64);
         }
     }
     public void onActionClicked(View view) {
@@ -178,28 +177,33 @@ public class UserActivity extends AppCompatActivity {
         phone = phone.replaceAll(REGEXP_CLEAR_PHONE,"");
         String color = String.valueOf((tvColor.getText()));
         if (phone.isEmpty()) {
-            ilPhone.setError(getString(R.string.error));
+            // Проверяем телефон на заполнение
+            ilPhone.setError(getString(R.string.err_empty_phone));
+        }
+        if (Objects.equals(action, ACTION_ADD_USER) && Util.phones.contains(phone)) {
+            // Проверяем телефон на уникальность при добавлении
+            ilPhone.setError(getString(R.string.err_not_unique_phone));
         }
         if (name.isEmpty()) {
-            ilName.setError(getString(R.string.error));
+            // Проверяем имя на заполнение
+            ilName.setError(getString(R.string.err_empty_user));
         }
-        if (color.equals(getString(R.string.ed_color)) || selectedColorTemp.isEmpty()) {
+        if (selectedColorTemp.isEmpty()) {
+            // Проверяем метку на заполнение
             cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_error,null));
             tvColor.setTextColor(getColor(R.color.md_theme_error));
-            tvColorError.setText(R.string.error);
+            tvColor.setBackgroundResource(R.drawable.ic_pin_error_64);
+            tvColorError.setText(R.string.err_empty_label);
         }
-        if (phone.isEmpty() || name.isEmpty() ||
-                color.equals(getString(R.string.ed_color)) || selectedColorTemp.isEmpty()) {
-            Toast.makeText(this, R.string.err_empty_filelds,Toast.LENGTH_SHORT).show();
+
+        if (phone.isEmpty() || name.isEmpty() || selectedColorTemp.isEmpty()) {
+            // Если хоть что-то незаполнено - выходим.
             return;
         }
 
         if (Objects.equals(action, ACTION_ADD_USER)) {
-            // Проверяем на уникальность
             if (Util.phones.contains(phone)) {
-                ilPhone.setError(getString(R.string.error));
-                //ilPhone.setError(" ");
-                Toast.makeText(this, R.string.err_not_unique_phone,Toast.LENGTH_SHORT).show();
+                // Если при добавлении телефон не уникальный - выходим.
                 return;
             }
             if (MainActivity.dbHelper.addUser(phone, name, selectedColorTemp)) {
@@ -254,7 +258,6 @@ public class UserActivity extends AppCompatActivity {
                     Intent intent = result.getData();
                     if (intent != null) {
                         setColorButton(intent.getStringExtra(Util.INTENT_EXTRA_COLOR));
-                        String color = String.valueOf((tvColor.getText()));
                     }
                 }
             });

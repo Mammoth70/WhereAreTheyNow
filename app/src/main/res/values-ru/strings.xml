@@ -16,7 +16,6 @@
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
     <string name="save">Сохранить</string>
-    <string name="error">Ошибка</string>
 
     <string name="permissions">разрешения</string>
     <string name="titlePermissions">Необходимые разрешения</string>
@@ -94,15 +93,13 @@
     <string name="failed_to_delete_user">Не удалось удалить контакт</string>
     <string name="failed_to_change_user">Не удалось изменить контакт</string>
     <string name="err_empty_user">Нужно ввести имя контакта</string>
-    <string name="err_empty_phone">Нужно ввести уникальный номер телефона контакта</string>
-    <string name="err_empty_filelds">Нужно заполнить все поля</string>
-    <string name="err_empty_color">Нужно выбрать цвет маркера</string>
-    <string name="err_not_unique_phone">Уже существует такой номер телефона</string>
+    <string name="err_empty_phone">Нужно ввести номер телефона</string>
+    <string name="err_not_unique_phone">Номер должен быть уникальным</string>
+    <string name="err_empty_label">Нужно выбрать метку</string>
 
     <string name="ed_phone">Номер телефона</string>
     <string name="ed_name">Имя Фамилия</string>
     <string name="ed_label">Метка</string>
-    <string name="ed_color">цвет</string>
 
     <!-- <string name="denied1" translatable="false">\u2716</string> -->
     <!-- <string name="granted1" translatable="false">\u2714</string> -->

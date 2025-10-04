@@ -18,7 +18,7 @@ public class BrowserActivity extends LocationActivity {
     // Activity выводит карту с геолокацией, переданной через intent.
     // url карты определяется данными, переданными через intent.
 
-    WebView webView;
+    private WebView webView;
     private int mapChange;
     private float mapZoom;
     private static final String URL_OPENSTREET =
