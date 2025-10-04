@@ -19,6 +19,7 @@ public class Util {
     public static final String INTENT_EXTRA_MAP_ZOOM = "zoom";
     public static final String INTENT_EXTRA_MAP_TILT = "tilt";
     public static final String INTENT_EXTRA_MAP_CIRCLE = "circle";
+    public static final String INTENT_EXTRA_MAP_CIRCLE_RADIUS = "radius";
 
     public static final String nameSettings = "Settings";
     public static final String nameLastUser = "LastUser";

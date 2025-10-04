@@ -27,6 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CheckBox checkBoxCircle;
     private Slider sliderMapZoom;
     private Slider sliderMapTilt;
+    private Slider sliderCircleRadius;
 
     private int selectedMapTemp;
     private int selectedModeNightTemp;
@@ -51,6 +52,8 @@ public class SettingsActivity extends AppCompatActivity {
         sliderMapZoom.setValue(MapUtil.selectedMapZoom);
         sliderMapTilt = findViewById(R.id.sliderMapTilt);
         sliderMapTilt.setValue(MapUtil.selectedMapTilt);
+        sliderCircleRadius = findViewById(R.id.sliderCircleRadius);
+        sliderCircleRadius.setValue(MapUtil.selectedMapCircleRadius);
         edMyPhone = findViewById(R.id.myphone);
         if (!Objects.equals(Util.myphone, "")) {
             edMyPhone.setText(Util.myphone);
@@ -145,6 +148,8 @@ public class SettingsActivity extends AppCompatActivity {
         prefEditor.putFloat(MapUtil.nameMapTilt, MapUtil.selectedMapTilt);
         MapUtil.selectedMapCircle = checkBoxCircle.isChecked();
         prefEditor.putBoolean(MapUtil.nameMapCircle, MapUtil.selectedMapCircle);
+        MapUtil.selectedMapCircleRadius = sliderCircleRadius.getValue();
+        prefEditor.putFloat(MapUtil.nameMapCircleRadius, MapUtil.selectedMapCircleRadius);
         Util.useService = checkBoxService.isChecked();
         prefEditor.putBoolean(Util.nameUseService, Util.useService);
         prefEditor.apply();

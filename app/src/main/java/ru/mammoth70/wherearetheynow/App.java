@@ -38,6 +38,7 @@ public class App extends Application {
         MapUtil.selectedMapZoom = settings.getFloat(MapUtil.nameMapZoom, MapUtil.MAP_ZOOM_DEFAULT);
         MapUtil.selectedMapTilt = settings.getFloat(MapUtil.nameMapTilt, MapUtil.MAP_TILT_DEFAULT);
         MapUtil.selectedMapCircle = settings.getBoolean(MapUtil.nameMapCircle, MapUtil.MAP_CIRCLE_DEFAULT);
+        MapUtil.selectedMapCircleRadius = settings.getFloat(MapUtil.nameMapCircleRadius, MapUtil.MAP_CIRCLE_DEFAULT_RADIUS);
 
         // Считываем из SharedPreferences номер собственного телефона.
         // Он нужен, чтобы не отправлять самому себе SMS-сообщения, а получать геолокацию напрямую.

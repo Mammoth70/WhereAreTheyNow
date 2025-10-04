@@ -22,16 +22,19 @@ public class MapUtil {
     public static final String nameMapZoom = "zoom";
     public static final String nameMapTilt = "tilt";
     public static final String nameMapCircle = "circle";
+    public static final String nameMapCircleRadius = "radius";
 
     public static final float MAP_ZOOM_DEFAULT = 17f;
     public static final float MAP_TILT_DEFAULT = 30f;
     public static final boolean MAP_CIRCLE_DEFAULT = true;
+    public static final float MAP_CIRCLE_DEFAULT_RADIUS = 70f;
     private static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     public static int selectedMap = MAP_DEFAULT;
     public static float selectedMapZoom = MAP_ZOOM_DEFAULT;
     public static float selectedMapTilt = MAP_TILT_DEFAULT;
     public static boolean selectedMapCircle = MAP_CIRCLE_DEFAULT;
+    public static float selectedMapCircleRadius = MAP_CIRCLE_DEFAULT_RADIUS;
 
     static public void ViewLocation(Context context, PointRecord record, boolean new_task) {
         // Метод получает данные из последней SMS,
@@ -46,6 +49,7 @@ public class MapUtil {
                     intent.putExtra(Util.INTENT_EXTRA_MAP_ZOOM, selectedMapZoom);
                     intent.putExtra(Util.INTENT_EXTRA_MAP_TILT, selectedMapTilt);
                     intent.putExtra(Util.INTENT_EXTRA_MAP_CIRCLE, selectedMapCircle);
+                    intent.putExtra(Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS, selectedMapCircleRadius);
                     break;
                 case MAP_OPENSTREET:
                     intent = new Intent(context, BrowserActivity.class);

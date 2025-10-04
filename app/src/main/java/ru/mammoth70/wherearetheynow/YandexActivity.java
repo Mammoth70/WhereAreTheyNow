@@ -2,12 +2,14 @@ package ru.mammoth70.wherearetheynow;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -93,6 +95,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         mapZoom = intent.getFloatExtra(Util.INTENT_EXTRA_MAP_ZOOM, MapUtil.MAP_ZOOM_DEFAULT);
         mapTilt = intent.getFloatExtra(Util.INTENT_EXTRA_MAP_TILT, MapUtil.MAP_TILT_DEFAULT);
         boolean mapCircle = intent.getBooleanExtra(Util.INTENT_EXTRA_MAP_CIRCLE, MapUtil.MAP_CIRCLE_DEFAULT);
+        float mapCircleRadius = intent.getFloatExtra(Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS, MapUtil.MAP_CIRCLE_DEFAULT_RADIUS);
 
         ArrayList<Point> points = new ArrayList<>();
         ArrayList<ImageProvider> imageProviders = new ArrayList<>();
@@ -111,7 +114,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
                     placemarkMapObjects.add(mapObjectCollection.addPlacemark());
                     if (mapCircle) {
                         circleMapObjects.add(mapObjectCollection.addCircle(
-                                new Circle(new Point(value.latitude, value.longitude), 75f)));
+                                new Circle(new Point(value.latitude, value.longitude), mapCircleRadius)));
                     }
                     markerUserData.add(key);
                 }
@@ -123,12 +126,7 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         iconStyle.setAnchor(new PointF(0.5f,1f));
 
         // Стиль текста над меткой.
-        TextStyle textStyle = new TextStyle();
-        textStyle.setSize(12);
-        textStyle.setColor(getColor(R.color.md_theme_onBackground));
-        textStyle.setOutlineColor(getColor(R.color.md_theme_background));
-        textStyle.setOutlineWidth(4);
-        textStyle.setPlacement(TextStyle.Placement.TOP);
+        TextStyle textStyle = getTextStyle();
 
         // Настраиваем свойства объектов-меток на карте.
         for (int i = 0; i < points.size(); i++) {
@@ -148,6 +146,25 @@ public class YandexActivity extends LocationActivity implements CameraListener, 
         }
 
         reloadMapFromPoint(this, startRecord);
+    }
+
+    @NonNull
+    private TextStyle getTextStyle() {
+        // Метод настраивает стиль текста над меткой.
+        TextStyle textStyle = new TextStyle();
+        textStyle.setSize(12);
+        Resources.Theme theme = getTheme();
+        TypedValue typedValueTextColor = new TypedValue();
+        TypedValue typedValueOutLineColor = new TypedValue();
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOnBackground,
+                typedValueTextColor,true);
+        theme.resolveAttribute(android.R.attr.colorBackground,
+                typedValueOutLineColor,true);
+        textStyle.setColor(typedValueTextColor.data);
+        textStyle.setOutlineColor(typedValueOutLineColor.data);
+        textStyle.setOutlineWidth(4);
+        textStyle.setPlacement(TextStyle.Placement.TOP);
+        return textStyle;
     }
 
     @Override
