@@ -3,7 +3,9 @@ package ru.mammoth70.wherearetheynow;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,6 +56,10 @@ public class UserActivity extends AppCompatActivity {
     private TextView tvColor;
     private String selectedColorTemp = "";
 
+    private int colorOnSurfaceVariant;
+    private int colorOutline;
+    private int colorError;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Метод вызывается при создании Activity.
@@ -87,6 +93,21 @@ public class UserActivity extends AppCompatActivity {
         cardColor = findViewById(R.id.cardColor);
         tvColor = findViewById(R.id.tvColor);
         tvColorError = findViewById(R.id.tvColorError);
+
+        Resources.Theme theme = getTheme();
+        TypedValue typedValueColorOnSurfaceVariant = new TypedValue();
+        TypedValue typedValueColorOutline = new TypedValue();
+        TypedValue typedValueColorError = new TypedValue();
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurfaceVariant,
+                typedValueColorOnSurfaceVariant,true);
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOutline,
+                typedValueColorOutline,true);
+        theme.resolveAttribute(androidx.appcompat.R.attr.colorError,
+                typedValueColorError,true);
+        colorOnSurfaceVariant = typedValueColorOnSurfaceVariant.data;
+        colorOutline = typedValueColorOutline.data;
+        colorError = typedValueColorError.data;
+
         getAction(intent);
     }
 
@@ -122,9 +143,9 @@ public class UserActivity extends AppCompatActivity {
     public void onColorClicked(View view) {
         // Метод - обработчик кнопки "цвет" (выбор цвета).
         if (selectedColorTemp.isEmpty()) {
-            tvColor.setTextColor(getResources().getColor(R.color.md_theme_onSurfaceVariant, null));
+            tvColor.setTextColor(colorOnSurfaceVariant);
             tvColor.setBackgroundResource(R.drawable.ic_pin_empty_64);
-            cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_outline, null));
+            cardColor.setStrokeColor(colorOutline);
             tvColorError.setText("");
         }
         Intent intent = new Intent(this, ColorsActivity.class);
@@ -190,8 +211,8 @@ public class UserActivity extends AppCompatActivity {
         }
         if (selectedColorTemp.isEmpty()) {
             // Проверяем метку на заполнение
-            cardColor.setStrokeColor(getResources().getColor(R.color.md_theme_error,null));
-            tvColor.setTextColor(getColor(R.color.md_theme_error));
+            cardColor.setStrokeColor(colorError);
+            tvColor.setTextColor(colorError);
             tvColor.setBackgroundResource(R.drawable.ic_pin_error_64);
             tvColorError.setText(R.string.err_empty_label);
         }

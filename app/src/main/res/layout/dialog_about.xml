@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:text="@string/for_about"
         android:textSize="16sp"
-        android:textColor="@color/md_theme_onSurface_mediumContrast"
+        android:textColor="@color/md_theme_onSurface"
         android:textColorLink="@color/md_theme_primary"
         android:autoLink="all"
         android:layout_marginTop="16dp"

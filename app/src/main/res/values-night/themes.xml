@@ -1,4 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <attr name="colorGranted" format="color|reference"/>
+    <attr name="colorDenied" format="color|reference"/>
     <style name="Base.Theme.WhereAreTheyNow" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
@@ -12,6 +14,8 @@
         <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
         <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+        <item name="colorGranted">@color/md_theme_granted</item>
+        <item name="colorDenied">@color/md_theme_error</item>
         <item name="colorError">@color/md_theme_error</item>
         <item name="colorOnError">@color/md_theme_onError</item>
         <item name="colorErrorContainer">@color/md_theme_errorContainer</item>
@@ -47,5 +51,6 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
     </style>
-    <style name="Theme.WhereAreTheyNow" parent="Base.Theme.WhereAreTheyNow" />
+    <style name="Theme.WhereAreTheyNow" parent="Base.Theme.WhereAreTheyNow">
+    </style>
 </resources>

@@ -13,6 +13,8 @@
         <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer_mediumContrast</item>
         <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer_mediumContrast</item>
         <item name="colorError">@color/md_theme_error_mediumContrast</item>
+        <item name="colorGranted">@color/md_theme_granted_mediumContrast</item>
+        <item name="colorDenied">@color/md_theme_error_mediumContrast</item>
         <item name="colorOnError">@color/md_theme_onError_mediumContrast</item>
         <item name="colorErrorContainer">@color/md_theme_errorContainer_mediumContrast</item>
         <item name="colorOnErrorContainer">@color/md_theme_onErrorContainer_mediumContrast</item>
@@ -60,6 +62,8 @@
         <item name="colorOnTertiary">@color/md_theme_onTertiary_highContrast</item>
         <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer_highContrast</item>
         <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer_highContrast</item>
+        <item name="colorGranted">@color/md_theme_granted_highContrast</item>
+        <item name="colorDenied">@color/md_theme_error_highContrast</item>
         <item name="colorError">@color/md_theme_error_highContrast</item>
         <item name="colorOnError">@color/md_theme_onError_highContrast</item>
         <item name="colorErrorContainer">@color/md_theme_errorContainer_highContrast</item>
@@ -95,4 +99,5 @@
         <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh_highContrast</item>
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest_highContrast</item>
     </style>
+
 </resources>
