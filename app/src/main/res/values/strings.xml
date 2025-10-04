@@ -43,7 +43,7 @@
     <string name="map2d">Map 2D</string>
     <string name="map3d">Map 3D</string>
     <string name="mapCircle">Show circle</string>
-    <string name="mapCircleRadius">Circle radius</string>
+    <string name="mapCircleRadius">Radius of a circle in m.</string>
 
     <string name="selectTheme">Select theme</string>
     <string name="themeDay">day</string>

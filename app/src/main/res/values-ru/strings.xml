@@ -43,7 +43,7 @@
     <string name="map2d">Карту в 2D</string>
     <string name="map3d">Карту в 3D</string>
     <string name="mapCircle">Показывать круг</string>
-    <string name="mapCircleRadius">Радиус круга</string>
+    <string name="mapCircleRadius">Радиус круга в м.</string>
 
     <string name="selectTheme">Выбрать тему</string>
     <string name="themeDay">дневная</string>

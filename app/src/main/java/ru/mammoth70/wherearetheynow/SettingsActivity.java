@@ -1,5 +1,8 @@
 package ru.mammoth70.wherearetheynow;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,8 +28,11 @@ public class SettingsActivity extends AppCompatActivity {
     private TextInputEditText edMyPhone;
     private CheckBox checkBoxService;
     private CheckBox checkBoxCircle;
+    private TextView lbMapZoom;
     private Slider sliderMapZoom;
+    private TextView lbMapTilt;
     private Slider sliderMapTilt;
+    private TextView lbCircleRadius;
     private Slider sliderCircleRadius;
 
     private int selectedMapTemp;
@@ -48,10 +54,13 @@ public class SettingsActivity extends AppCompatActivity {
         checkBoxService.setChecked(Util.useService);
         checkBoxCircle = findViewById(R.id.checkBoxCircle);
         checkBoxCircle.setChecked(MapUtil.selectedMapCircle);
+        lbMapZoom = findViewById(R.id.lbMapZoom);
         sliderMapZoom = findViewById(R.id.sliderMapZoom);
         sliderMapZoom.setValue(MapUtil.selectedMapZoom);
+        lbMapTilt = findViewById(R.id.lbMapTilt);
         sliderMapTilt = findViewById(R.id.sliderMapTilt);
         sliderMapTilt.setValue(MapUtil.selectedMapTilt);
+        lbCircleRadius = findViewById(R.id.lbCircleRadius);
         sliderCircleRadius = findViewById(R.id.sliderCircleRadius);
         sliderCircleRadius.setValue(MapUtil.selectedMapCircleRadius);
         edMyPhone = findViewById(R.id.myphone);
@@ -61,55 +70,113 @@ public class SettingsActivity extends AppCompatActivity {
         tvName.setText(R.string.titleSettings);
 
         selectedMapTemp = MapUtil.selectedMap;
-        // получаем объект RadioGroup
-        RadioGroup radios = findViewById(R.id.radios);
+        // получаем объект RadioGroup переключателя карт
+        RadioGroup radioMap = findViewById(R.id.radioMap);
         switch (selectedMapTemp) {
             case MapUtil.MAP_TEXT:
-                radios.check(R.id.text);
+                radioMap.check(R.id.text);
+                lbMapZoom.setVisibility(GONE);
+                sliderMapZoom.setVisibility(GONE);
+                lbMapTilt.setVisibility(GONE);
+                sliderMapTilt.setVisibility(GONE);
+                checkBoxCircle.setVisibility(GONE);
+                lbCircleRadius.setVisibility(GONE);
+                sliderCircleRadius.setVisibility(GONE);
                 break;
             case MapUtil.MAP_OPENSTREET:
-                radios.check(R.id.OpenStreet);
+                radioMap.check(R.id.OpenStreet);
+                lbMapZoom.setVisibility(VISIBLE);
+                sliderMapZoom.setVisibility(VISIBLE);
+                lbMapTilt.setVisibility(GONE);
+                sliderMapTilt.setVisibility(GONE);
+                checkBoxCircle.setVisibility(GONE);
+                lbCircleRadius.setVisibility(GONE);
+                sliderCircleRadius.setVisibility(GONE);
                 break;
             case MapUtil.MAP_YANDEX:
-                radios.check(R.id.Yandex);
+                radioMap.check(R.id.Yandex);
+                lbMapZoom.setVisibility(VISIBLE);
+                sliderMapZoom.setVisibility(VISIBLE);
+                lbMapTilt.setVisibility(VISIBLE);
+                sliderMapTilt.setVisibility(VISIBLE);
+                checkBoxCircle.setVisibility(VISIBLE);
+                if (checkBoxCircle.isChecked()) {
+                    lbCircleRadius.setVisibility(VISIBLE);
+                    sliderCircleRadius.setVisibility(VISIBLE);
+                }
                 break;
             default:
                 break;
         }
 
-        // Обработка переключения состояния переключателя
-        radios.setOnCheckedChangeListener((radiogroup, id)-> {
+        // Обработка переключения состояния переключателя карт
+        radioMap.setOnCheckedChangeListener((radiogroup, id)-> {
             // получаем выбранную кнопку
             switch (id) {
                 case R.id.text:
                     selectedMapTemp = MapUtil.MAP_TEXT;
+                    lbMapZoom.setVisibility(GONE);
+                    sliderMapZoom.setVisibility(GONE);
+                    lbMapTilt.setVisibility(GONE);
+                    sliderMapTilt.setVisibility(GONE);
+                    checkBoxCircle.setVisibility(GONE);
+                    lbCircleRadius.setVisibility(GONE);
+                    sliderCircleRadius.setVisibility(GONE);
                     break;
                 case R.id.OpenStreet:
                     selectedMapTemp = MapUtil.MAP_OPENSTREET;
+                    lbMapZoom.setVisibility(VISIBLE);
+                    sliderMapZoom.setVisibility(VISIBLE);
+                    lbMapTilt.setVisibility(GONE);
+                    sliderMapTilt.setVisibility(GONE);
+                    checkBoxCircle.setVisibility(GONE);
+                    lbCircleRadius.setVisibility(GONE);
+                    sliderCircleRadius.setVisibility(GONE);
                     break;
                 case R.id.Yandex:
                     selectedMapTemp = MapUtil.MAP_YANDEX;
+                    lbMapZoom.setVisibility(VISIBLE);
+                    sliderMapZoom.setVisibility(VISIBLE);
+                    lbMapTilt.setVisibility(VISIBLE);
+                    sliderMapTilt.setVisibility(VISIBLE);
+                    checkBoxCircle.setVisibility(VISIBLE);
+                    if (checkBoxCircle.isChecked()) {
+                        lbCircleRadius.setVisibility(VISIBLE);
+                        sliderCircleRadius.setVisibility(VISIBLE);
+                    }
                     break;
             }
         });
 
+        // Обработка переключения состояния чекера круга
+        checkBoxCircle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                lbCircleRadius.setVisibility(VISIBLE);
+                sliderCircleRadius.setVisibility(VISIBLE);
+            } else {
+                lbCircleRadius.setVisibility(GONE);
+                sliderCircleRadius.setVisibility(GONE);
+            }
+        }
+        );
+
         selectedModeNightTemp = Util.modeNight;
         // получаем объект RadioGroup
-        RadioGroup theme = findViewById(R.id.theme);
+        RadioGroup radioTheme = findViewById(R.id.radioTheme);
         switch (selectedModeNightTemp) {
             case (Util.MODE_NIGHT_YES):
-                theme.check(R.id.themeNight);
+                radioTheme.check(R.id.themeNight);
                 break;
             case Util.MODE_NIGHT_NO:
-                theme.check(R.id.themeDay);
+                radioTheme.check(R.id.themeDay);
                 break;
             default:
-                theme.check(R.id.themeSystem);
+                radioTheme.check(R.id.themeSystem);
                 break;
         }
 
         // Обработка переключения состояния переключателя
-        theme.setOnCheckedChangeListener((radiogroup, id)-> {
+        radioTheme.setOnCheckedChangeListener((radiogroup, id)-> {
             // получаем выбранную кнопку
             switch (id) {
                 case R.id.themeNight:
