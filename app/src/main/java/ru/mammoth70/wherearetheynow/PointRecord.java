@@ -18,12 +18,6 @@ public class PointRecord {
         super();
     }
 
-    PointRecord(double setlatitude, double setlongitude) {
-        super();
-        latitude = setlatitude;
-        longitude = setlongitude;
-    }
-
     PointRecord(String startphone, double setlatitude, double setlongitude, String setdatetime) {
         super();
         phone = startphone;

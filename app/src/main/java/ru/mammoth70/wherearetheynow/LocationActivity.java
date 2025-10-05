@@ -8,10 +8,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.map.CameraUpdateReason;
-import com.yandex.mapkit.map.Map;
-
 import java.util.Objects;
 
 public abstract class LocationActivity extends AppCompatActivity {

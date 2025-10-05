@@ -196,7 +196,6 @@ public class UserActivity extends AppCompatActivity {
         String phone = String.valueOf(edPhone.getText());
         String name = String.valueOf((edName.getText()));
         phone = phone.replaceAll(REGEXP_CLEAR_PHONE,"");
-        String color = String.valueOf((tvColor.getText()));
         if (phone.isEmpty()) {
             // Проверяем телефон на заполнение
             ilPhone.setError(getString(R.string.err_empty_phone));

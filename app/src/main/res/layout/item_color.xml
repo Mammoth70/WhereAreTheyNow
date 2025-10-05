@@ -8,7 +8,7 @@
     >
     <TextView
         android:id="@+id/itemColorLabel"
-        android:background="@drawable/ic_pin_black_64"
+        android:background="@drawable/ic_pin_empty_64"
         android:textSize="44sp"
         android:layout_width="64dp"
         android:layout_height="64dp"

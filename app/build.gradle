@@ -10,8 +10,8 @@ android {
         applicationId "ru.mammoth70.wherearetheynow"
         minSdk 30
         targetSdk 36
-        versionCode 222
-        versionName "2.22"
+        versionCode 223
+        versionName "2.23"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
