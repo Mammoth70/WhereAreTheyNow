@@ -9,9 +9,9 @@
     >
     <TextView
         android:id="@+id/itemUserLabel"
-        android:background="@drawable/ic_pin_black_64"
+        android:background="@drawable/ic_pin_empty_64"
         android:textSize="20sp"
-        android:textColor="@color/white"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="24dp"
