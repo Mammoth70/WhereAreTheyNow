@@ -3,8 +3,8 @@
     android:height="24dp"
     android:viewportWidth="960"
     android:viewportHeight="960"
-    android:tint="#333333"
-    android:alpha="0.6">
+    android:tint="?attr/colorOnSurface"
+    android:alpha="0.8">
   <group android:scaleX="1.2"
       android:scaleY="1.2"
       android:translateX="-96"
