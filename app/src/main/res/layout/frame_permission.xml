@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/tvCoarseLocation1"
             android:text="@string/denied1"
-            android:textColor="?attr/colorDenied"
+            android:textColor="?attr/colorError"
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/access_coarse_location"
-            android:textColor="?attr/colorDenied"
+            android:textColor="?attr/colorError"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/tvCoarseLocation1"
             app:layout_constraintTop_toTopOf="@+id/tvCoarseLocation1"
@@ -54,7 +54,7 @@
         <TextView
             android:id="@+id/tvFineLocation1"
             android:text="@string/denied1"
-            android:textColor="?attr/colorDenied"
+            android:textColor="?attr/colorError"
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         <TextView
             android:id="@+id/tvFineLocation"
             android:text="@string/access_fine_location"
-            android:textColor="?attr/colorDenied"
+            android:textColor="?attr/colorError"
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
             <TextView
                 android:id="@+id/tvBackgroundLocation1"
                 android:text="@string/denied1"
-                android:textColor="?attr/colorDenied"
+                android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             <TextView
                 android:id="@+id/tvBackgroundLocation"
                 android:text="@string/access_background_location"
-                android:textColor="?attr/colorDenied"
+                android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
             <TextView
                 android:id="@+id/tvReceiveSMS1"
                 android:text="@string/denied1"
-                android:textColor="?attr/colorDenied"
+                android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
             <TextView
                 android:id="@+id/tvReceiveSMS"
                 android:text="@string/access_Receive_SMS"
-                android:textColor="?attr/colorDenied"
+                android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -206,7 +206,7 @@
             <TextView
                 android:id="@+id/tvSendSMS1"
                 android:text="@string/denied1"
-                android:textColor="?attr/colorDenied"
+                android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
             <TextView
                 android:id="@+id/tvSendSMS"
                 android:text="@string/access_Send_SMS"
-                android:textColor="?attr/colorDenied"
+                android:textColor="?attr/colorError"
                 android:layout_marginStart="8dp"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
