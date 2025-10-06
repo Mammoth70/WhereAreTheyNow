@@ -45,7 +45,10 @@
     <string name="mapCircle">Show circle</string>
     <string name="mapCircleRadius">Radius of a circle in m.</string>
 
-    <string name="selectTheme">Select theme</string>
+    <string name="selectThemeColor">Select theme color</string>
+    <string name="themeDynamic">dynamic</string>
+    <string name="themeDefault">default</string>
+    <string name="selectThemeMode">Select theme mode</string>
     <string name="themeDay">day</string>
     <string name="themeSystem">system</string>
     <string name="themeNight">night</string>

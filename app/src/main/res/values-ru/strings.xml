@@ -45,10 +45,13 @@
     <string name="mapCircle">Показывать круг</string>
     <string name="mapCircleRadius">Радиус круга в м.</string>
 
-    <string name="selectTheme">Выбрать тему</string>
-    <string name="themeDay">дневная</string>
-    <string name="themeSystem">системная</string>
-    <string name="themeNight">ночная</string>
+    <string name="selectThemeColor">Выбрать цвет темы</string>
+    <string name="themeDynamic">динамический</string>
+    <string name="themeDefault">по умолчанию</string>
+    <string name="selectThemeMode">Выбрать режим темы</string>
+    <string name="themeDay">дневной</string>
+    <string name="themeSystem">системный</string>
+    <string name="themeNight">ночной</string>
 
     <string name="denied">"запрещено"</string>
     <string name="granted">"разрешено"</string>
