@@ -2,7 +2,7 @@
 
 [![Android][1]][2] [![GitHub license][3]][4] [![GitHub code size in bytes][5]]()
 
-[1]: https://img.shields.io/badge/Android-11+-blue.svg?logoColor=white&color=green
+[1]: https://img.shields.io/badge/Android-12+-blue.svg?logoColor=white&color=green
 [2]: https://android.com/
 [3]: https://img.shields.io/github/license/Mammoth70/WhereAreTheyNow.svg
 [4]: LICENSE
