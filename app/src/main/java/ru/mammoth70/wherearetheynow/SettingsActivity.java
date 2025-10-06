@@ -221,12 +221,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void onActionClicked(View view) {
         // Метод - обработчик кнопки "сохранить настройки".
-        SharedPreferences settings = getSharedPreferences(Util.nameSettings, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = settings.edit();
         Util.myphone = String.valueOf(edMyPhone.getText());
         Util.myphone = Util.myphone.replaceAll(UserActivity.REGEXP_CLEAR_PHONE,"");
         if (!Objects.equals(Util.myphone, "")) {
-            prefEditor.putString(Util.nameMyPhone, Util.myphone);
+            prefEditor.putString(Util.NAME_MY_PHONE, Util.myphone);
         }
         Util.themeColor = selectedModeColorTemp;
         prefEditor.putInt(Util.nameThemeColor, Util.themeColor);
@@ -236,17 +236,17 @@ public class SettingsActivity extends AppCompatActivity {
         Util.themeMode = selectedModeNightTemp;
         prefEditor.putInt(Util.nameThemeMode, Util.themeMode);
         MapUtil.selectedMap = selectedMapTemp;
-        prefEditor.putInt(MapUtil.nameMap, MapUtil.selectedMap);
+        prefEditor.putInt(MapUtil.NAME_MAP, MapUtil.selectedMap);
         MapUtil.selectedMapZoom = sliderMapZoom.getValue();
-        prefEditor.putFloat(MapUtil.nameMapZoom, MapUtil.selectedMapZoom);
+        prefEditor.putFloat(MapUtil.NAME_MAP_ZOOM, MapUtil.selectedMapZoom);
         MapUtil.selectedMapTilt = sliderMapTilt.getValue();
-        prefEditor.putFloat(MapUtil.nameMapTilt, MapUtil.selectedMapTilt);
+        prefEditor.putFloat(MapUtil.NAME_MAP_TILT, MapUtil.selectedMapTilt);
         MapUtil.selectedMapCircle = checkBoxCircle.isChecked();
-        prefEditor.putBoolean(MapUtil.nameMapCircle, MapUtil.selectedMapCircle);
+        prefEditor.putBoolean(MapUtil.NAME_MAP_CIRCLE, MapUtil.selectedMapCircle);
         MapUtil.selectedMapCircleRadius = sliderCircleRadius.getValue();
-        prefEditor.putFloat(MapUtil.nameMapCircleRadius, MapUtil.selectedMapCircleRadius);
+        prefEditor.putFloat(MapUtil.NAME_MAP_CIRCLE_RADIUS, MapUtil.selectedMapCircleRadius);
         Util.useService = checkBoxService.isChecked();
-        prefEditor.putBoolean(Util.nameUseService, Util.useService);
+        prefEditor.putBoolean(Util.NAME_USE_SERVICE, Util.useService);
         prefEditor.apply();
         finish();
     }

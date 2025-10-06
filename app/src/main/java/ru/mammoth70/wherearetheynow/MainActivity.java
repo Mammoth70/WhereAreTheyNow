@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
     //private static final int NM_PERMISSIONS_ID = 3;
     //private static final int NM_ABOUT_ID = 4;
 
-    private static final String columnPhone = "phone";
-    private static final String columnName = "name";
-    private static final String columnColor = "color";
-    private static final String columnBack = "background";
+    private static final String COLUMN_PHONE = "phone";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_COLOR = "color";
+    private static final String COLUMN_BACK = "background";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +71,18 @@ public class MainActivity extends AppCompatActivity {
 
         data = new ArrayList<>(Util.phones.size());
         refreshData();
-        String[] from = {columnPhone, columnName, columnColor, columnBack};
+        String[] from = {COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK};
         int[] to = {R.id.itemUserPhone, R.id.itemUserName, R.id.itemUserLabel, R.id.itemUserLayout};
 
         sAdapter = new SimpleAdapter(this, data, R.layout.item_user, from, to);
-        sAdapter.setViewBinder(new viewBinder());
+        sAdapter.setViewBinder(new ViewBinder());
 
         ListView lvSimple = findViewById(R.id.lvUsersSimple);
         lvSimple.setAdapter(sAdapter);
         lvSimple.setClickable(true);
         registerForContextMenu(lvSimple);
         lvSimple.setOnItemClickListener((parent, view, position, id)
-                -> EditUser(position));
+                -> editUser(position));
 
         if (!checkAllPermissions()) {
             startPermissionActivity();
@@ -125,32 +125,32 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()) {
             case (R.id.item_add_user):
-                AddUser();
+                addUser();
                 return true;
             case (R.id.item_edit_user):
-                EditUser(acmi.position);
+                editUser(acmi.position);
                 return true;
             case (R.id.item_delete_user):
-                DeleteUser(acmi.position);
+                deleteUser(acmi.position);
                 return true;
             case (R.id.item_sms_request_user):
-                SMSrequestUser(acmi.position);
+                smsRequestUser(acmi.position);
                 return true;
             case (R.id.item_sms_answer_user):
-                SMSanswerUser(acmi.position);
+                smsAnswerUser(acmi.position);
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
-    private void AddUser() {
+    private void addUser() {
         // Метод добавляет контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_ADD_USER);
         startActivityIntent.launch(intent);
     }
-    private void EditUser(int position) {
+    private void editUser(int position) {
         // Метод редактирует контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_EDIT_USER);
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityIntent.launch(intent);
     }
 
-    private void DeleteUser(int position) {
+    private void deleteUser(int position) {
         // Метод удаляет контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_DELETE_USER);
@@ -176,12 +176,12 @@ public class MainActivity extends AppCompatActivity {
         startActivityIntent.launch(intent);
     }
 
-    private void SMSrequestUser(int position) {
+    private void smsRequestUser(int position) {
         // Метод посылает контакту запрос координат.
         String phone;
         phone = Util.phones.get(position);
         if (Objects.equals(phone, Util.myphone)) {
-            SelfPosition();
+            selfPosition();
         } else {
             if (Util.useService) {
                 // Метод передаёт обработку запроса геолокации в GetLocationService.
@@ -197,12 +197,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void SMSanswerUser(int position) {
+    private void smsAnswerUser(int position) {
         // Метод посылает контакту геолокацию.
         String phone;
         phone = Util.phones.get(position);
         if (Objects.equals(phone, Util.myphone)) {
-            SelfPosition();
+            selfPosition();
         } else {
             if (Util.useService) {
                 // Метод передаёт обработку запроса геолокации в GetLocationService.
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void SelfPosition() {
+    private void selfPosition() {
         // Метод определяет собственную геолокацию и вызывает карту.
         GetLocation getLocation = new GetLocation();
         getLocation.sendLocation(this, GetLocation.WAY_LOCAL, "",false);
@@ -228,10 +228,10 @@ public class MainActivity extends AppCompatActivity {
         data.clear();
         for (String phone : Util.phones) {
             Map<String, Object> m = new HashMap<>();
-            m.put(columnPhone, phone);
-            m.put(columnName, Util.phone2name.get(phone));
-            m.put(columnColor, Util.phone2color.get(phone));
-            m.put(columnBack, Util.phone2color.get(phone));
+            m.put(COLUMN_PHONE, phone);
+            m.put(COLUMN_NAME, Util.phone2name.get(phone));
+            m.put(COLUMN_COLOR, Util.phone2color.get(phone));
+            m.put(COLUMN_BACK, Util.phone2color.get(phone));
             data.add(m);
         }
     }
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         // Метод - обработчик кнопки меню "карта".
         // Вызывает соответствующую Activity.
         PointRecord record = MapUtil.getLastAnswer(this);
-        MapUtil.ViewLocation(this, record, false);
+        MapUtil.viewLocation(this, record, false);
     }
 
     public void onSettingsClicked(MenuItem intem) {
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAddUserClicked(View view) {
         // Метод - обработчик кнопки FAB "Добавить контакт".
-        AddUser();
+        addUser();
     }
 
     public void onAboutClicked(MenuItem intem) {
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
         // Метод - обработчик кнопки меню "list".
     }
 
-    private static class viewBinder implements SimpleAdapter.ViewBinder {
+    private static class ViewBinder implements SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран списка контактов.
         @Override
         public boolean setViewValue(View view, Object data,

@@ -32,53 +32,53 @@ public class SMSMonitor extends BroadcastReceiver {
             for (int i = 0; i < pduArray.length; i++) {
                 messages[i] = SmsMessage.createFromPdu((byte[]) pduArray[i], format);
             }
-            String sms_from = messages[0].getDisplayOriginatingAddress();
-            if (Util.phones.contains(sms_from)) {
+            String smsFrom = messages[0].getDisplayOriginatingAddress();
+            if (Util.phones.contains(smsFrom)) {
                 // Обработка идёт только в том случае, если телефон есть в списке.
                 StringBuilder bodyText = new StringBuilder();
                 for (SmsMessage message : messages) {
                     bodyText.append(message.getMessageBody());
                 }
-                String sms_body = bodyText.toString();
+                String smsBody = bodyText.toString();
                 final Pattern patternHeaderRequest = Pattern.compile(Util.HEADER_REQUEST);
                 final Pattern patternHeaderRequestAnswer = Pattern.compile(Util.HEADER_REQUEST_AND_LOCATION);
                 final Pattern patternHeaderAnswer = Pattern.compile(Util.HEADER_ANSWER);
-                Matcher matcherHeaderRequest = patternHeaderRequest.matcher(sms_body);
-                Matcher matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(sms_body);
-                Matcher matcherHeaderAnswer = patternHeaderAnswer.matcher(sms_body);
+                Matcher matcherHeaderRequest = patternHeaderRequest.matcher(smsBody);
+                Matcher matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(smsBody);
+                Matcher matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody);
                 if (matcherHeaderRequest.find()) {
                     // Это запрос геолокации.
                     // Запрашиваем геолокацию и отвечаем.
-                    requestLocation(context, sms_from);
+                    requestLocation(context, smsFrom);
                 } else if (matcherHeaderAnswer.find()) {
                     // Это получение геолокации.
                     // Записываем новые данные и выводим их на карту.
-                    receiveLocation(context, sms_from, sms_body, true);
+                    receiveLocation(context, smsFrom, smsBody, true);
                 } else if (matcherHeaderRequestAnswer.find()) {
                     // Это запрос геолокации версии с координатами.
                     // Записываем новые данные, но на карту не выводим.
-                    receiveLocation(context, sms_from, sms_body, false);
+                    receiveLocation(context, smsFrom, smsBody, false);
                     // Запрашиваем геолокацию и отвечаем.
-                    requestLocation(context, sms_from);
+                    requestLocation(context, smsFrom);
                 }
             }
         }
     }
 
-    private void requestLocation(Context context, String sms_to) {
+    private void requestLocation(Context context, String smsTo) {
         if (Util.useService) {
             // Метод передаёт обработку запроса геолокации в GetLocationService.
             Intent intent = new Intent(context, GetLocationService.class);
-            intent.putExtra(Util.INTENT_EXTRA_SMS_TO, sms_to);
+            intent.putExtra(Util.INTENT_EXTRA_SMS_TO, smsTo);
             context.startService(intent);
         } else {
             // Метод передаёт обработку запроса геолокации в GetLocation.
             GetLocation getLocation = new GetLocation();
-            getLocation.sendLocation(context, GetLocation.WAY_SMS, sms_to,false);
+            getLocation.sendLocation(context, GetLocation.WAY_SMS, smsTo,false);
         }
     }
 
-    private void receiveLocation(Context context, String sms_from, String message, boolean show) {
+    private void receiveLocation(Context context, String smsFrom, String message, boolean show) {
         // Метод проверяет правильность заполнения полей SMS-сообщения с геолокацией,
         // сохраняет полученные данные в БД и в SharedPreferences
         // и передаёт обработку в MapUtil.
@@ -88,13 +88,13 @@ public class SMSMonitor extends BroadcastReceiver {
         Matcher matcher = pattern.matcher(message);
         if ((matcher.find())) {
             PointRecord record = new PointRecord(
-                sms_from,
+                smsFrom,
                 Double.parseDouble(Objects.requireNonNull(matcher.group(1))),
                 Double.parseDouble(Objects.requireNonNull(matcher.group(2))),
                 matcher.group(3));
             MapUtil.setLastAnswer(context, record);
             if (show) {
-                MapUtil.ViewLocation(context, record, true);
+                MapUtil.viewLocation(context, record, true);
             }
 
         }

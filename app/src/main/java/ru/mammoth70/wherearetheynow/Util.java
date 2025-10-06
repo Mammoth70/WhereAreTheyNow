@@ -21,11 +21,11 @@ public class Util {
     public static final String INTENT_EXTRA_MAP_CIRCLE = "circle";
     public static final String INTENT_EXTRA_MAP_CIRCLE_RADIUS = "radius";
 
-    public static final String nameSettings = "Settings";
-    public static final String nameLastUser = "LastUser";
-    public static final String nameUseService = "UseService";
-    public static final String namePhones = "phones";
-    public static final String nameMyPhone = "myphone";
+    public static final String NAME_SETTINGS = "Settings";
+    public static final String NAME_LAST_USER = "LastUser";
+    public static final String NAME_USE_SERVICE = "UseService";
+    public static final String NAME_PHONES = "phones";
+    public static final String NAME_MY_PHONE = "myphone";
 
     public static String myphone = ""; // номер моего телефона
 

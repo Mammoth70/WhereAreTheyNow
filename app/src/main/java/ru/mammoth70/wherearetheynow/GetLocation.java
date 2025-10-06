@@ -22,7 +22,7 @@ public class GetLocation {
     public final static int WAY_SMS = 1;
     public final static int WAY_LOCAL = 2;
 
-    public void sendLocation(Context context, int way, String address, Boolean send_request) {
+    public void sendLocation(Context context, int way, String address, Boolean sendRequest) {
         // Метод запрашивает геолокацию (если есть разрешения), и отправляет ответ указанным способом.
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
         if ((ActivityCompat.checkSelfPermission(context,
@@ -35,7 +35,7 @@ public class GetLocation {
                             updateLocalLocation(context, location);
                             switch (way) {
                                 case WAY_SMS:
-                                    sendSMS(location, address, send_request);
+                                    sendSMS(location, address, sendRequest);
                                     break;
                                 case WAY_LOCAL:
                                     sendLocal(context, location);
@@ -47,11 +47,11 @@ public class GetLocation {
         }
     }
 
-    private String formatLocation(Location location, Boolean send_request) {
+    private String formatLocation(Location location, Boolean sendRequest) {
         // Метод форматирует геолокацию для SMS-сообщения.
         if (location == null)
             return "";
-        if (send_request) {
+        if (sendRequest) {
             return String.format(Locale.US, Util.FORMAT_REQUEST_AND_LOCATION,
                     location.getLatitude(), location.getLongitude(), new Date(location.getTime()));
         } else {
@@ -72,11 +72,11 @@ public class GetLocation {
         }
     }
 
-    private void sendSMS(Location location, String sms_to, Boolean send_request) {
+    private void sendSMS(Location location, String smsTo, Boolean sendRequest) {
         // Метод отправляет SMS-сообщение.
-        String message = formatLocation(location, send_request);
+        String message = formatLocation(location, sendRequest);
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(sms_to, null, message, null, null);
+        smsManager.sendTextMessage(smsTo, null, message, null, null);
     }
 
     private void sendLocal(Context context, Location location) {
@@ -86,7 +86,7 @@ public class GetLocation {
                 location.getLatitude(),
                 location.getLongitude(),
                 new Date(location.getTime()));
-        MapUtil.ViewLocation(context, record, false);
+        MapUtil.viewLocation(context, record, false);
     }
 
 }

@@ -18,11 +18,11 @@ public class MapUtil {
     public static final int MAP_YANDEX = 1;
     public static final int MAP_OPENSTREET = 2;
     public static final int MAP_DEFAULT = MAP_YANDEX;
-    public static final String nameMap = "map";
-    public static final String nameMapZoom = "zoom";
-    public static final String nameMapTilt = "tilt";
-    public static final String nameMapCircle = "circle";
-    public static final String nameMapCircleRadius = "radius";
+    public static final String NAME_MAP = "map";
+    public static final String NAME_MAP_ZOOM = "zoom";
+    public static final String NAME_MAP_TILT = "tilt";
+    public static final String NAME_MAP_CIRCLE = "circle";
+    public static final String NAME_MAP_CIRCLE_RADIUS = "radius";
 
     public static final float MAP_ZOOM_DEFAULT = 17f;
     public static final float MAP_TILT_DEFAULT = 30f;
@@ -36,7 +36,7 @@ public class MapUtil {
     public static boolean selectedMapCircle = MAP_CIRCLE_DEFAULT;
     public static float selectedMapCircleRadius = MAP_CIRCLE_DEFAULT_RADIUS;
 
-    static public void ViewLocation(Context context, PointRecord record, boolean new_task) {
+    static public void viewLocation(Context context, PointRecord record, boolean new_task) {
         // Метод получает данные из последней SMS,
         // проверяет их и выводит в выбранную карту.
         if ((record.latitude > -90) && (record.latitude < 90) &&
@@ -77,7 +77,7 @@ public class MapUtil {
                 (record.longitude > -180) && (record.longitude < 180) &&
                 (Util.phones.contains(record.phone))) {
             Util.phone2record.put(record.phone, record);
-            SharedPreferences settings = context.getSharedPreferences(Util.nameLastUser, MODE_PRIVATE);
+            SharedPreferences settings = context.getSharedPreferences(Util.NAME_LAST_USER, MODE_PRIVATE);
             SharedPreferences.Editor prefEditor = settings.edit();
             prefEditor.putString(Util.INTENT_EXTRA_SMS_FROM, record.phone);
             prefEditor.putString(Util.INTENT_EXTRA_LATITUDE,
@@ -94,7 +94,7 @@ public class MapUtil {
 
     static public PointRecord getLastAnswer(Context context) {
         // Метод считывает из SharedPreferences данные с последнего ответа на запрос.
-        SharedPreferences settings = context.getSharedPreferences(Util.nameLastUser, MODE_PRIVATE);
+        SharedPreferences settings = context.getSharedPreferences(Util.NAME_LAST_USER, MODE_PRIVATE);
         return new PointRecord(
         settings.getString(
                 Util.INTENT_EXTRA_SMS_FROM, ""),

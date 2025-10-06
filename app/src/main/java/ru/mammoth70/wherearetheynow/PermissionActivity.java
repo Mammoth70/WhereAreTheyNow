@@ -45,7 +45,7 @@ public class PermissionActivity extends AppCompatActivity {
     private Button btnSMS;
 
     private int colorGranted;
-    private int colorDenied;
+    private int colorError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +80,13 @@ public class PermissionActivity extends AppCompatActivity {
 
         Resources.Theme theme = getTheme();
         TypedValue typedValueColorGranted = new TypedValue();
-        TypedValue typedValueColorDenied = new TypedValue();
+        TypedValue typedValuecolorError = new TypedValue();
         theme.resolveAttribute(R.attr.colorGranted,
                 typedValueColorGranted,true);
-        theme.resolveAttribute(R.attr.colorDenied,
-                typedValueColorDenied,true);
+        theme.resolveAttribute(androidx.appcompat.R.attr.colorError,
+                typedValuecolorError,true);
         colorGranted = typedValueColorGranted.data;
-        colorDenied = typedValueColorDenied.data;
+        colorError = typedValuecolorError.data;
 
         requestPermissions();
         requestBackgroundLocationPermission(btnBackgroundLocation);
@@ -205,9 +205,9 @@ public class PermissionActivity extends AppCompatActivity {
         } else {
             spCoarseLocation.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_coarse_location).length(), 0);
             tvCoarseLocation.setText(spCoarseLocation);
-            tvCoarseLocation.setTextColor(colorDenied);
+            tvCoarseLocation.setTextColor(colorError);
             tvCoarseLocation1.setText(R.string.denied1);
-            tvCoarseLocation1.setTextColor(colorDenied);
+            tvCoarseLocation1.setTextColor(colorError);
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
@@ -220,9 +220,9 @@ public class PermissionActivity extends AppCompatActivity {
         } else {
             spFineLocation.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_fine_location).length(), 0);
             tvFineLocation.setText(spFineLocation);
-            tvFineLocation.setTextColor(colorDenied);
+            tvFineLocation.setTextColor(colorError);
             tvFineLocation1.setText(R.string.denied1);
-            tvFineLocation1.setTextColor(colorDenied);
+            tvFineLocation1.setTextColor(colorError);
             btnLocation.setEnabled(true);
             btnLocation.setVisibility(View.VISIBLE);
         }
@@ -237,9 +237,9 @@ public class PermissionActivity extends AppCompatActivity {
         } else {
             spBackgroundLocation.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_background_location).length(), 0);
             tvBackgroundLocation.setText(spBackgroundLocation);
-            tvBackgroundLocation.setTextColor(colorDenied);
+            tvBackgroundLocation.setTextColor(colorError);
             tvBackgroundLocation1.setText(R.string.denied1);
-            tvBackgroundLocation1.setTextColor(colorDenied);
+            tvBackgroundLocation1.setTextColor(colorError);
             btnBackgroundLocation.setEnabled(true);
             btnBackgroundLocation.setVisibility(View.VISIBLE);
         }
@@ -252,9 +252,9 @@ public class PermissionActivity extends AppCompatActivity {
         } else {
             spReceiveSMS.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_Receive_SMS).length(), 0);
             tvReceiveSMS.setText(spReceiveSMS);
-            tvReceiveSMS.setTextColor(colorDenied);
+            tvReceiveSMS.setTextColor(colorError);
             tvReceiveSMS1.setText(R.string.denied1);
-            tvReceiveSMS1.setTextColor(colorDenied);
+            tvReceiveSMS1.setTextColor(colorError);
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
@@ -265,9 +265,9 @@ public class PermissionActivity extends AppCompatActivity {
         } else {
             spSendSMS.setSpan(new StrikethroughSpan(), 0, getString(R.string.access_Send_SMS).length(), 0);
             tvSendSMS.setText(spSendSMS);
-            tvSendSMS.setTextColor(colorDenied);
+            tvSendSMS.setTextColor(colorError);
             tvSendSMS1.setText(R.string.denied1);
-            tvSendSMS1.setTextColor(colorDenied);
+            tvSendSMS1.setTextColor(colorError);
         }
         if ((ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) &&

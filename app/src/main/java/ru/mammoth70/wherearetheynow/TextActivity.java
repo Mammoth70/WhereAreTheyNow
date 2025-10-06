@@ -21,11 +21,11 @@ import java.util.Map;
 public class TextActivity extends LocationActivity {
     // Activity выводит текст с геолокацией, переданной через intent.
     private ArrayList<Map<String, Object>> data;
-    private static final String columnName = "name";
-    private static final String columnBack = "background";
-    private static final String columnLatitude = "latitude";
-    private static final String columnLongitude = "longitude";
-    private static final String columnDate = "date";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_BACK = "background";
+    private static final String COLUMN_LATITUDE = "latitude";
+    private static final String COLUMN_LONGITUDE = "longitude";
+    private static final String COLUMN_DATE = "date";
     private TextView tvLatitude;
     private TextView tvLongitude;
 
@@ -47,11 +47,11 @@ public class TextActivity extends LocationActivity {
         tvLongitude = findViewById(R.id.tvLongitude);
         data = new ArrayList<>(Util.phone2record.size());
         refreshData();
-        String[] from = {columnName, columnBack, columnLatitude, columnLongitude, columnDate};
+        String[] from = {COLUMN_NAME, COLUMN_BACK, COLUMN_LATITUDE, COLUMN_LONGITUDE, COLUMN_DATE};
         int[] to = {R.id.itemUserName, R.id.itemUserGeoLayout, R.id.itemLattitude, R.id.itemLongitude, R.id.itemDate};
 
         SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.item_geo, from, to);
-        sAdapter.setViewBinder(new TextActivity.viewBinder());
+        sAdapter.setViewBinder(new ViewBinder());
 
         ListView lvSimple = findViewById(R.id.lvGeoSimple);
         lvSimple.setAdapter(sAdapter);
@@ -74,20 +74,20 @@ public class TextActivity extends LocationActivity {
                 PointRecord value = Util.phone2record.get(phone);
                 if (value != null) {
                     Map<String, Object> m = new HashMap<>();
-                    m.put(columnName, Util.phone2name.get(phone));
-                    m.put(columnBack, Util.phone2color.get(phone));
-                    m.put(columnLatitude, String.format(Locale.US,PointRecord.FORMAT_DOUBLE,
+                    m.put(COLUMN_NAME, Util.phone2name.get(phone));
+                    m.put(COLUMN_BACK, Util.phone2color.get(phone));
+                    m.put(COLUMN_LATITUDE, String.format(Locale.US,PointRecord.FORMAT_DOUBLE,
                             value.latitude));
-                    m.put(columnLongitude, String.format(Locale.US,PointRecord.FORMAT_DOUBLE,
+                    m.put(COLUMN_LONGITUDE, String.format(Locale.US,PointRecord.FORMAT_DOUBLE,
                             value.longitude));
-                    m.put(columnDate, value.datetime);
+                    m.put(COLUMN_DATE, value.datetime);
                     data.add(m);
                 }
             }
         }
     }
 
-    private static class viewBinder implements SimpleAdapter.ViewBinder {
+    private static class ViewBinder implements SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран
         // списка контактов с координатами и датами получения геолокации.
         @Override

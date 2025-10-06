@@ -23,8 +23,8 @@ import java.util.Map;
 
 public class ColorsActivity extends AppCompatActivity {
     // Activity выбора цвета.
-    private static final String columnColor = "color";
-    private static final String columnBack = "background";
+    private static final String COLUMN_COLOR = "color";
+    private static final String COLUMN_BACK = "background";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +62,18 @@ public class ColorsActivity extends AppCompatActivity {
         for (String color : AppColors.colors) {
             Map<String, Object> m;
             m = new HashMap<>();
-            m.put(columnColor, color);
-            m.put(columnBack, color);
+            m.put(COLUMN_COLOR, color);
+            m.put(COLUMN_BACK, color);
             data.add(m);
         }
-        String[] from = { columnColor, columnBack };
+        String[] from = {COLUMN_COLOR, COLUMN_BACK};
         int[] to = { id.itemColorLabel, id.itemColorLayout };
         SimpleAdapter sAdapter = new SimpleAdapter(this, data, layout.item_color, from, to);
-        sAdapter.setViewBinder(new viewBinder());
+        sAdapter.setViewBinder(new ViewBinder());
         return sAdapter;
     }
 
-    private static class viewBinder implements SimpleAdapter.ViewBinder {
+    private static class ViewBinder implements SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран списка цветов.
         @Override
         public boolean setViewValue(View view, Object data,

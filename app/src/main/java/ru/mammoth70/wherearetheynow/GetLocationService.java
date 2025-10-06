@@ -22,9 +22,9 @@ public class GetLocationService extends Service {
 
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Метод стартует сервис, и получает через Intent телефонный номер SMS-сообщения.
-        String sms_to = intent.getStringExtra(Util.INTENT_EXTRA_SMS_TO);
+        String smsTo = intent.getStringExtra(Util.INTENT_EXTRA_SMS_TO);
         Boolean request = intent.getBooleanExtra(Util.INTENT_EXTRA_NEW_VERSION_REQUEST, false);
-        someTask(sms_to, request);
+        someTask(smsTo, request);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -39,13 +39,13 @@ public class GetLocationService extends Service {
         return null;
     }
 
-    private void someTask(String sms_to, Boolean send_request) {
+    private void someTask(String smsTo, Boolean send_request) {
         // Метод с основной работой сервиса.
         // Запрашивает геолокацию (если есть разрешения), отправляет её в SMS-сообщении,
         // после чего сервис автоматически останавливается.
         // Работает через вызов объекта GetLocation.
         GetLocation getLocation = new GetLocation();
-        getLocation.sendLocation(this, GetLocation.WAY_SMS, sms_to, send_request);
+        getLocation.sendLocation(this, GetLocation.WAY_SMS, smsTo, send_request);
         stopSelf();
     }
 

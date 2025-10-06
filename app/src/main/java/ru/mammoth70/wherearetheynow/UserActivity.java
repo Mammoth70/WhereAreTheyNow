@@ -264,9 +264,9 @@ public class UserActivity extends AppCompatActivity {
         // Метод записывает в SharedPreferences множество разрешенных телефонов.
         // Нужно, чтобы SMSMonitor работал даже в том случае, если не запускалась MainActivity.
         Set<String> phonesSet = new HashSet<>(Util.phones);
-        SharedPreferences settings = getSharedPreferences(Util.nameSettings, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE);
         SharedPreferences.Editor prefEditor  = settings.edit();
-        prefEditor.putStringSet(Util.namePhones, phonesSet);
+        prefEditor.putStringSet(Util.NAME_PHONES, phonesSet);
         prefEditor.apply();
     }
 
