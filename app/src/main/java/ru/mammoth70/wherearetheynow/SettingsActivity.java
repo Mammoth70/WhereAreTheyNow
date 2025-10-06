@@ -36,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Slider sliderCircleRadius;
 
     private int selectedMapTemp;
+    private int selectedModeColorTemp;
     private int selectedModeNightTemp;
 
     @SuppressLint("NonConstantResourceId")
@@ -160,8 +161,33 @@ public class SettingsActivity extends AppCompatActivity {
         }
         );
 
-        selectedModeNightTemp = Util.modeNight;
-        // получаем объект RadioGroup
+        selectedModeColorTemp = Util.themeColor;
+        // получаем объект RadioGroup переключателя цвета темы
+        RadioGroup radioThemeColor = findViewById(R.id.radioThemeColor);
+        switch (selectedModeColorTemp) {
+            case (Util.COLOR_DYNAMIC_YES):
+                radioThemeColor.check(R.id.themeDynamic);
+                break;
+            case Util.COLOR_DYNAMIC_NO:
+                radioThemeColor.check(R.id.themeDefault);
+                break;
+        }
+
+        // Обработка переключения состояния переключателя режимов цвета
+        radioThemeColor.setOnCheckedChangeListener((radiogroup, id)-> {
+            // получаем выбранную кнопку
+            switch (id) {
+                case R.id.themeDynamic:
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_YES;
+                    break;
+                case R.id.themeDefault:
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_NO;
+                    break;
+            }
+        });
+
+        selectedModeNightTemp = Util.themeMode;
+        // получаем объект RadioGroup переключателя режимов темы
         RadioGroup radioTheme = findViewById(R.id.radioTheme);
         switch (selectedModeNightTemp) {
             case (Util.MODE_NIGHT_YES):
@@ -175,7 +201,7 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
 
-        // Обработка переключения состояния переключателя
+        // Обработка переключения состояния переключателя режимов темы
         radioTheme.setOnCheckedChangeListener((radiogroup, id)-> {
             // получаем выбранную кнопку
             switch (id) {
@@ -202,11 +228,13 @@ public class SettingsActivity extends AppCompatActivity {
         if (!Objects.equals(Util.myphone, "")) {
             prefEditor.putString(Util.nameMyPhone, Util.myphone);
         }
-        if (Util.modeNight != selectedModeNightTemp) {
-            Util.setNightTheme(selectedModeNightTemp);
+        Util.themeColor = selectedModeColorTemp;
+        prefEditor.putInt(Util.nameThemeColor, Util.themeColor);
+        if (Util.themeMode != selectedModeNightTemp) {
+            Util.setThemeMode(selectedModeNightTemp);
         }
-        Util.modeNight = selectedModeNightTemp;
-        prefEditor.putInt(Util.nameThemeMode, Util.modeNight);
+        Util.themeMode = selectedModeNightTemp;
+        prefEditor.putInt(Util.nameThemeMode, Util.themeMode);
         MapUtil.selectedMap = selectedMapTemp;
         prefEditor.putInt(MapUtil.nameMap, MapUtil.selectedMap);
         MapUtil.selectedMapZoom = sliderMapZoom.getValue();

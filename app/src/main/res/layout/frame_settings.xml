@@ -65,7 +65,42 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/selectTheme"
+                android:text="@string/selectThemeColor"
+                android:textSize="16sp"
+                />
+
+            <RadioGroup
+                android:id="@+id/radioThemeColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                >
+
+                <RadioButton
+                    android:id="@+id/themeDynamic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themeDynamic"
+                    />
+
+                <RadioButton
+                    android:id="@+id/themeDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themeDefault"
+                    />
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/selectThemeMode"
                 android:textSize="16sp"
                 />
 

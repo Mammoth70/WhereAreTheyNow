@@ -34,8 +34,12 @@ public class Util {
     public static final int MODE_NIGHT_NO = 1;
     public static final int MODE_NIGHT_YES = 2;
     public static final int MODE_NIGHT_FOLLOW_SYSTEM = -1;
+    public static final int COLOR_DYNAMIC_NO = 1;
+    public static final int COLOR_DYNAMIC_YES = 2;
     public static final String nameThemeMode = "theme";
-    public static int modeNight = MODE_NIGHT_FOLLOW_SYSTEM;
+    public static final String nameThemeColor = "color";
+    public static int themeMode = MODE_NIGHT_FOLLOW_SYSTEM;
+    public static int themeColor = COLOR_DYNAMIC_NO;
 
 
     public static ArrayList<String> phones = new ArrayList<>(); // список телефонов
@@ -56,7 +60,8 @@ public class Util {
     public static final String FORMAT_REQUEST_AND_LOCATION = "WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT";
     public static final String REGEXP_ANSWER = "^WATN [AR] lat (-?\\d{2,3}\\.\\d{6}), lon (-?\\d{2,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$";
 
-    public static void setNightTheme(int mode) {
+    public static void setThemeMode(int mode) {
+
         // Метод включает или выключает ночную тему в соответствии с переданными настройками.
         switch (mode) {
             case Util.MODE_NIGHT_NO:

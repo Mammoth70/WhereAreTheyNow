@@ -3,6 +3,7 @@ package ru.mammoth70.wherearetheynow;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.google.android.material.color.DynamicColors;
 import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
@@ -25,10 +26,17 @@ public class App extends Application {
         // Инициализируем чтение из SharedPreferences.
         SharedPreferences settings = getSharedPreferences(Util.nameSettings, MODE_PRIVATE);
 
-        // Считываем из SharedPreferences, как определять тему.
-        Util.modeNight = settings.getInt(Util.nameThemeMode, Util.modeNight);
-        // Включение ночной темы.
-        Util.setNightTheme(Util.modeNight);
+        // Считываем из SharedPreferences, как определять цвет темы.
+        Util.themeColor = settings.getInt(Util.nameThemeColor, Util.themeColor);
+        // Включение динамического цвета.
+        if (Util.themeColor == Util.COLOR_DYNAMIC_YES) {
+            DynamicColors.applyToActivitiesIfAvailable(this);
+        }
+
+        // Считываем из SharedPreferences, как определять режим темы.
+        Util.themeMode = settings.getInt(Util.nameThemeMode, Util.themeMode);
+        // Включение ночного режима.
+        Util.setThemeMode(Util.themeMode);
 
         // Считываем из SharedPreferences, как определять геолокацию - через сервис или напрямую.
         Util.useService = settings.getBoolean(Util.nameUseService, Util.useService);
@@ -49,4 +57,5 @@ public class App extends Application {
         Set<String> phonesSet = settings.getStringSet(Util.namePhones, new HashSet<>());
         Util.phones = new ArrayList<>(phonesSet);
     }
+
 }
