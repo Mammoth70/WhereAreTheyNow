@@ -27,14 +27,14 @@ public class App extends Application {
         SharedPreferences settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE);
 
         // Считываем из SharedPreferences, как определять цвет темы.
-        Util.themeColor = settings.getInt(Util.nameThemeColor, Util.themeColor);
+        Util.themeColor = settings.getInt(Util.NAME_THEME_COLOR, Util.themeColor);
         // Включение динамического цвета.
         if (Util.themeColor == Util.COLOR_DYNAMIC_YES) {
             DynamicColors.applyToActivitiesIfAvailable(this);
         }
 
         // Считываем из SharedPreferences, как определять режим темы.
-        Util.themeMode = settings.getInt(Util.nameThemeMode, Util.themeMode);
+        Util.themeMode = settings.getInt(Util.NAME_THEME_MODE, Util.themeMode);
         // Включение ночного режима.
         Util.setThemeMode(Util.themeMode);
 

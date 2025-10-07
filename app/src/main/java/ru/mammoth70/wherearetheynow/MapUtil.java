@@ -36,7 +36,7 @@ public class MapUtil {
     public static boolean selectedMapCircle = MAP_CIRCLE_DEFAULT;
     public static float selectedMapCircleRadius = MAP_CIRCLE_DEFAULT_RADIUS;
 
-    static public void viewLocation(Context context, PointRecord record, boolean new_task) {
+    static public void viewLocation(Context context, PointRecord record, boolean newTask) {
         // Метод получает данные из последней SMS,
         // проверяет их и выводит в выбранную карту.
         if ((record.latitude > -90) && (record.latitude < 90) &&
@@ -60,7 +60,7 @@ public class MapUtil {
                     intent = new Intent(context, TextActivity.class);
                     break;
             }
-            if (new_task) {
+            if (newTask) {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
             intent.putExtra(Util.INTENT_EXTRA_SMS_FROM, record.phone);

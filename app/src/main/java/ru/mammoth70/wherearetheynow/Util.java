@@ -36,8 +36,8 @@ public class Util {
     public static final int MODE_NIGHT_FOLLOW_SYSTEM = -1;
     public static final int COLOR_DYNAMIC_NO = 1;
     public static final int COLOR_DYNAMIC_YES = 2;
-    public static final String nameThemeMode = "theme";
-    public static final String nameThemeColor = "color";
+    public static final String NAME_THEME_MODE = "theme";
+    public static final String NAME_THEME_COLOR = "color";
     public static int themeMode = MODE_NIGHT_FOLLOW_SYSTEM;
     public static int themeColor = COLOR_DYNAMIC_NO;
 

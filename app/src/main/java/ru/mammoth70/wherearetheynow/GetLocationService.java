@@ -27,24 +27,19 @@ public class GetLocationService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void onDestroy() {
-        // Метод уничтожает сервис.
-        super.onDestroy();
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         // Метод реализовать мы обязаны, возвращаем null.
         return null;
     }
 
-    private void someTask(String smsTo, Boolean send_request) {
+    private void someTask(String smsTo, Boolean sendRequest) {
         // Метод с основной работой сервиса.
         // Запрашивает геолокацию (если есть разрешения), отправляет её в SMS-сообщении,
         // после чего сервис автоматически останавливается.
         // Работает через вызов объекта GetLocation.
         GetLocation getLocation = new GetLocation();
-        getLocation.sendLocation(this, GetLocation.WAY_SMS, smsTo, send_request);
+        getLocation.sendLocation(this, GetLocation.WAY_SMS, smsTo, sendRequest);
         stopSelf();
     }
 

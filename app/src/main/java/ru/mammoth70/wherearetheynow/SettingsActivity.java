@@ -229,12 +229,12 @@ public class SettingsActivity extends AppCompatActivity {
             prefEditor.putString(Util.NAME_MY_PHONE, Util.myphone);
         }
         Util.themeColor = selectedModeColorTemp;
-        prefEditor.putInt(Util.nameThemeColor, Util.themeColor);
+        prefEditor.putInt(Util.NAME_THEME_COLOR, Util.themeColor);
         if (Util.themeMode != selectedModeNightTemp) {
             Util.setThemeMode(selectedModeNightTemp);
         }
         Util.themeMode = selectedModeNightTemp;
-        prefEditor.putInt(Util.nameThemeMode, Util.themeMode);
+        prefEditor.putInt(Util.NAME_THEME_MODE, Util.themeMode);
         MapUtil.selectedMap = selectedMapTemp;
         prefEditor.putInt(MapUtil.NAME_MAP, MapUtil.selectedMap);
         MapUtil.selectedMapZoom = sliderMapZoom.getValue();
