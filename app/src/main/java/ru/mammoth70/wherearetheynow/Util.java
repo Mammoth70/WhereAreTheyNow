@@ -1,6 +1,12 @@
 package ru.mammoth70.wherearetheynow;
 
+import android.app.Application;
+
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.color.DynamicColors;
+import com.google.android.material.color.DynamicColorsOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +41,8 @@ public class Util {
     public static final int MODE_NIGHT_YES = 2;
     public static final int MODE_NIGHT_FOLLOW_SYSTEM = -1;
     public static final int COLOR_DYNAMIC_NO = 1;
-    public static final int COLOR_DYNAMIC_YES = 2;
+    public static final int COLOR_DYNAMIC_WALLPAPER = 2;
+    public static final int COLOR_DYNAMIC_YELLOW = 3;
     public static final String NAME_THEME_MODE = "theme";
     public static final String NAME_THEME_COLOR = "color";
     public static int themeMode = MODE_NIGHT_FOLLOW_SYSTEM;
@@ -61,7 +68,6 @@ public class Util {
     public static final String REGEXP_ANSWER = "^WATN [AR] lat (-?\\d{2,3}\\.\\d{6}), lon (-?\\d{2,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$";
 
     public static void setThemeMode(int mode) {
-
         // Метод включает или выключает ночную тему в соответствии с переданными настройками.
         switch (mode) {
             case Util.MODE_NIGHT_NO:
@@ -74,4 +80,20 @@ public class Util {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
     }
+
+    public static void setThemeColor(Application application, int color) {
+        // Метод включает или выключает ночную тему в соответствии с переданными настройками.
+        switch (color) {
+            case (COLOR_DYNAMIC_WALLPAPER) :
+                DynamicColors.applyToActivitiesIfAvailable(application);
+                break;
+            case (COLOR_DYNAMIC_YELLOW) :
+                DynamicColorsOptions dynamicColorsOptions = new DynamicColorsOptions.Builder()
+                        .setContentBasedSource(ContextCompat.getColor(application,R.color.yellow_theme))
+                        .build();
+                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptions);
+                break;
+        }
+    }
+
 }

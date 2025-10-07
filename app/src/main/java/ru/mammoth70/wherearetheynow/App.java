@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow;
 import android.app.Application;
 import android.content.SharedPreferences;
 
-import com.google.android.material.color.DynamicColors;
 import com.yandex.mapkit.MapKitFactory;
 
 import java.util.ArrayList;
@@ -29,9 +28,7 @@ public class App extends Application {
         // Считываем из SharedPreferences, как определять цвет темы.
         Util.themeColor = settings.getInt(Util.NAME_THEME_COLOR, Util.themeColor);
         // Включение динамического цвета.
-        if (Util.themeColor == Util.COLOR_DYNAMIC_YES) {
-            DynamicColors.applyToActivitiesIfAvailable(this);
-        }
+        Util.setThemeColor(this,Util.themeColor);
 
         // Считываем из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(Util.NAME_THEME_MODE, Util.themeMode);

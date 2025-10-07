@@ -93,6 +93,13 @@
                     android:layout_height="wrap_content"
                     android:text="@string/themeDefault"
                     />
+
+                <RadioButton
+                    android:id="@+id/themeYellow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themeYellow"
+                    />
             </RadioGroup>
 
             <TextView

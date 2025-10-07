@@ -165,11 +165,14 @@ public class SettingsActivity extends AppCompatActivity {
         // получаем объект RadioGroup переключателя цвета темы
         RadioGroup radioThemeColor = findViewById(R.id.radioThemeColor);
         switch (selectedModeColorTemp) {
-            case (Util.COLOR_DYNAMIC_YES):
+            case (Util.COLOR_DYNAMIC_WALLPAPER):
                 radioThemeColor.check(R.id.themeDynamic);
                 break;
             case Util.COLOR_DYNAMIC_NO:
                 radioThemeColor.check(R.id.themeDefault);
+                break;
+            case Util.COLOR_DYNAMIC_YELLOW:
+                radioThemeColor.check(R.id.themeYellow);
                 break;
         }
 
@@ -178,10 +181,13 @@ public class SettingsActivity extends AppCompatActivity {
             // получаем выбранную кнопку
             switch (id) {
                 case R.id.themeDynamic:
-                    selectedModeColorTemp = Util.COLOR_DYNAMIC_YES;
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_WALLPAPER;
                     break;
                 case R.id.themeDefault:
                     selectedModeColorTemp = Util.COLOR_DYNAMIC_NO;
+                    break;
+                case R.id.themeYellow:
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_YELLOW;
                     break;
             }
         });

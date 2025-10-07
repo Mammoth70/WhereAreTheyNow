@@ -48,6 +48,7 @@
     <string name="selectThemeColor">Выбрать цвет темы</string>
     <string name="themeDynamic">динамический</string>
     <string name="themeDefault">по умолчанию</string>
+    <string name="themeYellow">жёлтый</string>
     <string name="selectThemeMode">Выбрать режим темы</string>
     <string name="themeDay">дневной</string>
     <string name="themeSystem">системный</string>
