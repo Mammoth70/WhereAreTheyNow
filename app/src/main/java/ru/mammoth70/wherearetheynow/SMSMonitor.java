@@ -3,7 +3,7 @@ package ru.mammoth70.wherearetheynow;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.provider.Telephony;
 import android.telephony.SmsMessage;
 
 import java.util.Objects;
@@ -14,23 +14,14 @@ public class SMSMonitor extends BroadcastReceiver {
     // Класс слушает поток SMS. Если SMS-сообщение приходит от правильных абонентов,
     // делается парсинг сообщения (запрос геолокации или ответ с голокацией)
     // и передача дальнейшей обработки.
-    private static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
-    private static final String BUNDLE_PDUS = "pdus";
-    private static final String BUNDLE_FORMAT = "format";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // Метод слушает входящие SMS-сообщения, парсит их и передает обработку в другие методы .
-        if (intent != null && intent.getAction() != null && intent.getAction().equals(SMS_ACTION)) {
-            Bundle bundle = intent.getExtras();
-            Object[] pduArray = (Object[]) Objects.requireNonNull(bundle).get(BUNDLE_PDUS);
-            if (pduArray == null) {
+        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
+            SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
+            if (messages == null) {
                 return;
-            }
-            SmsMessage[] messages = new SmsMessage[pduArray.length];
-            String format = bundle.getString(BUNDLE_FORMAT);
-            for (int i = 0; i < pduArray.length; i++) {
-                messages[i] = SmsMessage.createFromPdu((byte[]) pduArray[i], format);
             }
             String smsFrom = messages[0].getDisplayOriginatingAddress();
             if (Util.phones.contains(smsFrom)) {
