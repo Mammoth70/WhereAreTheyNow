@@ -12,15 +12,17 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColorPrimary">?attr/colorOnSurface</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorLink">@color/md_theme_primary</item>
+        <item name="android:textColorLink">?attr/colorOnPrimaryContainer</item>
+        <item name="android:textColorHighlight">?attr/colorPrimaryContainer</item>
+
     </style>
     <style name="About.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
         <!-- Цвет кнопки -->
         <item name="backgroundTint">?attr/colorSurfaceContainer</item>
         <!-- Цвет текста кнопки -->
-        <item name="android:textColor">@color/md_theme_primary</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
         <!-- Цвет эффекта нажатия кнопки -->
-        <item name="rippleColor">@color/md_theme_primary</item>
+        <item name="rippleColor">?attr/colorOnPrimaryContainer</item>
         <!-- Все названия кнопок сделать заглавными буквами -->
         <item name="android:textAllCaps">true</item>
     </style>
@@ -29,9 +31,9 @@
         <!-- Цвет кнопки -->
         <item name="backgroundTint">?attr/colorSurfaceContainer</item>
         <!-- Цвет текста кнопки -->
-        <item name="android:textColor">@color/md_theme_primary</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
         <!-- Цвет эффекта нажатия кнопки -->
-        <item name="rippleColor">@color/md_theme_primary</item>
+        <item name="rippleColor">?attr/colorOnPrimaryContainer</item>
         <!-- Все названия кнопок не делать заглавными буквами -->
         <item name="android:textAllCaps">false</item>
     </style>
