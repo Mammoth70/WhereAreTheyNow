@@ -35,7 +35,7 @@ public class GetLocation {
                             updateLocalLocation(context, location);
                             switch (way) {
                                 case WAY_SMS:
-                                    sendSMS(location, address, sendRequest);
+                                    sendSMS(context,location, address, sendRequest);
                                     break;
                                 case WAY_LOCAL:
                                     sendLocal(context, location);
@@ -72,10 +72,10 @@ public class GetLocation {
         }
     }
 
-    private void sendSMS(Location location, String smsTo, Boolean sendRequest) {
+    private void sendSMS(Context context, Location location, String smsTo, Boolean sendRequest) {
         // Метод отправляет SMS-сообщение.
         String message = formatLocation(location, sendRequest);
-        SmsManager smsManager = SmsManager.getDefault();
+        SmsManager smsManager = context.getSystemService(SmsManager.class);
         smsManager.sendTextMessage(smsTo, null, message, null, null);
     }
 
