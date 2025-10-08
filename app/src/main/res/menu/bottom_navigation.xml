@@ -13,7 +13,6 @@
         android:icon="@drawable/ic_action_list"
         android:title="@string/users"
         android:id="@+id/item_users"
-        android:onClick="onUsersClicked"
         android:enabled="false"
         android:visible="false"
         />

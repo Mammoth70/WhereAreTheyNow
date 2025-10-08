@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NM_MAP_ID = 0;
     private static final int NM_USERS_ID = 1;
-    //private static final int NM_SETTINGS_ID = 2;
-    //private static final int NM_PERMISSIONS_ID = 3;
-    //private static final int NM_ABOUT_ID = 4;
 
     private static final String COLUMN_PHONE = "phone";
     private static final String COLUMN_NAME = "name";
@@ -91,11 +88,6 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView.getMenu().getItem(NM_MAP_ID).
                 setEnabled(!Objects.equals(MapUtil.getLastAnswer(this).phone, ""));
         navigationBarView.getMenu().getItem(NM_USERS_ID).setChecked(true);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
@@ -296,10 +288,6 @@ public class MainActivity extends AppCompatActivity {
         AboutBox aboutBox = new AboutBox();
         aboutBox.setArguments(bundle);
         aboutBox.show(this.getSupportFragmentManager(), "MESSAGE_DIALOG");
-    }
-
-    public void onUsersClicked(MenuItem intem) {
-        // Метод - обработчик кнопки меню "list".
     }
 
     private static class ViewBinder implements SimpleAdapter.ViewBinder {
