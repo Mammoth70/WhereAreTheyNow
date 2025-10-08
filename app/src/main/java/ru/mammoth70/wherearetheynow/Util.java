@@ -87,43 +87,44 @@ public class Util {
         // Метод включает или выключает ночную тему в соответствии с переданными настройками.
         switch (color) {
             case (COLOR_DYNAMIC_NO) :
-                // Используется для эмуляции отключения динамического цвета во время выполнения программы
+                // Используется для эмуляции отключения динамического цвета во время выполнения.
+                // Полностью динамический цвет отключится после перезагрузки приложения.
                 if (refresh) {
-                    DynamicColorsOptions staticColorsOptions = new DynamicColorsOptions.Builder()
+                    DynamicColors.applyToActivitiesIfAvailable(application,
+                            new DynamicColorsOptions.Builder()
                             .setThemeOverlay(R.style.AppTheme_Overlay_Static)
-                            .build();
-                    DynamicColors.applyToActivitiesIfAvailable(application, staticColorsOptions);
+                            .build());
                 }
                 break;
             case (COLOR_DYNAMIC_WALLPAPER) :
-                DynamicColorsOptions dynamicColorsOptions = new DynamicColorsOptions.Builder()
+                DynamicColors.applyToActivitiesIfAvailable(application,
+                        new DynamicColorsOptions.Builder()
                         .setThemeOverlay(R.style.AppTheme_Overlay_Dynamic)
-                        .build();
-                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptions);
+                        .build());
                 break;
             case (COLOR_DYNAMIC_RED) :
-                DynamicColorsOptions dynamicColorsOptionsRed = new DynamicColorsOptions.Builder()
+                DynamicColors.applyToActivitiesIfAvailable(application,
+                        new DynamicColorsOptions.Builder()
                         .setThemeOverlay(R.style.AppTheme_Overlay_Red)
-                        .build();
-                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsRed);
+                        .build());
                 break;
             case (COLOR_DYNAMIC_YELLOW) :
-                DynamicColorsOptions dynamicColorsOptionsYellow = new DynamicColorsOptions.Builder()
+                DynamicColors.applyToActivitiesIfAvailable(application,
+                        new DynamicColorsOptions.Builder()
                         .setThemeOverlay(R.style.AppTheme_Overlay_Yellow)
-                        .build();
-                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsYellow);
+                        .build());
                 break;
             case (COLOR_DYNAMIC_GREEN) :
-                DynamicColorsOptions dynamicColorsOptionsGreen = new DynamicColorsOptions.Builder()
+                DynamicColors.applyToActivitiesIfAvailable(application,
+                        new DynamicColorsOptions.Builder()
                         .setThemeOverlay(R.style.AppTheme_Overlay_Green)
-                        .build();
-                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsGreen);
+                        .build());
                 break;
             case (COLOR_DYNAMIC_BLUE) :
-                DynamicColorsOptions dynamicColorsOptionsBlue = new DynamicColorsOptions.Builder()
+                DynamicColors.applyToActivitiesIfAvailable(application,
+                        new DynamicColorsOptions.Builder()
                         .setThemeOverlay(R.style.AppTheme_Overlay_Blue)
-                        .build();
-                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsBlue);
+                        .build());
                 break;
         }
     }
