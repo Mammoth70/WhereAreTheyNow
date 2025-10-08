@@ -84,7 +84,7 @@ public class Util {
     }
 
     public static void setThemeColor(Application application, int color, boolean refresh) {
-        // Метод включает или выключает ночную тему в соответствии с переданными настройками.
+        // Метод переключает темы с динамическими цветами в соответствии с переданными настройками.
         switch (color) {
             case (COLOR_DYNAMIC_NO) :
                 // Используется для эмуляции отключения динамического цвета во время выполнения.
