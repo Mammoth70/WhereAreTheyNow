@@ -98,4 +98,81 @@
         <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest_highContrast</item>
     </style>
 
+    <style name="AppTheme.Overlay.Static" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorPrimary">@color/md_theme_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+    </style>
+
+    <style name="AppTheme.Overlay.Dynamic" parent="ThemeOverlay.Material3.DynamicColors.Light"/>
+
+    <style name="AppTheme.Overlay.Red" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorPrimary">@color/overlay_red_primary</item>
+        <item name="colorOnPrimary">@color/overlay_red_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/overlay_red_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/overlay_red_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/overlay_red_secondary</item>
+        <item name="colorOnSecondary">@color/overlay_red_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/overlay_red_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/overlay_red_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/overlay_red_tertiary</item>
+        <item name="colorOnTertiary">@color/overlay_red_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/overlay_red_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/overlay_red_onTertiaryContainer</item>
+    </style>
+
+    <style name="AppTheme.Overlay.Yellow" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorPrimary">@color/overlay_yellow_primary</item>
+        <item name="colorOnPrimary">@color/overlay_yellow_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/overlay_yellow_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/overlay_yellow_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/overlay_yellow_secondary</item>
+        <item name="colorOnSecondary">@color/overlay_yellow_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/overlay_yellow_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/overlay_yellow_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/overlay_yellow_tertiary</item>
+        <item name="colorOnTertiary">@color/overlay_yellow_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/overlay_yellow_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/overlay_yellow_onTertiaryContainer</item>
+    </style>
+
+    <style name="AppTheme.Overlay.Green" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorPrimary">@color/overlay_green_primary</item>
+        <item name="colorOnPrimary">@color/overlay_green_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/overlay_green_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/overlay_green_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/overlay_green_secondary</item>
+        <item name="colorOnSecondary">@color/overlay_green_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/overlay_green_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/overlay_green_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/overlay_green_tertiary</item>
+        <item name="colorOnTertiary">@color/overlay_green_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/overlay_green_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/overlay_green_onTertiaryContainer</item>
+    </style>
+
+    <style name="AppTheme.Overlay.Blue" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorPrimary">@color/overlay_blue_primary</item>
+        <item name="colorOnPrimary">@color/overlay_blue_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/overlay_blue_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/overlay_blue_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/overlay_blue_secondary</item>
+        <item name="colorOnSecondary">@color/overlay_blue_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/overlay_blue_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/overlay_blue_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/overlay_blue_tertiary</item>
+        <item name="colorOnTertiary">@color/overlay_blue_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/overlay_blue_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/overlay_blue_onTertiaryContainer</item>
+    </style>
+
 </resources>

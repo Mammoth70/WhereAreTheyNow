@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="yellow_theme">#FFDE3F</color>
+    <color name="overlay_red_primary">#8F4C38</color>
+    <color name="overlay_red_onPrimary">#FFFFFF</color>
+    <color name="overlay_red_primaryContainer">#FFDBD1</color>
+    <color name="overlay_red_onPrimaryContainer">#723523</color>
+    <color name="overlay_red_secondary">#77574E</color>
+    <color name="overlay_red_onSecondary">#FFFFFF</color>
+    <color name="overlay_red_secondaryContainer">#FFDBD1</color>
+    <color name="overlay_red_onSecondaryContainer">#5D4037</color>
+    <color name="overlay_red_tertiary">#6C5D2F</color>
+    <color name="overlay_red_onTertiary">#FFFFFF</color>
+    <color name="overlay_red_tertiaryContainer">#F5E1A7</color>
+    <color name="overlay_red_onTertiaryContainer">#534619</color>
+
+    <color name="overlay_yellow_primary">#6D5E0F</color>
+    <color name="overlay_yellow_onPrimary">#FFFFFF</color>
+    <color name="overlay_yellow_primaryContainer">#F8E287</color>
+    <color name="overlay_yellow_onPrimaryContainer">#534600</color>
+    <color name="overlay_yellow_secondary">#665E40</color>
+    <color name="overlay_yellow_onSecondary">#FFFFFF</color>
+    <color name="overlay_yellow_secondaryContainer">#EEE2BC</color>
+    <color name="overlay_yellow_onSecondaryContainer">#4E472A</color>
+    <color name="overlay_yellow_tertiary">#43664E</color>
+    <color name="overlay_yellow_onTertiary">#FFFFFF</color>
+    <color name="overlay_yellow_tertiaryContainer">#C5ECCE</color>
+    <color name="overlay_yellow_onTertiaryContainer">#2C4E38</color>
+
+    <color name="overlay_green_primary">#4C662B</color>
+    <color name="overlay_green_onPrimary">#FFFFFF</color>
+    <color name="overlay_green_primaryContainer">#CDEDA3</color>
+    <color name="overlay_green_onPrimaryContainer">#354E16</color>
+    <color name="overlay_green_secondary">#586249</color>
+    <color name="overlay_green_onSecondary">#FFFFFF</color>
+    <color name="overlay_green_secondaryContainer">#DCE7C8</color>
+    <color name="overlay_green_onSecondaryContainer">#404A33</color>
+    <color name="overlay_green_tertiary">#386663</color>
+    <color name="overlay_green_onTertiary">#FFFFFF</color>
+    <color name="overlay_green_tertiaryContainer">#BCECE7</color>
+    <color name="overlay_green_onTertiaryContainer">#1F4E4B</color>
+
+    <color name="overlay_blue_primary">#415F91</color>
+    <color name="overlay_blue_onPrimary">#FFFFFF</color>
+    <color name="overlay_blue_primaryContainer">#D6E3FF</color>
+    <color name="overlay_blue_onPrimaryContainer">#284777</color>
+    <color name="overlay_blue_secondary">#565F71</color>
+    <color name="overlay_blue_onSecondary">#FFFFFF</color>
+    <color name="overlay_blue_secondaryContainer">#DAE2F9</color>
+    <color name="overlay_blue_onSecondaryContainer">#3E4759</color>
+    <color name="overlay_blue_tertiary">#705575</color>
+    <color name="overlay_blue_onTertiary">#FFFFFF</color>
+    <color name="overlay_blue_tertiaryContainer">#FAD8FD</color>
+    <color name="overlay_blue_onTertiaryContainer">#573E5C</color>
 
     <color name="black">#FF000000</color>
     <color name="black_alpha">#48000000</color>

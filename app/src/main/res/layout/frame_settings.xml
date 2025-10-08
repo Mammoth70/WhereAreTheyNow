@@ -81,6 +81,13 @@
                 >
 
                 <RadioButton
+                    android:id="@+id/themeDefault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themeDefault"
+                    />
+
+                <RadioButton
                     android:id="@+id/themeDynamic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,10 +95,10 @@
                     />
 
                 <RadioButton
-                    android:id="@+id/themeDefault"
+                    android:id="@+id/themeRed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/themeDefault"
+                    android:text="@string/themeRed"
                     />
 
                 <RadioButton
@@ -100,6 +107,21 @@
                     android:layout_height="wrap_content"
                     android:text="@string/themeYellow"
                     />
+
+                <RadioButton
+                    android:id="@+id/themeGreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themeGreen"
+                    />
+
+                <RadioButton
+                    android:id="@+id/themeBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/themeBlue"
+                    />
+
             </RadioGroup>
 
             <TextView

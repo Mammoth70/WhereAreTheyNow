@@ -48,7 +48,10 @@
     <string name="selectThemeColor">Select theme color</string>
     <string name="themeDynamic">dynamic</string>
     <string name="themeDefault">default</string>
+    <string name="themeRed">red</string>
     <string name="themeYellow">yellow</string>
+    <string name="themeGreen">green</string>
+    <string name="themeBlue">blue</string>
     <string name="selectThemeMode">Select theme mode</string>
     <string name="themeDay">day</string>
     <string name="themeSystem">system</string>

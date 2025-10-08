@@ -14,6 +14,8 @@ public class App extends Application {
     // Приложение предназначено для определения местоположения родтвенников и друзей.
     // Обмен запросами положения и ответами с геолокацией реализван через SMS-сообщения.
 
+    public static Application application;
+
     @Override
     public void onCreate() {
         // Здесь делаются самые стартовые настройки.
@@ -28,7 +30,8 @@ public class App extends Application {
         // Считываем из SharedPreferences, как определять цвет темы.
         Util.themeColor = settings.getInt(Util.NAME_THEME_COLOR, Util.themeColor);
         // Включение динамического цвета.
-        Util.setThemeColor(this,Util.themeColor);
+        application = this;
+        Util.setThemeColor(application, Util.themeColor, false);
 
         // Считываем из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(Util.NAME_THEME_MODE, Util.themeMode);

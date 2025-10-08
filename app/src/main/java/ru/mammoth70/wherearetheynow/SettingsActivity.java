@@ -4,6 +4,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
     // Activity показывает и позволяет изменять настройки выбора карт.
 
+    public static final String INTENT_EXTRA_RESULT = "refresh";
     private TextInputEditText edMyPhone;
     private CheckBox checkBoxService;
     private CheckBox checkBoxCircle;
@@ -171,8 +173,17 @@ public class SettingsActivity extends AppCompatActivity {
             case Util.COLOR_DYNAMIC_NO:
                 radioThemeColor.check(R.id.themeDefault);
                 break;
+            case Util.COLOR_DYNAMIC_RED:
+                radioThemeColor.check(R.id.themeRed);
+                break;
             case Util.COLOR_DYNAMIC_YELLOW:
                 radioThemeColor.check(R.id.themeYellow);
+                break;
+            case Util.COLOR_DYNAMIC_GREEN:
+                radioThemeColor.check(R.id.themeGreen);
+                break;
+            case Util.COLOR_DYNAMIC_BLUE:
+                radioThemeColor.check(R.id.themeBlue);
                 break;
         }
 
@@ -186,8 +197,17 @@ public class SettingsActivity extends AppCompatActivity {
                 case R.id.themeDefault:
                     selectedModeColorTemp = Util.COLOR_DYNAMIC_NO;
                     break;
+                case R.id.themeRed:
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_RED;
+                    break;
                 case R.id.themeYellow:
                     selectedModeColorTemp = Util.COLOR_DYNAMIC_YELLOW;
+                    break;
+                case R.id.themeGreen:
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_GREEN;
+                    break;
+                case R.id.themeBlue:
+                    selectedModeColorTemp = Util.COLOR_DYNAMIC_BLUE;
                     break;
             }
         });
@@ -229,18 +249,26 @@ public class SettingsActivity extends AppCompatActivity {
         // Метод - обработчик кнопки "сохранить настройки".
         SharedPreferences settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE);
         SharedPreferences.Editor prefEditor = settings.edit();
+
         Util.myphone = String.valueOf(edMyPhone.getText());
         Util.myphone = Util.myphone.replaceAll(UserActivity.REGEXP_CLEAR_PHONE,"");
         if (!Objects.equals(Util.myphone, "")) {
             prefEditor.putString(Util.NAME_MY_PHONE, Util.myphone);
         }
+
+        boolean action = (Util.themeColor != selectedModeColorTemp);
+        if (action) {
+            Util.setThemeColor(App.application, selectedModeColorTemp, true);
+        }
         Util.themeColor = selectedModeColorTemp;
         prefEditor.putInt(Util.NAME_THEME_COLOR, Util.themeColor);
+
         if (Util.themeMode != selectedModeNightTemp) {
             Util.setThemeMode(selectedModeNightTemp);
         }
         Util.themeMode = selectedModeNightTemp;
         prefEditor.putInt(Util.NAME_THEME_MODE, Util.themeMode);
+
         MapUtil.selectedMap = selectedMapTemp;
         prefEditor.putInt(MapUtil.NAME_MAP, MapUtil.selectedMap);
         MapUtil.selectedMapZoom = sliderMapZoom.getValue();
@@ -253,7 +281,12 @@ public class SettingsActivity extends AppCompatActivity {
         prefEditor.putFloat(MapUtil.NAME_MAP_CIRCLE_RADIUS, MapUtil.selectedMapCircleRadius);
         Util.useService = checkBoxService.isChecked();
         prefEditor.putBoolean(Util.NAME_USE_SERVICE, Util.useService);
+
         prefEditor.apply();
+
+        Intent intent = new Intent();
+        intent.putExtra(INTENT_EXTRA_RESULT, action);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

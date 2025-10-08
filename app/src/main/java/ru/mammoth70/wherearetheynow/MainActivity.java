@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         // Метод добавляет контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_ADD_USER);
-        startActivityIntent.launch(intent);
+        startActivityUserIntent.launch(intent);
     }
     private void editUser(int position) {
         // Метод редактирует контакт.
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone);
         intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name.get(phone));
         intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color.get(phone));
-        startActivityIntent.launch(intent);
+        startActivityUserIntent.launch(intent);
     }
 
     private void deleteUser(int position) {
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone);
         intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name.get(phone));
         intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color.get(phone));
-        startActivityIntent.launch(intent);
+        startActivityUserIntent.launch(intent);
     }
 
     private void smsRequestUser(int position) {
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         // Метод - обработчик кнопки меню "настройки".
         // Вызывает соответствующую Activity.
         Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivitySettingsIntent.launch(intent);
     }
 
     private void startPermissionActivity() {
@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
+    ActivityResultLauncher<Intent> startActivityUserIntent = registerForActivityResult(
             // Метод возвращает результат вызова формы контакта.
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -332,6 +332,21 @@ public class MainActivity extends AppCompatActivity {
                         refreshData();
                     }
                     sAdapter.notifyDataSetChanged();
+                }
+            });
+
+    ActivityResultLauncher<Intent> startActivitySettingsIntent = registerForActivityResult(
+            // Метод возвращает результат вызова формы настроек.
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intent = result.getData();
+                    if (intent != null) {
+                        Boolean action = intent.getBooleanExtra(SettingsActivity.INTENT_EXTRA_RESULT, false);
+                        if (action) {
+                            recreate();
+                        }
+                    }
                 }
             });
 

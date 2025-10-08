@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow;
 import android.app.Application;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.DynamicColorsOptions;
@@ -40,9 +39,12 @@ public class Util {
     public static final int MODE_NIGHT_NO = 1;
     public static final int MODE_NIGHT_YES = 2;
     public static final int MODE_NIGHT_FOLLOW_SYSTEM = -1;
-    public static final int COLOR_DYNAMIC_NO = 1;
-    public static final int COLOR_DYNAMIC_WALLPAPER = 2;
-    public static final int COLOR_DYNAMIC_YELLOW = 3;
+    public static final int COLOR_DYNAMIC_NO = -1;
+    public static final int COLOR_DYNAMIC_WALLPAPER = 0;
+    public static final int COLOR_DYNAMIC_RED = 1;
+    public static final int COLOR_DYNAMIC_YELLOW = 2;
+    public static final int COLOR_DYNAMIC_GREEN = 3;
+    public static final int COLOR_DYNAMIC_BLUE = 4;
     public static final String NAME_THEME_MODE = "theme";
     public static final String NAME_THEME_COLOR = "color";
     public static int themeMode = MODE_NIGHT_FOLLOW_SYSTEM;
@@ -81,17 +83,47 @@ public class Util {
         }
     }
 
-    public static void setThemeColor(Application application, int color) {
+    public static void setThemeColor(Application application, int color, boolean refresh) {
         // Метод включает или выключает ночную тему в соответствии с переданными настройками.
         switch (color) {
-            case (COLOR_DYNAMIC_WALLPAPER) :
-                DynamicColors.applyToActivitiesIfAvailable(application);
+            case (COLOR_DYNAMIC_NO) :
+                // Используется для эмуляции отключения динамического цвета во время выполнения программы
+                if (refresh) {
+                    DynamicColorsOptions staticColorsOptions = new DynamicColorsOptions.Builder()
+                            .setThemeOverlay(R.style.AppTheme_Overlay_Static)
+                            .build();
+                    DynamicColors.applyToActivitiesIfAvailable(application, staticColorsOptions);
+                }
                 break;
-            case (COLOR_DYNAMIC_YELLOW) :
+            case (COLOR_DYNAMIC_WALLPAPER) :
                 DynamicColorsOptions dynamicColorsOptions = new DynamicColorsOptions.Builder()
-                        .setContentBasedSource(ContextCompat.getColor(application,R.color.yellow_theme))
+                        .setThemeOverlay(R.style.AppTheme_Overlay_Dynamic)
                         .build();
                 DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptions);
+                break;
+            case (COLOR_DYNAMIC_RED) :
+                DynamicColorsOptions dynamicColorsOptionsRed = new DynamicColorsOptions.Builder()
+                        .setThemeOverlay(R.style.AppTheme_Overlay_Red)
+                        .build();
+                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsRed);
+                break;
+            case (COLOR_DYNAMIC_YELLOW) :
+                DynamicColorsOptions dynamicColorsOptionsYellow = new DynamicColorsOptions.Builder()
+                        .setThemeOverlay(R.style.AppTheme_Overlay_Yellow)
+                        .build();
+                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsYellow);
+                break;
+            case (COLOR_DYNAMIC_GREEN) :
+                DynamicColorsOptions dynamicColorsOptionsGreen = new DynamicColorsOptions.Builder()
+                        .setThemeOverlay(R.style.AppTheme_Overlay_Green)
+                        .build();
+                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsGreen);
+                break;
+            case (COLOR_DYNAMIC_BLUE) :
+                DynamicColorsOptions dynamicColorsOptionsBlue = new DynamicColorsOptions.Builder()
+                        .setThemeOverlay(R.style.AppTheme_Overlay_Blue)
+                        .build();
+                DynamicColors.applyToActivitiesIfAvailable(application,dynamicColorsOptionsBlue);
                 break;
         }
     }
