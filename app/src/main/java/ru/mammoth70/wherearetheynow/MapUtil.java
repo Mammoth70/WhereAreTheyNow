@@ -96,8 +96,7 @@ public class MapUtil {
         // Метод считывает из SharedPreferences данные с последнего ответа на запрос.
         SharedPreferences settings = context.getSharedPreferences(Util.NAME_LAST_USER, MODE_PRIVATE);
         return new PointRecord(
-        settings.getString(
-                Util.INTENT_EXTRA_SMS_FROM, ""),
+                settings.getString(Util.INTENT_EXTRA_SMS_FROM, ""),
                 Double.parseDouble(settings.getString(Util.INTENT_EXTRA_LATITUDE, "0")),
                 Double.parseDouble(settings.getString(Util.INTENT_EXTRA_LONGITUDE, "0")),
                 settings.getString(Util.INTENT_EXTRA_TIME, ""));

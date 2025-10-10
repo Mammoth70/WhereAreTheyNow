@@ -64,38 +64,37 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public void getUsers() {
         // Метод считывает список разрешенных телефонов и словари контактов из БД.
-        SQLiteDatabase db = getReadableDatabase();
-        String execSting = "SELECT * FROM users;";
-                Cursor cursor = db.rawQuery(execSting, null);
-        int id;
-        String phone;
-        String name;
-        String color;
-        PointRecord record;
-
-        Util.phones.clear();
-        Util.id2phone.clear();
-        Util.phone2id.clear();
-        Util.phone2name.clear();
-        Util.phone2color.clear();
-        Util.phone2record.clear();
-        while (cursor.moveToNext()) {
-            id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-            phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
-            name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-            color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
-            Util.phones.add(phone);
-            Util.id2phone.put(id, phone);
-            Util.phone2id.put(phone, id);
-            Util.phone2name.put(phone, name);
-            Util.phone2color.put(phone, color);
-            record = getLastPoint(phone);
-            if (record!= null) {
-                Util.phone2record.put(phone, record);
+        try (SQLiteDatabase db = getReadableDatabase()) {
+            String execSting = "SELECT * FROM users;";
+            try (Cursor cursor = db.rawQuery(execSting, null)) {
+                int id;
+                String phone;
+                String name;
+                String color;
+                PointRecord record;
+                Util.phones.clear();
+                Util.id2phone.clear();
+                Util.phone2id.clear();
+                Util.phone2name.clear();
+                Util.phone2color.clear();
+                Util.phone2record.clear();
+                while (cursor.moveToNext()) {
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
+                    name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
+                    Util.phones.add(phone);
+                    Util.id2phone.put(id, phone);
+                    Util.phone2id.put(phone, id);
+                    Util.phone2name.put(phone, name);
+                    Util.phone2color.put(phone, color);
+                    record = getLastPoint(phone);
+                    if (record != null) {
+                        Util.phone2record.put(phone, record);
+                    }
+                }
             }
         }
-        cursor.close();
-        db.close();
     }
 
     public void getMenuUsers() {
@@ -105,36 +104,35 @@ public class DBhelper extends SQLiteOpenHelper {
         // Используется для построения меню.
         String phone;
         Util.menuPhones.clear();
-        SQLiteDatabase db = getReadableDatabase();
-        String execSting =
-                "SELECT users.phone AS phone1 FROM " +
-                "(SELECT points.phone AS phone2 " +
-                "FROM points INNER JOIN users ON points.phone = users.phone " +
-                "ORDER BY points.datetime DESC, users.id ASC LIMIT 10 OFFSET 0) AS tmp " +
-                "INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;";
-        Cursor cursor = db.rawQuery(execSting, null);
-        while (cursor.moveToNext()) {
-            phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"));
-            Util.menuPhones.add(phone);
+        try (SQLiteDatabase db = getReadableDatabase()) {
+            String execSting =
+                    "SELECT users.phone AS phone1 FROM " +
+                            "(SELECT points.phone AS phone2 " +
+                            "FROM points INNER JOIN users ON points.phone = users.phone " +
+                            "ORDER BY points.datetime DESC, users.id ASC LIMIT 10 OFFSET 0) AS tmp " +
+                            "INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;";
+            try (Cursor cursor = db.rawQuery(execSting, null)) {
+                while (cursor.moveToNext()) {
+                    phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"));
+                    Util.menuPhones.add(phone);
+                }
+            }
         }
-        cursor.close();
-        db.close();
     }
 
     public boolean addUser(String phone, String name, String color) {
         // Метод добавляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
         if (!Util.phones.contains(phone)) {
-            SQLiteDatabase db = getReadableDatabase();
-            String execSting = "INSERT OR IGNORE INTO users (phone, name, color) VALUES " +
-                    "('" + phone + "', '" + name + "', '" + color + "');";
-            try {
-                db.execSQL(execSting);
-            } catch (SQLException ignored) {
-                db.close();
-                return false;
+            try (SQLiteDatabase db = getReadableDatabase()) {
+                String execSting = "INSERT OR IGNORE INTO users (phone, name, color) VALUES " +
+                        "('" + phone + "', '" + name + "', '" + color + "');";
+                try {
+                    db.execSQL(execSting);
+                } catch (SQLException ignored) {
+                    return false;
+                }
             }
-            db.close();
             getUsers();
             return (Util.phones.contains(phone));
         } else {
@@ -146,19 +144,18 @@ public class DBhelper extends SQLiteOpenHelper {
         // Метод изменяет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
         if (Util.id2phone.containsKey(id)) {
-            SQLiteDatabase db = getReadableDatabase();
-            String execSting = "UPDATE users SET " +
-                    "phone = '" + phone + "', " +
-                    "name = '" + name + "', " +
-                    "color = '" + color + "' " +
-                    " WHERE id = '" + id + "';";
-            try {
-                db.execSQL(execSting);
-            } catch (SQLException ignored) {
-                db.close();
-                return false;
+            try (SQLiteDatabase db = getReadableDatabase()) {
+                String execSting = "UPDATE users SET " +
+                        "phone = '" + phone + "', " +
+                        "name = '" + name + "', " +
+                        "color = '" + color + "' " +
+                        " WHERE id = '" + id + "';";
+                try {
+                    db.execSQL(execSting);
+                } catch (SQLException ignored) {
+                    return false;
+                }
             }
-            db.close();
             getUsers();
             return (Util.phones.contains(phone));
         } else {
@@ -171,17 +168,16 @@ public class DBhelper extends SQLiteOpenHelper {
         // Возвращает true, если успешно и false, если нет.
         if (Util.id2phone.containsKey(id)) {
             String phone = Util.id2phone.get(id);
-            SQLiteDatabase db = getReadableDatabase();
-            String execSting1 = "DELETE FROM users WHERE id = '" + id + "';";
-            String execSting2 = "DELETE FROM points WHERE phone = '" + phone + "';";
-            try {
-                db.execSQL(execSting1);
-                db.execSQL(execSting2);
-            } catch (SQLException ignored) {
-                db.close();
-                return false;
+            try (SQLiteDatabase db = getReadableDatabase()) {
+                String execSting1 = "DELETE FROM users WHERE id = '" + id + "';";
+                String execSting2 = "DELETE FROM points WHERE phone = '" + phone + "';";
+                try {
+                    db.execSQL(execSting1);
+                    db.execSQL(execSting2);
+                } catch (SQLException ignored) {
+                    return false;
+                }
             }
-            db.close();
             getUsers();
             return (!Util.id2phone.containsKey(id));
         } else {
@@ -194,48 +190,45 @@ public class DBhelper extends SQLiteOpenHelper {
         if (Util.phones.contains(record.phone)) {
             String latitude = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.latitude);
             String longitude = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.longitude);
-            if ((record.latitude > -90) && (record.latitude < 90) && (record.longitude > -180) && (record.longitude < 180)) {
-                SQLiteDatabase db = getReadableDatabase();
-                String execSting = "INSERT OR REPLACE INTO points (phone, latitude, longitude, datetime)" +
-                        " VALUES ('" + record.phone + "', '" +
-                        latitude + "', '" + longitude + "', '" +
-                        record.datetime + "');";
-                try {
-                    db.execSQL(execSting);
-                } catch (SQLException ignored) {
-                    db.close();
-                    return;
+            if ((record.latitude > -90) && (record.latitude < 90) &&
+                    (record.longitude > -180) && (record.longitude < 180)) {
+                try (SQLiteDatabase db = getReadableDatabase()) {
+                    String execSting = "INSERT OR REPLACE INTO points (phone, latitude, longitude, datetime)" +
+                            " VALUES ('" + record.phone + "', '" +
+                            latitude + "', '" + longitude + "', '" +
+                            record.datetime + "');";
+                    try {
+                        db.execSQL(execSting);
+                    } catch (SQLException ignored) {
+                    }
                 }
-                db.close();
             }
         }
     }
 
     public PointRecord getLastPoint(String phone) {
-        PointRecord record = new PointRecord();
         // Метод возвращает PointRecord по заданному телефону, или null, если нет или неправильно.
         if (Util.phones.contains(phone)) {
-            SQLiteDatabase db = getReadableDatabase();
-            String execSting = "SELECT * FROM points WHERE phone = '" + phone + "';";
-            Cursor cursor = db.rawQuery(execSting, null);
-            if (cursor.moveToFirst()) {
-                record.phone =
-                        cursor.getString(cursor.getColumnIndexOrThrow("phone"));
-                record.latitude = Double.parseDouble(
-                        cursor.getString(cursor.getColumnIndexOrThrow("latitude")));
-                record.longitude = Double.parseDouble(
-                        cursor.getString(cursor.getColumnIndexOrThrow("longitude")));
-                record.datetime =
-                        cursor.getString(cursor.getColumnIndexOrThrow("datetime"));
-                if ((record.latitude < -90) || (record.latitude > 90) || (record.longitude < -180) || (record.longitude > 180)) {
-                    record = null;
+            try (SQLiteDatabase db = getReadableDatabase()) {
+                String execSting = "SELECT * FROM points WHERE phone = '" + phone + "';";
+                try (Cursor cursor = db.rawQuery(execSting, null)) {
+                    if (cursor.moveToFirst()) {
+                        PointRecord record = new PointRecord(
+                                cursor.getString(cursor.getColumnIndexOrThrow("phone")),
+                                Double.parseDouble(
+                                        cursor.getString(cursor.getColumnIndexOrThrow("latitude"))),
+                                Double.parseDouble(
+                                        cursor.getString(cursor.getColumnIndexOrThrow("longitude"))),
+                                cursor.getString(cursor.getColumnIndexOrThrow("datetime")));
+                        if ((record.latitude > -90) && (record.latitude < 90) &&
+                                (record.longitude > -180) && (record.longitude < 180)) {
+                            return record;
+                        } else {
+                            return null;
+                        }
+                    }
                 }
-            } else {
-                record = null;
             }
-            cursor.close();
-            db.close();
-            return record;
         }
         return null;
     }
