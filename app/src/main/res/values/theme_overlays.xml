@@ -111,9 +111,12 @@
         <item name="colorOnTertiary">@color/md_theme_onTertiary</item>
         <item name="colorTertiaryContainer">@color/md_theme_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/md_theme_onTertiaryContainer</item>
+        <item name="colorGranted">@color/md_theme_granted</item>
     </style>
 
-    <style name="AppTheme.Overlay.Dynamic" parent="ThemeOverlay.Material3.DynamicColors.Light"/>
+    <style name="AppTheme.Overlay.Dynamic" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorGranted">@color/md_theme_granted</item>
+    </style>
 
     <style name="AppTheme.Overlay.Red" parent="ThemeOverlay.Material3.DynamicColors.Light">
         <item name="colorPrimary">@color/overlay_red_primary</item>
@@ -128,6 +131,7 @@
         <item name="colorOnTertiary">@color/overlay_red_onTertiary</item>
         <item name="colorTertiaryContainer">@color/overlay_red_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/overlay_red_onTertiaryContainer</item>
+        <item name="colorGranted">@color/overlay_red_granted</item>
     </style>
 
     <style name="AppTheme.Overlay.Yellow" parent="ThemeOverlay.Material3.DynamicColors.Light">
@@ -143,6 +147,7 @@
         <item name="colorOnTertiary">@color/overlay_yellow_onTertiary</item>
         <item name="colorTertiaryContainer">@color/overlay_yellow_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/overlay_yellow_onTertiaryContainer</item>
+        <item name="colorGranted">@color/overlay_yellow_granted</item>
     </style>
 
     <style name="AppTheme.Overlay.Green" parent="ThemeOverlay.Material3.DynamicColors.Light">
@@ -158,6 +163,7 @@
         <item name="colorOnTertiary">@color/overlay_green_onTertiary</item>
         <item name="colorTertiaryContainer">@color/overlay_green_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/overlay_green_onTertiaryContainer</item>
+        <item name="colorGranted">@color/overlay_green_granted</item>
     </style>
 
     <style name="AppTheme.Overlay.Blue" parent="ThemeOverlay.Material3.DynamicColors.Light">
@@ -173,6 +179,7 @@
         <item name="colorOnTertiary">@color/overlay_blue_onTertiary</item>
         <item name="colorTertiaryContainer">@color/overlay_blue_tertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/overlay_blue_onTertiaryContainer</item>
+        <item name="colorGranted">@color/overlay_blue_granted</item>
     </style>
 
 </resources>

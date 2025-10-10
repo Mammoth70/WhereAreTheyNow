@@ -12,6 +12,7 @@
     <color name="overlay_red_onTertiary">#3B2F05</color>
     <color name="overlay_red_tertiaryContainer">#534619</color>
     <color name="overlay_red_onTertiaryContainer">#F5E1A7</color>
+    <color name="overlay_red_granted">#B9EC90</color>
 
     <color name="overlay_yellow_primary">#DBC66E</color>
     <color name="overlay_yellow_onPrimary">#3A3000</color>
@@ -24,6 +25,7 @@
     <color name="overlay_yellow_onTertiary">#143723</color>
     <color name="overlay_yellow_tertiaryContainer">#2C4E38</color>
     <color name="overlay_yellow_onTertiaryContainer">#C5ECCE</color>
+    <color name="overlay_yellow_granted">#B9EC90</color>
 
     <color name="overlay_green_primary">#B1D18A</color>
     <color name="overlay_green_onPrimary">#1F3701</color>
@@ -37,6 +39,7 @@
     <color name="overlay_green_onTertiary">#003735</color>
     <color name="overlay_green_tertiaryContainer">#1F4E4B</color>
     <color name="overlay_green_onTertiaryContainer">#BCECE7</color>
+    <color name="overlay_green_granted">#AFEE99</color>
 
     <color name="overlay_blue_primary">#AAC7FF</color>
     <color name="overlay_blue_onPrimary">#0A305F</color>
@@ -50,6 +53,7 @@
     <color name="overlay_blue_onTertiary">#3F2844</color>
     <color name="overlay_blue_tertiaryContainer">#573E5C</color>
     <color name="overlay_blue_onTertiaryContainer">#FAD8FD</color>
+    <color name="overlay_blue_granted">#88F2C1</color>
 
     <color name="black">#FF000000</color>
     <color name="black_alpha">#48000000</color>
