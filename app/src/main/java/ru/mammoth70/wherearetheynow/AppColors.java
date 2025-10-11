@@ -2,7 +2,6 @@ package ru.mammoth70.wherearetheynow;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class AppColors {
     // Класс для работы с цветовыми ресурсами.
@@ -40,58 +39,66 @@ public class AppColors {
 
     public static int getColorMarker(String color) {
         // Метод возвращает большую метку по строке с цветом.
-        switch (Objects.requireNonNull(color)) {
-            case (COLOR_WHITE):
-                return R.drawable.ic_pin_white_64;
-            case (COLOR_RED):
-                return R.drawable.ic_pin_red_64;
-            case (COLOR_ORANGE):
-                return R.drawable.ic_pin_orange_64;
-            case (COLOR_YELLOW):
-                return R.drawable.ic_pin_yellow_64;
-            case (COLOR_GREEN):
-                return R.drawable.ic_pin_green_64;
-            case (COLOR_DARKGREEN):
-                return R.drawable.ic_pin_darkgreen_64;
-            case (COLOR_CYAN):
-                return R.drawable.ic_pin_cyan_64;
-            case (COLOR_BLUE):
-                return R.drawable.ic_pin_blue_64;
-            case (COLOR_VIOLET):
-                return R.drawable.ic_pin_violet_64;
-            case (COLOR_MAGENTA):
-                return R.drawable.ic_pin_magenta_64;
-            default:
-                return R.drawable.ic_pin_black_64;
-        }
+        if (color != null) {
+            switch (color) {
+                case (COLOR_WHITE):
+                    return R.drawable.ic_pin_white_64;
+                case (COLOR_RED):
+                    return R.drawable.ic_pin_red_64;
+                case (COLOR_ORANGE):
+                    return R.drawable.ic_pin_orange_64;
+                case (COLOR_YELLOW):
+                    return R.drawable.ic_pin_yellow_64;
+                case (COLOR_GREEN):
+                    return R.drawable.ic_pin_green_64;
+                case (COLOR_DARKGREEN):
+                    return R.drawable.ic_pin_darkgreen_64;
+                case (COLOR_CYAN):
+                    return R.drawable.ic_pin_cyan_64;
+                case (COLOR_BLUE):
+                    return R.drawable.ic_pin_blue_64;
+                case (COLOR_VIOLET):
+                    return R.drawable.ic_pin_violet_64;
+                case (COLOR_MAGENTA):
+                    return R.drawable.ic_pin_magenta_64;
+                case (COLOR_BLACK):
+                    return R.drawable.ic_pin_black_64;
+                default:
+                    return R.drawable.ic_pin_empty_64;
+            }
+        } return R.drawable.ic_pin_error_64;
     }
 
     public static int getColorMarkerSmall(String color) {
         // Метод возвращает маленькую метку по строке с цветом.
-        switch (Objects.requireNonNull(color)) {
-            case (COLOR_WHITE):
-                return R.drawable.ic_pin_white_48;
-            case (COLOR_RED):
-                return R.drawable.ic_pin_red_48;
-            case (COLOR_ORANGE):
-                return R.drawable.ic_pin_orange_48;
-            case (COLOR_YELLOW):
-                return R.drawable.ic_pin_yellow_48;
-            case (COLOR_GREEN):
-                return R.drawable.ic_pin_green_48;
-            case (COLOR_DARKGREEN):
-                return R.drawable.ic_pin_darkgreen_48;
-            case (COLOR_CYAN):
-                return R.drawable.ic_pin_cyan_48;
-            case (COLOR_BLUE):
-                return R.drawable.ic_pin_blue_48;
-            case (COLOR_VIOLET):
-                return R.drawable.ic_pin_violet_48;
-            case (COLOR_MAGENTA):
-                return R.drawable.ic_pin_magenta_48;
-            default:
-                return R.drawable.ic_pin_black_48;
-        }
+        if (color != null) {
+            switch (color) {
+                case (COLOR_WHITE):
+                    return R.drawable.ic_pin_white_48;
+                case (COLOR_RED):
+                    return R.drawable.ic_pin_red_48;
+                case (COLOR_ORANGE):
+                    return R.drawable.ic_pin_orange_48;
+                case (COLOR_YELLOW):
+                    return R.drawable.ic_pin_yellow_48;
+                case (COLOR_GREEN):
+                    return R.drawable.ic_pin_green_48;
+                case (COLOR_DARKGREEN):
+                    return R.drawable.ic_pin_darkgreen_48;
+                case (COLOR_CYAN):
+                    return R.drawable.ic_pin_cyan_48;
+                case (COLOR_BLUE):
+                    return R.drawable.ic_pin_blue_48;
+                case (COLOR_VIOLET):
+                    return R.drawable.ic_pin_violet_48;
+                case (COLOR_MAGENTA):
+                    return R.drawable.ic_pin_magenta_48;
+                case (COLOR_BLACK):
+                    return R.drawable.ic_pin_black_48;
+                default:
+                    return R.drawable.ic_pin_empty_48;
+            }
+        } return R.drawable.ic_pin_error_48;
     }
 
     private static String addTransparenty(String color, String tranparent){

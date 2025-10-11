@@ -7,8 +7,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.DynamicColorsOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Util {
     // Класс для констант и статических функций
@@ -69,6 +73,8 @@ public class Util {
     public static final String FORMAT_REQUEST_AND_LOCATION = "WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT";
     public static final String REGEXP_ANSWER = "^WATN [AR] lat (-?\\d{2,3}\\.\\d{6}), lon (-?\\d{2,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$";
 
+    public static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+
     public static void setThemeMode(int mode) {
         // Метод включает или выключает ночную тему в соответствии с переданными настройками.
         switch (mode) {
@@ -126,6 +132,17 @@ public class Util {
                         .setThemeOverlay(R.style.AppTheme_Overlay_Blue)
                         .build());
                 break;
+        }
+    }
+
+    public static Date stringToDate(String dateTime) {
+        // Метод преобразовывает строку в дату
+        SimpleDateFormat dateFormat =
+                new SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault());
+        try {
+            return dateFormat.parse(dateTime);
+        } catch (ParseException ignored) {
+            return null;
         }
     }
 

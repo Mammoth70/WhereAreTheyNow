@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +26,6 @@ public class MapUtil {
     public static final float MAP_TILT_DEFAULT = 30f;
     public static final boolean MAP_CIRCLE_DEFAULT = true;
     public static final float MAP_CIRCLE_DEFAULT_RADIUS = 70f;
-    private static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
 
     public static int selectedMap = MAP_DEFAULT;
     public static float selectedMapZoom = MAP_ZOOM_DEFAULT;
@@ -102,25 +99,17 @@ public class MapUtil {
                 settings.getString(Util.INTENT_EXTRA_TIME, ""));
     }
 
-    static public String timePassed(String datetime, Context context) {
+    static public String timePassed(String dateTime, Context context) {
         // Метод возвращает разницу в минутах между текущим временем и временем в пришедшем SMS-сообщении.
-        // И выводит в минутах.
-        Date dateSMS;
         Date dateCurrent = new Date();
-        SimpleDateFormat dateFormat =
-                new SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault());
-        try {
-            dateSMS = dateFormat.parse(datetime);
-        } catch (ParseException e) {
+        Date dateSMS = Util.stringToDate(dateTime);
+        if (dateSMS == null) {
             return "";
         }
-        long diffInMinutes = 31;
-        if (dateSMS != null) {
-            long duration = dateCurrent.getTime() - dateSMS.getTime();
-            diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-            if (diffInMinutes < 0) {
-                diffInMinutes = 31;
-            }
+        long duration = dateCurrent.getTime() - dateSMS.getTime();
+        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        if (diffInMinutes < 0) {
+            diffInMinutes = 31;
         }
         if (diffInMinutes < 1) {
             return context.getString(R.string.now);

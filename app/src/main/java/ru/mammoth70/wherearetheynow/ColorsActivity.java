@@ -76,19 +76,18 @@ public class ColorsActivity extends AppCompatActivity {
     private static class ViewBinder implements SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран списка цветов.
         @Override
-        public boolean setViewValue(View view, Object data,
-                                    String textRepresentation) {
-            String color;
-            if (view.getId() == R.id.itemColorLayout) {
-                color = ((String) data);
-                view.setBackgroundColor(Color.parseColor(AppColors.getColorAlpha16(color)));
-                return true;
-            } else if (view.getId() == R.id.itemColorLabel) {
-                color = ((String) data);
-                view.setBackgroundResource(AppColors.getColorMarker(color));
-                return true;
-            } else {
-                return false;
+        public boolean setViewValue(View view, Object data, String textRepresentation) {
+            switch (view.getId()) {
+                case (R.id.itemColorLayout): {
+                    view.setBackgroundColor(Color.parseColor(AppColors.getColorAlpha16((String) data)));
+                    return true;
+                }
+                case (R.id.itemColorLabel): {
+                    view.setBackgroundResource(AppColors.getColorMarker((String) data));
+                    return true;
+                }
+                default:
+                    return false;
             }
         }
     }

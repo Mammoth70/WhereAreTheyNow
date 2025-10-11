@@ -14,7 +14,6 @@ import com.google.android.gms.location.Priority;
 
 import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 
 public class GetLocation {
     // Класс запрашивает геолокацию и возвращает её указанным способом.
@@ -50,7 +49,7 @@ public class GetLocation {
     private String formatLocation(Location location, Boolean sendRequest) {
         // Метод форматирует геолокацию для SMS-сообщения.
         if (location == null)
-            return "";
+            return null;
         if (sendRequest) {
             return String.format(Locale.US, Util.FORMAT_REQUEST_AND_LOCATION,
                     location.getLatitude(), location.getLongitude(), new Date(location.getTime()));
@@ -62,7 +61,7 @@ public class GetLocation {
 
     private void updateLocalLocation(Context context, Location location) {
         // Метод сохраняет локальное состояние локации данные в HashMap, в SharedPreferences и в БД.
-        if (!Objects.equals(Util.myphone, "")) {
+        if ((Util.myphone != null) && (!Util.myphone.isEmpty())) {
             PointRecord record = new PointRecord(
                     Util.myphone,
                     location.getLatitude(),
@@ -75,8 +74,10 @@ public class GetLocation {
     private void sendSMS(Context context, Location location, String smsTo, Boolean sendRequest) {
         // Метод отправляет SMS-сообщение.
         String message = formatLocation(location, sendRequest);
-        SmsManager smsManager = context.getSystemService(SmsManager.class);
-        smsManager.sendTextMessage(smsTo, null, message, null, null);
+        if (message != null) {
+            SmsManager smsManager = context.getSystemService(SmsManager.class);
+            smsManager.sendTextMessage(smsTo, null, message, null, null);
+        }
     }
 
     private void sendLocal(Context context, Location location) {

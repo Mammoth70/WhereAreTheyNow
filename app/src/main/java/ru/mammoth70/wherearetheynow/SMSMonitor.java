@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,6 +72,7 @@ public class SMSMonitor extends BroadcastReceiver {
 
     private void receiveLocation(Context context, String smsFrom, String message, boolean show) {
         // Метод проверяет правильность заполнения полей SMS-сообщения с геолокацией,
+        // (поскольку данные приходят извне, проверять надо тщательно)
         // сохраняет полученные данные в БД и в SharedPreferences
         // и передаёт обработку в MapUtil.
         Intent intent = new Intent(context, BrowserActivity.class);
@@ -78,16 +80,22 @@ public class SMSMonitor extends BroadcastReceiver {
         Pattern pattern = Pattern.compile(Util.REGEXP_ANSWER);
         Matcher matcher = pattern.matcher(message);
         if ((matcher.find())) {
-            PointRecord record = new PointRecord(
-                smsFrom,
-                Double.parseDouble(Objects.requireNonNull(matcher.group(1))),
-                Double.parseDouble(Objects.requireNonNull(matcher.group(2))),
-                matcher.group(3));
-            MapUtil.setLastAnswer(context, record);
-            if (show) {
-                MapUtil.viewLocation(context, record, true);
+            if ((matcher.group(1) != null) && (matcher.group(2) != null) && (matcher.group(3) != null)) {
+                try {
+                    double latitude = Double.parseDouble(Objects.requireNonNull(matcher.group(1)));
+                    double longitude = Double.parseDouble(Objects.requireNonNull(matcher.group(2)));
+                    Date dateTime = Util.stringToDate(matcher.group(3));
+                    if ((dateTime != null) &&
+                            (latitude > -90) && (latitude < 90) &&
+                            (longitude > -180) && (longitude < 180)) {
+                        PointRecord record = new PointRecord(smsFrom, latitude, longitude, dateTime);
+                        MapUtil.setLastAnswer(context, record);
+                        if (show) {
+                            MapUtil.viewLocation(context, record, true);
+                        }
+                }
+                } catch (NumberFormatException | NullPointerException ignored) { }
             }
-
         }
     }
 

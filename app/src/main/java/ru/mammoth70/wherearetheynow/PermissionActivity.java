@@ -90,7 +90,7 @@ public class PermissionActivity extends AppCompatActivity {
 
         requestPermissions();
         requestBackgroundLocationPermission(btnBackgroundLocation);
-        refreshPermissions();
+        viewPermissions();
     }
 
     private void requestPermissions() {
@@ -118,7 +118,7 @@ public class PermissionActivity extends AppCompatActivity {
             if ((ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION))) {
                 // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_background_location, Snackbar.LENGTH_INDEFINITE).show();
+                Snackbar.make(view, R.string.allow_background_location, Snackbar.LENGTH_LONG).show();
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},
@@ -134,7 +134,7 @@ public class PermissionActivity extends AppCompatActivity {
             if ((ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION))) {
                 // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_fine_location, Snackbar.LENGTH_INDEFINITE).show();
+                Snackbar.make(view, R.string.allow_background_location, Snackbar.LENGTH_LONG).show();
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION},
@@ -154,7 +154,7 @@ public class PermissionActivity extends AppCompatActivity {
                 (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.ACCESS_COARSE_LOCATION))) {
                 // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_SMS, Snackbar.LENGTH_INDEFINITE).show();
+                Snackbar.make(view, R.string.allow_fine_location, Snackbar.LENGTH_LONG).show();
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
@@ -175,7 +175,7 @@ public class PermissionActivity extends AppCompatActivity {
                 (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.SEND_SMS))) {
                 // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_SMS, Snackbar.LENGTH_INDEFINITE).show();
+                Snackbar.make(view, R.string.allow_SMS, Snackbar.LENGTH_LONG).show();
             }
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.RECEIVE_SMS,
@@ -184,7 +184,7 @@ public class PermissionActivity extends AppCompatActivity {
         }
     }
 
-    private void refreshPermissions() {
+    private void viewPermissions() {
         // Метод проверяет необходимые разрешения и выводит их.
         // Зелёный цвет, если разрешение выдано, красный цвет и зачёркнуто, если разрешение не выдано.
         // Также, если разрешения нет, делается видимой кнопка запроса.
@@ -288,7 +288,7 @@ public class PermissionActivity extends AppCompatActivity {
         // Метод обработки ответа на запрос разрешений.
         // Выводятся вплывающие сообщения, в том случае, если пришёл отказ на выдачу разрешений.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        refreshPermissions();
+        viewPermissions();
         switch (requestCode) {
             case REQUEST_PERMISSIONS_LOCATION: {
                 if (grantResults.length > 0  && grantResults[0] == PackageManager.PERMISSION_DENIED) {

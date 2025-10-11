@@ -146,8 +146,7 @@ public class MainActivity extends AppCompatActivity {
         // Метод редактирует контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_EDIT_USER);
-        String phone;
-        phone = Util.phones.get(position);
+        String phone = Util.phones.get(position);
         intent.putExtra(UserActivity.INTENT_EXTRA_ID, Util.phone2id.get(phone));
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone);
         intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name.get(phone));
@@ -159,8 +158,7 @@ public class MainActivity extends AppCompatActivity {
         // Метод удаляет контакт.
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION, UserActivity.ACTION_DELETE_USER);
-        String phone;
-        phone = Util.phones.get(position);
+        String phone = Util.phones.get(position);
         intent.putExtra(UserActivity.INTENT_EXTRA_ID, Util.phone2id.get(phone));
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone);
         intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name.get(phone));
@@ -170,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void smsRequestUser(int position) {
         // Метод посылает контакту запрос координат.
-        String phone;
-        phone = Util.phones.get(position);
+        String phone = Util.phones.get(position);
         if (Objects.equals(phone, Util.myphone)) {
             selfPosition();
         } else {
@@ -191,8 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void smsAnswerUser(int position) {
         // Метод посылает контакту геолокацию.
-        String phone;
-        phone = Util.phones.get(position);
+        String phone = Util.phones.get(position);
         if (Objects.equals(phone, Util.myphone)) {
             selfPosition();
         } else {
@@ -276,10 +272,7 @@ public class MainActivity extends AppCompatActivity {
     public void onAboutClicked(MenuItem intem) {
         // Метод - обработчик кнопки меню "about".
         Bundle bundle = new Bundle();
-        String title =
-                getString(R.string.app_name);
-
-        bundle.putString(AboutBox.DIALOG_TITLE, title);
+        bundle.putString(AboutBox.DIALOG_TITLE, getString(R.string.app_name));
         String text =
                 getString(R.string.description) + "\n" +
                 getString(R.string.version) + " " +
@@ -293,19 +286,18 @@ public class MainActivity extends AppCompatActivity {
     private static class ViewBinder implements SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран списка контактов.
         @Override
-        public boolean setViewValue(View view, Object data,
-                                    String textRepresentation) {
-            String color;
-            if (view.getId() == R.id.itemUserLayout) {
-                color = ((String) data);
-                view.setBackgroundColor(Color.parseColor(AppColors.getColorAlpha16(color)));
-                return true;
-            } else if (view.getId() == R.id.itemUserLabel) {
-                color = ((String) data);
-                view.setBackgroundResource(AppColors.getColorMarker(color));
-                return true;
-            } else {
-                return false;
+        public boolean setViewValue(View view, Object data, String textRepresentation) {
+            switch (view.getId()) {
+                case (R.id.itemUserLayout): {
+                    view.setBackgroundColor(Color.parseColor(AppColors.getColorAlpha16((String) data)));
+                    return true;
+                }
+                case (R.id.itemUserLabel): {
+                    view.setBackgroundResource(AppColors.getColorMarker((String) data));
+                    return true;
+                }
+                default:
+                    return false;
             }
         }
     }

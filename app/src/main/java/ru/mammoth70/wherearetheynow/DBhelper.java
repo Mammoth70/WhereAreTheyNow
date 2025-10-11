@@ -65,13 +65,7 @@ public class DBhelper extends SQLiteOpenHelper {
     public void getUsers() {
         // Метод считывает список разрешенных телефонов и словари контактов из БД.
         try (SQLiteDatabase db = getReadableDatabase()) {
-            String execSting = "SELECT * FROM users;";
-            try (Cursor cursor = db.rawQuery(execSting, null)) {
-                int id;
-                String phone;
-                String name;
-                String color;
-                PointRecord record;
+            try (Cursor cursor = db.rawQuery("SELECT * FROM users;", null)) {
                 Util.phones.clear();
                 Util.id2phone.clear();
                 Util.phone2id.clear();
@@ -79,16 +73,16 @@ public class DBhelper extends SQLiteOpenHelper {
                 Util.phone2color.clear();
                 Util.phone2record.clear();
                 while (cursor.moveToNext()) {
-                    id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                    phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
-                    name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                    color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    String color = cursor.getString(cursor.getColumnIndexOrThrow("color"));
                     Util.phones.add(phone);
                     Util.id2phone.put(id, phone);
                     Util.phone2id.put(phone, id);
                     Util.phone2name.put(phone, name);
                     Util.phone2color.put(phone, color);
-                    record = getLastPoint(phone);
+                    PointRecord record = getLastPoint(phone);
                     if (record != null) {
                         Util.phone2record.put(phone, record);
                     }
@@ -102,7 +96,6 @@ public class DBhelper extends SQLiteOpenHelper {
         // имеющих координаты, отсортированные по дате DESC, и по id ASC,
         // и ограниченные заданным (10-ю) количеством записей.
         // Используется для построения меню.
-        String phone;
         Util.menuPhones.clear();
         try (SQLiteDatabase db = getReadableDatabase()) {
             String execSting =
@@ -113,7 +106,7 @@ public class DBhelper extends SQLiteOpenHelper {
                             "INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;";
             try (Cursor cursor = db.rawQuery(execSting, null)) {
                 while (cursor.moveToNext()) {
-                    phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"));
+                    String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"));
                     Util.menuPhones.add(phone);
                 }
             }
