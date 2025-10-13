@@ -192,7 +192,7 @@ class UserActivity : AppCompatActivity() {
             // Проверяем телефон на заполнение
             ilPhone!!.error = getString(R.string.err_empty_phone)
         }
-        if (action == ACTION_ADD_USER && Util.phones.contains(phone)) {
+        if (action == ACTION_ADD_USER && phone in Util.phones) {
             // Проверяем телефон на уникальность при добавлении
             ilPhone!!.error = getString(R.string.err_not_unique_phone)
         }
@@ -214,7 +214,7 @@ class UserActivity : AppCompatActivity() {
         }
 
         if (action == ACTION_ADD_USER) {
-            if (Util.phones.contains(phone)) {
+            if (phone in Util.phones) {
                 // Если при добавлении телефон не уникальный - выходим.
                 return
             }

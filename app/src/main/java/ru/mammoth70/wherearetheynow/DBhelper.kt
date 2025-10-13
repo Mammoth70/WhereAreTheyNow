@@ -122,7 +122,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     fun addUser(phone: String?, name: String?, color: String?): Boolean {
         // Функция добавляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
-        if (!Util.phones.contains(phone)) {
+        if (phone !in Util.phones) {
             val execSting = "INSERT OR IGNORE INTO users (phone, name, color)" +
                     " VALUES ('$phone', '$name', '$color');"
             readableDatabase.use { db ->
@@ -133,7 +133,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 }
             }
             readUsers()
-            return (Util.phones.contains(phone))
+            return (phone in Util.phones)
         } else {
             return false
         }
@@ -142,7 +142,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     fun editUser(id: Int, phone: String?, name: String?, color: String?): Boolean {
         // Функция изменяет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
-        if (Util.id2phone.containsKey(id)) {
+        if (id in Util.id2phone) {
             val execSting = "UPDATE users SET " +
                     "phone = '$phone', name = '$name', color = '$color' WHERE id = '$id';"
             readableDatabase.use { db ->
@@ -153,7 +153,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 }
             }
             readUsers()
-            return (Util.phones.contains(phone))
+            return (phone in Util.phones)
         } else {
             return false
         }
@@ -162,7 +162,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     fun deleteUser(id: Int): Boolean {
         // Функция удаляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
-        if (Util.id2phone.containsKey(id)) {
+        if (id in Util.id2phone) {
             val phone = Util.id2phone[id]
             readableDatabase.use { db ->
                 try {
@@ -173,7 +173,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 }
             }
             readUsers()
-            return (!Util.id2phone.containsKey(id))
+            return (id !in Util.id2phone)
         } else {
             return false
         }
@@ -181,7 +181,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
     fun setLastPoint(record: PointRecord) {
         // Функция заносит в таблицу points последние известные координаты контакта.
-        if (Util.phones.contains(record.phone)) {
+        if (record.phone in Util.phones) {
             if ((record.latitude > -90) && (record.latitude < 90) &&
                 (record.longitude > -180) && (record.longitude < 180)
             ) {
@@ -204,7 +204,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
     fun getLastPoint(phone: String): PointRecord? {
         // Функция возвращает PointRecord по заданному телефону, или null, если нет или неправильно.
-        if (Util.phones.contains(phone)) {
+        if (phone in Util.phones) {
             val execSting = "SELECT * FROM points WHERE phone = '$phone';"
             readableDatabase.use { db ->
                 db.rawQuery(execSting, null).use { cursor ->

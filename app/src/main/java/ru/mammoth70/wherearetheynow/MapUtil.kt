@@ -46,7 +46,7 @@ object MapUtil {
         // проверяет их и выводит в выбранную карту.
         if ((record.latitude > -90) && (record.latitude < 90) &&
             (record.longitude > -180) && (record.longitude < 180) &&
-            (Util.phones.contains(record.phone))
+            (record.phone in Util.phones)
         ) {
             val intent: Intent
             when (selectedMap) {
@@ -85,7 +85,7 @@ object MapUtil {
         // Функция сохраняет в HashMap, SharedPreferences и в БД данные с последнего ответа на запрос.
         if ((record.latitude > -90) && (record.latitude < 90) &&
             (record.longitude > -180) && (record.longitude < 180) &&
-            (Util.phones.contains(record.phone))
+            (record.phone in Util.phones)
         ) {
             Util.phone2record.put(record.phone, record)
             val settings = context.getSharedPreferences(NAME_LAST_USER,

@@ -27,7 +27,7 @@ class SMSMonitor : BroadcastReceiver() {
                 return
             }
             val smsFrom = messages[0].displayOriginatingAddress
-            if (Util.phones.contains(smsFrom)) {
+            if (smsFrom in Util.phones) {
                 // Обработка идёт только в том случае, если телефон есть в списке.
                 val bodyText = StringBuilder()
                 for (message in messages) {
