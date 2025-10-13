@@ -36,7 +36,7 @@ class GetLocation {
         ) {
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                 .addOnSuccessListener(OnSuccessListener { location: Location? ->
-                    if (location != null) {
+                    location?.let {
                         updateLocalLocation(context, location)
                         when (way) {
                             WAY_SMS -> sendSMS(context, location, address, sendRequest)
@@ -84,7 +84,7 @@ class GetLocation {
     ) {
         // Функция отправляет SMS-сообщение.
         val message = formatLocation(location, sendRequest)
-        if (message != null) {
+        message?.let {
             val smsManager = context.getSystemService(SmsManager::class.java)
             smsManager.sendTextMessage(smsTo, null,
                 message, null, null)

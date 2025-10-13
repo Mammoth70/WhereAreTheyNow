@@ -45,7 +45,7 @@ abstract class LocationActivity : AppCompatActivity() {
             for (key in Util.menuPhones) {
                 if ((Util.phone2record.containsKey(key)) && (Util.phone2id.containsKey(key))) {
                     val id = Util.phone2id[key]
-                    if (id != null) {
+                    id?.let {
                         popupMenu.menu.add(0, id, 0,
                             Util.phone2name[key])
                     }

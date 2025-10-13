@@ -270,7 +270,7 @@ class UserActivity : AppCompatActivity() {
     ) { result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
-            if (intent != null) {
+            intent?.let {
                 setColorButton(intent.getStringExtra(Util.INTENT_EXTRA_COLOR)!!)
             }
         }

@@ -19,7 +19,7 @@ class AboutBox : DialogFragment() {
             R.style.AboutDialogStyle)
         builder.setIcon(R.mipmap.ic_launcher_round)
         builder.setPositiveButton(R.string.ok) { dialog: DialogInterface?, id: Int -> }
-        if (arguments != null) {
+        arguments?.let {
             builder.setView(R.layout.dialog_about)
             builder.setTitle(requireArguments().getString(DIALOG_TITLE))
             builder.setMessage(requireArguments().getString(DIALOG_MESSAGE))

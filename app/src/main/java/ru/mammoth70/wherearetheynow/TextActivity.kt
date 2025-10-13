@@ -86,7 +86,7 @@ class TextActivity : LocationActivity() {
         for (phone in Util.phones) {
             if (Util.phone2record.containsKey(phone)) {
                 val value = Util.phone2record[phone]
-                if (value != null) {
+                value?.let {
                     val m: MutableMap<String?, Any?> = HashMap()
                     m.put(COLUMN_NAME, Util.phone2name[phone])
                     m.put(COLUMN_BACK, Util.phone2color[phone])

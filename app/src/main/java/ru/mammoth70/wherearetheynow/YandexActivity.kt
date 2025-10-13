@@ -120,7 +120,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         for (key in Util.phones) {
             if (Util.phone2record.containsKey(key)) {
                 val value = Util.phone2record[key]
-                if (value != null) {
+                value?.let {
                     points.add(Point(value.latitude, value.longitude))
                     imageProviders.add(
                         ImageProvider.fromBitmap(
@@ -200,7 +200,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             val phone = mapObject!!.userData as String?
             val name = Util.phone2name[phone]
             val rec = Util.phone2record[phone]
-            if (rec != null) {
+            rec?.let {
                 val currCameraPosition = map!!.cameraPosition
                 val newPoint = Point(rec.latitude, rec.longitude)
                 var newZoom = currCameraPosition.zoom

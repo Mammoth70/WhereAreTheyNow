@@ -340,10 +340,7 @@ class MainActivity : AppCompatActivity() {
         StartActivityForResult()
     ) { result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
-            val intent = result.data
-            if (intent != null) {
-                refreshData()
-            }
+            refreshData()
             sAdapter!!.notifyDataSetChanged()
         }
     }

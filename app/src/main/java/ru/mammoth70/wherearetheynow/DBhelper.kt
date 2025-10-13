@@ -87,7 +87,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                         Util.phone2name.put(phone, name!!)
                         Util.phone2color.put(phone, color!!)
                         val record = getLastPoint(phone)
-                        if (record != null) {
+                        record?.let {
                             Util.phone2record.put(phone, record)
                         }
                     }
