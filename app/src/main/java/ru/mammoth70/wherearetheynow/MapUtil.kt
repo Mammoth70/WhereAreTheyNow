@@ -136,16 +136,13 @@ object MapUtil {
             return ""
         }
         val duration = dateCurrent.time - dateSMS.time
-        var diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
-        if (diffInMinutes < 0) {
-            diffInMinutes = 31
-        }
+        val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
         return if (diffInMinutes < 1) {
             context.getString(R.string.now)
-        } else if (diffInMinutes > 30) {
-            context.getString(R.string.long_ago)
-        } else {
+        } else if (diffInMinutes in 1..30) {
             String.format(Locale.US, context.getString(R.string.minutes_ago), diffInMinutes)
+        } else {
+            context.getString(R.string.long_ago)
         }
     }
 
