@@ -45,9 +45,8 @@ class ColorsActivity : AppCompatActivity() {
 
         val tvName = findViewById<TextView>(id.tvTitle)
         tvName.setText(string.titleColors)
-        val sAdapter = this.simpleAdapter
         val lvSimple = findViewById<ListView>(id.lvColorsSimple)
-        lvSimple.setAdapter(sAdapter)
+        lvSimple.setAdapter(simpleAdapter)
         lvSimple.isClickable = true
         lvSimple.setOnItemClickListener { parent: AdapterView<*>?, view: View?,
                                           position: Int, id: Long ->

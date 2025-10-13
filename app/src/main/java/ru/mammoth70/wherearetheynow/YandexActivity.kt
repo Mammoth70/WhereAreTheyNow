@@ -14,6 +14,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.graphics.toColorInt
+import androidx.core.graphics.createBitmap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Circle
@@ -32,11 +34,9 @@ import com.yandex.mapkit.map.SizeChangedListener
 import com.yandex.mapkit.map.TextStyle
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
+import java.util.Locale
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha
 import ru.mammoth70.wherearetheynow.AppColors.getColorMarkerSmall
-import java.util.Locale
-import androidx.core.graphics.toColorInt
-import androidx.core.graphics.createBitmap
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
@@ -116,9 +116,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         val iconStyle = IconStyle()
         iconStyle.anchor = PointF(0.5f, 1f)
 
-        // Стиль текста над меткой.
-        val textStyle = this.textStyle
-
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
         for (key in Util.phones) {
             if (Util.phone2record.containsKey(key)) {
@@ -141,7 +138,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                         ),iconStyle)
                         userData = key
                         addTapListener(mapObjectTapListener)
-                        setText(Util.phone2name[key].toString() ,textStyle)
+                        setText(Util.phone2name[key].toString() ,markTextStyle)
                     }
                     )
 
@@ -166,7 +163,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         reloadMapFromPoint(this, startRecord!!)
     }
 
-    private val textStyle: TextStyle
+    private val markTextStyle: TextStyle
         get() {
             // Метод настраивает стиль текста над меткой.
             val textStyle = TextStyle()

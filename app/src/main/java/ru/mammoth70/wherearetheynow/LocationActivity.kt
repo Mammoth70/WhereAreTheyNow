@@ -7,9 +7,9 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_TIME
 
 abstract class LocationActivity : AppCompatActivity() {
@@ -37,7 +37,7 @@ abstract class LocationActivity : AppCompatActivity() {
         // Настроить вызов меню со списком контактов.
         Util.menuPhones.clear()
         DBhelper(context).use { dbHelper ->
-            dbHelper.menuUsers
+            dbHelper.readMenuUsers()
         }
         menuButton = findViewById(R.id.btnMenuUsers)
         menuButton!!.setOnClickListener { view: View? ->

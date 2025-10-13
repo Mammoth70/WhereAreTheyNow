@@ -10,7 +10,7 @@ import java.util.Date
 import java.util.Locale
 
 object Util {
-    // Класс для констант и статических функций
+    // Объект для констант и статических функций
 
     const val INTENT_EXTRA_COLOR: String = "color"
     const val INTENT_EXTRA_SMS_TO: String = "sms_to"

@@ -59,8 +59,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         }
     }
 
-    val users: Unit
-        get() {
+    fun readUsers() {
             // Метод считывает список разрешенных телефонов и словари контактов из БД.
             readableDatabase.use { db ->
                 db.rawQuery("SELECT * FROM users;", null).use { cursor ->
@@ -96,8 +95,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             }
         }
 
-    val menuUsers: Unit
-        get() {
+    fun readMenuUsers() {
             // Метод считывает список телефонов, отортированный по id ASC,
             // имеющих координаты, отсортированные по дате DESC, и по id ASC,
             // и ограниченные заданным (10-ю) количеством записей.
@@ -134,7 +132,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     return false
                 }
             }
-            this.users
+            readUsers()
             return (Util.phones.contains(phone))
         } else {
             return false
@@ -157,7 +155,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     return false
                 }
             }
-            this.users
+            readUsers()
             return (Util.phones.contains(phone))
         } else {
             return false
@@ -179,7 +177,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     return false
                 }
             }
-            this.users
+            readUsers()
             return (!Util.id2phone.containsKey(id))
         } else {
             return false

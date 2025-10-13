@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColorInt
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
@@ -27,7 +28,8 @@ import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
 import ru.mammoth70.wherearetheynow.AppColors.getColorMarker
 import ru.mammoth70.wherearetheynow.MapUtil.getLastAnswer
 import ru.mammoth70.wherearetheynow.MapUtil.viewLocation
-import androidx.core.graphics.toColorInt
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 
 class MainActivity : AppCompatActivity() {
     // Главная activity приложения.
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         private const val COLUMN_COLOR = "color"
         private const val COLUMN_BACK = "background"
     }
+
     private var navigationBarView: NavigationBarView? = null
     private var sAdapter: SimpleAdapter? = null
     private var data: ArrayList<MutableMap<String?, Any?>?>? = null
@@ -64,8 +67,9 @@ class MainActivity : AppCompatActivity() {
         }
         val tvName = findViewById<TextView>(R.id.tvTitle)
         tvName.setText(R.string.titleUsers)
-        dbHelper = DBhelper(this)
-        dbHelper!!.users
+        DBhelper(this).use { dbHelper ->
+            dbHelper.readUsers()
+        }
 
         data = ArrayList(Util.phones.size)
         refreshData()
@@ -193,8 +197,8 @@ class MainActivity : AppCompatActivity() {
             if (Util.useService) {
                 // Метод передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
-                intent.putExtra(Util.INTENT_EXTRA_SMS_TO, phone)
-                intent.putExtra(Util.INTENT_EXTRA_NEW_VERSION_REQUEST, true)
+                intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
+                intent.putExtra(INTENT_EXTRA_NEW_VERSION_REQUEST, true)
                 this.startService(intent)
             } else {
                 // Метод передаёт обработку запроса геолокации в GetLocation.
@@ -214,7 +218,7 @@ class MainActivity : AppCompatActivity() {
             if (Util.useService) {
                 // Метод передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
-                intent.putExtra(Util.INTENT_EXTRA_SMS_TO, phone)
+                intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
                 this.startService(intent)
             } else {
                 // Метод передаёт обработку запроса геолокации в GetLocation.

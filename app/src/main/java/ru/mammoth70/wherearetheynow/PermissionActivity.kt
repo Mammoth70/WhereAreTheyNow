@@ -9,7 +9,6 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +16,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-
 import com.google.android.material.snackbar.Snackbar
 
 class PermissionActivity : AppCompatActivity() {
     // Activity показывает все выданные и необходимые разрешения для работы приложения,
     // а также (для невыданных разрешений) кнопки, вызвающие код с запросом на выдачу этих разрешений
+
     companion object {
         private const val REQUEST_PERMISSIONS_LOCATION = 482
         private const val REQUEST_PERMISSIONS_BACKGROUND_LOCATION = 483

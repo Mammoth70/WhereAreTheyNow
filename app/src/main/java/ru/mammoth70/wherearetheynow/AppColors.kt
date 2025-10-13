@@ -1,7 +1,7 @@
 package ru.mammoth70.wherearetheynow
 
 object AppColors {
-    // Класс для работы с цветовыми ресурсами.
+    // Объект для работы с цветовыми ресурсами.
 
     const val COLOR_WHITE: String = "#FFFFFF"
     const val COLOR_BLACK: String = "#000000"

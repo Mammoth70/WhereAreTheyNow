@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
+import java.util.regex.Pattern
 import ru.mammoth70.wherearetheynow.MapUtil.setLastAnswer
 import ru.mammoth70.wherearetheynow.MapUtil.viewLocation
 import ru.mammoth70.wherearetheynow.Util.stringToDate
@@ -12,7 +13,6 @@ import ru.mammoth70.wherearetheynow.Util.HEADER_REQUEST_AND_LOCATION
 import ru.mammoth70.wherearetheynow.Util.HEADER_ANSWER
 import ru.mammoth70.wherearetheynow.Util.REGEXP_ANSWER
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
-import java.util.regex.Pattern
 
 class SMSMonitor : BroadcastReceiver() {
     // Класс слушает поток SMS. Если SMS-сообщение приходит от правильных абонентов,

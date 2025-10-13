@@ -2,13 +2,24 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Context
 import android.content.Intent
+import androidx.core.content.edit
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import androidx.core.content.edit
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP
+import ru.mammoth70.wherearetheynow.Util.NAME_LAST_USER
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_TIME
 
 object MapUtil {
-    // Класс содержит настройки карт и утилиты работы с данными карт.
+    // Объект содержит настройки карт и утилиты работы с данными карт.
+
     const val MAP_TEXT: Int = 0
     const val MAP_YANDEX: Int = 1
     const val MAP_OPENSTREET: Int = 2
@@ -41,33 +52,31 @@ object MapUtil {
             when (selectedMap) {
                 MAP_YANDEX -> {
                     intent = Intent(context, YandexActivity::class.java)
-                    intent.putExtra(Util.INTENT_EXTRA_MAP_ZOOM,
+                    intent.putExtra(INTENT_EXTRA_MAP_ZOOM,
                         selectedMapZoom)
-                    intent.putExtra(Util.INTENT_EXTRA_MAP_TILT,
+                    intent.putExtra(INTENT_EXTRA_MAP_TILT,
                         selectedMapTilt)
-                    intent.putExtra(Util.INTENT_EXTRA_MAP_CIRCLE,
+                    intent.putExtra(INTENT_EXTRA_MAP_CIRCLE,
                         selectedMapCircle)
-                    intent.putExtra(Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS,
+                    intent.putExtra(INTENT_EXTRA_MAP_CIRCLE_RADIUS,
                         selectedMapCircleRadius)
                 }
-
                 MAP_OPENSTREET -> {
                     intent = Intent(context, BrowserActivity::class.java)
-                    intent.putExtra(Util.INTENT_EXTRA_MAP,
+                    intent.putExtra(INTENT_EXTRA_MAP,
                         selectedMap)
-                    intent.putExtra(Util.INTENT_EXTRA_MAP_ZOOM,
+                    intent.putExtra( INTENT_EXTRA_MAP_ZOOM,
                         selectedMapZoom)
                 }
-
                 else -> intent = Intent(context, TextActivity::class.java)
             }
             if (newTask) {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-            intent.putExtra(Util.INTENT_EXTRA_SMS_FROM, record.phone)
-            intent.putExtra(Util.INTENT_EXTRA_LATITUDE, record.latitude)
-            intent.putExtra(Util.INTENT_EXTRA_LONGITUDE, record.longitude)
-            intent.putExtra(Util.INTENT_EXTRA_TIME, record.datetime)
+            intent.putExtra(INTENT_EXTRA_SMS_FROM, record.phone)
+            intent.putExtra(INTENT_EXTRA_LATITUDE, record.latitude)
+            intent.putExtra(INTENT_EXTRA_LONGITUDE, record.longitude)
+            intent.putExtra(INTENT_EXTRA_TIME, record.datetime)
             context.startActivity(intent)
         }
     }
@@ -79,21 +88,21 @@ object MapUtil {
             (Util.phones.contains(record.phone))
         ) {
             Util.phone2record.put(record.phone, record)
-            val settings = context.getSharedPreferences(Util.NAME_LAST_USER,
+            val settings = context.getSharedPreferences(NAME_LAST_USER,
                 Context.MODE_PRIVATE)
             settings.edit {
-                putString(Util.INTENT_EXTRA_SMS_FROM, record.phone)
+                putString(INTENT_EXTRA_SMS_FROM, record.phone)
                 putString(
-                    Util.INTENT_EXTRA_LATITUDE,
+                    INTENT_EXTRA_LATITUDE,
                     String.format(Locale.US, PointRecord.FORMAT_DOUBLE,
                         record.latitude)
                 )
                 putString(
-                    Util.INTENT_EXTRA_LONGITUDE,
+                    INTENT_EXTRA_LONGITUDE,
                     String.format(Locale.US, PointRecord.FORMAT_DOUBLE,
                         record.longitude)
                 )
-                putString(Util.INTENT_EXTRA_TIME,
+                putString(INTENT_EXTRA_TIME,
                     record.datetime)
             }
             DBhelper(context).use { dBhelper ->
@@ -104,16 +113,16 @@ object MapUtil {
 
     fun getLastAnswer(context: Context): PointRecord {
         // Метод считывает из SharedPreferences данные с последнего ответа на запрос.
-        val settings = context.getSharedPreferences(Util.NAME_LAST_USER,
+        val settings = context.getSharedPreferences(NAME_LAST_USER,
             Context.MODE_PRIVATE)
         return PointRecord(
-            settings.getString(Util.INTENT_EXTRA_SMS_FROM,
+            settings.getString(INTENT_EXTRA_SMS_FROM,
                 "") ?:"",
-            settings.getString(Util.INTENT_EXTRA_LATITUDE,
+            settings.getString(INTENT_EXTRA_LATITUDE,
                 "0")!!.toDouble(),
-            settings.getString(Util.INTENT_EXTRA_LONGITUDE,
+            settings.getString(INTENT_EXTRA_LONGITUDE,
                 "0")!!.toDouble(),
-            settings.getString(Util.INTENT_EXTRA_TIME,
+            settings.getString(INTENT_EXTRA_TIME,
                 "") ?:""
         )
     }

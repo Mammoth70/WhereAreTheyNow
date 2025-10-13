@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
-import java.util.Locale
 import androidx.core.graphics.toColorInt
+import java.util.Locale
+import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
 
 class TextActivity : LocationActivity() {
     // Activity выводит текст с геолокацией, переданной через intent.

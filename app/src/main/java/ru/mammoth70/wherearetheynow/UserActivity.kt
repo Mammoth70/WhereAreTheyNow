@@ -13,11 +13,11 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.content.edit
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Objects
-import androidx.core.content.edit
 
 class UserActivity : AppCompatActivity() {
     // Activity выводит карточку контакта для добавления, редактирования, удаления.
