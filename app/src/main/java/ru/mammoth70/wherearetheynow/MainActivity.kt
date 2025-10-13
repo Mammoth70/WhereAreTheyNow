@@ -27,9 +27,9 @@ import com.google.android.material.navigation.NavigationBarView
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
 import ru.mammoth70.wherearetheynow.AppColors.getColorMarker
 import ru.mammoth70.wherearetheynow.MapUtil.getLastAnswer
-import ru.mammoth70.wherearetheynow.MapUtil.viewLocation
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
+
 
 class MainActivity : AppCompatActivity() {
     // Главная activity приложения.
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_ADD_USER)
-        startActivityIntent.launch(intent)
+        startActivityUserIntent.launch(intent)
     }
 
     private fun editUser(position: Int) {
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone)
         intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name[phone])
         intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color[phone])
-        startActivityIntent.launch(intent)
+        startActivityUserIntent.launch(intent)
     }
 
     private fun deleteUser(position: Int) {
@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone)
         intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name[phone])
         intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color[phone])
-        startActivityIntent.launch(intent)
+        startActivityUserIntent.launch(intent)
     }
 
     private fun smsRequestUser(position: Int) {
@@ -259,14 +259,15 @@ class MainActivity : AppCompatActivity() {
         // Функция - обработчик кнопки меню "карта".
         // Вызывает соответствующую Activity.
         val record = getLastAnswer(this)
-        viewLocation(this, record, false)
+        MapUtil.viewLocation(this, record, false)
     }
 
     fun onSettingsClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
         // Функция - обработчик кнопки меню "настройки".
         // Вызывает соответствующую Activity.
         val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
+        startActivitySettingsIntent.launch(intent)
+
     }
 
     private fun startPermissionActivity() {
@@ -336,12 +337,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    var startActivityIntent = registerForActivityResult( // Возвращает результат формы контакта
-        StartActivityForResult()
-    ) { result: ActivityResult? ->
+    var startActivityUserIntent = registerForActivityResult(StartActivityForResult()
+        // Функция возвращает результат формы контакта
+    ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
             refreshData()
             sAdapter!!.notifyDataSetChanged()
+        }
+    }
+
+    var startActivitySettingsIntent = registerForActivityResult(StartActivityForResult()
+        // Функция возвращает результат вызова формы настроек.
+    ){ result: ActivityResult? ->
+        if (result!!.resultCode == RESULT_OK) {
+            val intent = result.data
+            intent?.let {
+                if (intent.getBooleanExtra(SettingsActivity.INTENT_EXTRA_RESULT, false)) {
+                    recreate()
+                }
+            }
         }
     }
 

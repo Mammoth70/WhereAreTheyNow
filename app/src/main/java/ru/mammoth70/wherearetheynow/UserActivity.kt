@@ -265,9 +265,9 @@ class UserActivity : AppCompatActivity() {
         }
     }
 
-    var startActivityIntent = registerForActivityResult( // Возвращает результат выбора цвета
-        StartActivityForResult()
-    ) { result: ActivityResult? ->
+    var startActivityIntent = registerForActivityResult(StartActivityForResult()
+    // Возвращает результат выбора цвета
+    ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {

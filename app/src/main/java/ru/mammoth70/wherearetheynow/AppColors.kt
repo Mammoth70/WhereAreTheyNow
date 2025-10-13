@@ -39,7 +39,7 @@ object AppColors {
 
     fun getColorMarker(color: String?): Int {
         // Функция возвращает большую метку по строке с цветом.
-        if (color != null) {
+        color?.let {
             return when (color) {
                 COLOR_WHITE -> R.drawable.ic_pin_white_64
                 COLOR_RED -> R.drawable.ic_pin_red_64
@@ -60,7 +60,7 @@ object AppColors {
 
     fun getColorMarkerSmall(color: String?): Int {
         // Функция возвращает маленькую метку по строке с цветом.
-        if (color != null) {
+        color?.let {
             return when (color) {
                 COLOR_WHITE -> R.drawable.ic_pin_white_48
                 COLOR_RED -> R.drawable.ic_pin_red_48

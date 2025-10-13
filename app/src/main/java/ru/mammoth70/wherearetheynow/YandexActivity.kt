@@ -159,18 +159,15 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             }
         }
 
-        checkNotNull(startRecord)
         reloadMapFromPoint(this, startRecord!!)
     }
 
     private val markTextStyle: TextStyle
         get() {
             // Функция настраивает стиль текста над меткой.
-            val textStyle = TextStyle()
-            textStyle.size = 12f
-            val theme = getTheme()
             val typedValueTextColor = TypedValue()
             val typedValueOutLineColor = TypedValue()
+            val theme = getTheme()
             theme.resolveAttribute(
                 com.google.android.material.R.attr.colorOnBackground,
                 typedValueTextColor, true
@@ -179,15 +176,18 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 android.R.attr.colorBackground,
                 typedValueOutLineColor, true
             )
-            textStyle.color = typedValueTextColor.data
-            textStyle.outlineColor = typedValueOutLineColor.data
-            textStyle.outlineWidth = 4f
-            textStyle.placement = TextStyle.Placement.TOP
+            val textStyle = TextStyle().apply {
+                size = 12f
+                color = typedValueTextColor.data
+                outlineColor = typedValueOutLineColor.data
+                outlineWidth = 4f
+                placement = TextStyle.Placement.TOP
+            }
             return textStyle
         }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
-        // Функция перестраивает карту по PointRecord.
+        // Функция передвигает карту на PointRecord.
         start2D3D()
         val point = Point(rec.latitude, rec.longitude)
         val cameraPosition = CameraPosition(point, mapZoom, 0f, mapTilt)
@@ -207,9 +207,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 if (newZoom < mapZoom) {
                     newZoom = mapZoom
                 }
-                checkNotNull(tvName)
                 tvName!!.text = Util.phone2name[phone]
-                checkNotNull(tvDateTime)
                 tvDateTime!!.text = MapUtil.timePassed(Util.phone2record[phone]!!.dateTime,
                     this
                 )
@@ -231,7 +229,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private fun createBitmapFromVector(art: Int): Bitmap {
         // Функция преобразовывает векторное изображение в bitmap.
-        val drawable: Drawable? = checkNotNull(ContextCompat.getDrawable(this, art))
+        val drawable: Drawable? = ContextCompat.getDrawable(this, art)
         val bitmap = createBitmap(drawable!!.intrinsicWidth, drawable.intrinsicHeight)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
