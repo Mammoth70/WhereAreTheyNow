@@ -21,6 +21,7 @@ issues.txt
 # IntelliJ
 *.iml
 .idea
+.kotlin
 
 # Gradle files
 .gradle
