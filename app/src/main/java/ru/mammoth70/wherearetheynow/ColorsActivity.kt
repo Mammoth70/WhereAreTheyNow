@@ -28,7 +28,7 @@ class ColorsActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Подготавливаются структуры данных для вывода списка цветов.
 
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class ColorsActivity : AppCompatActivity() {
 
     private val simpleAdapter: SimpleAdapter
         get() {
-            // Метод создаёт и заполняет SimpleAdapter.
+            // Функция создаёт и заполняет SimpleAdapter.
             val data =
                 ArrayList<Map<String?, Any?>?>(AppColors.colors.size)
             for (color in AppColors.colors) {

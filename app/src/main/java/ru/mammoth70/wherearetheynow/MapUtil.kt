@@ -42,7 +42,7 @@ object MapUtil {
     var selectedMapCircleRadius: Float = MAP_CIRCLE_DEFAULT_RADIUS
 
     fun viewLocation(context: Context, record: PointRecord, newTask: Boolean) {
-        // Метод получает данные из последней SMS,
+        // Функция получает данные из последней SMS,
         // проверяет их и выводит в выбранную карту.
         if ((record.latitude > -90) && (record.latitude < 90) &&
             (record.longitude > -180) && (record.longitude < 180) &&
@@ -76,13 +76,13 @@ object MapUtil {
             intent.putExtra(INTENT_EXTRA_SMS_FROM, record.phone)
             intent.putExtra(INTENT_EXTRA_LATITUDE, record.latitude)
             intent.putExtra(INTENT_EXTRA_LONGITUDE, record.longitude)
-            intent.putExtra(INTENT_EXTRA_TIME, record.datetime)
+            intent.putExtra(INTENT_EXTRA_TIME, record.dateTime)
             context.startActivity(intent)
         }
     }
 
     fun setLastAnswer(context: Context, record: PointRecord) {
-        // Метод сохраняет в HashMap, SharedPreferences и в БД данные с последнего ответа на запрос.
+        // Функция сохраняет в HashMap, SharedPreferences и в БД данные с последнего ответа на запрос.
         if ((record.latitude > -90) && (record.latitude < 90) &&
             (record.longitude > -180) && (record.longitude < 180) &&
             (Util.phones.contains(record.phone))
@@ -103,7 +103,7 @@ object MapUtil {
                         record.longitude)
                 )
                 putString(INTENT_EXTRA_TIME,
-                    record.datetime)
+                    record.dateTime)
             }
             DBhelper(context).use { dBhelper ->
                 dBhelper.setLastPoint(record)
@@ -112,7 +112,7 @@ object MapUtil {
     }
 
     fun getLastAnswer(context: Context): PointRecord {
-        // Метод считывает из SharedPreferences данные с последнего ответа на запрос.
+        // Функция считывает из SharedPreferences данные с последнего ответа на запрос.
         val settings = context.getSharedPreferences(NAME_LAST_USER,
             Context.MODE_PRIVATE)
         return PointRecord(
@@ -128,7 +128,7 @@ object MapUtil {
     }
 
     fun timePassed(dateTime: String, context: Context): String {
-        // Метод возвращает разницу в минутах между текущим временем
+        // Функция возвращает разницу в минутах между текущим временем
         // и временем в пришедшем SMS-сообщении.
         val dateCurrent = Date()
         val dateSMS = Util.stringToDate(dateTime)

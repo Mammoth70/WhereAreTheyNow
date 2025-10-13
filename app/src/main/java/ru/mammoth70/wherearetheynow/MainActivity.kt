@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     private var data: ArrayList<MutableMap<String?, Any?>?>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Считываются списки и словари контактов из БД.
         // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
         super.onCreate(savedInstanceState)
@@ -67,9 +67,9 @@ class MainActivity : AppCompatActivity() {
         }
         val tvName = findViewById<TextView>(R.id.tvTitle)
         tvName.setText(R.string.titleUsers)
-        DBhelper(this).use { dbHelper ->
-            dbHelper.readUsers()
-        }
+
+        dbHelper = DBhelper(this)
+        dbHelper!!.readUsers()
 
         data = ArrayList(Util.phones.size)
         refreshData()
@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         menu: ContextMenu, v: View?,
         menuInfo: ContextMenuInfo?
     ) {
-        // Метод создаёт контекстное меню
+        // Функция создаёт контекстное меню
         super.onCreateContextMenu(menu, v, menuInfo)
         val inflater = MenuInflater(this)
         inflater.inflate(R.menu.context_menu, menu)
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        // Метод обрабатывает контекстное меню.
+        // Функция обрабатывает контекстное меню.
         val acmi = item.menuInfo as AdapterContextMenuInfo?
         if (acmi == null) {
             return false
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addUser() {
-        // Метод добавляет контакт.
+        // Функция добавляет контакт.
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_ADD_USER)
@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun editUser(position: Int) {
-        // Метод редактирует контакт.
+        // Функция редактирует контакт.
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_EDIT_USER)
@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deleteUser(position: Int) {
-        // Метод удаляет контакт.
+        // Функция удаляет контакт.
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_DELETE_USER)
@@ -189,19 +189,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun smsRequestUser(position: Int) {
-        // Метод посылает контакту запрос координат.
+        // Функция посылает контакту запрос координат.
         val phone = Util.phones[position]
         if (phone == Util.myphone) {
             selfPosition()
         } else {
             if (Util.useService) {
-                // Метод передаёт обработку запроса геолокации в GetLocationService.
+                // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
                 intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
                 intent.putExtra(INTENT_EXTRA_NEW_VERSION_REQUEST, true)
                 this.startService(intent)
             } else {
-                // Метод передаёт обработку запроса геолокации в GetLocation.
+                // Функция передаёт обработку запроса геолокации в GetLocation.
                 val getLocation = GetLocation()
                 getLocation.sendLocation(this, GetLocation.WAY_SMS,
                     phone, true)
@@ -210,18 +210,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun smsAnswerUser(position: Int) {
-        // Метод посылает контакту геолокацию.
+        // Функция посылает контакту геолокацию.
         val phone = Util.phones[position]
         if (phone == Util.myphone) {
             selfPosition()
         } else {
             if (Util.useService) {
-                // Метод передаёт обработку запроса геолокации в GetLocationService.
+                // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
                 intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
                 this.startService(intent)
             } else {
-                // Метод передаёт обработку запроса геолокации в GetLocation.
+                // Функция передаёт обработку запроса геолокации в GetLocation.
                 val getLocation = GetLocation()
                 getLocation.sendLocation(this, GetLocation.WAY_SMS,
                     phone, false)
@@ -230,14 +230,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selfPosition() {
-        // Метод определяет собственную геолокацию и вызывает карту.
+        // Функция определяет собственную геолокацию и вызывает карту.
         val getLocation = GetLocation()
         getLocation.sendLocation(this, GetLocation.WAY_LOCAL,
             "", false)
     }
 
     private fun refreshData() {
-        // Метод обновляет данные для списка контактов из БД.
+        // Функция обновляет данные для списка контактов из БД.
         data!!.clear()
         for (phone in Util.phones) {
             val m: MutableMap<String?, Any?> = HashMap()
@@ -250,33 +250,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onPermissionClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Метод - обработчик кнопки меню "разрешения".
+        // Функция - обработчик кнопки меню "разрешения".
         // Вызывает соответствующую Activity.
         startPermissionActivity()
     }
 
     fun onMapClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Метод - обработчик кнопки меню "карта".
+        // Функция - обработчик кнопки меню "карта".
         // Вызывает соответствующую Activity.
         val record = getLastAnswer(this)
         viewLocation(this, record, false)
     }
 
     fun onSettingsClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Метод - обработчик кнопки меню "настройки".
+        // Функция - обработчик кнопки меню "настройки".
         // Вызывает соответствующую Activity.
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
     }
 
     private fun startPermissionActivity() {
-        // Метод запускает PermissionActivity.
+        // Функция запускает PermissionActivity.
         val intent = Intent(this, PermissionActivity::class.java)
         startActivity(intent)
     }
 
     private fun checkAllPermissions(): Boolean {
-        // Метод проверяет все необходимые разрешения
+        // Функция проверяет все необходимые разрешения
         // (если их не хватает, нужно запустить PermissionActivity).
         return ((ContextCompat.checkSelfPermission(
             applicationContext,
@@ -301,12 +301,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onAddUserClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Метод - обработчик кнопки FAB "Добавить контакт".
+        // Функция - обработчик кнопки FAB "Добавить контакт".
         addUser()
     }
 
     fun onAboutClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Метод - обработчик кнопки меню "about".
+        // Функция - обработчик кнопки меню "about".
         val bundle = Bundle()
         bundle.putString(AboutBox.DIALOG_TITLE, getString(R.string.app_name))
         val text =
@@ -320,7 +320,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private class ViewBinder : SimpleAdapter.ViewBinder {
-        // Класс обрабатывает форматирование вывода на экран списка контактов.
+        // Функция обрабатывает форматирование вывода на экран списка контактов.
         override fun setViewValue(view: View, data: Any?, textRepresentation: String?): Boolean {
             when (view.id) {
                 R.id.itemUserLayout -> {

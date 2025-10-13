@@ -13,13 +13,13 @@ class GetLocationService : Service() {
     // Работает, через вызов объекта GetLocation.
 
     override fun onCreate() {
-        // Метод создаёт сервис, создаёт в нём fusedLocationClient.
+        // Функция создаёт сервис, создаёт в нём fusedLocationClient.
         super.onCreate()
         LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        // Метод стартует сервис, и получает через Intent телефонный номер SMS-сообщения.
+        // Функция стартует сервис, и получает через Intent телефонный номер SMS-сообщения.
         val smsTo = intent.getStringExtra(INTENT_EXTRA_SMS_TO)
         val request = intent.getBooleanExtra(INTENT_EXTRA_NEW_VERSION_REQUEST,
             false)
@@ -28,12 +28,12 @@ class GetLocationService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        // Метод реализовать мы обязаны, возвращаем null.
+        // Функцию реализовать мы обязаны, возвращаем null.
         return null
     }
 
     private fun someTask(smsTo: String?, sendRequest: Boolean) {
-        // Метод с основной работой сервиса.
+        // Функция с основной работой сервиса.
         // Запрашивает геолокацию (если есть разрешения), отправляет её в SMS-сообщении,
         // после чего сервис автоматически останавливается.
         // Работает через вызов объекта GetLocation.

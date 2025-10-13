@@ -74,7 +74,7 @@ object Util {
     const val FORMAT_DATETIME: String = "yyyy-MM-dd HH:mm:ss"
 
     fun themeMode(mode: Int) {
-        // Метод включает или выключает ночную тему в соответствии с переданными настройками.
+        // Функция включает или выключает ночную тему в соответствии с переданными настройками.
         when (mode) {
             MODE_NIGHT_NO -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -83,7 +83,7 @@ object Util {
     }
 
     fun setAppThemeColor(application: Application, color: Int, refresh: Boolean) {
-        // Метод переключает темы с динамическими цветами в соответствии с переданными настройками.
+        // Функция переключает темы с динамическими цветами в соответствии с переданными настройками.
         when (color) {
             COLOR_DYNAMIC_NO ->
                 // Используется для эмуляции отключения динамического цвета во время выполнения.
@@ -130,7 +130,7 @@ object Util {
     }
 
     fun stringToDate(dateTime: String): Date? {
-        // Метод преобразовывает строку в дату
+        // Функция преобразовывает строку в дату
         val dateFormat =
             SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault())
         return try {

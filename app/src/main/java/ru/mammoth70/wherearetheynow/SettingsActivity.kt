@@ -226,7 +226,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     fun onActionClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Метод - обработчик кнопки "сохранить настройки".
+        // Функция - обработчик кнопки "сохранить настройки".
         val settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE)
         val prefEditor = settings.edit()
 

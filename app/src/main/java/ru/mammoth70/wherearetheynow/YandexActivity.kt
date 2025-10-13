@@ -59,7 +59,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     private var fab2D3D: FloatingActionButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Из intent получаются координаты и выводится карта с метками.
         super.onCreate(savedInstanceState)
         this.enableEdgeToEdge()
@@ -165,7 +165,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private val markTextStyle: TextStyle
         get() {
-            // Метод настраивает стиль текста над меткой.
+            // Функция настраивает стиль текста над меткой.
             val textStyle = TextStyle()
             textStyle.size = 12f
             val theme = getTheme()
@@ -187,7 +187,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
-        // Метод перестраивает карту по PointRecord.
+        // Функция перестраивает карту по PointRecord.
         start2D3D()
         val point = Point(rec.latitude, rec.longitude)
         val cameraPosition = CameraPosition(point, mapZoom, 0f, mapTilt)
@@ -196,7 +196,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private val mapObjectTapListener =
         MapObjectTapListener { mapObject: MapObject?, point: Point? ->
-            // Метод, отвечающий за тапы по различным объектам на карте.
+            // Функция, отвечающий за тапы по различным объектам на карте.
             val phone = mapObject!!.userData as String?
             val name = Util.phone2name[phone]
             val rec = Util.phone2record[phone]
@@ -210,7 +210,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 checkNotNull(tvName)
                 tvName!!.text = Util.phone2name[phone]
                 checkNotNull(tvDateTime)
-                tvDateTime!!.text = MapUtil.timePassed(Util.phone2record[phone]!!.datetime,
+                tvDateTime!!.text = MapUtil.timePassed(Util.phone2record[phone]!!.dateTime,
                     this
                 )
                 val newCameraPosition = CameraPosition(
@@ -240,26 +240,26 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     }
 
     private fun getBitmapFromColor(color: String?): Bitmap {
-        // Метод возвращает метку заданного цвета.
+        // Функция возвращает метку заданного цвета.
         return createBitmapFromVector(getColorMarkerSmall(color))
     }
 
     override fun onStart() {
-        // Метод вызывается перед тем, как Activity будет видно пользователю.
+        // Функция вызывается перед тем, как Activity будет видно пользователю.
         super.onStart()
         MapKitFactory.getInstance().onStart()
         mapView!!.onStart()
     }
 
     override fun onStop() {
-        // Метод вызывается, когда Activity становится не видно пользователю.
+        // Функция вызывается, когда Activity становится не видно пользователю.
         mapView!!.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
 
     private fun start2D3D() {
-        // Метод устанавливает в начальное состояние кнопку FAB "2D/3D".
+        // Функция устанавливает в начальное состояние кнопку FAB "2D/3D".
         if (mapTilt == 0f) {
             fab2D3D!!.setContentDescription(getString(R.string.map3d))
             fab2D3D!!.setImageResource(R.drawable.ic_action_3d)
@@ -271,7 +271,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     fun onMap2D3D(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "2D/3D".
-        // Метод меняет режим карты 2D / 3D.
+        // Функция меняет режим карты 2D / 3D.
         val currCameraPosition = map!!.cameraPosition
         val currTilt = currCameraPosition.tilt
         val newTilt: Float = if (currTilt == 0f) {
@@ -294,7 +294,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     fun onMapNordClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "На север".
-        // Метод поворачивает карту в положение север сверху.
+        // Функция поворачивает карту в положение север сверху.
         val currCameraPosition = map!!.cameraPosition
         val newCameraPosition = CameraPosition(
             currCameraPosition.target,
@@ -307,7 +307,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     fun onMapZoomIn(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "Zoom In".
-        // Метод приближает объекты на карте.
+        // Функция приближает объекты на карте.
         val currCameraPosition = map!!.cameraPosition
         var newZoom = currCameraPosition.zoom + 1f
         if (newZoom > map!!.cameraBounds.maxZoom) {
@@ -324,7 +324,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     fun onMapZoomOut(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "Zoom Out".
-        // Метод отдаляет от объектов на карте.
+        // Функция отдаляет объекты на карте.
         val currCameraPosition = map!!.cameraPosition
         var newZoom = currCameraPosition.zoom - 1f
         if (newZoom < map!!.cameraBounds.minZoom) {
@@ -340,7 +340,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     }
 
     private fun setFabStatus() {
-        // Метод устанавливает в правильное состояние все FAB-ы.
+        // Функция устанавливает в правильное состояние все FAB-ы.
         val currCameraPosition = map!!.cameraPosition
         val zoom = currCameraPosition.zoom
         if (zoom <= map!!.cameraBounds.minZoom) {

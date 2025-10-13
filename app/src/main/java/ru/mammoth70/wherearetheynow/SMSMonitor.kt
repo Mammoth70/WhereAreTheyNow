@@ -20,7 +20,7 @@ class SMSMonitor : BroadcastReceiver() {
     // и передача дальнейшей обработки.
 
     override fun onReceive(context: Context, intent: Intent) {
-        // Метод слушает входящие SMS-сообщения, парсит их и передает обработку в другие методы .
+        // Функция слушает входящие SMS-сообщения, парсит их и передает обработку в другие функции.
         if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION == intent.action) {
             val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
             if (messages == null) {
@@ -61,19 +61,19 @@ class SMSMonitor : BroadcastReceiver() {
 
     private fun requestLocation(context: Context, smsTo: String?) {
         if (Util.useService) {
-            // Метод передаёт обработку запроса геолокации в GetLocationService.
+            // Функция передаёт обработку запроса геолокации в GetLocationService.
             val intent = Intent(context, GetLocationService::class.java)
             intent.putExtra(INTENT_EXTRA_SMS_TO, smsTo)
             context.startService(intent)
         } else {
-            // Метод передаёт обработку запроса геолокации в GetLocation.
+            // Функция передаёт обработку запроса геолокации в GetLocation.
             val getLocation = GetLocation()
             getLocation.sendLocation(context, GetLocation.WAY_SMS, smsTo, false)
         }
     }
 
     private fun receiveLocation(context: Context, smsFrom: String, message: String, show: Boolean) {
-        // Метод проверяет правильность заполнения полей SMS-сообщения с геолокацией,
+        // Функция проверяет правильность заполнения полей SMS-сообщения с геолокацией,
         // (поскольку данные приходят извне, проверять надо тщательно)
         // сохраняет полученные данные в БД и в SharedPreferences
         // и передаёт обработку в MapUtil.

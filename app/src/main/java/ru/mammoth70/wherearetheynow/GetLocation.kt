@@ -23,7 +23,7 @@ class GetLocation {
     }
 
     fun sendLocation(context: Context, way: Int, address: String?, sendRequest: Boolean) {
-        // Метод запрашивает геолокацию (если есть разрешения), и отправляет ответ указанным способом.
+        // Функция запрашивает геолокацию (если есть разрешения), и отправляет ответ указанным способом.
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         if ((ActivityCompat.checkSelfPermission(
                 context,
@@ -48,7 +48,7 @@ class GetLocation {
     }
 
     private fun formatLocation(location: Location?, sendRequest: Boolean): String? {
-        // Метод форматирует геолокацию для SMS-сообщения.
+        // Функция форматирует геолокацию для SMS-сообщения.
         if (location == null) return null
         return if (sendRequest) {
             String.format(
@@ -64,7 +64,7 @@ class GetLocation {
     }
 
     private fun updateLocalLocation(context: Context, location: Location) {
-        // Метод сохраняет локальное состояние локации данные в HashMap, в SharedPreferences и в БД.
+        // Функция сохраняет локальное состояние локации данные в HashMap, в SharedPreferences и в БД.
         if (!Util.myphone.isEmpty()) {
             val record = PointRecord(
                 Util.myphone,
@@ -82,7 +82,7 @@ class GetLocation {
         smsTo: String?,
         sendRequest: Boolean
     ) {
-        // Метод отправляет SMS-сообщение.
+        // Функция отправляет SMS-сообщение.
         val message = formatLocation(location, sendRequest)
         if (message != null) {
             val smsManager = context.getSystemService(SmsManager::class.java)
@@ -92,7 +92,7 @@ class GetLocation {
     }
 
     private fun sendLocal(context: Context, location: Location) {
-        // Метод открывает activity с картой.
+        // Функция открывает activity с картой.
         val record = PointRecord(
             Util.myphone,
             location.latitude,

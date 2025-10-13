@@ -8,7 +8,7 @@ data class PointRecord (
     val phone: String = "",
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
-    val datetime: String = "")
+    val dateTime: String = "")
 {
     companion object {
         const val FORMAT_DOUBLE: String = "%1$.6f"
@@ -17,15 +17,15 @@ data class PointRecord (
     }
 
     internal constructor(
-        startphone: String,
-        setlatitude: Double,
-        setlongitude: Double,
-        setdatetime: Date
+        initPhone: String,
+        initLatitude: Double,
+        initLongitude: Double,
+        initDateTime: Date
     ) : this(
-        startphone,
-        setlatitude,
-        setlongitude,
-        String.format(Locale.US, FORMAT_DATE, setdatetime)
+        initPhone,
+        initLatitude,
+        initLongitude,
+        String.format(Locale.US, FORMAT_DATE, initDateTime)
     )
 
 }

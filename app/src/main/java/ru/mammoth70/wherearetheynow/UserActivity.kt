@@ -56,7 +56,7 @@ class UserActivity : AppCompatActivity() {
     private var colorError = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Подготавливаются структуры данных для вывода карточки контакта.
         super.onCreate(savedInstanceState)
         this.enableEdgeToEdge()
@@ -115,7 +115,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     private fun getAction(intent: Intent) {
-        // Метод выясняет, какое действие над записью контакта будем выполнять.
+        // Функция выясняет, какое действие над записью контакта будем выполнять.
         // Получает через intent поля из запускающей activity.
         // Соотвественно настраивает поля и кнопки.
         action = intent.getStringExtra(INTENT_EXTRA_ACTION)
@@ -153,7 +153,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun onColorClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Метод - обработчик кнопки "цвет" (выбор цвета).
+        // Функция - обработчик кнопки "цвет" (выбор цвета).
         if (selectedColorTemp.isEmpty()) {
             tvColor!!.setTextColor(colorOnSurfaceVariant)
             tvColor!!.setBackgroundResource(R.drawable.ic_pin_empty_64)
@@ -165,7 +165,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun setColorButton(color: String) {
-        // Метод выставляет цвет кнопки
+        // Функция выставляет цвет кнопки
         tvColor!!.text = ""
         selectedColorTemp = color
         when (Objects.requireNonNull(color)) {
@@ -184,7 +184,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun onActionClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Метод - обработчик кнопки "действие".
+        // Функция - обработчик кнопки "действие".
         var phone = edPhone!!.getText().toString()
         val name = (edName!!.getText()).toString()
         phone = phone.replace(REGEXP_CLEAR_PHONE.toRegex(), "")
@@ -256,7 +256,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun setPhonesSet() {
-        // Метод записывает в SharedPreferences множество разрешенных телефонов.
+        // Функция записывает в SharedPreferences множество разрешенных телефонов.
         // Нужно, чтобы SMSMonitor работал даже в том случае, если не запускалась MainActivity.
         val phonesSet: MutableSet<String?> = HashSet(Util.phones)
         val settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE)

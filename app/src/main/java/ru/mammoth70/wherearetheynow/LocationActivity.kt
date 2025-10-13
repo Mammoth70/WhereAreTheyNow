@@ -21,7 +21,7 @@ abstract class LocationActivity : AppCompatActivity() {
     protected var menuButton: Button? = null
 
     protected fun createFrameTitle(context: Context) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Не должен переопределяться, но должен вызываться из onCreate после вызова setContentView.
         tvName = findViewById(R.id.tvName)
         tvDateTime = findViewById(R.id.tvDateTime)
@@ -32,7 +32,7 @@ abstract class LocationActivity : AppCompatActivity() {
             intent.getStringExtra(INTENT_EXTRA_TIME)!!
         )
         tvName!!.text = Util.phone2name[startRecord!!.phone]
-        tvDateTime!!.text = MapUtil.timePassed(startRecord!!.datetime, context)
+        tvDateTime!!.text = MapUtil.timePassed(startRecord!!.dateTime, context)
 
         // Настроить вызов меню со списком контактов.
         Util.menuPhones.clear()
@@ -60,18 +60,18 @@ abstract class LocationActivity : AppCompatActivity() {
     }
 
     protected open fun reloadMapFromId(context: Context, id: Int) {
-        // Метод выводит координаты тектом, меняя заголовок карты.
+        // Функция выводит координаты тектом, меняя заголовок карты.
         // Вызывается из меню со списком контактов.
-        // После выполнения, вызывает метод reloadMapFromPoint.
+        // После выполнения, вызывает функцию reloadMapFromPoint.
         // Может быть переопределён.
         val phone = Util.id2phone[id]
         tvName!!.text = Util.phone2name[phone]
-        tvDateTime!!.text = MapUtil.timePassed(Util.phone2record[phone]!!.datetime, context)
+        tvDateTime!!.text = MapUtil.timePassed(Util.phone2record[phone]!!.dateTime, context)
         reloadMapFromPoint( context, Util.phone2record[phone]!!)
     }
 
     protected abstract fun reloadMapFromPoint(context: Context, rec: PointRecord)
-    // Абстрактный класс, должен быть переопределён.
+    // Абстрактная функция, должна быть переопределёна.
     // Вызывается из reloadMapFromPoint, а также из OnCreate.
-    // Метод перестраивает карту по передаваемой записи PoinRecord.
+    // Функция перестраивает карту по передаваемой записи PoinRecord.
 }

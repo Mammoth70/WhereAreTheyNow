@@ -28,17 +28,17 @@ object AppColors {
     private const val ALPHA_16 = "16"
 
     fun getColorAlpha(color: String?): String {
-        // Метод возвращает прозрачный цвет по строке с цветом.
+        // Функция возвращает прозрачный цвет по строке с цветом.
         return addTransparenty(color, ALPHA_48)
     }
 
     fun getColorAlpha16(color: String?): String {
-        // Метод возвращает прозрачный цвет по строке с цветом.
+        // Функция возвращает прозрачный цвет по строке с цветом.
         return addTransparenty(color, ALPHA_16)
     }
 
     fun getColorMarker(color: String?): Int {
-        // Метод возвращает большую метку по строке с цветом.
+        // Функция возвращает большую метку по строке с цветом.
         if (color != null) {
             return when (color) {
                 COLOR_WHITE -> R.drawable.ic_pin_white_64
@@ -59,7 +59,7 @@ object AppColors {
     }
 
     fun getColorMarkerSmall(color: String?): Int {
-        // Метод возвращает маленькую метку по строке с цветом.
+        // Функция возвращает маленькую метку по строке с цветом.
         if (color != null) {
             return when (color) {
                 COLOR_WHITE -> R.drawable.ic_pin_white_48

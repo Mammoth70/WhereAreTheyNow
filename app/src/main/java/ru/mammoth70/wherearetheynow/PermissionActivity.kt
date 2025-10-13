@@ -46,9 +46,9 @@ class PermissionActivity : AppCompatActivity() {
     private var colorError = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
-        // Сразу вызываются методы для запроса недостающих разрешений,
-        // После вызываются метод, заполняюший поля
+        // Функция вызывается при создании Activity.
+        // Сразу вызываются функции для запроса недостающих разрешений,
+        // После вызываются функция, заполняюшая поля
         super.onCreate(savedInstanceState)
         this.enableEdgeToEdge()
         setContentView(R.layout.activity_permission)
@@ -97,7 +97,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        // Метод запрашивает все разрешения разом.
+        // Функция запрашивает все разрешения разом.
         val locationPermissionRequest = registerForActivityResult(
             RequestMultiplePermissions()
         ) { isGranted: Map<String, @JvmSuppressWildcards() Boolean> -> }
@@ -112,7 +112,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     fun requestBackgroundLocationPermission(view: View) {
-        // Метод запрашивает разрешения работы в фоновом режиме,
+        // Функция запрашивает разрешения работы в фоновом режиме,
         // если выданы все разрешения геолокации.
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
@@ -145,7 +145,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     fun requestBackgroundLocationPermissionButtonClick(view: View) {
-        // Метод - обработчик кнопки запроса работы в фоновом режиме.
+        // Функция - обработчик кнопки запроса работы в фоновом режиме.
         // Запрашивает разрешения работы в фоновом режиме.
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
@@ -170,7 +170,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     fun requestLocationPermissionButtonClick(view: View) {
-        // Метод - обработчик кнопки запроса разрешений геолокации.
+        // Функция - обработчик кнопки запроса разрешений геолокации.
         // Запрашивает все разрешения геолокации.
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
@@ -206,7 +206,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     fun requestSMSPermissionButtonClick(view: View) {
-        // Метод - обработчик кнопки запроса разрешений SMS.
+        // Функция - обработчик кнопки запроса разрешений SMS.
         // Запрашивает все разрешения SMS.
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
@@ -242,7 +242,7 @@ class PermissionActivity : AppCompatActivity() {
     }
 
     private fun viewPermissions() {
-        // Метод проверяет необходимые разрешения и выводит их.
+        // Функция проверяет необходимые разрешения и выводит их.
         // Зелёный цвет, если разрешение выдано, красный цвет и зачёркнуто, если разрешение не выдано.
         // Также, если разрешения нет, делается видимой кнопка запроса.
 
@@ -382,7 +382,7 @@ class PermissionActivity : AppCompatActivity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        // Метод обработки ответа на запрос разрешений.
+        // Функция обработки ответа на запрос разрешений.
         // Выводятся вплывающие сообщения, в том случае, если пришёл отказ на выдачу разрешений.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         viewPermissions()

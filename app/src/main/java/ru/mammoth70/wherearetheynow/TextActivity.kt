@@ -29,7 +29,7 @@ class TextActivity : LocationActivity() {
     private var tvLongitude: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Из intent получаются и выводятся координаты.
         super.onCreate(savedInstanceState)
         this.enableEdgeToEdge()
@@ -73,8 +73,7 @@ class TextActivity : LocationActivity() {
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
-        // Метод выводит текстом широту и долготу по PointRecord.
-        //checkNotNull(rec)
+        // Функция выводит текстом широту и долготу по PointRecord.
         tvLatitude!!.text = String.format(Locale.US,
             PointRecord.FORMAT_DOUBLE, rec.latitude)
         tvLongitude!!.text = String.format(Locale.US,
@@ -82,7 +81,7 @@ class TextActivity : LocationActivity() {
     }
 
     private fun refreshData() {
-        // Метод обновляет данные для списка контактов с координатами.
+        // Функция обновляет данные для списка контактов с координатами.
         data!!.clear()
         for (phone in Util.phones) {
             if (Util.phone2record.containsKey(phone)) {
@@ -103,7 +102,7 @@ class TextActivity : LocationActivity() {
                             value.longitude
                         )
                     )
-                    m.put(COLUMN_DATE, value.datetime)
+                    m.put(COLUMN_DATE, value.dateTime)
                     data!!.add(m)
                 }
             }

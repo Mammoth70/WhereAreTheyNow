@@ -30,7 +30,7 @@ class BrowserActivity : LocationActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Метод вызывается при создании Activity.
+        // Функция вызывается при создании Activity.
         // Из intent получается uri и выводится в браузер.
         super.onCreate(savedInstanceState)
         this.enableEdgeToEdge()
@@ -58,7 +58,7 @@ class BrowserActivity : LocationActivity() {
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
-        // Метод выводит uri по PointRecord.
+        // Функция выводит uri по PointRecord.
         val uri: String?
         if (mapChange == MAP_OPENSTREET) {
             uri = String.format(Locale.US, URL_OPENSTREET,
