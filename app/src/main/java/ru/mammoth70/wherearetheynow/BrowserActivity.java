@@ -43,7 +43,7 @@ public class BrowserActivity extends LocationActivity {
         webView.setWebViewClient(new WebViewClient());
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        mapChange = intent.getIntExtra(Util.INTENT_EXTRA_MAP, MapUtil.MAP_TEXT);
+        mapChange = intent.getIntExtra(Util.INTENT_EXTRA_MAP, MapUtil.MAP_OPENSTREET);
         mapZoom = intent.getFloatExtra(Util.INTENT_EXTRA_MAP_ZOOM, MapUtil.MAP_ZOOM_DEFAULT);
 
         reloadMapFromPoint(this, startRecord);
