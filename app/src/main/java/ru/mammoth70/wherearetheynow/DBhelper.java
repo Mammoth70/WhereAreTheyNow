@@ -62,7 +62,7 @@ public class DBhelper extends SQLiteOpenHelper {
         }
     }
 
-    public void getUsers() {
+    public void readUsers() {
         // Метод считывает список разрешенных телефонов и словари контактов из БД.
         try (SQLiteDatabase db = getReadableDatabase()) {
             try (Cursor cursor = db.rawQuery("SELECT * FROM users;", null)) {
@@ -91,7 +91,7 @@ public class DBhelper extends SQLiteOpenHelper {
         }
     }
 
-    public void getMenuUsers() {
+    public void readMenuUsers() {
         // Метод считывает список телефонов, отортированный по id ASC,
         // имеющих координаты, отсортированные по дате DESC, и по id ASC,
         // и ограниченные заданным (10-ю) количеством записей.
@@ -126,7 +126,7 @@ public class DBhelper extends SQLiteOpenHelper {
                     return false;
                 }
             }
-            getUsers();
+            readUsers();
             return (Util.phones.contains(phone));
         } else {
             return false;
@@ -149,7 +149,7 @@ public class DBhelper extends SQLiteOpenHelper {
                     return false;
                 }
             }
-            getUsers();
+            readUsers();
             return (Util.phones.contains(phone));
         } else {
             return false;
@@ -171,7 +171,7 @@ public class DBhelper extends SQLiteOpenHelper {
                     return false;
                 }
             }
-            getUsers();
+            readUsers();
             return (!Util.id2phone.containsKey(id));
         } else {
             return false;

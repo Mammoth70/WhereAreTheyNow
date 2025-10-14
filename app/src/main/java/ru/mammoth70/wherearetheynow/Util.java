@@ -89,7 +89,7 @@ public class Util {
         }
     }
 
-    public static void setThemeColor(Application application, int color, boolean refresh) {
+    public static void setAppThemeColor(Application application, int color, boolean refresh) {
         // Метод переключает темы с динамическими цветами в соответствии с переданными настройками.
         switch (color) {
             case (COLOR_DYNAMIC_NO) :

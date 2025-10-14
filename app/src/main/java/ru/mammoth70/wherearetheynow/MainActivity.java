@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvName = findViewById(R.id.tvTitle);
         tvName.setText(R.string.titleUsers);
         dbHelper = new DBhelper(this);
-        dbHelper.getUsers();
+        dbHelper.readUsers();
 
         data = new ArrayList<>(Util.phones.size());
         refreshData();

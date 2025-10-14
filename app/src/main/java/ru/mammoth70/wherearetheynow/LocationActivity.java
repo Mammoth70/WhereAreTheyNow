@@ -36,7 +36,7 @@ public abstract class LocationActivity extends AppCompatActivity {
         // Настроить вызов меню со списком контактов.
         Util.menuPhones.clear();
         try  (DBhelper dbHelper = new DBhelper(context)) {
-            dbHelper.getMenuUsers();
+            dbHelper.readMenuUsers();
         }
         menuButton = findViewById(R.id.btnMenuUsers);
         menuButton.setOnClickListener(view -> {

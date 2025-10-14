@@ -258,7 +258,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         boolean action = (Util.themeColor != selectedModeColorTemp);
         if (action) {
-            Util.setThemeColor(App.application, selectedModeColorTemp, true);
+            Util.setAppThemeColor(App.application, selectedModeColorTemp, true);
         }
         Util.themeColor = selectedModeColorTemp;
         prefEditor.putInt(Util.NAME_THEME_COLOR, Util.themeColor);

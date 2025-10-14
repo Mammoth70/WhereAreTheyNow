@@ -42,7 +42,7 @@ public class ColorsActivity extends AppCompatActivity {
         });
         TextView tvName = findViewById(R.id.tvTitle);
         tvName.setText(string.titleColors);
-        SimpleAdapter sAdapter = getSimpleAdapter();
+        SimpleAdapter sAdapter = simpleAdapter();
         ListView lvSimple = findViewById(id.lvColorsSimple);
         lvSimple.setAdapter(sAdapter);
         lvSimple.setClickable(true);
@@ -56,7 +56,7 @@ public class ColorsActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private SimpleAdapter getSimpleAdapter() {
+    private SimpleAdapter simpleAdapter() {
         // Метод создаёт и заполняет SimpleAdapter.
         ArrayList<Map<String, Object>> data = new ArrayList<>(AppColors.colors.size());
         for (String color : AppColors.colors) {

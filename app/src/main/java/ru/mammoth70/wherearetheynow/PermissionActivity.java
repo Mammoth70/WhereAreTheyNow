@@ -294,7 +294,7 @@ public class PermissionActivity extends AppCompatActivity {
                 if (grantResults.length > 0  && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     String message = getString(R.string.location_request_blocked) + "\n" +
                                      getString(R.string.set_access_manually) ;
-		    Snackbar.make(btnLocation,  message , Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar.make(btnLocation,  message , Snackbar.LENGTH_INDEFINITE).show();
                 }
                 return;
             }
@@ -302,7 +302,7 @@ public class PermissionActivity extends AppCompatActivity {
                 if (grantResults.length > 0  && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     String message = getString(R.string.location_bg_request_blocked) + "\n" +
                                      getString(R.string.set_access_manually);
-		    Snackbar.make(btnBackgroundLocation, message, Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar.make(btnBackgroundLocation, message, Snackbar.LENGTH_INDEFINITE).show();
                 }
                 return;
             }

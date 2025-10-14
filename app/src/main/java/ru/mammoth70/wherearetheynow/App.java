@@ -31,7 +31,7 @@ public class App extends Application {
         Util.themeColor = settings.getInt(Util.NAME_THEME_COLOR, Util.themeColor);
         // Включение динамического цвета.
         application = this;
-        Util.setThemeColor(application, Util.themeColor, false);
+        Util.setAppThemeColor(application, Util.themeColor, false);
 
         // Считываем из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(Util.NAME_THEME_MODE, Util.themeMode);
