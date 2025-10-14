@@ -185,13 +185,15 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             if ((record.latitude > -90) && (record.latitude < 90) &&
                 (record.longitude > -180) && (record.longitude < 180)
             ) {
+                val phone = record.phone
                 val latitude = String.format(Locale.US,
                         PointRecord.FORMAT_DOUBLE, record.latitude)
                 val longitude = String.format(Locale.US,
                         PointRecord.FORMAT_DOUBLE, record.longitude)
+                val dateTime = record.dateTime
                 val execSting =
                         "INSERT OR REPLACE INTO points (phone, latitude, longitude, datetime)" +
-                        " VALUES ('$record.phone', '$latitude', '$longitude', '$record.dateTime');"
+                        " VALUES ('$phone', '$latitude', '$longitude', '$dateTime');"
                 readableDatabase.use { db ->
                     try {
                         db.execSQL(execSting)
