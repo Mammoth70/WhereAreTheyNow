@@ -33,16 +33,15 @@ class BrowserActivity : LocationActivity() {
         // Функция вызывается при создании Activity.
         // Из intent получается uri и выводится в браузер.
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_browser)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.browser)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.browser)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         createFrameTitle(this)
 
         webView = findViewById(R.id.webView)

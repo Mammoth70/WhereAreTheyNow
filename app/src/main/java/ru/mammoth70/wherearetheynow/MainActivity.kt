@@ -55,13 +55,11 @@ class MainActivity : AppCompatActivity() {
         // Считываются списки и словари контактов из БД.
         // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.settings)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }

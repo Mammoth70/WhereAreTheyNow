@@ -60,16 +60,15 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.settings)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         val tvName = findViewById<TextView>(R.id.tvTitle)
         checkBoxService = findViewById(R.id.checkBoxService)
         checkBoxService!!.setChecked(Util.useService)

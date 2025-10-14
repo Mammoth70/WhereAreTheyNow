@@ -62,17 +62,15 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         // Функция вызывается при создании Activity.
         // Из intent получаются координаты и выводится карта с метками.
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
-        MapKitFactory.initialize(this)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_yandex)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.yandex)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.yandex)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         createFrameTitle(this)
         fabNord = findViewById<FloatingActionButton>(R.id.floatingActionButtonMapNord)
         fabZoomIn = findViewById<FloatingActionButton>(R.id.floatingActionButtonMapZoomIn)

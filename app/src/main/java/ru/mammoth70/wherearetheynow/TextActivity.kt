@@ -32,16 +32,15 @@ class TextActivity : LocationActivity() {
         // Функция вызывается при создании Activity.
         // Из intent получаются и выводятся координаты.
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_text)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.text)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.text)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         createFrameTitle(this)
 
         tvLatitude = findViewById(R.id.tvLatitude)

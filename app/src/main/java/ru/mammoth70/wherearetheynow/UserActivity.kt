@@ -59,16 +59,15 @@ class UserActivity : AppCompatActivity() {
         // Функция вызывается при создании Activity.
         // Подготавливаются структуры данных для вывода карточки контакта.
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_user)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.user)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.user)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         val tvName = findViewById<TextView>(R.id.tvTitle)
         tvName.setText(R.string.titleUser)
         val intent = getIntent()

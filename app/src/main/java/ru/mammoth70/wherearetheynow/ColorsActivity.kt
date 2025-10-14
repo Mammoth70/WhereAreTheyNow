@@ -32,13 +32,11 @@ class ColorsActivity : AppCompatActivity() {
         // Подготавливаются структуры данных для вывода списка цветов.
 
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
-        setContentView(layout.activity_colors)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(id.colors)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_colors)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.colors)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }

@@ -50,16 +50,15 @@ class PermissionActivity : AppCompatActivity() {
         // Сразу вызываются функции для запроса недостающих разрешений,
         // После вызываются функция, заполняюшая поля
         super.onCreate(savedInstanceState)
-        this.enableEdgeToEdge()
+        enableEdgeToEdge()
         setContentView(R.layout.activity_permission)
-        ViewCompat.setOnApplyWindowInsetsListener(
-            findViewById(R.id.permissions)
-        ) { v: View?, insets: WindowInsetsCompat? ->
-            val systemBars = insets!!.getInsets(WindowInsetsCompat.Type.systemBars())
-            v!!.setPadding(systemBars.left, systemBars.top,
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.permissions)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         val tvName = findViewById<TextView>(R.id.tvTitle)
         tvName.setText(R.string.titlePermissions)
 
