@@ -16,8 +16,8 @@ abstract class LocationActivity : AppCompatActivity() {
     // Абстрактный класс для создания Activity вывода геолокации, переданной через intent.
 
     protected val startRecord: PointRecord by lazy { PointRecord(
-                 intent.getStringExtra(INTENT_EXTRA_SMS_FROM)!!,
-                intent.getDoubleExtra(INTENT_EXTRA_LATITUDE, 0.0),
+               intent.getStringExtra(INTENT_EXTRA_SMS_FROM)!!,
+               intent.getDoubleExtra(INTENT_EXTRA_LATITUDE, 0.0),
                intent.getDoubleExtra(INTENT_EXTRA_LONGITUDE, 0.0),
                intent.getStringExtra(INTENT_EXTRA_TIME)!!) }
     protected val tvTitle: TextView by lazy { findViewById(R.id.tvName) }
