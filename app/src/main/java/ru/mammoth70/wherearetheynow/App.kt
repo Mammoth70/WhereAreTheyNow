@@ -45,7 +45,7 @@ class App : Application() {
         // Считываем из SharedPreferences, как определять цвет темы.
         Util.themeColor = settings.getInt(NAME_THEME_COLOR, Util.themeColor)
         // Включение динамического цвета.
-        Util.setAppThemeColor(application!!, Util.themeColor, false)
+        Util.setAppThemeColor(application, Util.themeColor, false)
 
         // Считываем из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(NAME_THEME_MODE, Util.themeMode)

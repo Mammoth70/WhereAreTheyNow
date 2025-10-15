@@ -30,7 +30,6 @@ import ru.mammoth70.wherearetheynow.MapUtil.getLastAnswer
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
-
 class MainActivity : AppCompatActivity() {
     // Главная activity приложения.
     // Выводит список контактов и bottom Navigatin bar.
