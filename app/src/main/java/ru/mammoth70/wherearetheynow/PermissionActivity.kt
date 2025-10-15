@@ -28,19 +28,20 @@ class PermissionActivity : AppCompatActivity() {
         private const val REQUEST_PERMISSIONS_SMS = 484
     }
 
-    private var tvCoarseLocation: TextView? = null
-    private var tvFineLocation: TextView? = null
-    private var tvBackgroundLocation: TextView? = null
-    private var tvReceiveSMS: TextView? = null
-    private var tvSendSMS: TextView? = null
-    private var tvCoarseLocation1: TextView? = null
-    private var tvFineLocation1: TextView? = null
-    private var tvBackgroundLocation1: TextView? = null
-    private var tvReceiveSMS1: TextView? = null
-    private var tvSendSMS1: TextView? = null
-    private var btnLocation: Button? = null
-    private var btnBackgroundLocation: Button? = null
-    private var btnSMS: Button? = null
+    private val tvTitle : TextView by lazy { findViewById(R.id.tvTitle) }
+    private val tvCoarseLocation: TextView by lazy { findViewById(R.id.tvCoarseLocation) }
+    private val tvFineLocation: TextView by lazy { findViewById(R.id.tvFineLocation) }
+    private val tvBackgroundLocation: TextView by lazy { findViewById(R.id.tvBackgroundLocation) }
+    private val tvReceiveSMS: TextView by lazy { findViewById(R.id.tvReceiveSMS) }
+    private val tvSendSMS: TextView by lazy { findViewById(R.id.tvSendSMS) }
+    private val tvCoarseLocation1: TextView by lazy { findViewById(R.id.tvCoarseLocation1) }
+    private val tvFineLocation1: TextView by lazy { findViewById(R.id.tvFineLocation1) }
+    private val tvBackgroundLocation1: TextView by lazy { findViewById(R.id.tvBackgroundLocation1) }
+    private val tvReceiveSMS1: TextView by lazy { findViewById(R.id.tvReceiveSMS1) }
+    private val tvSendSMS1: TextView by lazy { findViewById(R.id.tvSendSMS1) }
+    private val btnLocation: Button by lazy { findViewById(R.id.btnLocation)}
+    private val btnBackgroundLocation: Button by lazy { findViewById(R.id.btnBackgroundLocation) }
+    private val btnSMS: Button by lazy { findViewById(R.id.btnSMS) }
 
     private var colorGranted = 0
     private var colorError = 0
@@ -59,23 +60,7 @@ class PermissionActivity : AppCompatActivity() {
             insets
         }
 
-        val tvName = findViewById<TextView>(R.id.tvTitle)
-        tvName.setText(R.string.titlePermissions)
-
-        tvCoarseLocation = findViewById(R.id.tvCoarseLocation)
-        tvFineLocation = findViewById(R.id.tvFineLocation)
-        tvBackgroundLocation = findViewById(R.id.tvBackgroundLocation)
-        tvReceiveSMS = findViewById(R.id.tvReceiveSMS)
-        tvSendSMS = findViewById(R.id.tvSendSMS)
-        tvCoarseLocation1 = findViewById(R.id.tvCoarseLocation1)
-        tvFineLocation1 = findViewById(R.id.tvFineLocation1)
-        tvBackgroundLocation1 = findViewById(R.id.tvBackgroundLocation1)
-        tvReceiveSMS1 = findViewById(R.id.tvReceiveSMS1)
-        tvSendSMS1 = findViewById(R.id.tvSendSMS1)
-        btnLocation = findViewById(R.id.btnLocation)
-        btnBackgroundLocation = findViewById(R.id.btnBackgroundLocation)
-        btnSMS = findViewById(R.id.btnSMS)
-
+        tvTitle.setText(R.string.titlePermissions)
         val theme = getTheme()
         val typedValueColorGranted = TypedValue()
         val typedValuecolorError = TypedValue()
@@ -91,7 +76,7 @@ class PermissionActivity : AppCompatActivity() {
         colorError = typedValuecolorError.data
 
         requestPermissions()
-        requestBackgroundLocationPermission(btnBackgroundLocation!!)
+        requestBackgroundLocationPermission(btnBackgroundLocation)
         viewPermissions()
     }
 
@@ -256,10 +241,10 @@ class PermissionActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvCoarseLocation!!.setText(R.string.access_coarse_location)
-            tvCoarseLocation!!.setTextColor(colorGranted)
-            tvCoarseLocation1!!.setText(R.string.granted1)
-            tvCoarseLocation1!!.setTextColor(colorGranted)
+            tvCoarseLocation.setText(R.string.access_coarse_location)
+            tvCoarseLocation.setTextColor(colorGranted)
+            tvCoarseLocation1.setText(R.string.granted1)
+            tvCoarseLocation1.setTextColor(colorGranted)
         } else {
             spCoarseLocation.setSpan(
                 StrikethroughSpan(),
@@ -267,22 +252,22 @@ class PermissionActivity : AppCompatActivity() {
                 getString(R.string.access_coarse_location).length,
                 0
             )
-            tvCoarseLocation!!.text = spCoarseLocation
-            tvCoarseLocation!!.setTextColor(colorError)
-            tvCoarseLocation1!!.setText(R.string.denied1)
-            tvCoarseLocation1!!.setTextColor(colorError)
+            tvCoarseLocation.text = spCoarseLocation
+            tvCoarseLocation.setTextColor(colorError)
+            tvCoarseLocation1.setText(R.string.denied1)
+            tvCoarseLocation1.setTextColor(colorError)
         }
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvFineLocation!!.setText(R.string.access_fine_location)
-            tvFineLocation!!.setTextColor(colorGranted)
-            tvFineLocation1!!.setText(R.string.granted1)
-            tvFineLocation1!!.setTextColor(colorGranted)
-            btnLocation!!.setEnabled(false)
-            btnLocation!!.visibility = View.INVISIBLE
+            tvFineLocation.setText(R.string.access_fine_location)
+            tvFineLocation.setTextColor(colorGranted)
+            tvFineLocation1.setText(R.string.granted1)
+            tvFineLocation1.setTextColor(colorGranted)
+            btnLocation.setEnabled(false)
+            btnLocation.visibility = View.INVISIBLE
         } else {
             spFineLocation.setSpan(
                 StrikethroughSpan(),
@@ -290,24 +275,24 @@ class PermissionActivity : AppCompatActivity() {
                 getString(R.string.access_fine_location).length,
                 0
             )
-            tvFineLocation!!.text = spFineLocation
-            tvFineLocation!!.setTextColor(colorError)
-            tvFineLocation1!!.setText(R.string.denied1)
-            tvFineLocation1!!.setTextColor(colorError)
-            btnLocation!!.setEnabled(true)
-            btnLocation!!.visibility = View.VISIBLE
+            tvFineLocation.text = spFineLocation
+            tvFineLocation.setTextColor(colorError)
+            tvFineLocation1.setText(R.string.denied1)
+            tvFineLocation1.setTextColor(colorError)
+            btnLocation.setEnabled(true)
+            btnLocation.visibility = View.VISIBLE
         }
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvBackgroundLocation!!.setText(R.string.access_background_location)
-            tvBackgroundLocation!!.setTextColor(colorGranted)
-            tvBackgroundLocation1!!.setText(R.string.granted1)
-            tvBackgroundLocation1!!.setTextColor(colorGranted)
-            btnBackgroundLocation!!.setEnabled(false)
-            btnBackgroundLocation!!.visibility = View.INVISIBLE
+            tvBackgroundLocation.setText(R.string.access_background_location)
+            tvBackgroundLocation.setTextColor(colorGranted)
+            tvBackgroundLocation1.setText(R.string.granted1)
+            tvBackgroundLocation1.setTextColor(colorGranted)
+            btnBackgroundLocation.setEnabled(false)
+            btnBackgroundLocation.visibility = View.INVISIBLE
         } else {
             spBackgroundLocation.setSpan(
                 StrikethroughSpan(),
@@ -315,22 +300,22 @@ class PermissionActivity : AppCompatActivity() {
                 getString(R.string.access_background_location).length,
                 0
             )
-            tvBackgroundLocation!!.text = spBackgroundLocation
-            tvBackgroundLocation!!.setTextColor(colorError)
-            tvBackgroundLocation1!!.setText(R.string.denied1)
-            tvBackgroundLocation1!!.setTextColor(colorError)
-            btnBackgroundLocation!!.setEnabled(true)
-            btnBackgroundLocation!!.visibility = View.VISIBLE
+            tvBackgroundLocation.text = spBackgroundLocation
+            tvBackgroundLocation.setTextColor(colorError)
+            tvBackgroundLocation1.setText(R.string.denied1)
+            tvBackgroundLocation1.setTextColor(colorError)
+            btnBackgroundLocation.setEnabled(true)
+            btnBackgroundLocation.visibility = View.VISIBLE
         }
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.RECEIVE_SMS
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvReceiveSMS!!.setText(R.string.access_Receive_SMS)
-            tvReceiveSMS!!.setTextColor(colorGranted)
-            tvReceiveSMS1!!.setText(R.string.granted1)
-            tvReceiveSMS1!!.setTextColor(colorGranted)
+            tvReceiveSMS.setText(R.string.access_Receive_SMS)
+            tvReceiveSMS.setTextColor(colorGranted)
+            tvReceiveSMS1.setText(R.string.granted1)
+            tvReceiveSMS1.setTextColor(colorGranted)
         } else {
             spReceiveSMS.setSpan(
                 StrikethroughSpan(),
@@ -338,26 +323,26 @@ class PermissionActivity : AppCompatActivity() {
                 getString(R.string.access_Receive_SMS).length,
                 0
             )
-            tvReceiveSMS!!.text = spReceiveSMS
-            tvReceiveSMS!!.setTextColor(colorError)
-            tvReceiveSMS1!!.setText(R.string.denied1)
-            tvReceiveSMS1!!.setTextColor(colorError)
+            tvReceiveSMS.text = spReceiveSMS
+            tvReceiveSMS.setTextColor(colorError)
+            tvReceiveSMS1.setText(R.string.denied1)
+            tvReceiveSMS1.setTextColor(colorError)
         }
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.SEND_SMS
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvSendSMS!!.setText(R.string.access_Send_SMS)
-            tvSendSMS!!.setTextColor(colorGranted)
-            tvSendSMS1!!.setText(R.string.granted1)
-            tvSendSMS1!!.setTextColor(colorGranted)
+            tvSendSMS.setText(R.string.access_Send_SMS)
+            tvSendSMS.setTextColor(colorGranted)
+            tvSendSMS1.setText(R.string.granted1)
+            tvSendSMS1.setTextColor(colorGranted)
         } else {
             spSendSMS.setSpan(StrikethroughSpan(), 0, getString(R.string.access_Send_SMS).length, 0)
-            tvSendSMS!!.text = spSendSMS
-            tvSendSMS!!.setTextColor(colorError)
-            tvSendSMS1!!.setText(R.string.denied1)
-            tvSendSMS1!!.setTextColor(colorError)
+            tvSendSMS.text = spSendSMS
+            tvSendSMS.setTextColor(colorError)
+            tvSendSMS1.setText(R.string.denied1)
+            tvSendSMS1.setTextColor(colorError)
         }
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
@@ -368,11 +353,11 @@ class PermissionActivity : AppCompatActivity() {
                 Manifest.permission.SEND_SMS
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            btnSMS!!.setEnabled(false)
-            btnSMS!!.visibility = View.INVISIBLE
+            btnSMS.setEnabled(false)
+            btnSMS.visibility = View.INVISIBLE
         } else {
-            btnSMS!!.setEnabled(true)
-            btnSMS!!.visibility = View.VISIBLE
+            btnSMS.setEnabled(true)
+            btnSMS.visibility = View.VISIBLE
         }
     }
 
@@ -391,7 +376,7 @@ class PermissionActivity : AppCompatActivity() {
                     PackageManager.PERMISSION_DENIED) {
                     val message = getString(R.string.location_request_blocked) + "\n" +
                             getString(R.string.set_access_manually)
-                    Snackbar.make(btnLocation!!, message,
+                    Snackbar.make(btnLocation, message,
                         Snackbar.LENGTH_INDEFINITE).show()
                 }
                 return
@@ -401,7 +386,7 @@ class PermissionActivity : AppCompatActivity() {
                     PackageManager.PERMISSION_DENIED) {
                     val message = getString(R.string.location_bg_request_blocked) + "\n" +
                             getString(R.string.set_access_manually)
-                    Snackbar.make(btnBackgroundLocation!!, message,
+                    Snackbar.make(btnBackgroundLocation, message,
                         Snackbar.LENGTH_INDEFINITE)
                         .show()
                 }
@@ -412,7 +397,7 @@ class PermissionActivity : AppCompatActivity() {
                     PackageManager.PERMISSION_DENIED) {
                     val message = getString(R.string.sms_request_blocked) + "\n" +
                             getString(R.string.set_access_manually)
-                    Snackbar.make(btnSMS!!, message,
+                    Snackbar.make(btnSMS, message,
                         Snackbar.LENGTH_INDEFINITE).show()
                 }
             }

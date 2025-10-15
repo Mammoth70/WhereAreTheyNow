@@ -14,9 +14,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.graphics.toColorInt
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
 import ru.mammoth70.wherearetheynow.AppColors.getColorMarker
-import ru.mammoth70.wherearetheynow.R.id
-import ru.mammoth70.wherearetheynow.R.layout
-import ru.mammoth70.wherearetheynow.R.string
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppCompatActivity() {
@@ -26,6 +23,9 @@ class ColorsActivity : AppCompatActivity() {
         private const val COLUMN_COLOR = "color"
         private const val COLUMN_BACK = "background"
     }
+
+    private val tvTitle: TextView by lazy { findViewById(R.id.tvTitle)}
+    private val lvSimple: ListView by lazy { findViewById(R.id.lvColorsSimple) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -41,9 +41,7 @@ class ColorsActivity : AppCompatActivity() {
             insets
         }
 
-        val tvName = findViewById<TextView>(id.tvTitle)
-        tvName.setText(string.titleColors)
-        val lvSimple = findViewById<ListView>(id.lvColorsSimple)
+        tvTitle.setText(R.string.titleColors)
         lvSimple.setAdapter(simpleAdapter)
         lvSimple.isClickable = true
         lvSimple.setOnItemClickListener { parent: AdapterView<*>?, view: View?,
@@ -59,8 +57,7 @@ class ColorsActivity : AppCompatActivity() {
     private val simpleAdapter: SimpleAdapter
         get() {
             // Функция создаёт и заполняет SimpleAdapter.
-            val data =
-                ArrayList<Map<String?, Any?>?>(AppColors.colors.size)
+            val data = ArrayList<Map<String?, Any?>?>(AppColors.colors.size)
             for (color in AppColors.colors) {
                 val m = HashMap<String?, Any?>()
                 m.put(COLUMN_COLOR, color)
@@ -71,8 +68,8 @@ class ColorsActivity : AppCompatActivity() {
                 COLUMN_COLOR,
                 COLUMN_BACK
             )
-            val to = intArrayOf(id.itemColorLabel, id.itemColorLayout)
-            val sAdapter = SimpleAdapter(this, data, layout.item_color, from, to)
+            val to = intArrayOf(R.id.itemColorLabel, R.id.itemColorLayout)
+            val sAdapter = SimpleAdapter(this, data, R.layout.item_color, from, to)
             sAdapter.viewBinder = ViewBinder()
             return sAdapter
         }
@@ -81,11 +78,11 @@ class ColorsActivity : AppCompatActivity() {
         // Класс обрабатывает форматирование вывода на экран списка цветов.
         override fun setViewValue(view: View, data: Any?, textRepresentation: String?): Boolean {
             when (view.id) {
-                id.itemColorLayout -> {
+                R.id.itemColorLayout -> {
                     view.setBackgroundColor(getColorAlpha16(data as String?).toColorInt())
                     return true
                 }
-                id.itemColorLabel -> {
+                R.id.itemColorLabel -> {
                     view.setBackgroundResource(getColorMarker(data as String?))
                     return true
                 }

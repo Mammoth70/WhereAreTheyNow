@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
     // Выводит список контактов и bottom Navigatin bar.
 
     companion object {
-        var dbHelper: DBhelper? = null
         private const val NM_MAP_ID = 0
         private const val NM_USERS_ID = 1
 
@@ -46,9 +45,11 @@ class MainActivity : AppCompatActivity() {
         private const val COLUMN_BACK = "background"
     }
 
-    private var navigationBarView: NavigationBarView? = null
-    private var sAdapter: SimpleAdapter? = null
-    private var data: ArrayList<MutableMap<String?, Any?>?>? = null
+    private val tvTitle : TextView by lazy { findViewById(R.id.tvTitle) }
+    private val navigationBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
+    private val lvSimple: ListView by lazy { findViewById(R.id.lvUsersSimple) }
+    private lateinit var sAdapter: SimpleAdapter
+    private lateinit var data: ArrayList<MutableMap<String?, Any?>?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -59,30 +60,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left, systemBars.top,
+                systemBars.right, systemBars.bottom
+            )
             insets
         }
-        val tvName = findViewById<TextView>(R.id.tvTitle)
-        tvName.setText(R.string.titleUsers)
 
-        dbHelper = DBhelper(this)
-        dbHelper!!.readUsers()
+        DBhelper.dbHelper.readUsers()
 
-        data = ArrayList(Util.phones.size)
-        refreshData()
-        val from = arrayOf<String?>(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
-        val to = intArrayOf(
-            R.id.itemUserPhone,
-            R.id.itemUserName,
-            R.id.itemUserLabel,
-            R.id.itemUserLayout
-        )
-
-        sAdapter = SimpleAdapter(this, data, R.layout.item_user, from, to)
-        sAdapter!!.viewBinder = ViewBinder()
-
-        val lvSimple = findViewById<ListView>(R.id.lvUsersSimple)
+        tvTitle.setText(R.string.titleUsers)
+        sAdapter = simpleAdapter
         lvSimple.setAdapter(sAdapter)
         lvSimple.isClickable = true
         registerForContextMenu(lvSimple)
@@ -97,16 +85,33 @@ class MainActivity : AppCompatActivity() {
             startPermissionActivity()
         }
 
-        navigationBarView = findViewById(R.id.bottom_navigation)
-        navigationBarView!!.menu[NM_MAP_ID].isEnabled = true
+        navigationBarView.menu[NM_MAP_ID].isEnabled = true
         (getLastAnswer(this).phone != "")
-        navigationBarView!!.menu[NM_USERS_ID].isChecked = true
+        navigationBarView.menu[NM_USERS_ID].isChecked = true
     }
+
+    private val simpleAdapter: SimpleAdapter
+        get() {
+            // Функция создаёт и заполняет SimpleAdapter.
+            data = ArrayList(Util.phones.size)
+            refreshData()
+            val from = arrayOf<String?>(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
+            val to = intArrayOf(
+                R.id.itemUserPhone,
+                R.id.itemUserName,
+                R.id.itemUserLabel,
+                R.id.itemUserLayout
+            )
+            val sAdapter = SimpleAdapter(this, data, R.layout.item_user, from, to)
+            sAdapter.viewBinder = ViewBinder()
+            return sAdapter
+        }
+
 
     override fun onResume() {
         super.onResume()
         getLastAnswer(this)
-        navigationBarView!!.menu[NM_MAP_ID].isEnabled = true
+        navigationBarView.menu[NM_MAP_ID].isEnabled = true
         (getLastAnswer(this).phone != "")
     }
 
@@ -236,14 +241,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshData() {
         // Функция обновляет данные для списка контактов из БД.
-        data!!.clear()
+        data.clear()
         for (phone in Util.phones) {
             val m: MutableMap<String?, Any?> = HashMap()
             m.put(COLUMN_PHONE, phone)
             m.put(COLUMN_NAME, Util.phone2name[phone])
             m.put(COLUMN_COLOR, Util.phone2color[phone])
             m.put(COLUMN_BACK, Util.phone2color[phone])
-            data!!.add(m)
+            data.add(m)
         }
     }
 
@@ -340,7 +345,7 @@ class MainActivity : AppCompatActivity() {
     ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
             refreshData()
-            sAdapter!!.notifyDataSetChanged()
+            sAdapter.notifyDataSetChanged()
         }
     }
 

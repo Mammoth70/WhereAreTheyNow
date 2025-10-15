@@ -105,9 +105,7 @@ object MapUtil {
                 putString(INTENT_EXTRA_TIME,
                     record.dateTime)
             }
-            DBhelper(context).use { dBhelper ->
-                dBhelper.setLastPoint(record)
-            }
+            DBhelper.dbHelper.setLastPoint(record)
         }
     }
 

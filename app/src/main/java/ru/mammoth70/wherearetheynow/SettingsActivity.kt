@@ -43,15 +43,20 @@ class SettingsActivity : AppCompatActivity() {
         const val INTENT_EXTRA_RESULT: String = "refresh"
     }
 
-    private var edMyPhone: TextInputEditText? = null
-    private var checkBoxService: CheckBox? = null
-    private var checkBoxCircle: CheckBox? = null
-    private var lbMapZoom: TextView? = null
-    private var sliderMapZoom: Slider? = null
-    private var lbMapTilt: TextView? = null
-    private var sliderMapTilt: Slider? = null
-    private var lbCircleRadius: TextView? = null
-    private var sliderCircleRadius: Slider? = null
+    private val tvTitle: TextView by lazy { findViewById(R.id.tvTitle) }
+    private val edMyPhone: TextInputEditText by lazy { findViewById(R.id.myphone) }
+    private val checkBoxService: CheckBox by lazy { findViewById(R.id.checkBoxService) }
+    private val checkBoxCircle: CheckBox by lazy { findViewById(R.id.checkBoxCircle) }
+    private val lbMapZoom: TextView by lazy { findViewById(R.id.lbMapZoom) }
+    private val sliderMapZoom: Slider by lazy { findViewById(R.id.sliderMapZoom) }
+    private val lbMapTilt: TextView by lazy { findViewById(R.id.lbMapTilt) }
+    private val sliderMapTilt: Slider by lazy { findViewById(R.id.sliderMapTilt) }
+    private val lbCircleRadius: TextView by lazy { findViewById(R.id.lbCircleRadius) }
+    private val sliderCircleRadius: Slider by lazy { findViewById(R.id.sliderCircleRadius) }
+
+    private val radioMap: RadioGroup by lazy { findViewById(R.id.radioMap) }
+    private val radioThemeColor: RadioGroup by lazy { findViewById(R.id.radioThemeColor) }
+    private val radioTheme: RadioGroup by lazy { findViewById(R.id.radioTheme) }
 
     private var selectedMapTemp = 0
     private var selectedModeColorTemp = 0
@@ -69,60 +74,49 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        val tvName = findViewById<TextView>(R.id.tvTitle)
-        checkBoxService = findViewById(R.id.checkBoxService)
-        checkBoxService!!.setChecked(Util.useService)
-        checkBoxCircle = findViewById(R.id.checkBoxCircle)
-        checkBoxCircle!!.setChecked(MapUtil.selectedMapCircle)
-        lbMapZoom = findViewById(R.id.lbMapZoom)
-        sliderMapZoom = findViewById(R.id.sliderMapZoom)
-        sliderMapZoom!!.value = MapUtil.selectedMapZoom
-        lbMapTilt = findViewById(R.id.lbMapTilt)
-        sliderMapTilt = findViewById(R.id.sliderMapTilt)
-        sliderMapTilt!!.value = MapUtil.selectedMapTilt
-        lbCircleRadius = findViewById(R.id.lbCircleRadius)
-        sliderCircleRadius = findViewById(R.id.sliderCircleRadius)
-        sliderCircleRadius!!.value = MapUtil.selectedMapCircleRadius
-        edMyPhone = findViewById(R.id.myphone)
+        tvTitle.setText(R.string.titleSettings)
+        checkBoxService.setChecked(Util.useService)
+        checkBoxCircle.setChecked(MapUtil.selectedMapCircle)
+        sliderMapZoom.value = MapUtil.selectedMapZoom
+        sliderMapTilt.value = MapUtil.selectedMapTilt
+        sliderCircleRadius.value = MapUtil.selectedMapCircleRadius
         if (Util.myphone != "") {
-            edMyPhone!!.setText(Util.myphone)
+            edMyPhone.setText(Util.myphone)
         }
-        tvName.setText(R.string.titleSettings)
 
         selectedMapTemp = MapUtil.selectedMap
-        // получаем объект RadioGroup переключателя карт
-        val radioMap = findViewById<RadioGroup>(R.id.radioMap)
+        // назначаем кнопки переключателя карт
         when (selectedMapTemp) {
             MAP_TEXT -> {
                 radioMap.check(R.id.text)
-                lbMapZoom!!.visibility = View.GONE
-                sliderMapZoom!!.visibility = View.GONE
-                lbMapTilt!!.visibility = View.GONE
-                sliderMapTilt!!.visibility = View.GONE
-                checkBoxCircle!!.visibility = View.GONE
-                lbCircleRadius!!.visibility = View.GONE
-                sliderCircleRadius!!.visibility = View.GONE
+                lbMapZoom.visibility = View.GONE
+                sliderMapZoom.visibility = View.GONE
+                lbMapTilt.visibility = View.GONE
+                sliderMapTilt.visibility = View.GONE
+                checkBoxCircle.visibility = View.GONE
+                lbCircleRadius.visibility = View.GONE
+                sliderCircleRadius.visibility = View.GONE
             }
             MAP_OPENSTREET -> {
                 radioMap.check(R.id.OpenStreet)
-                lbMapZoom!!.visibility = View.VISIBLE
-                sliderMapZoom!!.visibility = View.VISIBLE
-                lbMapTilt!!.visibility = View.GONE
-                sliderMapTilt!!.visibility = View.GONE
-                checkBoxCircle!!.visibility = View.GONE
-                lbCircleRadius!!.visibility = View.GONE
-                sliderCircleRadius!!.visibility = View.GONE
+                lbMapZoom.visibility = View.VISIBLE
+                sliderMapZoom.visibility = View.VISIBLE
+                lbMapTilt.visibility = View.GONE
+                sliderMapTilt.visibility = View.GONE
+                checkBoxCircle.visibility = View.GONE
+                lbCircleRadius.visibility = View.GONE
+                sliderCircleRadius.visibility = View.GONE
             }
             MAP_YANDEX -> {
                 radioMap.check(R.id.Yandex)
-                lbMapZoom!!.visibility = View.VISIBLE
-                sliderMapZoom!!.visibility = View.VISIBLE
-                lbMapTilt!!.visibility = View.VISIBLE
-                sliderMapTilt!!.visibility = View.VISIBLE
-                checkBoxCircle!!.visibility = View.VISIBLE
-                if (checkBoxCircle!!.isChecked) {
-                    lbCircleRadius!!.visibility = View.VISIBLE
-                    sliderCircleRadius!!.visibility = View.VISIBLE
+                lbMapZoom.visibility = View.VISIBLE
+                sliderMapZoom.visibility = View.VISIBLE
+                lbMapTilt.visibility = View.VISIBLE
+                sliderMapTilt.visibility = View.VISIBLE
+                checkBoxCircle.visibility = View.VISIBLE
+                if (checkBoxCircle.isChecked) {
+                    lbCircleRadius.visibility = View.VISIBLE
+                    sliderCircleRadius.visibility = View.VISIBLE
                 }
             }
             else -> {}
@@ -134,54 +128,53 @@ class SettingsActivity : AppCompatActivity() {
             when (id) {
                 R.id.text -> {
                     selectedMapTemp = MAP_TEXT
-                    lbMapZoom!!.visibility = View.GONE
-                    sliderMapZoom!!.visibility = View.GONE
-                    lbMapTilt!!.visibility = View.GONE
-                    sliderMapTilt!!.visibility = View.GONE
-                    checkBoxCircle!!.visibility = View.GONE
-                    lbCircleRadius!!.visibility = View.GONE
-                    sliderCircleRadius!!.visibility = View.GONE
+                    lbMapZoom.visibility = View.GONE
+                    sliderMapZoom.visibility = View.GONE
+                    lbMapTilt.visibility = View.GONE
+                    sliderMapTilt.visibility = View.GONE
+                    checkBoxCircle.visibility = View.GONE
+                    lbCircleRadius.visibility = View.GONE
+                    sliderCircleRadius.visibility = View.GONE
                 }
                 R.id.OpenStreet -> {
                     selectedMapTemp = MAP_OPENSTREET
-                    lbMapZoom!!.visibility = View.VISIBLE
-                    sliderMapZoom!!.visibility = View.VISIBLE
-                    lbMapTilt!!.visibility = View.GONE
-                    sliderMapTilt!!.visibility = View.GONE
-                    checkBoxCircle!!.visibility = View.GONE
-                    lbCircleRadius!!.visibility = View.GONE
-                    sliderCircleRadius!!.visibility = View.GONE
+                    lbMapZoom.visibility = View.VISIBLE
+                    sliderMapZoom.visibility = View.VISIBLE
+                    lbMapTilt.visibility = View.GONE
+                    sliderMapTilt.visibility = View.GONE
+                    checkBoxCircle.visibility = View.GONE
+                    lbCircleRadius.visibility = View.GONE
+                    sliderCircleRadius.visibility = View.GONE
                 }
                 R.id.Yandex -> {
                     selectedMapTemp = MAP_YANDEX
-                    lbMapZoom!!.visibility = View.VISIBLE
-                    sliderMapZoom!!.visibility = View.VISIBLE
-                    lbMapTilt!!.visibility = View.VISIBLE
-                    sliderMapTilt!!.visibility = View.VISIBLE
-                    checkBoxCircle!!.visibility = View.VISIBLE
-                    if (checkBoxCircle!!.isChecked) {
-                        lbCircleRadius!!.visibility = View.VISIBLE
-                        sliderCircleRadius!!.visibility = View.VISIBLE
+                    lbMapZoom.visibility = View.VISIBLE
+                    sliderMapZoom.visibility = View.VISIBLE
+                    lbMapTilt.visibility = View.VISIBLE
+                    sliderMapTilt.visibility = View.VISIBLE
+                    checkBoxCircle.visibility = View.VISIBLE
+                    if (checkBoxCircle.isChecked) {
+                        lbCircleRadius.visibility = View.VISIBLE
+                        sliderCircleRadius.visibility = View.VISIBLE
                     }
                 }
             }
         }
 
         // Обработка переключения состояния чекера круга
-        checkBoxCircle!!.setOnCheckedChangeListener { buttonView: CompoundButton?,
+        checkBoxCircle.setOnCheckedChangeListener { buttonView: CompoundButton?,
                                                       isChecked: Boolean ->
             if (isChecked) {
-                lbCircleRadius!!.visibility = View.VISIBLE
-                sliderCircleRadius!!.visibility = View.VISIBLE
+                lbCircleRadius.visibility = View.VISIBLE
+                sliderCircleRadius.visibility = View.VISIBLE
             } else {
-                lbCircleRadius!!.visibility = View.GONE
-                sliderCircleRadius!!.visibility = View.GONE
+                lbCircleRadius.visibility = View.GONE
+                sliderCircleRadius.visibility = View.GONE
             }
         }
 
         selectedModeColorTemp = Util.themeColor
-        // получаем объект RadioGroup переключателя цвета темы
-        val radioThemeColor = findViewById<RadioGroup>(R.id.radioThemeColor)
+        // назначаем кнопки переключателя цвета темы
         when (selectedModeColorTemp) {
             COLOR_DYNAMIC_WALLPAPER -> radioThemeColor.check(R.id.themeDynamic)
             COLOR_DYNAMIC_NO -> radioThemeColor.check(R.id.themeDefault)
@@ -205,8 +198,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         selectedModeNightTemp = Util.themeMode
-        // получаем объект RadioGroup переключателя режимов темы
-        val radioTheme = findViewById<RadioGroup>(R.id.radioTheme)
+        // назначаем кнопки переключателя режимов темы
         when (selectedModeNightTemp) {
             MODE_NIGHT_YES -> radioTheme.check(R.id.themeNight)
             MODE_NIGHT_NO -> radioTheme.check(R.id.themeDay)
@@ -229,7 +221,7 @@ class SettingsActivity : AppCompatActivity() {
         val settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE)
         val prefEditor = settings.edit()
 
-        Util.myphone = edMyPhone!!.getText().toString()
+        Util.myphone = edMyPhone.getText().toString()
         Util.myphone = Util.myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
             "")
         if (Util.myphone != "") {
@@ -238,7 +230,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val action = (Util.themeColor != selectedModeColorTemp)
         if (action) {
-            Util.setAppThemeColor(App.application!!, selectedModeColorTemp,
+            Util.setAppThemeColor(App.application, selectedModeColorTemp,
                 true)
         }
         Util.themeColor = selectedModeColorTemp
@@ -252,16 +244,16 @@ class SettingsActivity : AppCompatActivity() {
 
         MapUtil.selectedMap = selectedMapTemp
         prefEditor.putInt(NAME_MAP, MapUtil.selectedMap)
-        MapUtil.selectedMapZoom = sliderMapZoom!!.value
+        MapUtil.selectedMapZoom = sliderMapZoom.value
         prefEditor.putFloat(NAME_MAP_ZOOM, MapUtil.selectedMapZoom)
-        MapUtil.selectedMapTilt = sliderMapTilt!!.value
+        MapUtil.selectedMapTilt = sliderMapTilt.value
         prefEditor.putFloat(NAME_MAP_TILT, MapUtil.selectedMapTilt)
-        MapUtil.selectedMapCircle = checkBoxCircle!!.isChecked
+        MapUtil.selectedMapCircle = checkBoxCircle.isChecked
         prefEditor.putBoolean(NAME_MAP_CIRCLE, MapUtil.selectedMapCircle)
-        MapUtil.selectedMapCircleRadius = sliderCircleRadius!!.value
+        MapUtil.selectedMapCircleRadius = sliderCircleRadius.value
         prefEditor.putFloat(NAME_MAP_CIRCLE_RADIUS, MapUtil.selectedMapCircleRadius)
 
-        Util.useService = checkBoxService!!.isChecked
+        Util.useService = checkBoxService.isChecked
         prefEditor.putBoolean(NAME_USE_SERVICE, Util.useService)
 
         prefEditor.apply()

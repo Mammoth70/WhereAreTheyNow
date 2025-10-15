@@ -5,7 +5,9 @@ import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.core.database.sqlite.transaction
+import ru.mammoth70.wherearetheynow.App.Companion.appContext
 import java.util.Locale
+
 
 class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     null, DB_VERSION) {
@@ -13,6 +15,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
     companion object {
         private const val DB_VERSION = 3 // версия БД
+        val dbHelper = DBhelper(appContext)
     }
 
     private val createTableUsersSting = "CREATE TABLE IF NOT EXISTS users " +

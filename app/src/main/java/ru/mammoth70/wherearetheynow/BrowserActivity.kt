@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.enableEdgeToEdge
@@ -24,9 +23,11 @@ class BrowserActivity : LocationActivity() {
             "https://www.openstreetmap.org/?mlat=%1$.6f&mlon=%2$.6f#map=%3$.0f/%1$.6f/%2$.6f"
     }
 
-    private var webView: WebView? = null
-    private var mapChange = 0
-    private var mapZoom = 0f
+    private val webView: WebView by lazy { findViewById(R.id.webView) }
+    private val mapChange: Int by lazy { intent!!.getIntExtra(INTENT_EXTRA_MAP,
+                                MAP_OPENSTREET) }
+    private val mapZoom: Float by lazy { intent!!.getFloatExtra(INTENT_EXTRA_MAP_ZOOM,
+                                MAP_ZOOM_DEFAULT) }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,16 +45,10 @@ class BrowserActivity : LocationActivity() {
 
         createFrameTitle(this)
 
-        webView = findViewById(R.id.webView)
-        webView!!.setWebViewClient(WebViewClient())
-        val webSettings = webView!!.getSettings()
+        webView.setWebViewClient(WebViewClient())
+        val webSettings = webView.getSettings()
         webSettings.javaScriptEnabled = true
-        mapChange = intent!!.getIntExtra(INTENT_EXTRA_MAP,
-            MAP_OPENSTREET)
-        mapZoom = intent!!.getFloatExtra(INTENT_EXTRA_MAP_ZOOM,
-            MAP_ZOOM_DEFAULT)
-
-        reloadMapFromPoint(this, startRecord!!)
+        reloadMapFromPoint(this, startRecord)
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
@@ -62,7 +57,7 @@ class BrowserActivity : LocationActivity() {
         if (mapChange == MAP_OPENSTREET) {
             uri = String.format(Locale.US, URL_OPENSTREET,
                 rec.latitude, rec.longitude, mapZoom)
-            webView!!.loadUrl(uri)
+            webView.loadUrl(uri)
         } else {
             finish()
         }

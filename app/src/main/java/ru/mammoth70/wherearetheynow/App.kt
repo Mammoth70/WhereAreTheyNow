@@ -1,6 +1,7 @@
 package ru.mammoth70.wherearetheynow
 
 import android.app.Application
+import android.content.Context
 import com.yandex.mapkit.MapKitFactory
 import ru.mammoth70.wherearetheynow.Util.NAME_SETTINGS
 import ru.mammoth70.wherearetheynow.Util.NAME_THEME_COLOR
@@ -25,13 +26,15 @@ class App : Application() {
     // Обмен запросами положения и ответами с геолокацией реализван через SMS-сообщения.
 
     companion object {
-        var application: Application? = null
+        lateinit var application: Application
+        lateinit var appContext: Context
     }
 
     override fun onCreate() {
         // Здесь делаются самые стартовые настройки.
         super.onCreate()
         application = this
+        appContext = applicationContext
 
         // Считываем из настроек Gradle Yandex MAPKIT-API key.
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)

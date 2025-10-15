@@ -24,9 +24,10 @@ class TextActivity : LocationActivity() {
         private const val COLUMN_DATE = "date"
     }
 
-    private var data: ArrayList<MutableMap<String?, Any?>?>? = null
-    private var tvLatitude: TextView? = null
-    private var tvLongitude: TextView? = null
+    private lateinit var data: ArrayList<MutableMap<String?, Any?>?>
+    private val tvLatitude: TextView by lazy { findViewById(R.id.tvLatitude) }
+    private val tvLongitude: TextView by lazy { findViewById(R.id.tvLongitude) }
+    private val lvSimple: ListView by lazy { findViewById(R.id.lvGeoSimple) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -43,45 +44,47 @@ class TextActivity : LocationActivity() {
 
         createFrameTitle(this)
 
-        tvLatitude = findViewById(R.id.tvLatitude)
-        tvLongitude = findViewById(R.id.tvLongitude)
-        data = ArrayList(Util.phone2record.size)
-        refreshData()
-        val from = arrayOf<String?>(
-            COLUMN_NAME,
-            COLUMN_BACK,
-            COLUMN_LATITUDE,
-            COLUMN_LONGITUDE,
-            COLUMN_DATE
-        )
-        val to = intArrayOf(
-            R.id.itemUserName,
-            R.id.itemUserGeoLayout,
-            R.id.itemLattitude,
-            R.id.itemLongitude,
-            R.id.itemDate
-        )
-
-        val sAdapter = SimpleAdapter(this, data, R.layout.item_geo, from, to)
-        sAdapter.viewBinder = ViewBinder()
-
-        val lvSimple = findViewById<ListView>(R.id.lvGeoSimple)
+        val sAdapter = simpleAdapter
         lvSimple.setAdapter(sAdapter)
 
-        reloadMapFromPoint(this, startRecord!!)
+        reloadMapFromPoint(this, startRecord)
     }
 
-    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
+    private val simpleAdapter: SimpleAdapter
+        get() {
+            // Функция создаёт и заполняет SimpleAdapter.
+            data = ArrayList(Util.phone2record.size)
+            refreshData()
+            val from = arrayOf<String?>(
+                COLUMN_NAME,
+                COLUMN_BACK,
+                COLUMN_LATITUDE,
+                COLUMN_LONGITUDE,
+                COLUMN_DATE
+            )
+            val to = intArrayOf(
+                R.id.itemUserName,
+                R.id.itemUserGeoLayout,
+                R.id.itemLattitude,
+                R.id.itemLongitude,
+                R.id.itemDate
+            )
+            val sAdapter = SimpleAdapter(this, data, R.layout.item_geo, from, to)
+            sAdapter.viewBinder = ViewBinder()
+            return sAdapter
+        }
+
+            override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит текстом широту и долготу по PointRecord.
-        tvLatitude!!.text = String.format(Locale.US,
+        tvLatitude.text = String.format(Locale.US,
             PointRecord.FORMAT_DOUBLE, rec.latitude)
-        tvLongitude!!.text = String.format(Locale.US,
+        tvLongitude.text = String.format(Locale.US,
             PointRecord.FORMAT_DOUBLE, rec.longitude)
     }
 
     private fun refreshData() {
         // Функция обновляет данные для списка контактов с координатами.
-        data!!.clear()
+        data.clear()
         for (phone in Util.phones) {
             if (Util.phone2record.containsKey(phone)) {
                 val value = Util.phone2record[phone]
@@ -102,7 +105,7 @@ class TextActivity : LocationActivity() {
                         )
                     )
                     m.put(COLUMN_DATE, value.dateTime)
-                    data!!.add(m)
+                    data.add(m)
                 }
             }
         }
