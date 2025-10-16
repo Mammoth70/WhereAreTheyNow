@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.content.edit
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -211,7 +210,6 @@ class UserActivity : AppCompatActivity() {
             }
             if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
                 val intent = Intent()
-                putPhonesSet()
                 intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
                 setResult(RESULT_OK, intent)
                 finish()
@@ -221,7 +219,6 @@ class UserActivity : AppCompatActivity() {
             }
         } else if (action == ACTION_EDIT_USER) {
             if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
-                putPhonesSet()
                 val intent = Intent()
                 intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
                 setResult(RESULT_OK, intent)
@@ -232,7 +229,6 @@ class UserActivity : AppCompatActivity() {
             }
         } else if (action == ACTION_DELETE_USER) {
             if (DBhelper.dbHelper.deleteUser(id)) {
-                putPhonesSet()
                 val intent = Intent()
                 intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
                 setResult(RESULT_OK, intent)
@@ -243,16 +239,6 @@ class UserActivity : AppCompatActivity() {
             }
         } else {
             finish()
-        }
-    }
-
-    fun putPhonesSet() {
-        // Функция записывает в SharedPreferences множество разрешенных телефонов.
-        // Нужно, чтобы SMSMonitor работал даже в том случае, если не запускалась MainActivity.
-        val phonesSet: MutableSet<String?> = HashSet(Util.phones)
-        val settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE)
-        settings.edit {
-            putStringSet(Util.NAME_PHONES, phonesSet)
         }
     }
 

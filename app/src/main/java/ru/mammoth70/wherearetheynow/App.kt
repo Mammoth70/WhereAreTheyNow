@@ -8,7 +8,6 @@ import ru.mammoth70.wherearetheynow.Util.NAME_THEME_COLOR
 import ru.mammoth70.wherearetheynow.Util.NAME_THEME_MODE
 import ru.mammoth70.wherearetheynow.Util.NAME_USE_SERVICE
 import ru.mammoth70.wherearetheynow.Util.NAME_MY_PHONE
-import ru.mammoth70.wherearetheynow.Util.NAME_PHONES
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_DEFAULT
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_ZOOM
@@ -23,7 +22,7 @@ import ru.mammoth70.wherearetheynow.MapUtil.MAP_CIRCLE_DEFAULT_RADIUS
 class App : Application() {
     // Класс приложения.
     // Приложение предназначено для определения местоположения родтвенников и друзей.
-    // Обмен запросами положения и ответами с геолокацией реализван через SMS-сообщения.
+    // Обмен запросами положения и ответами с геолокацией реализован через SMS-сообщения.
 
     companion object {
         lateinit var application: Application
@@ -69,12 +68,8 @@ class App : Application() {
         // Он нужен, чтобы не отправлять самому себе SMS-сообщения, а получать геолокацию напрямую.
         Util.myphone = settings.getString(NAME_MY_PHONE, Util.myphone)?: ""
 
-        // Чтение из SharedPreferences множества разрешенных к работе телефонов.
-        // Это должно быть готово к началу работы BroadcastReceiver, без использования БД.
-        val phonesSet: MutableSet<String> = settings.getStringSet(
-            NAME_PHONES,java.util.HashSet()
-        )!!
-        Util.phones = ArrayList(phonesSet)
+        // Чтение из БД списка разрешенных телефонов и словарей контактов.
+        DBhelper.dbHelper.readUsers()
     }
 
 }

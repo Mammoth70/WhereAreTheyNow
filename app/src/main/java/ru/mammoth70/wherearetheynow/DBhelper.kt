@@ -15,17 +15,16 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     companion object {
         private const val DB_VERSION = 3 // версия БД
         val dbHelper = DBhelper(appContext)
+        private const  val CREATE_TABLE_USERS = "CREATE TABLE IF NOT EXISTS users " +
+                "(id integer PRIMARY KEY AUTOINCREMENT, phone text UNIQUE, name text, color text);"
+        private const val CREATE_TABLE_POINTS = "CREATE TABLE IF NOT EXISTS points " +
+                "(phone text UNIQUE, latitude text, longitude text, datetime text);"
     }
-
-    private val createTableUsersSting = "CREATE TABLE IF NOT EXISTS users " +
-            "(id integer PRIMARY KEY AUTOINCREMENT, phone text UNIQUE, name text, color text);"
-    private val createTablePointsSting = "CREATE TABLE IF NOT EXISTS points " +
-            "(phone text UNIQUE, latitude text, longitude text, datetime text);"
 
     override fun onCreate(db: SQLiteDatabase) {
         // Функция создаёт таблицы users и points.
-        db.execSQL(createTableUsersSting)
-        db.execSQL(createTablePointsSting)
+        db.execSQL(CREATE_TABLE_USERS)
+        db.execSQL(CREATE_TABLE_POINTS)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -42,10 +41,10 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     )
                     execSQL("INSERT INTO users_temp SELECT id, phone, name, color FROM users;")
                     execSQL("DROP TABLE users;")
-                    execSQL(createTableUsersSting)
+                    execSQL(CREATE_TABLE_USERS)
                     execSQL("INSERT INTO users SELECT id, phone, name, color FROM users_temp;")
                     execSQL("DROP TABLE users_temp;")
-                    execSQL(createTablePointsSting)
+                    execSQL(CREATE_TABLE_POINTS)
                 } finally {
                 }
             }
@@ -54,7 +53,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             // Добавление таблицы points.
             db.transaction {
                 try {
-                    execSQL(createTablePointsSting)
+                    execSQL(CREATE_TABLE_POINTS)
                 } finally {
                 }
             }
@@ -62,7 +61,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     }
 
     fun readUsers() {
-        // Функция считывает список разрешенных телефонов и словари контактов из БД.
+        // Функция считывает из БД список разрешенных телефонов и словари контактов.
         readableDatabase.use { db ->
             db.rawQuery("SELECT * FROM users;", null).use { cursor ->
                 Util.phones.clear()

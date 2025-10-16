@@ -80,7 +80,7 @@ class SettingsActivity : AppCompatActivity() {
         sliderMapZoom.value = MapUtil.selectedMapZoom
         sliderMapTilt.value = MapUtil.selectedMapTilt
         sliderCircleRadius.value = MapUtil.selectedMapCircleRadius
-        if (Util.myphone != "") {
+        if (!Util.myphone.isEmpty()) {
             edMyPhone.setText(Util.myphone)
         }
 

@@ -28,7 +28,6 @@ object Util {
     const val NAME_SETTINGS: String = "Settings"
     const val NAME_LAST_USER: String = "LastUser"
     const val NAME_USE_SERVICE: String = "UseService"
-    const val NAME_PHONES: String = "phones"
     const val NAME_MY_PHONE: String = "myphone"
 
     var myphone: String = "" // номер моего телефона

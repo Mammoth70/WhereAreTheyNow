@@ -66,8 +66,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        DBhelper.dbHelper.readUsers()
-
         tvTitle.setText(R.string.titleUsers)
         sAdapter = simpleAdapter
         lvSimple.setAdapter(sAdapter)
