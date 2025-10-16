@@ -31,9 +31,9 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Функция делает апгрейд БД.
         if (oldVersion == 1 && newVersion > 1) {
-            // Удаляем из таблицы users поле label.
-            // Снимаем ограничение на уникальность поля name в таблице users.
-            // Добавляем таблицу points.
+            // Удаление из таблицы users поля label.
+            // Удаление ограничения на уникальность поля name в таблице users.
+            // Добавление таблицы points.
             db.transaction {
                 try {
                     execSQL(
@@ -51,7 +51,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             }
         }
         if (oldVersion == 2 && newVersion > 2) {
-            // Добавляем таблицу points.
+            // Добавление таблицы points.
             db.transaction {
                 try {
                     execSQL(createTablePointsSting)
@@ -98,10 +98,10 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     }
 
     fun readMenuUsers() {
-        // Функция считывает список телефонов, отортированный по id ASC,
-        // имеющих координаты, отсортированные по дате DESC, и по id ASC,
-        // и ограниченные заданным (10-ю) количеством записей.
-        // Используется для построения меню.
+        // Функция возвращает список телефонов, отсортированный по id ASC,
+        // которые имеют координаты, отсортированные по дате DESC, и по id ASC,
+        // и ограничены заданным (10-ю) количеством записей.
+        // Функция используется для построения меню.
         Util.menuPhones.clear()
         val execSting =
             "SELECT users.phone AS phone1 FROM " +
@@ -208,7 +208,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
     fun readLastPoint(phone: String): PointRecord? {
         // Функция считывает из БД и возвращает PointRecord по заданному телефону,
-        // или возвращает null, если записи нет, или она некорректная.
+        // Возвращает null, если записи нет, или она некорректная.
         if (phone in Util.phones) {
             val execSting = "SELECT * FROM points WHERE phone = '$phone';"
             readableDatabase.use { db ->

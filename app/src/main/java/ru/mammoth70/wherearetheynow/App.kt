@@ -31,31 +31,32 @@ class App : Application() {
     }
 
     override fun onCreate() {
-        // Здесь делаются самые стартовые настройки.
+        // Функция вызывается при запуске приложения.
+        // Производит выполнение стартовых настроек.
         super.onCreate()
         application = this
         appContext = applicationContext
 
-        // Считываем из настроек Gradle Yandex MAPKIT-API key.
+        // Чтение из настроек MAPKIT-API key и его установка.
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
 
-        // Инициализируем чтение из SharedPreferences.
+        // Инициализация чтения из SharedPreferences.
         val settings = getSharedPreferences(NAME_SETTINGS, MODE_PRIVATE)
 
-        // Считываем из SharedPreferences, как определять цвет темы.
+        // Чтение из SharedPreferences, как определять цвет темы.
         Util.themeColor = settings.getInt(NAME_THEME_COLOR, Util.themeColor)
-        // Определяем цвет темы.
+        // Определение цвета темы.
         Util.setAppThemeColor(application, Util.themeColor, false)
 
-        // Считываем из SharedPreferences, как определять режим темы.
+        // Чтение из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(NAME_THEME_MODE, Util.themeMode)
-        // Определяем режим темы.
+        // Определение режима темы.
         Util.themeMode(Util.themeMode)
 
-        // Считываем из SharedPreferences, как определять геолокацию - через сервис или напрямую.
+        // Чтение из SharedPreferences, как определять геолокацию - через сервис или напрямую.
         Util.useService = settings.getBoolean(NAME_USE_SERVICE, Util.useService)
 
-        // Считываем из SharedPreferences вид и настройки выбранной карты для вывода геолокации.
+        // Чтение из SharedPreferences вида и настройки выбранной карты для вывода геолокации.
         MapUtil.selectedMap = settings.getInt(NAME_MAP, MAP_DEFAULT)
         MapUtil.selectedMapZoom = settings.getFloat(NAME_MAP_ZOOM, MAP_ZOOM_DEFAULT)
         MapUtil.selectedMapTilt = settings.getFloat(NAME_MAP_TILT, MAP_TILT_DEFAULT)
@@ -64,12 +65,12 @@ class App : Application() {
         MapUtil.selectedMapCircleRadius = settings.getFloat(NAME_MAP_CIRCLE_RADIUS,
             MAP_CIRCLE_DEFAULT_RADIUS)
 
-        // Считываем из SharedPreferences номер собственного телефона.
+        // Чтение из SharedPreferences номера собственного телефона.
         // Он нужен, чтобы не отправлять самому себе SMS-сообщения, а получать геолокацию напрямую.
         Util.myphone = settings.getString(NAME_MY_PHONE, Util.myphone)?: ""
 
-        // Считываем из SharedPreferences множество разрешенных к работе телефонов.
-        // Они должны были готовы к началу работы BroadcastReceiver, не загружаясь из БД.
+        // Чтение из SharedPreferences множества разрешенных к работе телефонов.
+        // Это должно быть готово к началу работы BroadcastReceiver, без использования БД.
         val phonesSet: MutableSet<String> = settings.getStringSet(
             NAME_PHONES,java.util.HashSet()
         )!!

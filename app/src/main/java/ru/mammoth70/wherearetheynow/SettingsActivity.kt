@@ -85,7 +85,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         selectedMapTemp = MapUtil.selectedMap
-        // назначаем кнопки переключателя карт
+        // Назначение кнопки переключателя карт.
         when (selectedMapTemp) {
             MAP_TEXT -> {
                 radioMap.check(R.id.text)
@@ -124,7 +124,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Обработка переключения состояния переключателя карт.
         radioMap.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
-            // получаем выбранную кнопку
+            // Получение выбранной кнопки.
             when (id) {
                 R.id.text -> {
                     selectedMapTemp = MAP_TEXT
@@ -174,7 +174,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         selectedModeColorTemp = Util.themeColor
-        // назначаем кнопки переключателя цвета темы
+        // Назначение кнопки переключателя цвета темы.
         when (selectedModeColorTemp) {
             COLOR_DYNAMIC_WALLPAPER -> radioThemeColor.check(R.id.themeDynamic)
             COLOR_DYNAMIC_NO -> radioThemeColor.check(R.id.themeDefault)
@@ -186,7 +186,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Обработка переключения состояния переключателя режимов цвета.
         radioThemeColor.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
-            // получаем выбранную кнопку
+            // Получение выбранной кнопку.
             when (id) {
                 R.id.themeDynamic -> selectedModeColorTemp = COLOR_DYNAMIC_WALLPAPER
                 R.id.themeDefault -> selectedModeColorTemp = COLOR_DYNAMIC_NO
@@ -198,7 +198,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         selectedModeNightTemp = Util.themeMode
-        // назначаем кнопки переключателя режимов темы
+        // Назначение кнопки переключателя режимов темы.
         when (selectedModeNightTemp) {
             MODE_NIGHT_YES -> radioTheme.check(R.id.themeNight)
             MODE_NIGHT_NO -> radioTheme.check(R.id.themeDay)
@@ -207,7 +207,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Обработка переключения состояния переключателя режимов темы.
         radioTheme.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
-            // получаем выбранную кнопку
+            // Получение выбранной кнопку.
             when (id) {
                 R.id.themeNight -> selectedModeNightTemp = MODE_NIGHT_YES
                 R.id.themeDay -> selectedModeNightTemp = MODE_NIGHT_NO

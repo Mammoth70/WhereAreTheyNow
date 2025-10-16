@@ -32,7 +32,8 @@ class BrowserActivity : LocationActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Из intent получается uri и выводится в браузер.
+        // Получение из intent данных, создание на основе них uri.
+        // Обработка данных для вывода uri через броузер.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_browser)

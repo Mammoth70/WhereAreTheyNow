@@ -28,7 +28,7 @@ class GetLocationService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        // Функцию реализовать мы обязаны, возвращаем null.
+        // Функцию реализовать мы обязаны. Возврат null.
         return null
     }
 

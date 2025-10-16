@@ -27,11 +27,10 @@ abstract class LocationActivity : AppCompatActivity() {
     protected fun createFrameTitle(context: Context) {
         // Функция вызывается при создании Activity.
         // Не должна переопределяться, но должна вызываться из onCreate после вызова setContentView.
-
         tvTitle.text = Util.phone2name[startRecord.phone]
         tvDateTime.text = MapUtil.timePassed(startRecord.dateTime, context)
 
-        // Настраиваем вызов меню со списком контактов.
+        // Настройка меню со списком контактов.
         Util.menuPhones.clear()
         DBhelper.dbHelper.readMenuUsers()
         menuButton.setOnClickListener { view: View? ->
@@ -49,7 +48,7 @@ abstract class LocationActivity : AppCompatActivity() {
                 reloadMapFromId(context, item!!.itemId)
                 true
             }
-            popupMenu.show() // Отображаем меню
+            popupMenu.show() // Отображение меню.
         }
     }
 

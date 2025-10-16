@@ -15,7 +15,7 @@ import ru.mammoth70.wherearetheynow.Util.REGEXP_ANSWER
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
 class SMSMonitor : BroadcastReceiver() {
-    // Класс слушает поток SMS. Если SMS-сообщение приходит от правильных абонентов,
+    // Класс слушает поток SMS. Если SMS-сообщение приходит от разрешённых абонентов,
     // делается парсинг сообщения (запрос геолокации или ответ с голокацией)
     // и передача дальнейшей обработки.
 
@@ -41,18 +41,18 @@ class SMSMonitor : BroadcastReceiver() {
                 val matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(smsBody)
                 val matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody)
                 if (matcherHeaderRequest.find()) {
-                    // Это запрос геолокации.
-                    // запрашиваем геолокацию и отвечаем
+                    // Это запрос геолокации без координат запросившего.
+                    // Определение геолокации и ответ на запрос.
                     requestLocation(context, smsFrom)
                 } else if (matcherHeaderAnswer.find()) {
                     // Это получение геолокации.
-                    // записываем новые данные и выводим их на карту
+                    // Запись новых данных и вывод их на карту.
                     receiveLocation(context, smsFrom, smsBody, true)
                 } else if (matcherHeaderRequestAnswer.find()) {
-                    // Это запрос геолокации версии с координатами.
-                    // записываем новые данные, но на карту не выводим
+                    // Это запрос геолокации с координатами запросившего.
+                    // Запись новых данных, но вывод на карту не делается.
                     receiveLocation(context, smsFrom, smsBody, false)
-                    // запрашиваем геолокацию и отвечаем
+                    // Определение геолокации и ответ на запрос.
                     requestLocation(context, smsFrom)
                 }
             }

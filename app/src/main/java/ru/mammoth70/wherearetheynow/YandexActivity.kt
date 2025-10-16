@@ -66,7 +66,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Из intent получаются координаты и выводится карта с метками.
+        // Получение из intent данных.
+        // Обработка данных для вывода карты.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_yandex)

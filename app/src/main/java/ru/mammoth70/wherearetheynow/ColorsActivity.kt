@@ -29,8 +29,7 @@ class ColorsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Подготавливаются структуры данных для вывода списка цветов.
-
+        // Обработка данных для подготовки списка меток.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_colors)

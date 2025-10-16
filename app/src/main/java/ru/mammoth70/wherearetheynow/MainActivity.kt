@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Считываются списки и словари контактов из БД.
+        // Чтение списков и словарей контактов из БД.
         // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

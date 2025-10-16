@@ -59,7 +59,7 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Подготавливает структуры данных для вывода карточки контакта.
+        // Подготовка структуры данных для вывода карточки контакта.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_user)

@@ -31,7 +31,8 @@ class TextActivity : LocationActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Из intent получаются и выводятся координаты.
+	// Получение из intent данных.
+        // Подготовка данных для вывода таблицы контактов с координатами.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_text)

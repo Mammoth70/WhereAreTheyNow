@@ -48,8 +48,8 @@ class PermissionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Сразу вызываются функции для запроса недостающих разрешений,
-        // После вызываются функция, заполняюшая поля
+        // Выполнение запросов недостающих разрешений.
+	// Настройка данных для отображения разрешений и кнопок запроса недостающих разрешений.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_permission)
