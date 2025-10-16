@@ -36,7 +36,7 @@ import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha
-import ru.mammoth70.wherearetheynow.AppColors.getColorMarkerSmall
+import ru.mammoth70.wherearetheynow.AppColors.getMarker48
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
@@ -232,7 +232,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private fun getBitmapFromColor(color: String?): Bitmap {
         // Функция возвращает метку заданного цвета.
-        return createBitmapFromVector(getColorMarkerSmall(color))
+        return createBitmapFromVector(getMarker48(color))
     }
 
     override fun onStart() {

@@ -4,7 +4,7 @@ import java.util.Date
 import java.util.Locale
 
 data class PointRecord (
-    // Класс - record для передачи телефона, координат и времени.
+    // data класс - для хранения телефона, координат и времени получения координат.
     val phone: String = "",
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,

@@ -10,7 +10,7 @@ import java.util.Date
 import java.util.Locale
 
 object Util {
-    // Объект для констант и статических функций
+    // Объект для констант и статических функций.
 
     const val INTENT_EXTRA_COLOR: String = "color"
     const val INTENT_EXTRA_SMS_TO: String = "sms_to"
@@ -33,7 +33,7 @@ object Util {
 
     var myphone: String = "" // номер моего телефона
 
-    var useService: Boolean = false // Используем при определении координат сервис или напрямую.
+    var useService: Boolean = false // используем при определении координат сервис или напрямую
 
     const val MODE_NIGHT_NO: Int = 1
     const val MODE_NIGHT_YES: Int = 2
@@ -49,17 +49,12 @@ object Util {
     var themeMode: Int = MODE_NIGHT_FOLLOW_SYSTEM
     var themeColor: Int = COLOR_DYNAMIC_NO
 
-
     var phones: ArrayList<String> = ArrayList() // список телефонов
-    var menuPhones: ArrayList<String> = ArrayList() // список телефонов, ограниченный
-
-    // наличием записей геолокации
-    var phone2name: HashMap<String, String> =
-        HashMap() // словарь телефон:контакт
+    var menuPhones: ArrayList<String> = ArrayList() // список телефонов, ограниченный наличием записей геолокации
+    var phone2name: HashMap<String, String> = HashMap() // словарь телефон:контакт
     var id2phone: HashMap<Int, String> = HashMap() // словарь id:телефон
     var phone2id: HashMap<String, Int> = HashMap() // словарь телефон:id
     var phone2color: HashMap<String, String> = HashMap() // словарь телефон:цвет
-
     var phone2record: HashMap<String, PointRecord> =  HashMap() // словарь телефон:point
 
     const val HEADER_REQUEST: String = "^WATN R$"
@@ -86,7 +81,7 @@ object Util {
         // Функция переключает темы с динамическими цветами в соответствии с переданными настройками.
         when (color) {
             COLOR_DYNAMIC_NO ->
-                // Используется для эмуляции отключения динамического цвета во время выполнения.
+                // Эмуляция отключения динамического цвета во время выполнения.
                 // Полностью динамический цвет отключится после перезагрузки приложения.
                 if (refresh) {
                     DynamicColors.applyToActivitiesIfAvailable(
@@ -130,7 +125,7 @@ object Util {
     }
 
     fun stringToDate(dateTime: String): Date? {
-        // Функция преобразовывает строку в дату
+        // Функция преобразовывает строку в дату.
         val dateFormat =
             SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault())
         return try {

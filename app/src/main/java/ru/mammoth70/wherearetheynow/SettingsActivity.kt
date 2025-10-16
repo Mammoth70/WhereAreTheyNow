@@ -122,7 +122,7 @@ class SettingsActivity : AppCompatActivity() {
             else -> {}
         }
 
-        // Обработка переключения состояния переключателя карт
+        // Обработка переключения состояния переключателя карт.
         radioMap.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
             // получаем выбранную кнопку
             when (id) {
@@ -161,7 +161,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
 
-        // Обработка переключения состояния чекера круга
+        // Обработка переключения состояния чекера круга.
         checkBoxCircle.setOnCheckedChangeListener { buttonView: CompoundButton?,
                                                       isChecked: Boolean ->
             if (isChecked) {
@@ -184,7 +184,7 @@ class SettingsActivity : AppCompatActivity() {
             COLOR_DYNAMIC_BLUE -> radioThemeColor.check(R.id.themeBlue)
         }
 
-        // Обработка переключения состояния переключателя режимов цвета
+        // Обработка переключения состояния переключателя режимов цвета.
         radioThemeColor.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
             // получаем выбранную кнопку
             when (id) {
@@ -205,7 +205,7 @@ class SettingsActivity : AppCompatActivity() {
             else -> radioTheme.check(R.id.themeSystem)
         }
 
-        // Обработка переключения состояния переключателя режимов темы
+        // Обработка переключения состояния переключателя режимов темы.
         radioTheme.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
             // получаем выбранную кнопку
             when (id) {

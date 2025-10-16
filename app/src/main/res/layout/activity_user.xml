@@ -136,13 +136,13 @@
                         app:layout_constraintTop_toTopOf="parent"
                         >
                         <TextView
-                            android:id="@+id/tvColor"
+                            android:id="@+id/tvMark"
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:layout_margin="8dp"
                             android:background="@drawable/ic_pin_empty_64"
                             android:gravity="center"
-                            android:onClick="onColorClicked"
+                            android:onClick="onMarkClicked"
                             android:text="@string/ed_label"
                             android:textAppearance="?attr/textAppearanceBodyLarge"
                             android:textColor="?attr/colorOnSurfaceVariant"

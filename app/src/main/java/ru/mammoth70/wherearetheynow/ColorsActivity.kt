@@ -13,7 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.graphics.toColorInt
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
-import ru.mammoth70.wherearetheynow.AppColors.getColorMarker
+import ru.mammoth70.wherearetheynow.AppColors.getMarker64
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppCompatActivity() {
@@ -83,7 +83,7 @@ class ColorsActivity : AppCompatActivity() {
                     return true
                 }
                 R.id.itemColorLabel -> {
-                    view.setBackgroundResource(getColorMarker(data as String?))
+                    view.setBackgroundResource(getMarker64(data as String?))
                     return true
                 }
                 else -> return false

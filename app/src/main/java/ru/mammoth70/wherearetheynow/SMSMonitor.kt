@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import java.util.regex.Pattern
-import ru.mammoth70.wherearetheynow.MapUtil.setLastAnswer
+import ru.mammoth70.wherearetheynow.MapUtil.writeLastAnswer
 import ru.mammoth70.wherearetheynow.MapUtil.viewLocation
 import ru.mammoth70.wherearetheynow.Util.stringToDate
 import ru.mammoth70.wherearetheynow.Util.HEADER_REQUEST
@@ -42,17 +42,17 @@ class SMSMonitor : BroadcastReceiver() {
                 val matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody)
                 if (matcherHeaderRequest.find()) {
                     // Это запрос геолокации.
-                    // Запрашиваем геолокацию и отвечаем.
+                    // запрашиваем геолокацию и отвечаем
                     requestLocation(context, smsFrom)
                 } else if (matcherHeaderAnswer.find()) {
                     // Это получение геолокации.
-                    // Записываем новые данные и выводим их на карту.
+                    // записываем новые данные и выводим их на карту
                     receiveLocation(context, smsFrom, smsBody, true)
                 } else if (matcherHeaderRequestAnswer.find()) {
                     // Это запрос геолокации версии с координатами.
-                    // Записываем новые данные, но на карту не выводим.
+                    // записываем новые данные, но на карту не выводим
                     receiveLocation(context, smsFrom, smsBody, false)
-                    // Запрашиваем геолокацию и отвечаем.
+                    // запрашиваем геолокацию и отвечаем
                     requestLocation(context, smsFrom)
                 }
             }
@@ -92,7 +92,7 @@ class SMSMonitor : BroadcastReceiver() {
                         (longitude > -180) && (longitude < 180)
                     ) {
                         val record = PointRecord(smsFrom, latitude, longitude, dateTime)
-                        setLastAnswer(context, record)
+                        writeLastAnswer(context, record)
                         if (show) {
                             viewLocation(context, record, true)
                         }

@@ -26,12 +26,12 @@ abstract class LocationActivity : AppCompatActivity() {
 
     protected fun createFrameTitle(context: Context) {
         // Функция вызывается при создании Activity.
-        // Не должен переопределяться, но должен вызываться из onCreate после вызова setContentView.
+        // Не должна переопределяться, но должна вызываться из onCreate после вызова setContentView.
 
         tvTitle.text = Util.phone2name[startRecord.phone]
         tvDateTime.text = MapUtil.timePassed(startRecord.dateTime, context)
 
-        // Настроить вызов меню со списком контактов.
+        // Настраиваем вызов меню со списком контактов.
         Util.menuPhones.clear()
         DBhelper.dbHelper.readMenuUsers()
         menuButton.setOnClickListener { view: View? ->
@@ -49,7 +49,7 @@ abstract class LocationActivity : AppCompatActivity() {
                 reloadMapFromId(context, item!!.itemId)
                 true
             }
-            popupMenu.show() // Отобразить меню
+            popupMenu.show() // Отображаем меню
         }
     }
 
@@ -57,7 +57,7 @@ abstract class LocationActivity : AppCompatActivity() {
         // Функция выводит координаты тектом, меняя заголовок карты.
         // Вызывается из меню со списком контактов.
         // После выполнения, вызывает функцию reloadMapFromPoint.
-        // Может быть переопределён.
+        // Может быть переопределена.
         val phone = Util.id2phone[id]
         tvTitle.text = Util.phone2name[phone]
         tvDateTime.text = MapUtil.timePassed(Util.phone2record[phone]!!.dateTime, context)
@@ -65,7 +65,7 @@ abstract class LocationActivity : AppCompatActivity() {
     }
 
     protected abstract fun reloadMapFromPoint(context: Context, rec: PointRecord)
-    // Абстрактная функция, должна быть переопределёна.
+    // Абстрактная функция, должна быть переопределена.
     // Вызывается из reloadMapFromPoint, а также из OnCreate.
     // Функция перестраивает карту по передаваемой записи PoinRecord.
 }

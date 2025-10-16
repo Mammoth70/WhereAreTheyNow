@@ -50,38 +50,6 @@ class TextActivity : LocationActivity() {
         reloadMapFromPoint(this, startRecord)
     }
 
-    private val simpleAdapter: SimpleAdapter
-        get() {
-            // Функция создаёт и заполняет SimpleAdapter.
-            data = ArrayList(Util.phone2record.size)
-            refreshData()
-            val from = arrayOf<String?>(
-                COLUMN_NAME,
-                COLUMN_BACK,
-                COLUMN_LATITUDE,
-                COLUMN_LONGITUDE,
-                COLUMN_DATE
-            )
-            val to = intArrayOf(
-                R.id.itemUserName,
-                R.id.itemUserGeoLayout,
-                R.id.itemLattitude,
-                R.id.itemLongitude,
-                R.id.itemDate
-            )
-            val sAdapter = SimpleAdapter(this, data, R.layout.item_geo, from, to)
-            sAdapter.viewBinder = ViewBinder()
-            return sAdapter
-        }
-
-            override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
-        // Функция выводит текстом широту и долготу по PointRecord.
-        tvLatitude.text = String.format(Locale.US,
-            PointRecord.FORMAT_DOUBLE, rec.latitude)
-        tvLongitude.text = String.format(Locale.US,
-            PointRecord.FORMAT_DOUBLE, rec.longitude)
-    }
-
     private fun refreshData() {
         // Функция обновляет данные для списка контактов с координатами.
         data.clear()
@@ -110,6 +78,38 @@ class TextActivity : LocationActivity() {
             }
         }
     }
+
+    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
+        // Функция выводит текстом широту и долготу по PointRecord.
+        tvLatitude.text = String.format(Locale.US,
+            PointRecord.FORMAT_DOUBLE, rec.latitude)
+        tvLongitude.text = String.format(Locale.US,
+            PointRecord.FORMAT_DOUBLE, rec.longitude)
+    }
+
+    private val simpleAdapter: SimpleAdapter
+        get() {
+            // Функция создаёт и заполняет SimpleAdapter.
+            data = ArrayList(Util.phone2record.size)
+            refreshData()
+            val from = arrayOf<String?>(
+                COLUMN_NAME,
+                COLUMN_BACK,
+                COLUMN_LATITUDE,
+                COLUMN_LONGITUDE,
+                COLUMN_DATE
+            )
+            val to = intArrayOf(
+                R.id.itemUserName,
+                R.id.itemUserGeoLayout,
+                R.id.itemLattitude,
+                R.id.itemLongitude,
+                R.id.itemDate
+            )
+            val sAdapter = SimpleAdapter(this, data, R.layout.item_geo, from, to)
+            sAdapter.viewBinder = ViewBinder()
+            return sAdapter
+        }
 
     private class ViewBinder : SimpleAdapter.ViewBinder {
         // Класс обрабатывает форматирование вывода на экран

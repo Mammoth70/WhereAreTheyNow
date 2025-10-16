@@ -50,7 +50,7 @@ class UserActivity : AppCompatActivity() {
     private var id = 0
 
     private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
-    private val tvColor: TextView by lazy {findViewById(R.id.tvColor)}
+    private val tvMark: TextView by lazy {findViewById(R.id.tvMark)}
     private var selectedColorTemp = ""
 
     private var colorOnSurfaceVariant = 0
@@ -59,7 +59,7 @@ class UserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-        // Подготавливаются структуры данных для вывода карточки контакта.
+        // Подготавливает структуры данных для вывода карточки контакта.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_user)
@@ -109,7 +109,7 @@ class UserActivity : AppCompatActivity() {
     private fun getAction(intent: Intent) {
         // Функция выясняет, какое действие над записью контакта будем выполнять.
         // Получает через intent поля из запускающей activity.
-        // Соотвественно настраивает поля и кнопки.
+        // Соответственно настраивает поля и кнопки.
         when (action) {
             ACTION_ADD_USER -> {
                 btnAction.setText(R.string.add)
@@ -122,7 +122,7 @@ class UserActivity : AppCompatActivity() {
                 }
                 edPhone.setText(intent.getStringExtra(INTENT_EXTRA_PHONE))
                 edName.setText(intent.getStringExtra(INTENT_EXTRA_NAME))
-                setColorButton(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
+                setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
             }
             ACTION_DELETE_USER -> {
                 btnAction.setText(R.string.delete)
@@ -134,8 +134,8 @@ class UserActivity : AppCompatActivity() {
                 edPhone.setEnabled(false)
                 edName.setText(intent.getStringExtra(INTENT_EXTRA_NAME))
                 edName.setEnabled(false)
-                setColorButton(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
-                tvColor.setEnabled(false)
+                setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
+                tvMark.setEnabled(false)
             }
             else -> {
                 finish()
@@ -143,11 +143,11 @@ class UserActivity : AppCompatActivity() {
         }
     }
 
-    fun onColorClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Функция - обработчик кнопки "цвет" (выбор цвета).
+    fun onMarkClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
+        // Функция - обработчик кнопки "метка" (выбор цвета).
         if (selectedColorTemp.isEmpty()) {
-            tvColor.setTextColor(colorOnSurfaceVariant)
-            tvColor.setBackgroundResource(R.drawable.ic_pin_empty_64)
+            tvMark.setTextColor(colorOnSurfaceVariant)
+            tvMark.setBackgroundResource(R.drawable.ic_pin_empty_64)
             cardColor.strokeColor = colorOutline
             tvColorError.text = ""
         }
@@ -155,22 +155,22 @@ class UserActivity : AppCompatActivity() {
         startActivityIntent.launch(intent)
     }
 
-    fun setColorButton(color: String) {
-        // Функция выставляет цвет кнопки
-        tvColor.text = ""
+    fun setMarkColor(color: String) {
+        // Функция выставляет цвет метки.
+        tvMark.text = ""
         selectedColorTemp = color
         when (Objects.requireNonNull(color)) {
-            AppColors.COLOR_WHITE -> tvColor.setBackgroundResource(R.drawable.ic_pin_white_64)
-            AppColors.COLOR_RED -> tvColor.setBackgroundResource(R.drawable.ic_pin_red_64)
-            AppColors.COLOR_ORANGE -> tvColor.setBackgroundResource(R.drawable.ic_pin_orange_64)
-            AppColors.COLOR_YELLOW -> tvColor.setBackgroundResource(R.drawable.ic_pin_yellow_64)
-            AppColors.COLOR_GREEN -> tvColor.setBackgroundResource(R.drawable.ic_pin_green_64)
-            AppColors.COLOR_DARKGREEN -> tvColor.setBackgroundResource(R.drawable.ic_pin_darkgreen_64)
-            AppColors.COLOR_CYAN -> tvColor.setBackgroundResource(R.drawable.ic_pin_cyan_64)
-            AppColors.COLOR_BLUE -> tvColor.setBackgroundResource(R.drawable.ic_pin_blue_64)
-            AppColors.COLOR_VIOLET -> tvColor.setBackgroundResource(R.drawable.ic_pin_violet_64)
-            AppColors.COLOR_MAGENTA -> tvColor.setBackgroundResource(R.drawable.ic_pin_magenta_64)
-            else -> tvColor.setBackgroundResource(R.drawable.ic_pin_black_64)
+            AppColors.COLOR_WHITE -> tvMark.setBackgroundResource(R.drawable.ic_pin_white_64)
+            AppColors.COLOR_RED -> tvMark.setBackgroundResource(R.drawable.ic_pin_red_64)
+            AppColors.COLOR_ORANGE -> tvMark.setBackgroundResource(R.drawable.ic_pin_orange_64)
+            AppColors.COLOR_YELLOW -> tvMark.setBackgroundResource(R.drawable.ic_pin_yellow_64)
+            AppColors.COLOR_GREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_green_64)
+            AppColors.COLOR_DARKGREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_darkgreen_64)
+            AppColors.COLOR_CYAN -> tvMark.setBackgroundResource(R.drawable.ic_pin_cyan_64)
+            AppColors.COLOR_BLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_blue_64)
+            AppColors.COLOR_VIOLET -> tvMark.setBackgroundResource(R.drawable.ic_pin_violet_64)
+            AppColors.COLOR_MAGENTA -> tvMark.setBackgroundResource(R.drawable.ic_pin_magenta_64)
+            else -> tvMark.setBackgroundResource(R.drawable.ic_pin_black_64)
         }
     }
 
@@ -180,38 +180,38 @@ class UserActivity : AppCompatActivity() {
         val name = (edName.getText()).toString()
         phone = phone.replace(REGEXP_CLEAR_PHONE.toRegex(), "")
         if (phone.isEmpty()) {
-            // Проверяем телефон на заполнение
+            // проверяем телефон на заполнение
             ilPhone.error = getString(R.string.err_empty_phone)
         }
         if (action == ACTION_ADD_USER && phone in Util.phones) {
-            // Проверяем телефон на уникальность при добавлении
+            // проверяем телефон на уникальность при добавлении
             ilPhone.error = getString(R.string.err_not_unique_phone)
         }
         if (name.isEmpty()) {
-            // Проверяем имя на заполнение
+            // проверяем имя на заполнение
             ilName.error = getString(R.string.err_empty_user)
         }
         if (selectedColorTemp.isEmpty()) {
-            // Проверяем метку на заполнение
+            // проверяем метку на заполнение
             cardColor.strokeColor = colorError
-            tvColor.setTextColor(colorError)
-            tvColor.setBackgroundResource(R.drawable.ic_pin_error_64)
+            tvMark.setTextColor(colorError)
+            tvMark.setBackgroundResource(R.drawable.ic_pin_error_64)
             tvColorError.setText(R.string.err_empty_label)
         }
 
         if (phone.isEmpty() || name.isEmpty() || selectedColorTemp.isEmpty()) {
-            // Если хоть что-то незаполнено - выходим.
+            // если хоть что-то незаполнено - выходим
             return
         }
 
         if (action == ACTION_ADD_USER) {
             if (phone in Util.phones) {
-                // Если при добавлении телефон не уникальный - выходим.
+                // если при добавлении телефон не уникальный - выходим
                 return
             }
             if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
                 val intent = Intent()
-                setPhonesSet()
+                putPhonesSet()
                 intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
                 setResult(RESULT_OK, intent)
                 finish()
@@ -221,7 +221,7 @@ class UserActivity : AppCompatActivity() {
             }
         } else if (action == ACTION_EDIT_USER) {
             if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
-                setPhonesSet()
+                putPhonesSet()
                 val intent = Intent()
                 intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
                 setResult(RESULT_OK, intent)
@@ -232,7 +232,7 @@ class UserActivity : AppCompatActivity() {
             }
         } else if (action == ACTION_DELETE_USER) {
             if (DBhelper.dbHelper.deleteUser(id)) {
-                setPhonesSet()
+                putPhonesSet()
                 val intent = Intent()
                 intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
                 setResult(RESULT_OK, intent)
@@ -246,7 +246,7 @@ class UserActivity : AppCompatActivity() {
         }
     }
 
-    fun setPhonesSet() {
+    fun putPhonesSet() {
         // Функция записывает в SharedPreferences множество разрешенных телефонов.
         // Нужно, чтобы SMSMonitor работал даже в том случае, если не запускалась MainActivity.
         val phonesSet: MutableSet<String?> = HashSet(Util.phones)
@@ -257,12 +257,12 @@ class UserActivity : AppCompatActivity() {
     }
 
     var startActivityIntent = registerForActivityResult(StartActivityForResult()
-    // Возвращает результат выбора цвета
+    // Возвращает результат выбора цвета.
     ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {
-                setColorButton(intent.getStringExtra(Util.INTENT_EXTRA_COLOR)!!)
+                setMarkColor(intent.getStringExtra(Util.INTENT_EXTRA_COLOR)!!)
             }
         }
     }

@@ -72,7 +72,7 @@ class GetLocation {
                 location.longitude,
                 Date(location.time)
             )
-            MapUtil.setLastAnswer(context, record)
+            MapUtil.writeLastAnswer(context, record)
         }
     }
 

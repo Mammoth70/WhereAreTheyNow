@@ -44,12 +44,12 @@ class App : Application() {
 
         // Считываем из SharedPreferences, как определять цвет темы.
         Util.themeColor = settings.getInt(NAME_THEME_COLOR, Util.themeColor)
-        // Включение динамического цвета.
+        // Определяем цвет темы.
         Util.setAppThemeColor(application, Util.themeColor, false)
 
         // Считываем из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(NAME_THEME_MODE, Util.themeMode)
-        // Включение ночного режима.
+        // Определяем режим темы.
         Util.themeMode(Util.themeMode)
 
         // Считываем из SharedPreferences, как определять геолокацию - через сервис или напрямую.

@@ -25,7 +25,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import com.google.android.material.navigation.NavigationBarView
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
-import ru.mammoth70.wherearetheynow.AppColors.getColorMarker
+import ru.mammoth70.wherearetheynow.AppColors.getMarker64
 import ru.mammoth70.wherearetheynow.MapUtil.getLastAnswer
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
@@ -88,24 +88,6 @@ class MainActivity : AppCompatActivity() {
         (getLastAnswer(this).phone != "")
         navigationBarView.menu[NM_USERS_ID].isChecked = true
     }
-
-    private val simpleAdapter: SimpleAdapter
-        get() {
-            // Функция создаёт и заполняет SimpleAdapter.
-            data = ArrayList(Util.phones.size)
-            refreshData()
-            val from = arrayOf<String?>(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
-            val to = intArrayOf(
-                R.id.itemUserPhone,
-                R.id.itemUserName,
-                R.id.itemUserLabel,
-                R.id.itemUserLayout
-            )
-            val sAdapter = SimpleAdapter(this, data, R.layout.item_user, from, to)
-            sAdapter.viewBinder = ViewBinder()
-            return sAdapter
-        }
-
 
     override fun onResume() {
         super.onResume()
@@ -322,6 +304,23 @@ class MainActivity : AppCompatActivity() {
         aboutBox.show(this.supportFragmentManager, "MESSAGE_DIALOG")
     }
 
+    private val simpleAdapter: SimpleAdapter
+        get() {
+            // Функция создаёт и заполняет SimpleAdapter.
+            data = ArrayList(Util.phones.size)
+            refreshData()
+            val from = arrayOf<String?>(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
+            val to = intArrayOf(
+                R.id.itemUserPhone,
+                R.id.itemUserName,
+                R.id.itemUserLabel,
+                R.id.itemUserLayout
+            )
+            val sAdapter = SimpleAdapter(this, data, R.layout.item_user, from, to)
+            sAdapter.viewBinder = ViewBinder()
+            return sAdapter
+        }
+
     private class ViewBinder : SimpleAdapter.ViewBinder {
         // Функция обрабатывает форматирование вывода на экран списка контактов.
         override fun setViewValue(view: View, data: Any?, textRepresentation: String?): Boolean {
@@ -331,7 +330,7 @@ class MainActivity : AppCompatActivity() {
                     return true
                 }
                 R.id.itemUserLabel -> {
-                    view.setBackgroundResource(getColorMarker(data as String?))
+                    view.setBackgroundResource(getMarker64(data as String?))
                     return true
                 }
                 else -> return false

@@ -8,7 +8,6 @@ import androidx.core.database.sqlite.transaction
 import ru.mammoth70.wherearetheynow.App.Companion.appContext
 import java.util.Locale
 
-
 class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     null, DB_VERSION) {
     // Класс обслуживает базу данных со списком контактов и прочими структурами контактов.
@@ -63,64 +62,64 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     }
 
     fun readUsers() {
-            // Функция считывает список разрешенных телефонов и словари контактов из БД.
-            readableDatabase.use { db ->
-                db.rawQuery("SELECT * FROM users;", null).use { cursor ->
-                    Util.phones.clear()
-                    Util.id2phone.clear()
-                    Util.phone2id.clear()
-                    Util.phone2name.clear()
-                    Util.phone2color.clear()
-                    Util.phone2record.clear()
-                    while (cursor.moveToNext()) {
-                        val id = cursor.getInt(
-                            cursor.getColumnIndexOrThrow("id"))
-                        val phone =
-                            cursor.getString(
-                            cursor.getColumnIndexOrThrow("phone"))
-                        val name =
-                            cursor.getString(
-                            cursor.getColumnIndexOrThrow("name"))
-                        val color =
-                            cursor.getString(
-                            cursor.getColumnIndexOrThrow("color"))
-                        Util.phones.add(phone!!)
-                        Util.id2phone.put(id, phone)
-                        Util.phone2id.put(phone, id)
-                        Util.phone2name.put(phone, name!!)
-                        Util.phone2color.put(phone, color!!)
-                        val record = getLastPoint(phone)
-                        record?.let {
-                            Util.phone2record.put(phone, record)
-                        }
+        // Функция считывает список разрешенных телефонов и словари контактов из БД.
+        readableDatabase.use { db ->
+            db.rawQuery("SELECT * FROM users;", null).use { cursor ->
+                Util.phones.clear()
+                Util.id2phone.clear()
+                Util.phone2id.clear()
+                Util.phone2name.clear()
+                Util.phone2color.clear()
+                Util.phone2record.clear()
+                while (cursor.moveToNext()) {
+                    val id = cursor.getInt(
+                        cursor.getColumnIndexOrThrow("id"))
+                    val phone =
+                        cursor.getString(
+                        cursor.getColumnIndexOrThrow("phone"))
+                    val name =
+                        cursor.getString(
+                        cursor.getColumnIndexOrThrow("name"))
+                    val color =
+                        cursor.getString(
+                        cursor.getColumnIndexOrThrow("color"))
+                    Util.phones.add(phone!!)
+                    Util.id2phone.put(id, phone)
+                    Util.phone2id.put(phone, id)
+                    Util.phone2name.put(phone, name!!)
+                    Util.phone2color.put(phone, color!!)
+                    val record = readLastPoint(phone)
+                    record?.let {
+                        Util.phone2record.put(phone, record)
                     }
                 }
             }
         }
+    }
 
     fun readMenuUsers() {
-            // Функция считывает список телефонов, отортированный по id ASC,
-            // имеющих координаты, отсортированные по дате DESC, и по id ASC,
-            // и ограниченные заданным (10-ю) количеством записей.
-            // Используется для построения меню.
-            Util.menuPhones.clear()
-            val execSting =
-                "SELECT users.phone AS phone1 FROM " +
-                    "(SELECT points.phone AS phone2 " +
-                    "FROM points INNER JOIN users ON points.phone = users.phone " +
-                    "ORDER BY points.datetime DESC, users.id ASC LIMIT 10 OFFSET 0) AS tmp " +
-                    "INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;"
-            readableDatabase.use { db ->
-                db.rawQuery(execSting, null).use { cursor ->
-                    while (cursor.moveToNext()) {
-                        val phone =
-                            cursor.getString(
-                                cursor.getColumnIndexOrThrow("phone1"))
-                        Util.menuPhones.add(phone!!)
-                    }
+        // Функция считывает список телефонов, отортированный по id ASC,
+        // имеющих координаты, отсортированные по дате DESC, и по id ASC,
+        // и ограниченные заданным (10-ю) количеством записей.
+        // Используется для построения меню.
+        Util.menuPhones.clear()
+        val execSting =
+            "SELECT users.phone AS phone1 FROM " +
+                "(SELECT points.phone AS phone2 " +
+                "FROM points INNER JOIN users ON points.phone = users.phone " +
+                "ORDER BY points.datetime DESC, users.id ASC LIMIT 10 OFFSET 0) AS tmp " +
+                "INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;"
+        readableDatabase.use { db ->
+            db.rawQuery(execSting, null).use { cursor ->
+                while (cursor.moveToNext()) {
+                    val phone =
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("phone1"))
+                    Util.menuPhones.add(phone!!)
                 }
             }
         }
+    }
 
     fun addUser(phone: String?, name: String?, color: String?): Boolean {
         // Функция добавляет запись контакта в БД и обновляет структуры.
@@ -182,8 +181,8 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         }
     }
 
-    fun setLastPoint(record: PointRecord) {
-        // Функция заносит в таблицу points последние известные координаты контакта.
+    fun writeLastPoint(record: PointRecord) {
+        // Функция заносит в БД последние известные координаты контакта.
         if (record.phone in Util.phones) {
             if ((record.latitude > -90) && (record.latitude < 90) &&
                 (record.longitude > -180) && (record.longitude < 180)
@@ -207,8 +206,9 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         }
     }
 
-    fun getLastPoint(phone: String): PointRecord? {
-        // Функция возвращает PointRecord по заданному телефону, или null, если нет или неправильно.
+    fun readLastPoint(phone: String): PointRecord? {
+        // Функция считывает из БД и возвращает PointRecord по заданному телефону,
+        // или возвращает null, если записи нет, или она некорректная.
         if (phone in Util.phones) {
             val execSting = "SELECT * FROM points WHERE phone = '$phone';"
             readableDatabase.use { db ->

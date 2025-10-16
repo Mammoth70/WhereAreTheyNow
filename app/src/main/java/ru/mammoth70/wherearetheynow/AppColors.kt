@@ -37,7 +37,7 @@ object AppColors {
         return addTransparenty(color, ALPHA_16)
     }
 
-    fun getColorMarker(color: String?): Int {
+    fun getMarker64(color: String?): Int {
         // Функция возвращает большую метку по строке с цветом.
         color?.let {
             return when (color) {
@@ -58,7 +58,7 @@ object AppColors {
         return R.drawable.ic_pin_error_64
     }
 
-    fun getColorMarkerSmall(color: String?): Int {
+    fun getMarker48(color: String?): Int {
         // Функция возвращает маленькую метку по строке с цветом.
         color?.let {
             return when (color) {

@@ -81,7 +81,7 @@ object MapUtil {
         }
     }
 
-    fun setLastAnswer(context: Context, record: PointRecord) {
+    fun writeLastAnswer(context: Context, record: PointRecord) {
         // Функция сохраняет в HashMap, SharedPreferences и в БД данные с последнего ответа на запрос.
         if ((record.latitude > -90) && (record.latitude < 90) &&
             (record.longitude > -180) && (record.longitude < 180) &&
@@ -105,7 +105,7 @@ object MapUtil {
                 putString(INTENT_EXTRA_TIME,
                     record.dateTime)
             }
-            DBhelper.dbHelper.setLastPoint(record)
+            DBhelper.dbHelper.writeLastPoint(record)
         }
     }
 
