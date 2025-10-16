@@ -37,7 +37,8 @@ class BrowserActivity : LocationActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_browser)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.browser)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.browser))
+        { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)

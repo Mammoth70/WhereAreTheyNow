@@ -62,14 +62,15 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
     fun readUsers() {
         // Функция считывает из БД список разрешенных телефонов и словари контактов.
+        Util.phones.clear()
+        Util.id2phone.clear()
+        Util.phone2id.clear()
+        Util.phone2name.clear()
+        Util.phone2color.clear()
+        Util.phone2record.clear()
         readableDatabase.use { db ->
             db.rawQuery("SELECT * FROM users;", null).use { cursor ->
-                Util.phones.clear()
-                Util.id2phone.clear()
-                Util.phone2id.clear()
-                Util.phone2name.clear()
-                Util.phone2color.clear()
-                Util.phone2record.clear()
+
                 while (cursor.moveToNext()) {
                     val id = cursor.getInt(
                         cursor.getColumnIndexOrThrow("id"))

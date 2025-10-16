@@ -23,7 +23,8 @@ class GetLocation {
     }
 
     fun sendLocation(context: Context, way: Int, address: String?, sendRequest: Boolean) {
-        // Функция запрашивает геолокацию (если есть разрешения), и отправляет ответ указанным способом.
+        // Функция запрашивает геолокацию (если есть разрешения),
+        // и отправляет ответ указанным способом.
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
         if ((ActivityCompat.checkSelfPermission(
                 context,

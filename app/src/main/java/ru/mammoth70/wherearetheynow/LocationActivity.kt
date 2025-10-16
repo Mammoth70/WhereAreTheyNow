@@ -31,7 +31,6 @@ abstract class LocationActivity : AppCompatActivity() {
         tvDateTime.text = MapUtil.timePassed(startRecord.dateTime, context)
 
         // Настройка меню со списком контактов.
-        Util.menuPhones.clear()
         DBhelper.dbHelper.readMenuUsers()
         menuButton.setOnClickListener { view: View? ->
             val popupMenu = PopupMenu(context, view)

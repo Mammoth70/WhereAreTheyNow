@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val tvTitle : TextView by lazy { findViewById(R.id.tvTitle) }
-    private val navigationBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
+    private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
     private val lvSimple: ListView by lazy { findViewById(R.id.lvUsersSimple) }
     private lateinit var sAdapter: SimpleAdapter
     private lateinit var data: ArrayList<MutableMap<String?, Any?>?>
@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main))
+        { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(
                 systemBars.left, systemBars.top,
@@ -81,13 +82,13 @@ class MainActivity : AppCompatActivity() {
             startPermissionActivity()
         }
 
-        navigationBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
-        navigationBarView.menu[NM_USERS_ID].isChecked = true
+        navBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
+        navBarView.menu[NM_USERS_ID].isChecked = true
     }
 
     override fun onResume() {
         super.onResume()
-        navigationBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
+        navBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
     }
 
     override fun onCreateContextMenu(
@@ -347,7 +348,8 @@ class MainActivity : AppCompatActivity() {
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {
-                if (intent.getBooleanExtra(SettingsActivity.INTENT_EXTRA_RESULT, false)) {
+                if (intent.getBooleanExtra(SettingsActivity.INTENT_EXTRA_RESULT,
+                        false)) {
                     recreate()
                 }
             }

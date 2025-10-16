@@ -20,7 +20,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class PermissionActivity : AppCompatActivity() {
     // Activity показывает все выданные и необходимые разрешения для работы приложения,
-    // а также (для невыданных разрешений) кнопки, вызвающие код с запросом на выдачу этих разрешений
+    // а также (для невыданных разрешений) кнопки,
+    // вызвающие код с запросом на выдачу этих разрешений.
 
     companion object {
         private const val REQUEST_PERMISSIONS_LOCATION = 482
@@ -53,7 +54,8 @@ class PermissionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_permission)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.permissions)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.permissions))
+        { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,
                 systemBars.right, systemBars.bottom)
