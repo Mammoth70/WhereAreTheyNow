@@ -64,7 +64,7 @@ class GetLocation {
     }
 
     private fun updateLocalLocation(location: Location) {
-        // Функция сохраняет локальное состояние локации данные в HashMap, в SharedPreferences и в БД.
+        // Функция сохраняет локальное состояние локации.
         if (!Util.myphone.isEmpty()) {
             val record = PointRecord(
                 Util.myphone,

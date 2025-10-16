@@ -74,7 +74,7 @@ class App : Application() {
         // Очистка "висящих" записей.
         DBhelper.dbHelper.checkRecords()
 
-        // Чтение из SharedPreferences данных с последнего ответа на запрос.
+        // Чтение из БД данных с последнего ответа на запрос.
         Util.lastAnswerRecord = DBhelper.dbHelper.readLastAnswer()
     }
 
