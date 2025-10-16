@@ -26,7 +26,6 @@ import androidx.core.view.get
 import com.google.android.material.navigation.NavigationBarView
 import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
 import ru.mammoth70.wherearetheynow.AppColors.getMarker64
-import ru.mammoth70.wherearetheynow.MapUtil.getLastAnswer
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
@@ -82,16 +81,13 @@ class MainActivity : AppCompatActivity() {
             startPermissionActivity()
         }
 
-        navigationBarView.menu[NM_MAP_ID].isEnabled = true
-        (getLastAnswer(this).phone != "")
+        navigationBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
         navigationBarView.menu[NM_USERS_ID].isChecked = true
     }
 
     override fun onResume() {
         super.onResume()
-        getLastAnswer(this)
-        navigationBarView.menu[NM_MAP_ID].isEnabled = true
-        (getLastAnswer(this).phone != "")
+        navigationBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
     }
 
     override fun onCreateContextMenu(
@@ -240,8 +236,9 @@ class MainActivity : AppCompatActivity() {
     fun onMapClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
         // Функция - обработчик кнопки меню "карта".
         // Вызывает соответствующую Activity.
-        val record = getLastAnswer(this)
-        MapUtil.viewLocation(this, record, false)
+        Util.lastAnswerRecord.let {
+            MapUtil.viewLocation(this, Util.lastAnswerRecord!!, false)
+        }
     }
 
     fun onSettingsClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
@@ -249,7 +246,6 @@ class MainActivity : AppCompatActivity() {
         // Вызывает соответствующую Activity.
         val intent = Intent(this, SettingsActivity::class.java)
         startActivitySettingsIntent.launch(intent)
-
     }
 
     private fun startPermissionActivity() {

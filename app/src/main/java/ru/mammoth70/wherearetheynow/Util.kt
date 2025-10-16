@@ -10,7 +10,7 @@ import java.util.Date
 import java.util.Locale
 
 object Util {
-    // Объект для констант и статических функций.
+    // Объект для констант, синглтонов и статических функций.
 
     const val INTENT_EXTRA_COLOR: String = "color"
     const val INTENT_EXTRA_SMS_TO: String = "sms_to"
@@ -26,7 +26,6 @@ object Util {
     const val INTENT_EXTRA_MAP_CIRCLE_RADIUS: String = "radius"
 
     const val NAME_SETTINGS: String = "Settings"
-    const val NAME_LAST_USER: String = "LastUser"
     const val NAME_USE_SERVICE: String = "UseService"
     const val NAME_MY_PHONE: String = "myphone"
 
@@ -55,6 +54,7 @@ object Util {
     var phone2id: HashMap<String, Int> = HashMap() // словарь телефон:id
     var phone2color: HashMap<String, String> = HashMap() // словарь телефон:цвет
     var phone2record: HashMap<String, PointRecord> =  HashMap() // словарь телефон:point
+    var lastAnswerRecord: PointRecord? = null // запись с данными последнего ответа
 
     const val HEADER_REQUEST: String = "^WATN R$"
     const val HEADER_REQUEST_AND_LOCATION: String = "^WATN R "

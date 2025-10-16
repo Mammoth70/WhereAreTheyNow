@@ -224,7 +224,7 @@ class SettingsActivity : AppCompatActivity() {
         Util.myphone = edMyPhone.getText().toString()
         Util.myphone = Util.myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
             "")
-        if (Util.myphone != "") {
+        if (!Util.myphone.isEmpty()) {
             prefEditor.putString(NAME_MY_PHONE, Util.myphone)
         }
 

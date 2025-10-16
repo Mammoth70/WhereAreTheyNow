@@ -2,7 +2,6 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.edit
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -11,7 +10,6 @@ import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP
-import ru.mammoth70.wherearetheynow.Util.NAME_LAST_USER
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
@@ -79,50 +77,6 @@ object MapUtil {
             intent.putExtra(INTENT_EXTRA_TIME, record.dateTime)
             context.startActivity(intent)
         }
-    }
-
-    fun writeLastAnswer(context: Context, record: PointRecord) {
-        // Функция сохраняет в HashMap, SharedPreferences и в БД данные с последнего ответа на запрос.
-        if ((record.latitude > -90) && (record.latitude < 90) &&
-            (record.longitude > -180) && (record.longitude < 180) &&
-            (record.phone in Util.phones)
-        ) {
-            Util.phone2record.put(record.phone, record)
-            val settings = context.getSharedPreferences(NAME_LAST_USER,
-                Context.MODE_PRIVATE)
-            settings.edit {
-                putString(INTENT_EXTRA_SMS_FROM, record.phone)
-                putString(
-                    INTENT_EXTRA_LATITUDE,
-                    String.format(Locale.US, PointRecord.FORMAT_DOUBLE,
-                        record.latitude)
-                )
-                putString(
-                    INTENT_EXTRA_LONGITUDE,
-                    String.format(Locale.US, PointRecord.FORMAT_DOUBLE,
-                        record.longitude)
-                )
-                putString(INTENT_EXTRA_TIME,
-                    record.dateTime)
-            }
-            DBhelper.dbHelper.writeLastPoint(record)
-        }
-    }
-
-    fun getLastAnswer(context: Context): PointRecord {
-        // Функция считывает из SharedPreferences данные с последнего ответа на запрос.
-        val settings = context.getSharedPreferences(NAME_LAST_USER,
-            Context.MODE_PRIVATE)
-        return PointRecord(
-            settings.getString(INTENT_EXTRA_SMS_FROM,
-                "") ?:"",
-            settings.getString(INTENT_EXTRA_LATITUDE,
-                "0")!!.toDouble(),
-            settings.getString(INTENT_EXTRA_LONGITUDE,
-                "0")!!.toDouble(),
-            settings.getString(INTENT_EXTRA_TIME,
-                "") ?:""
-        )
     }
 
     fun timePassed(dateTime: String, context: Context): String {

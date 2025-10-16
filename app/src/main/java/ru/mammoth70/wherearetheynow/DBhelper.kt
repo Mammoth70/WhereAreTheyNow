@@ -153,7 +153,9 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     return false
                 }
             }
+            checkRecords()
             readUsers()
+            Util.lastAnswerRecord = readLastAnswer()
             return (phone in Util.phones)
         } else {
             return false
@@ -174,6 +176,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 }
             }
             readUsers()
+            Util.lastAnswerRecord = readLastAnswer()
             return (id !in Util.id2phone)
         } else {
             return false
@@ -181,11 +184,14 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     }
 
     fun writeLastPoint(record: PointRecord) {
-        // Функция заносит в БД последние известные координаты контакта.
+        // Функция заносит в HashMap и в БД последние известные координаты контакта.
+        // Функция заносит в record ответ с последними полученными координатами.
         if (record.phone in Util.phones) {
             if ((record.latitude > -90) && (record.latitude < 90) &&
                 (record.longitude > -180) && (record.longitude < 180)
             ) {
+                Util.phone2record.put(record.phone, record)
+                Util.lastAnswerRecord = record
                 val phone = record.phone
                 val latitude = String.format(Locale.US,
                         PointRecord.FORMAT_DOUBLE, record.latitude)
@@ -237,6 +243,50 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             }
         }
         return null
+    }
+
+    fun readLastAnswer(): PointRecord? {
+        // Функция считывает из БД и возвращает PointRecord с последним запросом,
+        // Возвращает null, если записи нет, или она некорректная.
+        val execSting = "SELECT * FROM points ORDER BY datetime DESC LIMIT 10 OFFSET 0;"
+        readableDatabase.use { db ->
+            db.rawQuery(execSting, null).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val record = PointRecord(
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("phone")),
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("latitude"))
+                            .toDouble(),
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("longitude"))
+                            .toDouble(),
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("datetime"))
+                    )
+                    return if ((record.latitude > -90) && (record.latitude < 90) &&
+                        (record.longitude > -180) && (record.longitude < 180)
+                    ) {
+                        record
+                    } else {
+                        null
+                    }
+                }
+            }
+        }
+        return null
+    }
+
+    fun checkRecords() {
+        // Функция удаляет из таблицы points записи, не имеющие ссылок на таблицу phones.
+        val execSting = "DELETE FROM points WHERE NOT EXISTS " +
+                        "(SELECT 1 FROM users WHERE points.phone = users.phone);"
+        readableDatabase.use { db ->
+            try {
+                db.execSQL(execSting)
+            } catch (_: SQLException) {
+            }
+        }
     }
 
 }

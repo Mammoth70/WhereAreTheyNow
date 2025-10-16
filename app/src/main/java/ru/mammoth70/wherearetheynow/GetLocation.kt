@@ -37,7 +37,7 @@ class GetLocation {
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
                 .addOnSuccessListener(OnSuccessListener { location: Location? ->
                     location?.let {
-                        updateLocalLocation(context, location)
+                        updateLocalLocation(location)
                         when (way) {
                             WAY_SMS -> sendSMS(context, location, address, sendRequest)
                             WAY_LOCAL -> sendLocal(context, location)
@@ -63,7 +63,7 @@ class GetLocation {
         }
     }
 
-    private fun updateLocalLocation(context: Context, location: Location) {
+    private fun updateLocalLocation(location: Location) {
         // Функция сохраняет локальное состояние локации данные в HashMap, в SharedPreferences и в БД.
         if (!Util.myphone.isEmpty()) {
             val record = PointRecord(
@@ -72,7 +72,7 @@ class GetLocation {
                 location.longitude,
                 Date(location.time)
             )
-            MapUtil.writeLastAnswer(context, record)
+            DBhelper.dbHelper.writeLastPoint(record)
         }
     }
 

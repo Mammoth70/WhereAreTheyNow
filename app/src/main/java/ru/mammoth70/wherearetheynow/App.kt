@@ -70,6 +70,12 @@ class App : Application() {
 
         // Чтение из БД списка разрешенных телефонов и словарей контактов.
         DBhelper.dbHelper.readUsers()
+
+        // Очистка "висящих" записей.
+        DBhelper.dbHelper.checkRecords()
+
+        // Чтение из SharedPreferences данных с последнего ответа на запрос.
+        Util.lastAnswerRecord = DBhelper.dbHelper.readLastAnswer()
     }
 
 }

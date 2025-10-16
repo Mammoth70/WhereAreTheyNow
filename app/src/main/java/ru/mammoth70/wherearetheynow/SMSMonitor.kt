@@ -5,9 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import java.util.regex.Pattern
-import ru.mammoth70.wherearetheynow.MapUtil.writeLastAnswer
-import ru.mammoth70.wherearetheynow.MapUtil.viewLocation
-import ru.mammoth70.wherearetheynow.Util.stringToDate
 import ru.mammoth70.wherearetheynow.Util.HEADER_REQUEST
 import ru.mammoth70.wherearetheynow.Util.HEADER_REQUEST_AND_LOCATION
 import ru.mammoth70.wherearetheynow.Util.HEADER_ANSWER
@@ -68,7 +65,8 @@ class SMSMonitor : BroadcastReceiver() {
         } else {
             // Функция передаёт обработку запроса геолокации в GetLocation.
             val getLocation = GetLocation()
-            getLocation.sendLocation(context, GetLocation.WAY_SMS, smsTo, false)
+            getLocation.sendLocation(context, GetLocation.WAY_SMS,
+                smsTo, false)
         }
     }
 
@@ -82,19 +80,22 @@ class SMSMonitor : BroadcastReceiver() {
         val pattern = Pattern.compile(REGEXP_ANSWER)
         val matcher = pattern.matcher(message)
         if ((matcher.find())) {
-            if ((matcher.group(1) != null) && (matcher.group(2) != null) && (matcher.group(3) != null)) {
+            if ((matcher.group(1) != null) &&
+                (matcher.group(2) != null) &&
+                (matcher.group(3) != null)) {
                 try {
                     val latitude = matcher.group(1)?.toDouble()!!
                     val longitude = matcher.group(2)?.toDouble()!!
-                    val dateTime = stringToDate(matcher.group(3)!!)
+                    val dateTime = Util.stringToDate(matcher.group(3)!!)
                     if ((dateTime != null) &&
                         (latitude > -90) && (latitude < 90) &&
                         (longitude > -180) && (longitude < 180)
                     ) {
-                        val record = PointRecord(smsFrom, latitude, longitude, dateTime)
-                        writeLastAnswer(context, record)
+                        val record = PointRecord(smsFrom,
+                            latitude, longitude, dateTime)
+                        DBhelper.dbHelper.writeLastPoint(record)
                         if (show) {
-                            viewLocation(context, record, true)
+                            MapUtil.viewLocation(context, record, true)
                         }
                     }
                 } catch (_: NumberFormatException) {
