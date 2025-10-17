@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.graphics.toColorInt
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
 
 class TextActivity : LocationActivity() {
     // Activity выводит текст с геолокацией, переданной через intent.
@@ -123,7 +122,7 @@ class TextActivity : LocationActivity() {
             val color: String?
             if (view.id == R.id.itemUserGeoLayout) {
                 color = (data as String?)
-                view.setBackgroundColor(getColorAlpha16(color).toColorInt())
+                view.setBackgroundColor(AppColors.getColorAlpha16(color))
                 return true
             } else {
                 return false

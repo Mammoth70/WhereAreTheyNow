@@ -147,7 +147,7 @@ class UserActivity : AppCompatActivity() {
         // Функция - обработчик кнопки "метка" (выбор цвета).
         if (selectedColorTemp.isEmpty()) {
             tvMark.setTextColor(colorOnSurfaceVariant)
-            tvMark.setBackgroundResource(R.drawable.ic_pin_empty_64)
+            tvMark.setBackgroundResource(R.drawable.ic_pin_empty)
             cardColor.strokeColor = colorOutline
             tvColorError.text = ""
         }
@@ -160,17 +160,17 @@ class UserActivity : AppCompatActivity() {
         tvMark.text = ""
         selectedColorTemp = color
         when (Objects.requireNonNull(color)) {
-            AppColors.COLOR_WHITE -> tvMark.setBackgroundResource(R.drawable.ic_pin_white_64)
-            AppColors.COLOR_RED -> tvMark.setBackgroundResource(R.drawable.ic_pin_red_64)
-            AppColors.COLOR_ORANGE -> tvMark.setBackgroundResource(R.drawable.ic_pin_orange_64)
-            AppColors.COLOR_YELLOW -> tvMark.setBackgroundResource(R.drawable.ic_pin_yellow_64)
-            AppColors.COLOR_GREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_green_64)
-            AppColors.COLOR_DARKGREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_darkgreen_64)
-            AppColors.COLOR_CYAN -> tvMark.setBackgroundResource(R.drawable.ic_pin_cyan_64)
-            AppColors.COLOR_BLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_blue_64)
-            AppColors.COLOR_VIOLET -> tvMark.setBackgroundResource(R.drawable.ic_pin_violet_64)
-            AppColors.COLOR_MAGENTA -> tvMark.setBackgroundResource(R.drawable.ic_pin_magenta_64)
-            else -> tvMark.setBackgroundResource(R.drawable.ic_pin_black_64)
+            AppColors.COLOR_WHITE -> tvMark.setBackgroundResource(R.drawable.ic_pin_white)
+            AppColors.COLOR_RED -> tvMark.setBackgroundResource(R.drawable.ic_pin_red)
+            AppColors.COLOR_ORANGE -> tvMark.setBackgroundResource(R.drawable.ic_pin_orange)
+            AppColors.COLOR_YELLOW -> tvMark.setBackgroundResource(R.drawable.ic_pin_yellow)
+            AppColors.COLOR_GREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_green)
+            AppColors.COLOR_DARKGREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_darkgreen)
+            AppColors.COLOR_CYAN -> tvMark.setBackgroundResource(R.drawable.ic_pin_cyan)
+            AppColors.COLOR_BLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_blue)
+            AppColors.COLOR_VIOLET -> tvMark.setBackgroundResource(R.drawable.ic_pin_violet)
+            AppColors.COLOR_MAGENTA -> tvMark.setBackgroundResource(R.drawable.ic_pin_magenta)
+            else -> tvMark.setBackgroundResource(R.drawable.ic_pin_black)
         }
     }
 
@@ -195,7 +195,7 @@ class UserActivity : AppCompatActivity() {
             // проверяем метку на заполнение
             cardColor.strokeColor = colorError
             tvMark.setTextColor(colorError)
-            tvMark.setBackgroundResource(R.drawable.ic_pin_error_64)
+            tvMark.setBackgroundResource(R.drawable.ic_pin_error)
             tvColorError.setText(R.string.err_empty_label)
         }
 

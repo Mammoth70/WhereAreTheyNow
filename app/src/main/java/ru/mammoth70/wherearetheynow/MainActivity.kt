@@ -9,7 +9,6 @@ import android.view.ContextMenu.ContextMenuInfo
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ListView
 import android.widget.SimpleAdapter
@@ -24,8 +23,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import com.google.android.material.navigation.NavigationBarView
-import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
-import ru.mammoth70.wherearetheynow.AppColors.getMarker64
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
@@ -47,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
     private val lvSimple: ListView by lazy { findViewById(R.id.lvUsersSimple) }
     private lateinit var sAdapter: SimpleAdapter
-    private lateinit var data: ArrayList<MutableMap<String?, Any?>?>
+    private lateinit var data: ArrayList<MutableMap<String, Any>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -71,11 +68,8 @@ class MainActivity : AppCompatActivity() {
         lvSimple.setAdapter(sAdapter)
         lvSimple.isClickable = true
         registerForContextMenu(lvSimple)
-        lvSimple.setOnItemClickListener { parent: AdapterView<*>?, view: View?,
-                                          position: Int, id: Long ->
-            editUser(
-                position
-            )
+        lvSimple.setOnItemClickListener { parent, view, position, id ->
+            editUser(position)
         }
 
         if (!checkAllPermissions()) {
@@ -219,11 +213,11 @@ class MainActivity : AppCompatActivity() {
         // Функция обновляет данные для списка контактов из БД.
         data.clear()
         for (phone in Util.phones) {
-            val m: MutableMap<String?, Any?> = HashMap()
+            val m: MutableMap<String, Any> = HashMap()
             m.put(COLUMN_PHONE, phone)
-            m.put(COLUMN_NAME, Util.phone2name[phone])
-            m.put(COLUMN_COLOR, Util.phone2color[phone])
-            m.put(COLUMN_BACK, Util.phone2color[phone])
+            m.put(COLUMN_NAME, Util.phone2name[phone]!!)
+            m.put(COLUMN_COLOR, Util.phone2color[phone]!!)
+            m.put(COLUMN_BACK, Util.phone2color[phone]!!)
             data.add(m)
         }
     }
@@ -304,7 +298,7 @@ class MainActivity : AppCompatActivity() {
             // Функция создаёт и заполняет SimpleAdapter.
             data = ArrayList(Util.phones.size)
             refreshData()
-            val from = arrayOf<String?>(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
+            val from = arrayOf(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
             val to = intArrayOf(
                 R.id.itemUserPhone,
                 R.id.itemUserName,
@@ -321,11 +315,11 @@ class MainActivity : AppCompatActivity() {
         override fun setViewValue(view: View, data: Any?, textRepresentation: String?): Boolean {
             when (view.id) {
                 R.id.itemUserLayout -> {
-                    view.setBackgroundColor(getColorAlpha16(data as String?).toColorInt())
+                    view.setBackgroundColor(AppColors.getColorAlpha16(data as String?))
                     return true
                 }
                 R.id.itemUserLabel -> {
-                    view.setBackgroundResource(getMarker64(data as String?))
+                    view.setBackgroundResource(AppColors.getMarker(data as String?))
                     return true
                 }
                 else -> return false

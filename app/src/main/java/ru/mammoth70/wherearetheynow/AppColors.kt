@@ -1,5 +1,7 @@
 package ru.mammoth70.wherearetheynow
 
+import androidx.core.graphics.toColorInt
+
 object AppColors {
     // Объект для работы с цветовыми ресурсами.
 
@@ -15,68 +17,46 @@ object AppColors {
     const val COLOR_VIOLET: String = "#8F00FF"
     const val COLOR_MAGENTA: String = "#FF00B1"
 
-    val colors: ArrayList<String> = ArrayList(
+    val colors =
         listOf(
             COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_DARKGREEN,
             COLOR_CYAN, COLOR_BLUE, COLOR_VIOLET, COLOR_MAGENTA, COLOR_BLACK
         )
-    )
 
     private const val OCTOHORPE = '#'
     private const val COLOR_WHITE_8 = "#FFFFFFFF"
     private const val ALPHA_48 = "48"
     private const val ALPHA_16 = "16"
 
-    fun getColorAlpha(color: String?): String {
-        // Функция возвращает прозрачный цвет по строке с цветом.
-        return addTransparenty(color, ALPHA_48)
+    fun getColorAlpha(color: String?): Int {
+        // Функция возвращает номер прозрачного цвета по строке с цветом.
+        return addTransparenty(color, ALPHA_48).toColorInt()
     }
 
-    fun getColorAlpha16(color: String?): String {
-        // Функция возвращает прозрачный цвет по строке с цветом.
-        return addTransparenty(color, ALPHA_16)
+    fun getColorAlpha16(color: String?): Int {
+        // Функция возвращает номер прозрачного цвета по строке с цветом.
+        return addTransparenty(color, ALPHA_16).toColorInt()
     }
 
-    fun getMarker64(color: String?): Int {
-        // Функция возвращает большую метку по строке с цветом.
-        color?.let {
-            return when (color) {
-                COLOR_WHITE -> R.drawable.ic_pin_white_64
-                COLOR_RED -> R.drawable.ic_pin_red_64
-                COLOR_ORANGE -> R.drawable.ic_pin_orange_64
-                COLOR_YELLOW -> R.drawable.ic_pin_yellow_64
-                COLOR_GREEN -> R.drawable.ic_pin_green_64
-                COLOR_DARKGREEN -> R.drawable.ic_pin_darkgreen_64
-                COLOR_CYAN -> R.drawable.ic_pin_cyan_64
-                COLOR_BLUE -> R.drawable.ic_pin_blue_64
-                COLOR_VIOLET -> R.drawable.ic_pin_violet_64
-                COLOR_MAGENTA -> R.drawable.ic_pin_magenta_64
-                COLOR_BLACK -> R.drawable.ic_pin_black_64
-                else -> R.drawable.ic_pin_empty_64
-            }
-        }
-        return R.drawable.ic_pin_error_64
-    }
-
-    fun getMarker48(color: String?): Int {
+    fun getMarker(color: String?): Int {
         // Функция возвращает маленькую метку по строке с цветом.
         color?.let {
             return when (color) {
-                COLOR_WHITE -> R.drawable.ic_pin_white_48
-                COLOR_RED -> R.drawable.ic_pin_red_48
-                COLOR_ORANGE -> R.drawable.ic_pin_orange_48
-                COLOR_YELLOW -> R.drawable.ic_pin_yellow_48
-                COLOR_GREEN -> R.drawable.ic_pin_green_48
-                COLOR_DARKGREEN -> R.drawable.ic_pin_darkgreen_48
-                COLOR_CYAN -> R.drawable.ic_pin_cyan_48
-                COLOR_BLUE -> R.drawable.ic_pin_blue_48
-                COLOR_VIOLET -> R.drawable.ic_pin_violet_48
-                COLOR_MAGENTA -> R.drawable.ic_pin_magenta_48
-                COLOR_BLACK -> R.drawable.ic_pin_black_48
-                else -> R.drawable.ic_pin_empty_48
+                COLOR_WHITE -> R.drawable.ic_pin_white
+                COLOR_RED -> R.drawable.ic_pin_red
+                COLOR_ORANGE -> R.drawable.ic_pin_orange
+                COLOR_YELLOW -> R.drawable.ic_pin_yellow
+                COLOR_GREEN -> R.drawable.ic_pin_green
+                COLOR_DARKGREEN -> R.drawable.ic_pin_darkgreen
+                COLOR_CYAN -> R.drawable.ic_pin_cyan
+                COLOR_BLUE -> R.drawable.ic_pin_blue
+                COLOR_VIOLET -> R.drawable.ic_pin_violet
+                COLOR_MAGENTA -> R.drawable.ic_pin_magenta
+                COLOR_BLACK -> R.drawable.ic_pin_black
+                else -> R.drawable.ic_pin_empty
             }
         }
-        return R.drawable.ic_pin_error_48
+        return R.drawable.ic_pin_error
     }
 
     private fun addTransparenty(color: String?, tranparent: String?): String {

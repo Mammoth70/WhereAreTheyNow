@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.SimpleAdapter
 import android.widget.TextView
@@ -12,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.graphics.toColorInt
-import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha16
-import ru.mammoth70.wherearetheynow.AppColors.getMarker64
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppCompatActivity() {
@@ -44,8 +41,7 @@ class ColorsActivity : AppCompatActivity() {
         tvTitle.setText(R.string.titleColors)
         lvSimple.setAdapter(simpleAdapter)
         lvSimple.isClickable = true
-        lvSimple.setOnItemClickListener { parent: AdapterView<*>?, view: View?,
-                                          position: Int, id: Long ->
+        lvSimple.setOnItemClickListener { parent, view, position, id ->
             val selectedItem = AppColors.colors[position]
             val intent = Intent()
             intent.putExtra(INTENT_EXTRA_COLOR, selectedItem)
@@ -57,9 +53,9 @@ class ColorsActivity : AppCompatActivity() {
     private val simpleAdapter: SimpleAdapter
         get() {
             // Функция создаёт и заполняет SimpleAdapter.
-            val data = ArrayList<Map<String?, Any?>?>(AppColors.colors.size)
+            val data = ArrayList<Map<String, Any>>(AppColors.colors.size)
             for (color in AppColors.colors) {
-                val m = HashMap<String?, Any?>()
+                val m = HashMap<String, Any>()
                 m.put(COLUMN_COLOR, color)
                 m.put(COLUMN_BACK, color)
                 data.add(m)
@@ -79,11 +75,11 @@ class ColorsActivity : AppCompatActivity() {
         override fun setViewValue(view: View, data: Any?, textRepresentation: String?): Boolean {
             when (view.id) {
                 R.id.itemColorLayout -> {
-                    view.setBackgroundColor(getColorAlpha16(data as String?).toColorInt())
+                    view.setBackgroundColor(AppColors.getColorAlpha16(data as String?))
                     return true
                 }
                 R.id.itemColorLabel -> {
-                    view.setBackgroundResource(getMarker64(data as String?))
+                    view.setBackgroundResource(AppColors.getMarker(data as String?))
                     return true
                 }
                 else -> return false

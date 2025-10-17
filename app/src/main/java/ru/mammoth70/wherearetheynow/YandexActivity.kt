@@ -35,8 +35,6 @@ import com.yandex.mapkit.map.TextStyle
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.AppColors.getColorAlpha
-import ru.mammoth70.wherearetheynow.AppColors.getMarker48
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
@@ -133,7 +131,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                         ),iconStyle)
                         userData = key
                         addTapListener(mapObjectTapListener)
-                        setText(Util.phone2name[key].toString() ,markTextStyle)
+                        setText(Util.phone2name[key]!! ,markTextStyle)
                     }
                     )
 
@@ -145,7 +143,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                             ).apply {
                                 strokeColor = Util.phone2color[key]?.toColorInt()!!
                                 strokeWidth = 1f
-                                fillColor = getColorAlpha(Util.phone2color[key]).toColorInt()
+                                fillColor = AppColors.getColorAlpha(Util.phone2color[key])
                             }
                         )
                     }
@@ -234,7 +232,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private fun getBitmapFromColor(color: String?): Bitmap {
         // Функция возвращает метку заданного цвета.
-        return createBitmapFromVector(getMarker48(color))
+        return createBitmapFromVector(AppColors.getMarker(color))
     }
 
     override fun onStart() {
