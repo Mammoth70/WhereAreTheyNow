@@ -5,11 +5,6 @@ import android.content.Intent
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
@@ -46,27 +41,16 @@ object MapUtil {
             (record.longitude > -180) && (record.longitude < 180) &&
             (record.phone in Util.phones)
         ) {
-            val intent: Intent
-            when (selectedMap) {
+            val intent: Intent = when (selectedMap) {
                 MAP_YANDEX -> {
-                    intent = Intent(context, YandexActivity::class.java)
-                    intent.putExtra(INTENT_EXTRA_MAP_ZOOM,
-                        selectedMapZoom)
-                    intent.putExtra(INTENT_EXTRA_MAP_TILT,
-                        selectedMapTilt)
-                    intent.putExtra(INTENT_EXTRA_MAP_CIRCLE,
-                        selectedMapCircle)
-                    intent.putExtra(INTENT_EXTRA_MAP_CIRCLE_RADIUS,
-                        selectedMapCircleRadius)
+                    Intent(context, YandexActivity::class.java)
                 }
+
                 MAP_OPENSTREET -> {
-                    intent = Intent(context, BrowserActivity::class.java)
-                    intent.putExtra(INTENT_EXTRA_MAP,
-                        selectedMap)
-                    intent.putExtra( INTENT_EXTRA_MAP_ZOOM,
-                        selectedMapZoom)
+                    Intent(context, BrowserActivity::class.java)
                 }
-                else -> intent = Intent(context, TextActivity::class.java)
+
+                else -> Intent(context, TextActivity::class.java)
             }
             if (newTask) {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

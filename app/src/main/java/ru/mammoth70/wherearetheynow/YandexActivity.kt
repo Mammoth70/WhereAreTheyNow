@@ -35,23 +35,12 @@ import com.yandex.mapkit.map.TextStyle
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_TILT
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_CIRCLE_RADIUS
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_TILT_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_ZOOM_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_CIRCLE_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_CIRCLE_DEFAULT_RADIUS
 
 class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     // Activity выводит yandex-карту с геолокацией, переданной через intent.
 
     private val mapView: MapView by lazy { findViewById<MapView>(R.id.yandexview) }
-    private val mapZoom: Float by lazy { intent!!.getFloatExtra(INTENT_EXTRA_MAP_ZOOM,
-                                                            MAP_ZOOM_DEFAULT) }
-    private val mapTilt: Float by lazy { intent!!.getFloatExtra(INTENT_EXTRA_MAP_TILT,
-                                                            MAP_TILT_DEFAULT) }
     private val map: Map by lazy { mapView.mapWindow.map }
     private val fabNord: FloatingActionButton by lazy {
         findViewById<FloatingActionButton>(R.id.floatingActionButtonMapNord) }
@@ -91,15 +80,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 map.isNightModeEnabled = true
         }
         val mapObjectCollection = mapView.mapWindow.map.mapObjects.addCollection()
-
-        val mapCircle =
-            intent!!.getBooleanExtra(INTENT_EXTRA_MAP_CIRCLE,
-                MAP_CIRCLE_DEFAULT)
-        val mapCircleRadius = intent!!.getFloatExtra(
-            INTENT_EXTRA_MAP_CIRCLE_RADIUS,
-            MAP_CIRCLE_DEFAULT_RADIUS
-        )
-
         val points = ArrayList<Point?>()
         val imageProviders = ArrayList<ImageProvider?>()
         val placemarkMapObjects = ArrayList<PlacemarkMapObject?>()
@@ -135,11 +115,11 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                     }
                     )
 
-                    if (mapCircle) {
+                    if (MapUtil.selectedMapCircle) {
                         circleMapObjects.add(
                             mapObjectCollection.addCircle(
                                 Circle(Point(value.latitude,
-                                    value.longitude), mapCircleRadius)
+                                    value.longitude), MapUtil.selectedMapCircleRadius)
                             ).apply {
                                 strokeColor = Util.phone2color[key]?.toColorInt()!!
                                 strokeWidth = 1f
@@ -183,7 +163,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         // Функция передвигает карту на PointRecord.
         start2D3D()
         val point = Point(rec.latitude, rec.longitude)
-        val cameraPosition = CameraPosition(point, mapZoom, 0f, mapTilt)
+        val cameraPosition = CameraPosition(point, MapUtil.selectedMapZoom,
+            0f, MapUtil.selectedMapTilt)
         map.move(cameraPosition)
     }
 
@@ -197,8 +178,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 val currCameraPosition = map.cameraPosition
                 val newPoint = Point(rec.latitude, rec.longitude)
                 var newZoom = currCameraPosition.zoom
-                if (newZoom < mapZoom) {
-                    newZoom = mapZoom
+                if (newZoom < MapUtil.selectedMapZoom) {
+                    newZoom = MapUtil.selectedMapZoom
                 }
                 tvTitle.text = Util.phone2name[phone]
                 tvDateTime.text = MapUtil.timePassed(Util.phone2record[phone]!!.dateTime,
@@ -251,7 +232,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private fun start2D3D() {
         // Функция устанавливает в начальное состояние кнопку FAB "2D/3D".
-        if (mapTilt == 0f) {
+        if (MapUtil.selectedMapTilt == 0f) {
             fab2D3D.setContentDescription(getString(R.string.map3d))
             fab2D3D.setImageResource(R.drawable.ic_action_3d)
         } else {
@@ -266,10 +247,10 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         val currCameraPosition = map.cameraPosition
         val currTilt = currCameraPosition.tilt
         val newTilt: Float = if (currTilt == 0f) {
-            if (mapTilt == 0f) {
+            if (MapUtil.selectedMapTilt == 0f) {
                 MAP_TILT_DEFAULT
             } else {
-                mapTilt
+                MapUtil.selectedMapTilt
             }
         } else {
             0f

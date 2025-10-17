@@ -9,10 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_MAP_ZOOM
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_OPENSTREET
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_ZOOM_DEFAULT
 
 class BrowserActivity : LocationActivity() {
     // Activity выводит карту с геолокацией, переданной через intent.
@@ -24,10 +21,6 @@ class BrowserActivity : LocationActivity() {
     }
 
     private val webView: WebView by lazy { findViewById(R.id.webView) }
-    private val mapChange: Int by lazy { intent!!.getIntExtra(INTENT_EXTRA_MAP,
-                                MAP_OPENSTREET) }
-    private val mapZoom: Float by lazy { intent!!.getFloatExtra(INTENT_EXTRA_MAP_ZOOM,
-                                MAP_ZOOM_DEFAULT) }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,9 +49,9 @@ class BrowserActivity : LocationActivity() {
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит uri по PointRecord.
         val uri: String?
-        if (mapChange == MAP_OPENSTREET) {
+        if (MapUtil.selectedMap == MAP_OPENSTREET) {
             uri = String.format(Locale.US, URL_OPENSTREET,
-                rec.latitude, rec.longitude, mapZoom)
+                rec.latitude, rec.longitude, MapUtil.selectedMapZoom)
             webView.loadUrl(uri)
         } else {
             finish()

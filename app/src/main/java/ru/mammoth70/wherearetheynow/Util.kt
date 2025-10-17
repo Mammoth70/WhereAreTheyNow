@@ -19,11 +19,6 @@ object Util {
     const val INTENT_EXTRA_LATITUDE: String = "latitude"
     const val INTENT_EXTRA_LONGITUDE: String = "longitude"
     const val INTENT_EXTRA_TIME: String = "time"
-    const val INTENT_EXTRA_MAP: String = "map"
-    const val INTENT_EXTRA_MAP_ZOOM: String = "zoom"
-    const val INTENT_EXTRA_MAP_TILT: String = "tilt"
-    const val INTENT_EXTRA_MAP_CIRCLE: String = "circle"
-    const val INTENT_EXTRA_MAP_CIRCLE_RADIUS: String = "radius"
 
     const val NAME_SETTINGS: String = "Settings"
     const val NAME_USE_SERVICE: String = "UseService"
