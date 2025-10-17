@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.graphics.toColorInt
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppCompatActivity() {
