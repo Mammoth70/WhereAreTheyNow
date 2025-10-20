@@ -52,6 +52,7 @@
     <string name="themeYellow">yellow</string>
     <string name="themeGreen">green</string>
     <string name="themeBlue">blue</string>
+    <string name="themeM3">google</string>
     <string name="selectThemeMode">Select theme mode</string>
     <string name="themeDay">day</string>
     <string name="themeSystem">system</string>

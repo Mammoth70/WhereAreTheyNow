@@ -18,6 +18,7 @@
     <color name="overlay_yellow_onPrimary">#3A3000</color>
     <color name="overlay_yellow_primaryContainer">#534600</color>
     <color name="overlay_yellow_onPrimaryContainer">#F8E287</color>
+    <color name="overlay_yellow_secondary">#D1C6A1</color>
     <color name="overlay_yellow_onSecondary">#363016</color>
     <color name="overlay_yellow_secondaryContainer">#4E472A</color>
     <color name="overlay_yellow_onSecondaryContainer">#EEE2BC</color>
@@ -54,6 +55,20 @@
     <color name="overlay_blue_tertiaryContainer">#573E5C</color>
     <color name="overlay_blue_onTertiaryContainer">#FAD8FD</color>
     <color name="overlay_blue_granted">#88F2C1</color>
+
+    <color name="md3_theme_primary">#CFBDFE</color>
+    <color name="md3_theme_onPrimary">#36275D</color>
+    <color name="md3_theme_primaryContainer">#4D3D75</color>
+    <color name="md3_theme_onPrimaryContainer">#E9DDFF</color>
+    <color name="md3_theme_secondary">#CBC2DB</color>
+    <color name="md3_theme_onSecondary">#332D41</color>
+    <color name="md3_theme_secondaryContainer">#4A4458</color>
+    <color name="md3_theme_onSecondaryContainer">#E8DEF8</color>
+    <color name="md3_theme_tertiary">#EFB8C8</color>
+    <color name="md3_theme_onTertiary">#4A2532</color>
+    <color name="md3_theme_tertiaryContainer">#633B48</color>
+    <color name="md3_theme_onTertiaryContainer">#FFD9E3</color>
+    <color name="md3_theme_granted">#9FF0A8</color>
 
     <color name="black">#FF000000</color>
     <color name="black_alpha">#48000000</color>

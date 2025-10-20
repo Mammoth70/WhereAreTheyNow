@@ -182,4 +182,20 @@
         <item name="colorGranted">@color/overlay_blue_granted</item>
     </style>
 
+    <style name="AppTheme.Overlay.M3" parent="ThemeOverlay.Material3.DynamicColors.Light">
+        <item name="colorPrimary">@color/md3_theme_primary</item>
+        <item name="colorOnPrimary">@color/md3_theme_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md3_theme_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md3_theme_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md3_theme_secondary</item>
+        <item name="colorOnSecondary">@color/md3_theme_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md3_theme_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md3_theme_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md3_theme_tertiary</item>
+        <item name="colorOnTertiary">@color/md3_theme_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md3_theme_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md3_theme_onTertiaryContainer</item>
+        <item name="colorGranted">@color/md3_theme_granted</item>
+    </style>
+
 </resources>

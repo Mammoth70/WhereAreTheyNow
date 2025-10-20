@@ -35,6 +35,7 @@ import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_ZOOM
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_TILT
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE_RADIUS
+import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_M3
 
 class SettingsActivity : AppCompatActivity() {
     // Activity показывает и позволяет изменять настройки выбора карт.
@@ -183,11 +184,12 @@ class SettingsActivity : AppCompatActivity() {
             COLOR_DYNAMIC_YELLOW -> radioThemeColor.check(R.id.themeYellow)
             COLOR_DYNAMIC_GREEN -> radioThemeColor.check(R.id.themeGreen)
             COLOR_DYNAMIC_BLUE -> radioThemeColor.check(R.id.themeBlue)
+            COLOR_DYNAMIC_M3 -> radioThemeColor.check(R.id.themeM3)
         }
 
         // Обработка переключения состояния переключателя режимов цвета.
         radioThemeColor.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
-            // Получение выбранной кнопку.
+            // Получение выбранной кнопки.
             when (id) {
                 R.id.themeDynamic -> selectedModeColorTemp = COLOR_DYNAMIC_WALLPAPER
                 R.id.themeDefault -> selectedModeColorTemp = COLOR_DYNAMIC_NO
@@ -195,6 +197,7 @@ class SettingsActivity : AppCompatActivity() {
                 R.id.themeYellow -> selectedModeColorTemp = COLOR_DYNAMIC_YELLOW
                 R.id.themeGreen -> selectedModeColorTemp = COLOR_DYNAMIC_GREEN
                 R.id.themeBlue -> selectedModeColorTemp = COLOR_DYNAMIC_BLUE
+                R.id.themeM3 -> selectedModeColorTemp = COLOR_DYNAMIC_M3
             }
         }
 
@@ -208,7 +211,7 @@ class SettingsActivity : AppCompatActivity() {
 
         // Обработка переключения состояния переключателя режимов темы.
         radioTheme.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
-            // Получение выбранной кнопку.
+            // Получение выбранной кнопки.
             when (id) {
                 R.id.themeNight -> selectedModeNightTemp = MODE_NIGHT_YES
                 R.id.themeDay -> selectedModeNightTemp = MODE_NIGHT_NO

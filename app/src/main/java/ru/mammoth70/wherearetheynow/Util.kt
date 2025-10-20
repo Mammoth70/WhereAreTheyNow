@@ -37,6 +37,7 @@ object Util {
     const val COLOR_DYNAMIC_YELLOW: Int = 2
     const val COLOR_DYNAMIC_GREEN: Int = 3
     const val COLOR_DYNAMIC_BLUE: Int = 4
+    const val COLOR_DYNAMIC_M3: Int = 5
     const val NAME_THEME_MODE: String = "theme"
     const val NAME_THEME_COLOR: String = "color"
     var themeMode: Int = MODE_NIGHT_FOLLOW_SYSTEM
@@ -113,6 +114,12 @@ object Util {
                 application,
                 DynamicColorsOptions.Builder()
                     .setThemeOverlay(R.style.AppTheme_Overlay_Blue)
+                    .build()
+            )
+            COLOR_DYNAMIC_M3 -> DynamicColors.applyToActivitiesIfAvailable(
+                application,
+                DynamicColorsOptions.Builder()
+                    .setThemeOverlay(R.style.AppTheme_Overlay_M3)
                     .build()
             )
         }

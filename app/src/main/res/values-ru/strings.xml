@@ -52,6 +52,7 @@
     <string name="themeYellow">жёлтый</string>
     <string name="themeGreen">зелёный</string>
     <string name="themeBlue">синий</string>
+    <string name="themeM3">google</string>
     <string name="selectThemeMode">Выбрать режим темы</string>
     <string name="themeDay">дневной</string>
     <string name="themeSystem">системный</string>

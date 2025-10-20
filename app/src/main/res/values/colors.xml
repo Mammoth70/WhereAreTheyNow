@@ -56,6 +56,20 @@
     <color name="overlay_blue_onTertiaryContainer">#573E5C</color>
     <color name="overlay_blue_granted">#007946</color>
 
+    <color name="md3_theme_primary">#65558F</color>
+    <color name="md3_theme_onPrimary">#FFFFFF</color>
+    <color name="md3_theme_primaryContainer">#E9DDFF</color>
+    <color name="md3_theme_onPrimaryContainer">#4D3D75</color>
+    <color name="md3_theme_secondary">#625B71</color>
+    <color name="md3_theme_onSecondary">#FFFFFF</color>
+    <color name="md3_theme_secondaryContainer">#E8DEF8</color>
+    <color name="md3_theme_onSecondaryContainer">#4A4458</color>
+    <color name="md3_theme_tertiary">#7E5260</color>
+    <color name="md3_theme_onTertiary">#FFFFFF</color>
+    <color name="md3_theme_tertiaryContainer">#FFD9E3</color>
+    <color name="md3_theme_onTertiaryContainer">#633B48</color>
+    <color name="md3_theme_granted">#0F7A13</color>
+
     <color name="black">#FF000000</color>
     <color name="black_alpha">#48000000</color>
     <color name="black_alpha16">#16000000</color>
