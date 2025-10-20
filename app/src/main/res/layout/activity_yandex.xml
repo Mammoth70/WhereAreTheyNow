@@ -33,6 +33,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonMapNord"
             style="?attr/floatingActionButtonSmallStyle"
+            app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
             android:contentDescription="@string/mapNord"
             android:onClick="onMapNordClicked"
             android:layout_width="wrap_content"
@@ -50,6 +51,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonMapZoomIn"
             style="?attr/floatingActionButtonSmallStyle"
+            app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
             android:contentDescription="@string/mapZoomIn"
             android:onClick="onMapZoomIn"
             android:layout_width="wrap_content"
@@ -67,6 +69,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonMapZoomOut"
             style="?attr/floatingActionButtonSmallStyle"
+            app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
             android:contentDescription="@string/mapZoomOut"
             android:onClick="onMapZoomOut"
             android:layout_width="wrap_content"
@@ -84,6 +87,7 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonMapTilt"
             style="?attr/floatingActionButtonSmallStyle"
+            app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
             android:contentDescription="@string/map2d"
             android:onClick="onMap2D3D"
             android:layout_width="wrap_content"
