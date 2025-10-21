@@ -97,10 +97,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         // Функция обрабатывает контекстное меню.
-        val acmi = item.menuInfo as AdapterContextMenuInfo?
-        if (acmi == null) {
-            return false
-        }
+        val acmi = (item.menuInfo as AdapterContextMenuInfo?) ?: return false
         when (item.itemId) {
             R.id.item_add_user -> {
                 addUser()

@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PointF
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
@@ -97,17 +96,13 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                     points.add(Point(value.latitude, value.longitude))
                     imageProviders.add(
                         ImageProvider.fromBitmap(
-                            getBitmapFromColor(
-                                Util.phone2color[key]
-                            )
+                            getBitmapFromColor(Util.phone2color[key])
                         )
                     )
                     placemarkMapObjects.add(mapObjectCollection.addPlacemark().apply {
                         geometry = Point(value.latitude, value.longitude)
                         setIcon(ImageProvider.fromBitmap(
-                            getBitmapFromColor(
-                                Util.phone2color[key]
-                            )
+                            getBitmapFromColor(Util.phone2color[key])
                         ),iconStyle)
                         userData = key
                         addTapListener(mapObjectTapListener)
@@ -201,17 +196,17 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             true
         }
 
-    private fun createBitmapFromVector(art: Int): Bitmap {
+    private fun createBitmapFromVector(art: Int): Bitmap? {
         // Функция преобразовывает векторное изображение в bitmap.
-        val drawable: Drawable? = ContextCompat.getDrawable(this, art)
-        val bitmap = createBitmap(drawable!!.intrinsicWidth, drawable.intrinsicHeight)
+        val drawable = ContextCompat.getDrawable(this, art) ?: return null
+        val bitmap = createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight)
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
         return bitmap
     }
 
-    private fun getBitmapFromColor(color: String?): Bitmap {
+    private fun getBitmapFromColor(color: String?): Bitmap? {
         // Функция возвращает метку заданного цвета.
         return createBitmapFromVector(AppColors.getMarker(color))
     }

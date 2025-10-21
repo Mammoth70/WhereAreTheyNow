@@ -20,7 +20,7 @@ object AppColors {
     val colors =
         listOf(
             COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_DARKGREEN,
-            COLOR_CYAN, COLOR_BLUE, COLOR_VIOLET, COLOR_MAGENTA, COLOR_BLACK
+            COLOR_CYAN, COLOR_BLUE, COLOR_VIOLET, COLOR_MAGENTA, COLOR_BLACK,
         )
 
     private const val OCTOHORPE = '#'
@@ -62,8 +62,8 @@ object AppColors {
     private fun addTransparenty(color: String?, tranparent: String?): String {
         // Функция добавляет прозрачность к цвету без прозрачности.
         // Если что-то не так - возвращает белый цвет.
-        return if ((color != null) && (tranparent != null) && (color.length == 7) &&
-            (tranparent.length == 2) && (color[0] == OCTOHORPE)
+        return if ((!color.isNullOrEmpty()) && (!tranparent.isNullOrEmpty())
+            && (color.length == 7) && (tranparent.length == 2) && (color[0] == OCTOHORPE)
         ) {
             OCTOHORPE.toString() + tranparent + color.substring(1, 7)
         } else {

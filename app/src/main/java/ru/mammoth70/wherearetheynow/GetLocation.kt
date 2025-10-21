@@ -50,7 +50,7 @@ class GetLocation {
 
     private fun formatLocation(location: Location?, sendRequest: Boolean): String? {
         // Функция форматирует геолокацию для SMS-сообщения.
-        if (location == null) return null
+        location ?: return null
         return if (sendRequest) {
             String.format(
                 Locale.US, FORMAT_REQUEST_AND_LOCATION,
@@ -66,15 +66,16 @@ class GetLocation {
 
     private fun updateLocalLocation(location: Location) {
         // Функция сохраняет локальное состояние локации.
-        if (!Util.myphone.isEmpty()) {
-            val record = PointRecord(
-                Util.myphone,
-                location.latitude,
-                location.longitude,
-                Date(location.time)
-            )
-            DBhelper.dbHelper.writeLastPoint(record)
+        if (Util.myphone.isEmpty()) {
+            return
         }
+        val record = PointRecord(
+            Util.myphone,
+            location.latitude,
+            location.longitude,
+            Date(location.time)
+        )
+        DBhelper.dbHelper.writeLastPoint(record)
     }
 
     private fun sendSMS(

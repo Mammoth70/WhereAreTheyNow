@@ -37,40 +37,40 @@ object MapUtil {
     fun viewLocation(context: Context, record: PointRecord, newTask: Boolean) {
         // Функция получает данные из последней SMS,
         // проверяет их и выводит в выбранную карту.
-        if ((record.latitude > -90) && (record.latitude < 90) &&
-            (record.longitude > -180) && (record.longitude < 180) &&
-            (record.phone in Util.phones)
-        ) {
-            val intent: Intent = when (selectedMap) {
-                MAP_YANDEX -> {
-                    Intent(context, YandexActivity::class.java)
-                }
-
-                MAP_OPENSTREET -> {
-                    Intent(context, BrowserActivity::class.java)
-                }
-
-                else -> Intent(context, TextActivity::class.java)
-            }
-            if (newTask) {
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
-            intent.putExtra(INTENT_EXTRA_SMS_FROM, record.phone)
-            intent.putExtra(INTENT_EXTRA_LATITUDE, record.latitude)
-            intent.putExtra(INTENT_EXTRA_LONGITUDE, record.longitude)
-            intent.putExtra(INTENT_EXTRA_TIME, record.dateTime)
-            context.startActivity(intent)
+        if (record.phone !in Util.phones) {
+            return
         }
+        if ((record.latitude < -90) || (record.latitude > 90) ||
+            (record.longitude < -180) || (record.longitude > 180)) {
+            return
+        }
+        val intent: Intent = when (selectedMap) {
+            MAP_YANDEX -> {
+                Intent(context, YandexActivity::class.java)
+            }
+            MAP_OPENSTREET -> {
+                Intent(context, BrowserActivity::class.java)
+            }
+              else -> Intent(context, TextActivity::class.java)
+            }
+        if (newTask) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        intent.putExtra(INTENT_EXTRA_SMS_FROM, record.phone)
+        intent.putExtra(INTENT_EXTRA_LATITUDE, record.latitude)
+        intent.putExtra(INTENT_EXTRA_LONGITUDE, record.longitude)
+        intent.putExtra(INTENT_EXTRA_TIME, record.dateTime)
+        context.startActivity(intent)
     }
 
-    fun timePassed(dateTime: String, context: Context): String {
+    fun timePassed(dateTime: String?, context: Context): String {
         // Функция возвращает разницу в минутах между текущим временем
         // и временем в пришедшем SMS-сообщении.
-        val dateCurrent = Date()
-        val dateSMS = Util.stringToDate(dateTime)
-        if (dateSMS == null) {
+        if (dateTime.isNullOrEmpty()) {
             return ""
         }
+        val dateSMS = Util.stringToDate(dateTime) ?: return ""
+        val dateCurrent = Date()
         val duration = dateCurrent.time - dateSMS.time
         val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
         return if (diffInMinutes < 1) {

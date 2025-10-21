@@ -18,41 +18,40 @@ class SMSMonitor : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // Функция слушает входящие SMS-сообщения, парсит их и передает обработку в другие функции.
-        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION == intent.action) {
-            val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent)
-            if (messages == null) {
-                return
-            }
-            val smsFrom = messages[0].displayOriginatingAddress
-            if (smsFrom in Util.phones) {
-                // Обработка идёт только в том случае, если телефон есть в списке.
-                val bodyText = StringBuilder()
-                for (message in messages) {
-                    bodyText.append(message.messageBody)
-                }
-                val smsBody = bodyText.toString()
-                val patternHeaderRequest = Pattern.compile(HEADER_REQUEST)
-                val patternHeaderRequestAnswer = Pattern.compile(HEADER_REQUEST_AND_LOCATION)
-                val patternHeaderAnswer = Pattern.compile(HEADER_ANSWER)
-                val matcherHeaderRequest = patternHeaderRequest.matcher(smsBody)
-                val matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(smsBody)
-                val matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody)
-                if (matcherHeaderRequest.find()) {
-                    // Это запрос геолокации без координат запросившего.
-                    // Определение геолокации и ответ на запрос.
-                    requestLocation(context, smsFrom)
-                } else if (matcherHeaderAnswer.find()) {
-                    // Это получение геолокации.
-                    // Запись новых данных и вывод их на карту.
-                    receiveLocation(context, smsFrom, smsBody, true)
-                } else if (matcherHeaderRequestAnswer.find()) {
-                    // Это запрос геолокации с координатами запросившего.
-                    // Запись новых данных, но вывод на карту не делается.
-                    receiveLocation(context, smsFrom, smsBody, false)
-                    // Определение геолокации и ответ на запрос.
-                    requestLocation(context, smsFrom)
-                }
-            }
+        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION != intent.action) {
+            return
+        }
+        val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent) ?: return
+        val smsFrom = messages[0].displayOriginatingAddress
+        if (smsFrom !in Util.phones) {
+            // Дальнейшая обработка идёт только в том случае, если телефон есть в списке.
+            return
+        }
+        val bodyText = StringBuilder()
+        for (message in messages) {
+            bodyText.append(message.messageBody)
+        }
+        val smsBody = bodyText.toString()
+        val patternHeaderRequest = Pattern.compile(HEADER_REQUEST)
+        val patternHeaderRequestAnswer = Pattern.compile(HEADER_REQUEST_AND_LOCATION)
+        val patternHeaderAnswer = Pattern.compile(HEADER_ANSWER)
+        val matcherHeaderRequest = patternHeaderRequest.matcher(smsBody)
+        val matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(smsBody)
+        val matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody)
+        if (matcherHeaderRequest.find()) {
+            // Это запрос геолокации без координат запросившего.
+            // Определение геолокации и ответ на запрос.
+            requestLocation(context, smsFrom)
+        } else if (matcherHeaderAnswer.find()) {
+            // Это получение геолокации.
+            // Запись новых данных и вывод их на карту.
+            receiveLocation(context, smsFrom, smsBody, true)
+        } else if (matcherHeaderRequestAnswer.find()) {
+           // Это запрос геолокации с координатами запросившего.
+           // Запись новых данных, но вывод на карту не делается.
+           receiveLocation(context, smsFrom, smsBody, false)
+           // Определение геолокации и ответ на запрос.
+           requestLocation(context, smsFrom)
         }
     }
 
@@ -79,27 +78,23 @@ class SMSMonitor : BroadcastReceiver() {
         val pattern = Pattern.compile(REGEXP_ANSWER)
         val matcher = pattern.matcher(message)
         if ((matcher.find())) {
-            if ((matcher.group(1) != null) &&
-                (matcher.group(2) != null) &&
-                (matcher.group(3) != null)) {
-                try {
-                    val latitude = matcher.group(1)?.toDouble()!!
-                    val longitude = matcher.group(2)?.toDouble()!!
-                    val dateTime = Util.stringToDate(matcher.group(3)!!)
-                    if ((dateTime != null) &&
-                        (latitude > -90) && (latitude < 90) &&
-                        (longitude > -180) && (longitude < 180)
-                    ) {
-                        val record = PointRecord(smsFrom,
-                            latitude, longitude, dateTime)
-                        DBhelper.dbHelper.writeLastPoint(record)
-                        if (show) {
-                            MapUtil.viewLocation(context, record, true)
-                        }
-                    }
-                } catch (_: NumberFormatException) {
-                } catch (_: NullPointerException) {
+            if (matcher.group(1).isNullOrEmpty()) return
+            if (matcher.group(2).isNullOrEmpty()) return
+            if (matcher.group(3).isNullOrEmpty()) return
+            try {
+                val latitude = matcher.group(1)?.toDouble()!!
+                val longitude = matcher.group(2)?.toDouble()!!
+                val dateTime = Util.stringToDate(matcher.group(3)!!) ?: return
+                if ((latitude < -90) || (latitude > 90) || (longitude < -180) || (longitude > 180)) {
+                    return
                 }
+                val record = PointRecord(smsFrom,latitude, longitude, dateTime)
+                DBhelper.dbHelper.writeLastPoint(record)
+                if (show) {
+                    MapUtil.viewLocation(context, record, true)
+                }
+            } catch (_: NumberFormatException) {
+            } catch (_: NullPointerException) {
             }
         }
     }

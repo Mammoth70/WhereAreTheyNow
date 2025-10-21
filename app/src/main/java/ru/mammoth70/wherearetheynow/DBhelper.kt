@@ -35,10 +35,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             // Добавление таблицы points.
             db.transaction {
                 try {
-                    execSQL(
-                        "CREATE TEMPORARY TABLE users_temp " +
-                                "(id integer, phone text, name text, color text);"
-                    )
+                    execSQL("CREATE TEMPORARY TABLE users_temp (id integer, phone text, name text, color text);")
                     execSQL("INSERT INTO users_temp SELECT id, phone, name, color FROM users;")
                     execSQL("DROP TABLE users;")
                     execSQL(CREATE_TABLE_USERS)
@@ -70,19 +67,11 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         Util.phone2record.clear()
         readableDatabase.use { db ->
             db.rawQuery("SELECT * FROM users;", null).use { cursor ->
-
                 while (cursor.moveToNext()) {
-                    val id = cursor.getInt(
-                        cursor.getColumnIndexOrThrow("id"))
-                    val phone =
-                        cursor.getString(
-                        cursor.getColumnIndexOrThrow("phone"))
-                    val name =
-                        cursor.getString(
-                        cursor.getColumnIndexOrThrow("name"))
-                    val color =
-                        cursor.getString(
-                        cursor.getColumnIndexOrThrow("color"))
+                    val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"))
+                    val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                    val color = cursor.getString(cursor.getColumnIndexOrThrow("color"))
                     Util.phones.add(phone!!)
                     Util.id2phone.put(id, phone)
                     Util.phone2id.put(phone, id)
@@ -112,9 +101,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         readableDatabase.use { db ->
             db.rawQuery(execSting, null).use { cursor ->
                 while (cursor.moveToNext()) {
-                    val phone =
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("phone1"))
+                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"))
                     Util.menuPhones.add(phone!!)
                 }
             }
@@ -124,90 +111,84 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     fun addUser(phone: String?, name: String?, color: String?): Boolean {
         // Функция добавляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
-        if (phone !in Util.phones) {
-            val execSting = "INSERT OR IGNORE INTO users (phone, name, color)" +
-                    " VALUES ('$phone', '$name', '$color');"
-            readableDatabase.use { db ->
-                try {
-                    db.execSQL(execSting)
-                } catch (_: SQLException) {
-                    return false
-                }
-            }
-            readUsers()
-            return (phone in Util.phones)
-        } else {
+        if (phone in Util.phones) {
             return false
         }
+        val execSting = "INSERT OR IGNORE INTO users (phone, name, color) VALUES ('$phone', '$name', '$color');"
+        readableDatabase.use { db ->
+            try {
+                db.execSQL(execSting)
+            } catch (_: SQLException) {
+                return false
+            }
+        }
+        readUsers()
+        return (phone in Util.phones)
     }
 
     fun editUser(id: Int, phone: String?, name: String?, color: String?): Boolean {
         // Функция изменяет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
-        if (id in Util.id2phone) {
-            val execSting = "UPDATE users SET " +
-                    "phone = '$phone', name = '$name', color = '$color' WHERE id = '$id';"
-            readableDatabase.use { db ->
-                try {
-                    db.execSQL(execSting)
-                } catch (_: SQLException) {
-                    return false
-                }
-            }
-            checkRecords()
-            readUsers()
-            Util.lastAnswerRecord = readLastAnswer()
-            return (phone in Util.phones)
-        } else {
+        if (id !in Util.id2phone) {
             return false
         }
+        val execSting = "UPDATE users SET phone = '$phone', name = '$name', color = '$color' WHERE id = '$id';"
+        readableDatabase.use { db ->
+            try {
+                db.execSQL(execSting)
+            } catch (_: SQLException) {
+                return false
+            }
+        }
+        checkRecords()
+        readUsers()
+        Util.lastAnswerRecord = readLastAnswer()
+        return (phone in Util.phones)
     }
 
     fun deleteUser(id: Int): Boolean {
         // Функция удаляет запись контакта в БД и обновляет структуры.
         // Возвращает true, если успешно и false, если нет.
-        if (id in Util.id2phone) {
-            val phone = Util.id2phone[id]
-            readableDatabase.use { db ->
-                try {
-                    db.execSQL("DELETE FROM users WHERE id = '$id';")
-                    db.execSQL("DELETE FROM points WHERE phone = '$phone';")
-                } catch (_: SQLException) {
-                    return false
-                }
-            }
-            readUsers()
-            Util.lastAnswerRecord = readLastAnswer()
-            return (id !in Util.id2phone)
-        } else {
+        if (id !in Util.id2phone) {
             return false
         }
+        val phone = Util.id2phone[id]
+        readableDatabase.use { db ->
+            try {
+                db.execSQL("DELETE FROM users WHERE id = '$id';")
+                db.execSQL("DELETE FROM points WHERE phone = '$phone';")
+            } catch (_: SQLException) {
+                return false
+            }
+        }
+        readUsers()
+        Util.lastAnswerRecord = readLastAnswer()
+        return (id !in Util.id2phone)
     }
 
     fun writeLastPoint(record: PointRecord) {
         // Функция заносит в HashMap и в БД последние известные координаты контакта.
         // Функция заносит в record ответ с последними полученными координатами.
-        if (record.phone in Util.phones) {
-            if ((record.latitude > -90) && (record.latitude < 90) &&
-                (record.longitude > -180) && (record.longitude < 180)
-            ) {
-                Util.phone2record.put(record.phone, record)
-                Util.lastAnswerRecord = record
-                val phone = record.phone
-                val latitude = String.format(Locale.US,
-                        PointRecord.FORMAT_DOUBLE, record.latitude)
-                val longitude = String.format(Locale.US,
-                        PointRecord.FORMAT_DOUBLE, record.longitude)
-                val dateTime = record.dateTime
-                val execSting =
-                        "INSERT OR REPLACE INTO points (phone, latitude, longitude, datetime)" +
-                        " VALUES ('$phone', '$latitude', '$longitude', '$dateTime');"
-                readableDatabase.use { db ->
-                    try {
-                        db.execSQL(execSting)
-                    } catch (_: SQLException) {
-                    }
-                }
+        if (record.phone !in Util.phones) {
+            return
+        }
+        if ((record.latitude < -90) || (record.latitude > 90) ||
+            (record.longitude < -180) || (record.longitude > 180)) {
+            return
+        }
+        Util.phone2record.put(record.phone, record)
+        Util.lastAnswerRecord = record
+        val phone = record.phone
+        val latitude = String.format(Locale.US,PointRecord.FORMAT_DOUBLE, record.latitude)
+        val longitude = String.format(Locale.US,PointRecord.FORMAT_DOUBLE, record.longitude)
+        val dateTime = record.dateTime
+        val execSting =
+                "INSERT OR REPLACE INTO points (phone, latitude, longitude, datetime)" +
+                " VALUES ('$phone', '$latitude', '$longitude', '$dateTime');"
+        readableDatabase.use { db ->
+            try {
+                db.execSQL(execSting)
+            } catch (_: SQLException) {
             }
         }
     }
@@ -215,30 +196,29 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     fun readLastPoint(phone: String): PointRecord? {
         // Функция считывает из БД и возвращает PointRecord по заданному телефону,
         // Возвращает null, если записи нет, или она некорректная.
-        if (phone in Util.phones) {
-            val execSting = "SELECT * FROM points WHERE phone = '$phone';"
-            readableDatabase.use { db ->
-                db.rawQuery(execSting, null).use { cursor ->
-                    if (cursor.moveToFirst()) {
-                        val record = PointRecord(
-                            cursor.getString(
-                                cursor.getColumnIndexOrThrow("phone")),
-                            cursor.getString(
-                                cursor.getColumnIndexOrThrow("latitude"))
-                                .toDouble(),
-                            cursor.getString(
-                                cursor.getColumnIndexOrThrow("longitude"))
-                                .toDouble(),
-                            cursor.getString(
-                                cursor.getColumnIndexOrThrow("datetime"))
-                        )
-                        return if ((record.latitude > -90) && (record.latitude < 90) &&
-                            (record.longitude > -180) && (record.longitude < 180)
-                        ) {
-                            record
-                        } else {
-                            null
-                        }
+        if (phone !in Util.phones) {
+            return null
+        }
+        val execSting = "SELECT * FROM points WHERE phone = '$phone';"
+        readableDatabase.use { db ->
+            db.rawQuery(execSting, null).use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val record = PointRecord(
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("phone")),
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("latitude")).toDouble(),
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("longitude")).toDouble(),
+                        cursor.getString(
+                            cursor.getColumnIndexOrThrow("datetime"))
+                    )
+                    return if ((record.latitude < -90) || (record.latitude > 90) ||
+                        (record.longitude < -180) || (record.longitude > 180)
+                    ) {
+                        null
+                    } else {
+                        record
                     }
                 }
             }
@@ -265,12 +245,12 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                         cursor.getString(
                             cursor.getColumnIndexOrThrow("datetime"))
                     )
-                    return if ((record.latitude > -90) && (record.latitude < 90) &&
-                        (record.longitude > -180) && (record.longitude < 180)
+                    return if ((record.latitude < -90) || (record.latitude > 90) ||
+                        (record.longitude < -180) || (record.longitude > 180)
                     ) {
-                        record
-                    } else {
                         null
+                    } else {
+                        record
                     }
                 }
             }
