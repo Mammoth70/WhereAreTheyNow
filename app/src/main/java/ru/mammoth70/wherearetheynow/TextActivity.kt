@@ -22,14 +22,14 @@ class TextActivity : LocationActivity() {
         private const val COLUMN_DATE = "date"
     }
 
-    private lateinit var data: ArrayList<MutableMap<String?, Any?>?>
+    private val data: ArrayList<MutableMap<String?, Any?>?> by lazy { ArrayList(Util.phone2record.size) }
     private val tvLatitude: TextView by lazy { findViewById(R.id.tvLatitude) }
     private val tvLongitude: TextView by lazy { findViewById(R.id.tvLongitude) }
     private val lvSimple: ListView by lazy { findViewById(R.id.lvGeoSimple) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-	// Получение из intent данных.
+	    // Получение из intent данных.
         // Подготовка данных для вывода таблицы контактов с координатами.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -90,7 +90,6 @@ class TextActivity : LocationActivity() {
     private val simpleAdapter: SimpleAdapter
         get() {
             // Функция создаёт и заполняет SimpleAdapter.
-            data = ArrayList(Util.phone2record.size)
             refreshData()
             val from = arrayOf<String?>(
                 COLUMN_NAME,

@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
     private val tvTitle : TextView by lazy { findViewById(R.id.tvTitle) }
     private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
     private val lvSimple: ListView by lazy { findViewById(R.id.lvUsersSimple) }
-    private lateinit var sAdapter: SimpleAdapter
-    private lateinit var data: ArrayList<MutableMap<String, Any>>
+    private val sAdapter: SimpleAdapter by lazy { simpleAdapter }
+    private val data: ArrayList<MutableMap<String, Any>> by lazy { ArrayList(Util.phones.size) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         tvTitle.setText(R.string.titleUsers)
-        sAdapter = simpleAdapter
         lvSimple.setAdapter(sAdapter)
         lvSimple.isClickable = true
         registerForContextMenu(lvSimple)
@@ -292,7 +291,6 @@ class MainActivity : AppCompatActivity() {
     private val simpleAdapter: SimpleAdapter
         get() {
             // Функция создаёт и заполняет SimpleAdapter.
-            data = ArrayList(Util.phones.size)
             refreshData()
             val from = arrayOf(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
             val to = intArrayOf(
