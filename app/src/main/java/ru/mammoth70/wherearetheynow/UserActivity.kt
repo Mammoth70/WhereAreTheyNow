@@ -46,7 +46,7 @@ class UserActivity : AppCompatActivity() {
     private val edName: TextInputEditText by lazy { findViewById(R.id.edName) }
     private val cardColor: MaterialCardView by lazy { findViewById(R.id.cardColor) }
     private val tvColorError: TextView by lazy { findViewById(R.id.tvColorError) }
-    private var id = 0
+    private val id: Int  by lazy { intent.getIntExtra(INTENT_EXTRA_ID, 0) }
 
     private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
     private val tvMark: TextView by lazy {findViewById(R.id.tvMark)}
@@ -116,7 +116,6 @@ class UserActivity : AppCompatActivity() {
             }
             ACTION_EDIT_USER -> {
                 btnAction.setText(R.string.edit)
-                id = intent.getIntExtra(INTENT_EXTRA_ID, 0)
                 if (id == 0) {
                     finish()
                 }
@@ -126,7 +125,6 @@ class UserActivity : AppCompatActivity() {
             }
             ACTION_DELETE_USER -> {
                 btnAction.setText(R.string.delete)
-                id = intent.getIntExtra(INTENT_EXTRA_ID, 0)
                 if (id == 0) {
                     finish()
                 }
@@ -176,9 +174,8 @@ class UserActivity : AppCompatActivity() {
 
     fun onActionClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
         // Функция - обработчик кнопки "действие".
-        var phone = edPhone.getText().toString()
-        val name = (edName.getText()).toString()
-        phone = phone.replace(REGEXP_CLEAR_PHONE.toRegex(), "")
+        val phone = edPhone.getText().toString().replace(REGEXP_CLEAR_PHONE.toRegex(), "")
+        val name = edName.getText().toString()
         if (phone.isEmpty()) {
             // проверяем телефон на заполнение
             ilPhone.error = getString(R.string.err_empty_phone)

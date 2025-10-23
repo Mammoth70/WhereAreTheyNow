@@ -43,13 +43,13 @@ object Util {
     var themeMode: Int = MODE_NIGHT_FOLLOW_SYSTEM
     var themeColor: Int = COLOR_DYNAMIC_NO
 
-    var phones: ArrayList<String> = ArrayList() // список телефонов
-    var menuPhones: ArrayList<String> = ArrayList() // список телефонов, ограниченный наличием записей геолокации
-    var phone2name: HashMap<String, String> = HashMap() // словарь телефон:контакт
-    var id2phone: HashMap<Int, String> = HashMap() // словарь id:телефон
-    var phone2id: HashMap<String, Int> = HashMap() // словарь телефон:id
-    var phone2color: HashMap<String, String> = HashMap() // словарь телефон:цвет
-    var phone2record: HashMap<String, PointRecord> =  HashMap() // словарь телефон:point
+    val phones: ArrayList<String> = ArrayList() // список телефонов
+    val menuPhones: ArrayList<String> = ArrayList() // список телефонов, ограниченный наличием записей геолокации
+    val phone2name: HashMap<String, String> = HashMap() // словарь телефон:контакт
+    val id2phone: HashMap<Int, String> = HashMap() // словарь id:телефон
+    val phone2id: HashMap<String, Int> = HashMap() // словарь телефон:id
+    val phone2color: HashMap<String, String> = HashMap() // словарь телефон:цвет
+    val phone2record: HashMap<String, PointRecord> =  HashMap() // словарь телефон:point
     var lastAnswerRecord: PointRecord? = null // запись с данными последнего ответа
 
     const val HEADER_REQUEST: String = "^WATN R$"

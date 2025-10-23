@@ -158,9 +158,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         // Функция передвигает карту на PointRecord.
         start2D3D()
         val point = Point(rec.latitude, rec.longitude)
-        val cameraPosition = CameraPosition(point, MapUtil.selectedMapZoom,
-            0f, MapUtil.selectedMapTilt)
-        map.move(cameraPosition)
+        map.move(CameraPosition(point, MapUtil.selectedMapZoom,
+            0f, MapUtil.selectedMapTilt))
     }
 
     private val mapObjectTapListener =
@@ -170,26 +169,24 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             val name = Util.phone2name[phone]
             val rec = Util.phone2record[phone]
             rec?.let {
-                val currCameraPosition = map.cameraPosition
-                val newPoint = Point(rec.latitude, rec.longitude)
-                var newZoom = currCameraPosition.zoom
-                if (newZoom < MapUtil.selectedMapZoom) {
-                    newZoom = MapUtil.selectedMapZoom
+                val newZoom = if (map.cameraPosition.zoom < MapUtil.selectedMapZoom) {
+                    MapUtil.selectedMapZoom
+                } else {
+                    map.cameraPosition.zoom
                 }
-                tvTitle.text = Util.phone2name[phone]
-                tvDateTime.text = MapUtil.timePassed(Util.phone2record[phone]!!.dateTime,
+                tvTitle.text = name
+                tvDateTime.text = MapUtil.timePassed(rec.dateTime,
                     this
                 )
-                val newCameraPosition = CameraPosition(
-                    newPoint,
+                map.move(CameraPosition(
+                    Point(rec.latitude, rec.longitude),
                     newZoom,
                     0f,
-                    currCameraPosition.tilt
-                )
-                map.move(newCameraPosition)
+                    map.cameraPosition.tilt
+                ))
                 val message = name + "\n" + String.format(
                     Locale.US, PointRecord.FORMAT_POINT,
-                    point!!.latitude, point.longitude
+                    rec.latitude, rec.longitude
                 )
                 Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
@@ -239,9 +236,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     fun onMap2D3D(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "2D/3D".
         // Функция меняет режим карты 2D / 3D.
-        val currCameraPosition = map.cameraPosition
-        val currTilt = currCameraPosition.tilt
-        val newTilt: Float = if (currTilt == 0f) {
+        val newTilt = if (map.cameraPosition.tilt == 0f) {
             if (MapUtil.selectedMapTilt == 0f) {
                 MAP_TILT_DEFAULT
             } else {
@@ -250,66 +245,60 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         } else {
             0f
         }
-        val newCameraPosition = CameraPosition(
-            currCameraPosition.target,
-            currCameraPosition.zoom,
-            currCameraPosition.azimuth,
+        map.move(CameraPosition(
+            map.cameraPosition.target,
+            map.cameraPosition.zoom,
+            map.cameraPosition.azimuth,
             newTilt
-        )
-        map.move(newCameraPosition)
+        ))
     }
 
     fun onMapNordClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "На север".
         // Функция поворачивает карту в положение север сверху.
-        val currCameraPosition = map.cameraPosition
-        val newCameraPosition = CameraPosition(
-            currCameraPosition.target,
-            currCameraPosition.zoom,
+        map.move(CameraPosition(
+            map.cameraPosition.target,
+            map.cameraPosition.zoom,
             0f,
-            currCameraPosition.tilt
-        )
-        map.move(newCameraPosition)
+            map.cameraPosition.tilt
+        ))
     }
 
     fun onMapZoomIn(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "Zoom In".
         // Функция приближает объекты на карте.
-        val currCameraPosition = map.cameraPosition
-        var newZoom = currCameraPosition.zoom + 1f
-        if (newZoom > map.cameraBounds.maxZoom) {
-            newZoom = map.cameraBounds.maxZoom
+        val newZoom = if ((map.cameraPosition.zoom + 1f) > map.cameraBounds.maxZoom) {
+            map.cameraBounds.maxZoom
+        } else {
+            map.cameraPosition.zoom + 1f
         }
-        val newCameraPosition = CameraPosition(
-            currCameraPosition.target,
+        map.move(CameraPosition(
+            map.cameraPosition.target,
             newZoom,
-            currCameraPosition.azimuth,
-            currCameraPosition.tilt
-        )
-        map.move(newCameraPosition)
+            map.cameraPosition.azimuth,
+            map.cameraPosition.tilt
+        ))
     }
 
     fun onMapZoomOut(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Обработчик кнопки FAB "Zoom Out".
         // Функция отдаляет объекты на карте.
-        val currCameraPosition = map.cameraPosition
-        var newZoom = currCameraPosition.zoom - 1f
-        if (newZoom < map.cameraBounds.minZoom) {
-            newZoom = map.cameraBounds.minZoom
+        val newZoom = if ((map.cameraPosition.zoom - 1f) < map.cameraBounds.minZoom) {
+            map.cameraBounds.minZoom
+        } else {
+            map.cameraPosition.zoom - 1f
         }
-        val newCameraPosition = CameraPosition(
-            currCameraPosition.target,
+        map.move(CameraPosition(
+            map.cameraPosition.target,
             newZoom,
-            currCameraPosition.azimuth,
-            currCameraPosition.tilt
-        )
-        map.move(newCameraPosition)
+            map.cameraPosition.azimuth,
+            map.cameraPosition.tilt
+        ))
     }
 
     private fun setFabStatus() {
         // Функция устанавливает в правильное состояние все FAB-ы.
-        val currCameraPosition = map.cameraPosition
-        val zoom = currCameraPosition.zoom
+        val zoom = map.cameraPosition.zoom
         if (zoom <= map.cameraBounds.minZoom) {
             fabZoomOut.hide()
             fabZoomIn.show()
@@ -320,14 +309,14 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             fabZoomIn.show()
             fabZoomOut.show()
         }
-        if (currCameraPosition.tilt == 0f) {
+        if (map.cameraPosition.tilt == 0f) {
             fab2D3D.setContentDescription(getString(R.string.map3d))
             fab2D3D.setImageResource(R.drawable.ic_action_3d)
         } else {
             fab2D3D.setContentDescription(getString(R.string.map2d))
             fab2D3D.setImageResource(R.drawable.ic_action_2d)
         }
-        if (currCameraPosition.azimuth == 0f) {
+        if (map.cameraPosition.azimuth == 0f) {
             fabNord.hide()
         } else {
             fabNord.show()
