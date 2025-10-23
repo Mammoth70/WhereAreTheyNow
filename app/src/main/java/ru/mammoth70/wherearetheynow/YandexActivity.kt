@@ -68,9 +68,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         createFrameTitle(this)
 
         mapView.mapWindow.map.addCameraListener(this)
-        val currentNightMode =
-            getResources().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentNightMode) {
+        when (getResources().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
                 // ночная тема не активна, используется светлая тема
                 map.isNightModeEnabled = false
@@ -83,10 +81,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         val imageProviders = ArrayList<ImageProvider?>()
         val placemarkMapObjects = ArrayList<PlacemarkMapObject?>()
         val circleMapObjects = ArrayList<CircleMapObject?>()
-
-        // Стиль иконки метки.
-        val iconStyle = IconStyle()
-        iconStyle.anchor = PointF(0.5f, 1f)
 
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
         for (key in Util.phones) {
@@ -103,7 +97,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                         geometry = Point(value.latitude, value.longitude)
                         setIcon(ImageProvider.fromBitmap(
                             getBitmapFromColor(Util.phone2color[key])
-                        ),iconStyle)
+                        ),IconStyle().apply { anchor = PointF(0.5f, 1f) })
                         userData = key
                         addTapListener(mapObjectTapListener)
                         setText(Util.phone2name[key]!! ,markTextStyle)
@@ -135,31 +129,28 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             // Функция настраивает стиль текста над меткой.
             val typedValueTextColor = TypedValue()
             val typedValueOutLineColor = TypedValue()
-            val theme = getTheme()
-            theme.resolveAttribute(
+            getTheme().resolveAttribute(
                 com.google.android.material.R.attr.colorOnBackground,
                 typedValueTextColor, true
             )
-            theme.resolveAttribute(
+            getTheme().resolveAttribute(
                 android.R.attr.colorBackground,
                 typedValueOutLineColor, true
             )
-            val textStyle = TextStyle().apply {
+            return TextStyle().apply {
                 size = 12f
                 color = typedValueTextColor.data
                 outlineColor = typedValueOutLineColor.data
                 outlineWidth = 4f
                 placement = TextStyle.Placement.TOP
             }
-            return textStyle
         }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция передвигает карту на PointRecord.
         start2D3D()
-        val point = Point(rec.latitude, rec.longitude)
-        map.move(CameraPosition(point, MapUtil.selectedMapZoom,
-            0f, MapUtil.selectedMapTilt))
+        map.move(CameraPosition(Point(rec.latitude, rec.longitude),
+            MapUtil.selectedMapZoom, 0f, MapUtil.selectedMapTilt))
     }
 
     private val mapObjectTapListener =
