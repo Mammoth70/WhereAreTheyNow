@@ -3,6 +3,7 @@ package ru.mammoth70.wherearetheynow
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.enableEdgeToEdge
@@ -56,6 +57,11 @@ class BrowserActivity : LocationActivity() {
         } else {
             finish()
         }
+    }
+
+    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
+        // Функция - обработчик кнопки "назад".
+        finish()
     }
 
 }

@@ -268,4 +268,9 @@ class SettingsActivity : AppCompatActivity() {
         finish()
     }
 
+    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
+        // Функция - обработчик кнопки "назад".
+        finish()
+    }
+
 }

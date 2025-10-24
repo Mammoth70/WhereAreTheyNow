@@ -20,6 +20,7 @@
     <string name="permissions">permissions</string>
     <string name="titlePermissions">Necessary permissions</string>
     <string name="users">contacts</string>
+    <string name="back">back</string>
     <string name="titleUsers">List of contacts</string>
     <string name="titleUser">Contact card</string>
     <string name="titleColors">Select the color of the label</string>
@@ -77,7 +78,7 @@
     <string name="sms_request_blocked">SMS permission request blocked.</string>
     <string name="set_access_manually">Set permissions manually.</string>
 
-    <string name="bootom_sheet_title">Why do you need permits?</string>
+    <string name="bootom_sheet_title">Why do you need permissions?</string>
     <string name="bootom_sheet_text">The application determines the location of relatives and friends.
         \nTherefore, it needs permission to determine the exact location to work.
         \n\nWe want to know the location of a loved one, even if his phone is in sleep mode or his screen is locked.

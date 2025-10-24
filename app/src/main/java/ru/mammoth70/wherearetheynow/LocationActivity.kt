@@ -66,4 +66,5 @@ abstract class LocationActivity : AppCompatActivity() {
     // Абстрактная функция, должна быть переопределена.
     // Вызывается из reloadMapFromPoint, а также из OnCreate.
     // Функция перестраивает карту по передаваемой записи PoinRecord.
+
 }
