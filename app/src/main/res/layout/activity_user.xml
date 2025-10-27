@@ -50,7 +50,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:hint="@string/ed_phone"
                         android:id="@+id/ilPhone"
-                        android:autofillHints=""
                         app:errorEnabled="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,7 +87,6 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/ilName"
                         android:hint="@string/ed_name"
-                        android:autofillHints=""
                         app:errorEnabled="true"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -9,7 +9,6 @@
     <TextView
         android:id="@+id/itemColorLabel"
         android:background="@drawable/ic_pin_empty"
-        android:textSize="44sp"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="24dp"

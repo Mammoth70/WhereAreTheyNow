@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
-
         <Button
             android:id="@+id/btnClose"
             android:onClick="onCloseClicked"
@@ -61,7 +60,6 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
-
         <Button
             android:id="@+id/btnMenuUsers"
             style="?attr/materialIconButtonStyle"
