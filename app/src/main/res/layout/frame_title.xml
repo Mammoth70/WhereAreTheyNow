@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorSurfaceContainer"
     android:layout_width="match_parent"
-    android:layout_height="68dp"
+    android:layout_height="64dp"
     android:baselineAligned="false"
     android:orientation="horizontal"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="52dp"
+        android:layout_width="56dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
@@ -46,7 +46,7 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="52dp"
+        android:layout_width="56dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
