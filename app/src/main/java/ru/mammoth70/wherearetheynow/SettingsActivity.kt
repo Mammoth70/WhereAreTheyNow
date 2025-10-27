@@ -99,6 +99,7 @@ class SettingsActivity : AppCompatActivity() {
                 lbCircleRadius.visibility = View.GONE
                 sliderCircleRadius.visibility = View.GONE
             }
+
             MAP_OPENSTREET -> {
                 radioMap.check(R.id.OpenStreet)
                 lbMapZoom.visibility = View.VISIBLE
@@ -109,6 +110,7 @@ class SettingsActivity : AppCompatActivity() {
                 lbCircleRadius.visibility = View.GONE
                 sliderCircleRadius.visibility = View.GONE
             }
+
             MAP_YANDEX -> {
                 radioMap.check(R.id.Yandex)
                 lbMapZoom.visibility = View.VISIBLE
@@ -121,6 +123,7 @@ class SettingsActivity : AppCompatActivity() {
                     sliderCircleRadius.visibility = View.VISIBLE
                 }
             }
+
             else -> {}
         }
 
@@ -138,6 +141,7 @@ class SettingsActivity : AppCompatActivity() {
                     lbCircleRadius.visibility = View.GONE
                     sliderCircleRadius.visibility = View.GONE
                 }
+
                 R.id.OpenStreet -> {
                     selectedMapTemp = MAP_OPENSTREET
                     lbMapZoom.visibility = View.VISIBLE
@@ -148,6 +152,7 @@ class SettingsActivity : AppCompatActivity() {
                     lbCircleRadius.visibility = View.GONE
                     sliderCircleRadius.visibility = View.GONE
                 }
+
                 R.id.Yandex -> {
                     selectedMapTemp = MAP_YANDEX
                     lbMapZoom.visibility = View.VISIBLE

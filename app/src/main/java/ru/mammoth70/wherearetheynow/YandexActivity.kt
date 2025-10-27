@@ -290,15 +290,17 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     private fun setFabStatus() {
         // Функция устанавливает в правильное состояние все FAB-ы.
         val zoom = map.cameraPosition.zoom
-        if (zoom <= map.cameraBounds.minZoom) {
-            fabZoomOut.hide()
-            fabZoomIn.show()
-        } else if (zoom >= map.cameraBounds.maxZoom) {
-            fabZoomIn.hide()
-            fabZoomOut.show()
-        } else {
-            fabZoomIn.show()
-            fabZoomOut.show()
+        when
+            { (zoom <= map.cameraBounds.minZoom) -> {
+                fabZoomOut.hide()
+                fabZoomIn.show()
+            } (zoom >= map.cameraBounds.maxZoom) -> {
+                fabZoomIn.hide()
+                fabZoomOut.show()
+            } else -> {
+                fabZoomIn.show()
+                fabZoomOut.show()
+            }
         }
         if (map.cameraPosition.tilt == 0f) {
             fab2D3D.setContentDescription(getString(R.string.map3d))

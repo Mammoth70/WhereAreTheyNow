@@ -86,36 +86,42 @@ object Util {
                             .build()
                     )
                 }
+
             COLOR_DYNAMIC_WALLPAPER -> DynamicColors.applyToActivitiesIfAvailable(
                 application,
                 DynamicColorsOptions.Builder()
                     .setThemeOverlay(R.style.AppTheme_Overlay_Dynamic)
                     .build()
             )
+
             COLOR_DYNAMIC_RED -> DynamicColors.applyToActivitiesIfAvailable(
                 application,
                 DynamicColorsOptions.Builder()
                     .setThemeOverlay(R.style.AppTheme_Overlay_Red)
                     .build()
             )
+
             COLOR_DYNAMIC_YELLOW -> DynamicColors.applyToActivitiesIfAvailable(
                 application,
                 DynamicColorsOptions.Builder()
                     .setThemeOverlay(R.style.AppTheme_Overlay_Yellow)
                     .build()
             )
+
             COLOR_DYNAMIC_GREEN -> DynamicColors.applyToActivitiesIfAvailable(
                 application,
                 DynamicColorsOptions.Builder()
                     .setThemeOverlay(R.style.AppTheme_Overlay_Green)
                     .build()
             )
+
             COLOR_DYNAMIC_BLUE -> DynamicColors.applyToActivitiesIfAvailable(
                 application,
                 DynamicColorsOptions.Builder()
                     .setThemeOverlay(R.style.AppTheme_Overlay_Blue)
                     .build()
             )
+
             COLOR_DYNAMIC_M3 -> DynamicColors.applyToActivitiesIfAvailable(
                 application,
                 DynamicColorsOptions.Builder()

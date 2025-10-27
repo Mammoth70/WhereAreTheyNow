@@ -114,6 +114,7 @@ class UserActivity : AppCompatActivity() {
             ACTION_ADD_USER -> {
                 btnAction.setText(R.string.add)
             }
+
             ACTION_EDIT_USER -> {
                 btnAction.setText(R.string.edit)
                 if (id == 0) {
@@ -123,6 +124,7 @@ class UserActivity : AppCompatActivity() {
                 edName.setText(intent.getStringExtra(INTENT_EXTRA_NAME))
                 setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
             }
+
             ACTION_DELETE_USER -> {
                 btnAction.setText(R.string.delete)
                 if (id == 0) {
@@ -135,6 +137,7 @@ class UserActivity : AppCompatActivity() {
                 setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
                 tvMark.setEnabled(false)
             }
+
             else -> {
                 finish()
             }
@@ -201,42 +204,56 @@ class UserActivity : AppCompatActivity() {
             return
         }
 
-        if (action == ACTION_ADD_USER) {
-            if (phone in Util.phones) {
-                // если при добавлении телефон не уникальный - выходим
-                return
+        when (action) {
+            ACTION_ADD_USER -> {
+                if (phone in Util.phones) {
+                    // если при добавлении телефон не уникальный - выходим
+                    return
+                }
+                if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
+                    val intent = Intent()
+                    intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
+                    setResult(RESULT_OK, intent)
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this, R.string.failed_to_add_user,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
-            if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
-                val intent = Intent()
-                intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
-                setResult(RESULT_OK, intent)
+
+            ACTION_EDIT_USER -> {
+                if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
+                    val intent = Intent()
+                    intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
+                    setResult(RESULT_OK, intent)
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this, R.string.failed_to_change_user,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            ACTION_DELETE_USER -> {
+                if (DBhelper.dbHelper.deleteUser(id)) {
+                    val intent = Intent()
+                    intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
+                    setResult(RESULT_OK, intent)
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this, R.string.failed_to_delete_user,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            else -> {
                 finish()
-            } else {
-                Toast.makeText(this, R.string.failed_to_add_user,
-                    Toast.LENGTH_SHORT).show()
             }
-        } else if (action == ACTION_EDIT_USER) {
-            if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
-                val intent = Intent()
-                intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
-                setResult(RESULT_OK, intent)
-                finish()
-            } else {
-                Toast.makeText(this, R.string.failed_to_change_user,
-                    Toast.LENGTH_SHORT).show()
-            }
-        } else if (action == ACTION_DELETE_USER) {
-            if (DBhelper.dbHelper.deleteUser(id)) {
-                val intent = Intent()
-                intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
-                setResult(RESULT_OK, intent)
-                finish()
-            } else {
-                Toast.makeText(this, R.string.failed_to_delete_user,
-                    Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            finish()
         }
     }
 

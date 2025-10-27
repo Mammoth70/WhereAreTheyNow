@@ -383,6 +383,7 @@ class PermissionActivity : AppCompatActivity() {
                 }
                 return
             }
+
             REQUEST_PERMISSIONS_BACKGROUND_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_DENIED) {
@@ -394,6 +395,7 @@ class PermissionActivity : AppCompatActivity() {
                 }
                 return
             }
+
             REQUEST_PERMISSIONS_SMS -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_DENIED) {

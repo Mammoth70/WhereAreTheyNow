@@ -48,11 +48,14 @@ object MapUtil {
             MAP_YANDEX -> {
                 Intent(context, YandexActivity::class.java)
             }
+
             MAP_OPENSTREET -> {
                 Intent(context, BrowserActivity::class.java)
             }
+
               else -> Intent(context, TextActivity::class.java)
             }
+
         if (newTask) {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
@@ -73,12 +76,10 @@ object MapUtil {
         val dateCurrent = Date()
         val duration = dateCurrent.time - dateSMS.time
         val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
-        return if (diffInMinutes < 1) {
-            context.getString(R.string.now)
-        } else if (diffInMinutes in 1..30) {
-            String.format(Locale.US, context.getString(R.string.minutes_ago), diffInMinutes)
-        } else {
-            context.getString(R.string.long_ago)
+        return when (diffInMinutes) {
+           0L -> context.getString(R.string.now)
+           in 1L..30L -> String.format(Locale.US, context.getString(R.string.minutes_ago), diffInMinutes)
+           else -> context.getString(R.string.long_ago)
         }
     }
 

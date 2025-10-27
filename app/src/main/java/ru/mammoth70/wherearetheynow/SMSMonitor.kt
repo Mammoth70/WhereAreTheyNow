@@ -38,20 +38,22 @@ class SMSMonitor : BroadcastReceiver() {
         val matcherHeaderRequest = patternHeaderRequest.matcher(smsBody)
         val matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(smsBody)
         val matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody)
-        if (matcherHeaderRequest.find()) {
-            // Это запрос геолокации без координат запросившего.
-            // Определение геолокации и ответ на запрос.
-            requestLocation(context, smsFrom)
-        } else if (matcherHeaderAnswer.find()) {
-            // Это получение геолокации.
-            // Запись новых данных и вывод их на карту.
-            receiveLocation(context, smsFrom, smsBody, true)
-        } else if (matcherHeaderRequestAnswer.find()) {
-           // Это запрос геолокации с координатами запросившего.
-           // Запись новых данных, но вывод на карту не делается.
-           receiveLocation(context, smsFrom, smsBody, false)
-           // Определение геолокации и ответ на запрос.
-           requestLocation(context, smsFrom)
+        when
+            { (matcherHeaderRequest.find()) -> {
+                // Это запрос геолокации без координат запросившего.
+                // Определение геолокации и ответ на запрос.
+                requestLocation(context, smsFrom)
+            } (matcherHeaderAnswer.find()) -> {
+                // Это получение геолокации.
+                // Запись новых данных и вывод их на карту.
+                receiveLocation(context, smsFrom, smsBody, true)
+            } (matcherHeaderRequestAnswer.find()) -> {
+                // Это запрос геолокации с координатами запросившего.
+                // Запись новых данных, но вывод на карту не делается.
+                receiveLocation(context, smsFrom, smsBody, false)
+                // Определение геолокации и ответ на запрос.
+                requestLocation(context, smsFrom)
+            }
         }
     }
 

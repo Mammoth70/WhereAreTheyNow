@@ -102,22 +102,27 @@ class MainActivity : AppCompatActivity() {
                 addUser()
                 return true
             }
+
             R.id.item_edit_user -> {
                 editUser(acmi.position)
                 return true
             }
+
             R.id.item_delete_user -> {
                 deleteUser(acmi.position)
                 return true
             }
+
             R.id.item_sms_request_user -> {
                 smsRequestUser(acmi.position)
                 return true
             }
+
             R.id.item_sms_answer_user -> {
                 smsAnswerUser(acmi.position)
                 return true
             }
+
             else -> return super.onContextItemSelected(item)
         }
     }
@@ -312,10 +317,12 @@ class MainActivity : AppCompatActivity() {
                     view.setBackgroundColor(AppColors.getColorAlpha16(data as String?))
                     return true
                 }
+
                 R.id.itemUserLabel -> {
                     view.setBackgroundResource(AppColors.getMarker(data as String?))
                     return true
                 }
+
                 else -> return false
             }
         }

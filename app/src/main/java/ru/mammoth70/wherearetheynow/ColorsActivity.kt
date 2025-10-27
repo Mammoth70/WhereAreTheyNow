@@ -77,10 +77,12 @@ class ColorsActivity : AppCompatActivity() {
                     view.setBackgroundColor(AppColors.getColorAlpha16(data as String?))
                     return true
                 }
+
                 R.id.itemColorLabel -> {
                     view.setBackgroundResource(AppColors.getMarker(data as String?))
                     return true
                 }
+
                 else -> return false
             }
         }
