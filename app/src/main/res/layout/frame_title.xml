@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="72dp"
+        android:layout_width="52dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
@@ -19,7 +19,7 @@
             style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             android:contentDescription="@string/back"
             app:icon="@drawable/ic_action_back"
             app:iconTint="?attr/colorOnSurface"
@@ -46,7 +46,7 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="72dp"
+        android:layout_width="52dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
