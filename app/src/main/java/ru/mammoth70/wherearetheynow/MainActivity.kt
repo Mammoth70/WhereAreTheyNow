@@ -12,7 +12,6 @@ import android.view.View
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ListView
 import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -21,6 +20,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationBarView
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         private const val COLUMN_BACK = "background"
     }
 
-    private val tvTitle : TextView by lazy { findViewById(R.id.tvTitle) }
+    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
     private val lvSimple: ListView by lazy { findViewById(R.id.lvUsersSimple) }
     private val sAdapter: SimpleAdapter by lazy { simpleAdapter }
@@ -62,7 +62,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        tvTitle.setText(R.string.titleUsers)
+        topAppBar.setTitle(R.string.app_name)
+        topAppBar.setNavigationOnClickListener {
+            finish()
+        }
         lvSimple.setAdapter(sAdapter)
         lvSimple.isClickable = true
         registerForContextMenu(lvSimple)
@@ -349,11 +352,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
-        finish()
     }
 
 }

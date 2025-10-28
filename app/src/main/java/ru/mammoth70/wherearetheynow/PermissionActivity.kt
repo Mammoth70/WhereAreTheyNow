@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 
 class PermissionActivity : AppCompatActivity() {
@@ -29,7 +30,7 @@ class PermissionActivity : AppCompatActivity() {
         private const val REQUEST_PERMISSIONS_SMS = 484
     }
 
-    private val tvTitle : TextView by lazy { findViewById(R.id.tvTitle) }
+    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val tvCoarseLocation: TextView by lazy { findViewById(R.id.tvCoarseLocation) }
     private val tvFineLocation: TextView by lazy { findViewById(R.id.tvFineLocation) }
     private val tvBackgroundLocation: TextView by lazy { findViewById(R.id.tvBackgroundLocation) }
@@ -62,7 +63,10 @@ class PermissionActivity : AppCompatActivity() {
             insets
         }
 
-        tvTitle.setText(R.string.titlePermissions)
+        topAppBar.setTitle(R.string.titlePermissions)
+        topAppBar.setNavigationOnClickListener {
+            finish()
+        }
         val theme = getTheme()
         val typedValueColorGranted = TypedValue()
         val typedValuecolorError = TypedValue()
@@ -407,9 +411,4 @@ class PermissionActivity : AppCompatActivity() {
             }
         }
     }
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
-        finish()
-    }
-
 }

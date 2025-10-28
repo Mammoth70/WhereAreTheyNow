@@ -128,9 +128,4 @@ class TextActivity : LocationActivity() {
         }
     }
 
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
-        finish()
-    }
-
 }

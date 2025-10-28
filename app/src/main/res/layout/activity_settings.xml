@@ -9,23 +9,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <include layout="@layout/frame_top"/>
-    <include layout="@layout/frame_title"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         >
-        <ScrollView
+        <!-- Top AppBar -->
+        <include layout="@layout/frame_app_bar"/>
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             >
+            <!-- Прокручиваемый контент -->
             <include layout="@layout/frame_settings"/>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- Bottom bar -->
     <include layout="@layout/frame_bottom_button"/>
 </LinearLayout>

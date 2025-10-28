@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.appbar.MaterialToolbar
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_TEXT
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_OPENSTREET
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_YANDEX
@@ -44,7 +45,7 @@ class SettingsActivity : AppCompatActivity() {
         const val INTENT_EXTRA_RESULT: String = "refresh"
     }
 
-    private val tvTitle: TextView by lazy { findViewById(R.id.tvTitle) }
+    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val edMyPhone: TextInputEditText by lazy { findViewById(R.id.myphone) }
     private val checkBoxService: CheckBox by lazy { findViewById(R.id.checkBoxService) }
     private val checkBoxCircle: CheckBox by lazy { findViewById(R.id.checkBoxCircle) }
@@ -76,7 +77,10 @@ class SettingsActivity : AppCompatActivity() {
             insets
         }
 
-        tvTitle.setText(R.string.titleSettings)
+        topAppBar.setTitle(R.string.titleSettings)
+        topAppBar.setNavigationOnClickListener {
+            finish()
+        }
         checkBoxService.setChecked(Util.useService)
         checkBoxCircle.setChecked(MapUtil.selectedMapCircle)
         sliderMapZoom.value = MapUtil.selectedMapZoom
@@ -270,11 +274,6 @@ class SettingsActivity : AppCompatActivity() {
         val intent = Intent()
         intent.putExtra(INTENT_EXTRA_RESULT, action)
         setResult(RESULT_OK, intent)
-        finish()
-    }
-
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
         finish()
     }
 

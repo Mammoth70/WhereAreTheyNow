@@ -165,10 +165,10 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 } else {
                     map.cameraPosition.zoom
                 }
-                tvTitle.text = name
-                tvDateTime.text = MapUtil.timePassed(rec.dateTime,
+                topAppBar.setTitle(name)
+                topAppBar.setSubtitle(MapUtil.timePassed(rec.dateTime,
                     this
-                )
+                ))
                 map.move(CameraPosition(
                     Point(rec.latitude, rec.longitude),
                     newZoom,
@@ -336,8 +336,4 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         setFabStatus()
     }
 
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
-        finish()
-    }
 }

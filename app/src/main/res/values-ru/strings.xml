@@ -18,12 +18,11 @@
     <string name="save">Сохранить</string>
 
     <string name="permissions">разрешения</string>
-    <string name="titlePermissions">Необходимые разрешения</string>
+    <string name="titlePermissions">Разрешения</string>
     <string name="users">контакты</string>
     <string name="back">назад</string>
-    <string name="titleUsers">Список контактов</string>
     <string name="titleUser">Карточка контакта</string>
-    <string name="titleColors">Выберите цвет метки</string>
+    <string name="titleColors">Выберите метку</string>
     <string name="map">карта</string>
     <string name="settings">настройки</string>
     <string name="titleSettings">Настройки</string>

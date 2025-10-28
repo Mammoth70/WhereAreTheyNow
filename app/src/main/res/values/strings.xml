@@ -18,12 +18,11 @@
     <string name="save">Save</string>
 
     <string name="permissions">permissions</string>
-    <string name="titlePermissions">Necessary permissions</string>
+    <string name="titlePermissions">Permissions</string>
     <string name="users">contacts</string>
     <string name="back">back</string>
-    <string name="titleUsers">List of contacts</string>
     <string name="titleUser">Contact card</string>
-    <string name="titleColors">Select the color of the label</string>
+    <string name="titleColors">Select a label</string>
     <string name="map">map</string>
     <string name="settings">settings</string>
     <string name="titleSettings">Settings</string>

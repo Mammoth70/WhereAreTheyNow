@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.appbar.MaterialToolbar
 import java.util.Objects
 import kotlin.getValue
 
@@ -39,7 +40,7 @@ class UserActivity : AppCompatActivity() {
 
     private val action: String by lazy { intent.getStringExtra(INTENT_EXTRA_ACTION)!! }
 
-    private val tvTitle: TextView by lazy { findViewById(R.id.tvTitle) }
+    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val ilPhone: TextInputLayout by lazy { findViewById(R.id.ilPhone) }
     private val edPhone: TextInputEditText by lazy { findViewById(R.id.edPhone) }
     private val ilName: TextInputLayout by lazy { findViewById(R.id.ilName) }
@@ -70,7 +71,10 @@ class UserActivity : AppCompatActivity() {
             insets
         }
 
-        tvTitle.setText(R.string.titleUser)
+        topAppBar.setTitle(R.string.titleUser)
+        topAppBar.setNavigationOnClickListener {
+            finish()
+        }
         val intent = getIntent()
         edPhone.setOnFocusChangeListener { v: View?, hasFocus: Boolean ->
             if (hasFocus) {
@@ -266,11 +270,6 @@ class UserActivity : AppCompatActivity() {
                 setMarkColor(intent.getStringExtra(Util.INTENT_EXTRA_COLOR)!!)
             }
         }
-    }
-
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
-        finish()
     }
 
 }

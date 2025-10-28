@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import android.widget.SimpleAdapter
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class ColorsActivity : AppCompatActivity() {
         private const val COLUMN_BACK = "background"
     }
 
-    private val tvTitle: TextView by lazy { findViewById(R.id.tvTitle)}
+    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val lvSimple: ListView by lazy { findViewById(R.id.lvColorsSimple) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +37,10 @@ class ColorsActivity : AppCompatActivity() {
             insets
         }
 
-        tvTitle.setText(R.string.titleColors)
+        topAppBar.setTitle(R.string.titleColors)
+        topAppBar.setNavigationOnClickListener {
+            finish()
+        }
         lvSimple.setAdapter(simpleAdapter)
         lvSimple.isClickable = true
         lvSimple.setOnItemClickListener { parent, view, position, id ->
@@ -86,11 +89,6 @@ class ColorsActivity : AppCompatActivity() {
                 else -> return false
             }
         }
-    }
-
-    fun onCloseClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "назад".
-        finish()
     }
 
 }

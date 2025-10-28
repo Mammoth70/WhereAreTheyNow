@@ -9,8 +9,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <include layout="@layout/frame_top"/>
-    <include layout="@layout/frame_title_map"/>
+    <!-- Top AppBar -->
+    <include layout="@layout/frame_app_bar_map"/>
+    <!-- Hidden gravity object -->
+    <include layout="@layout/frame_gravity_view"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
