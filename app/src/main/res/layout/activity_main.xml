@@ -27,8 +27,9 @@
             <include layout="@layout/frame_app_bar"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/lvUsersRecicler"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/item_user"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     private fun showPopupMenu(view: View) {
         val position: Int = view.tag as Int
         val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.user_menu, popupMenu.menu)
+        popupMenu.inflate(R.menu.user_menu)
         popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(item: MenuItem): Boolean {
                 when (item.itemId) {
