@@ -16,6 +16,8 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
     <string name="save">Save</string>
+    <string name="menu">Menu</string>
+    <string name="self">My position</string>
 
     <string name="permissions">permissions</string>
     <string name="titlePermissions">Permissions</string>

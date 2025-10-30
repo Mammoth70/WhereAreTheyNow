@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ColorsActivity"
     android:id="@+id/colors"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <!-- Top AppBar -->
-    <include layout="@layout/frame_app_bar"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    android:orientation="vertical">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         >
-        <ListView
-            android:id="@+id/lvColorsSimple"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Top AppBar -->
+        <include layout="@layout/frame_app_bar"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lvColorsRecicler"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

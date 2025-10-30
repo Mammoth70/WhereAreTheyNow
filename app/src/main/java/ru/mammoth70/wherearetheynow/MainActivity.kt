@@ -1,17 +1,13 @@
 package ru.mammoth70.wherearetheynow
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.ContextMenu.ContextMenuInfo
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView.AdapterContextMenuInfo
-import android.widget.ListView
-import android.widget.SimpleAdapter
+import android.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
@@ -20,6 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationBarView
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
@@ -32,18 +30,11 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val NM_MAP_ID = 0
         private const val NM_USERS_ID = 1
-
-        private const val COLUMN_PHONE = "phone"
-        private const val COLUMN_NAME = "name"
-        private const val COLUMN_COLOR = "color"
-        private const val COLUMN_BACK = "background"
     }
 
     private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
-    private val lvSimple: ListView by lazy { findViewById(R.id.lvUsersSimple) }
-    private val sAdapter: SimpleAdapter by lazy { simpleAdapter }
-    private val data: ArrayList<MutableMap<String, Any>> by lazy { ArrayList(Util.phones.size) }
+    private val usersAdapter by lazy { UsersAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -66,12 +57,15 @@ class MainActivity : AppCompatActivity() {
         topAppBar.setNavigationOnClickListener {
             finish()
         }
-        lvSimple.setAdapter(sAdapter)
-        lvSimple.isClickable = true
-        registerForContextMenu(lvSimple)
-        lvSimple.setOnItemClickListener { parent, view, position, id ->
-            editUser(position)
-        }
+
+        val recyclerView: RecyclerView =  findViewById(R.id.lvUsersRecicler)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        usersAdapter.setOnItemLayoutClick(::editUser)
+        usersAdapter.setOnItemLayoutLongClick(::showPopupMenu)
+        usersAdapter.setOnBtnMenuClick(::showPopupMenu)
+        usersAdapter.setOnBtnSelfClick(::selfPosition)
+        recyclerView.adapter = usersAdapter
+        recyclerView.isClickable = true
 
         if (!checkAllPermissions()) {
             startPermissionActivity()
@@ -86,48 +80,43 @@ class MainActivity : AppCompatActivity() {
         navBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
     }
 
-    override fun onCreateContextMenu(
-        menu: ContextMenu, v: View?,
-        menuInfo: ContextMenuInfo?
-    ) {
-        // Функция создаёт контекстное меню
-        super.onCreateContextMenu(menu, v, menuInfo)
-        val inflater = MenuInflater(this)
-        inflater.inflate(R.menu.context_menu, menu)
-        menu.setGroupDividerEnabled(true)
-    }
+    private fun showPopupMenu(view: View) {
+        val position: Int = view.tag as Int
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.user_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem): Boolean {
+                when (item.itemId) {
+                    R.id.item_add_user -> {
+                        addUser()
+                        return true
+                    }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        // Функция обрабатывает контекстное меню.
-        val acmi = (item.menuInfo as AdapterContextMenuInfo?) ?: return false
-        when (item.itemId) {
-            R.id.item_add_user -> {
-                addUser()
-                return true
+                    R.id.item_edit_user -> {
+                        editUser(position)
+                        return true
+                    }
+
+                    R.id.item_delete_user -> {
+                        deleteUser(position)
+                        return true
+                    }
+
+                    R.id.item_sms_request_user -> {
+                        smsRequestUser(position)
+                        return true
+                    }
+
+                    R.id.item_sms_answer_user -> {
+                        smsAnswerUser(position)
+                        return true
+                    }
+
+                    else -> return false
+                }
             }
-
-            R.id.item_edit_user -> {
-                editUser(acmi.position)
-                return true
-            }
-
-            R.id.item_delete_user -> {
-                deleteUser(acmi.position)
-                return true
-            }
-
-            R.id.item_sms_request_user -> {
-                smsRequestUser(acmi.position)
-                return true
-            }
-
-            R.id.item_sms_answer_user -> {
-                smsAnswerUser(acmi.position)
-                return true
-            }
-
-            else -> return super.onContextItemSelected(item)
-        }
+        })
+        popupMenu.show()
     }
 
     private fun addUser() {
@@ -138,6 +127,10 @@ class MainActivity : AppCompatActivity() {
         startActivityUserIntent.launch(intent)
     }
 
+    private fun editUser(view: View) {
+        val position: Int = view.tag as Int
+        editUser(position)
+    }
     private fun editUser(position: Int) {
         // Функция редактирует контакт.
         val intent = Intent(this, UserActivity::class.java)
@@ -204,25 +197,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    private fun selfPosition(@Suppress("UNUSED_PARAMETER")view: View) {
+        selfPosition()
+    }
     private fun selfPosition() {
         // Функция определяет собственную геолокацию и вызывает карту.
         val getLocation = GetLocation()
         getLocation.sendLocation(this, GetLocation.WAY_LOCAL,
             "", false)
-    }
-
-    private fun refreshData() {
-        // Функция обновляет данные для списка контактов из БД.
-        data.clear()
-        for (phone in Util.phones) {
-            val m: MutableMap<String, Any> = HashMap()
-            m.put(COLUMN_PHONE, phone)
-            m.put(COLUMN_NAME, Util.phone2name[phone]!!)
-            m.put(COLUMN_COLOR, Util.phone2color[phone]!!)
-            m.put(COLUMN_BACK, Util.phone2color[phone]!!)
-            data.add(m)
-        }
     }
 
     fun onPermissionClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
@@ -296,47 +278,12 @@ class MainActivity : AppCompatActivity() {
         aboutBox.show(this.supportFragmentManager, "MESSAGE_DIALOG")
     }
 
-    private val simpleAdapter: SimpleAdapter
-        get() {
-            // Функция создаёт и заполняет SimpleAdapter.
-            refreshData()
-            val from = arrayOf(COLUMN_PHONE, COLUMN_NAME, COLUMN_COLOR, COLUMN_BACK)
-            val to = intArrayOf(
-                R.id.itemUserPhone,
-                R.id.itemUserName,
-                R.id.itemUserLabel,
-                R.id.itemUserLayout
-            )
-            val sAdapter = SimpleAdapter(this, data, R.layout.item_user, from, to)
-            sAdapter.viewBinder = ViewBinder()
-            return sAdapter
-        }
-
-    private class ViewBinder : SimpleAdapter.ViewBinder {
-        // Функция обрабатывает форматирование вывода на экран списка контактов.
-        override fun setViewValue(view: View, data: Any?, textRepresentation: String?): Boolean {
-            when (view.id) {
-                R.id.itemUserLayout -> {
-                    view.setBackgroundColor(AppColors.getColorAlpha16(data as String?))
-                    return true
-                }
-
-                R.id.itemUserLabel -> {
-                    view.setBackgroundResource(AppColors.getMarker(data as String?))
-                    return true
-                }
-
-                else -> return false
-            }
-        }
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
     var startActivityUserIntent = registerForActivityResult(StartActivityForResult()
         // Функция возвращает результат формы контакта
     ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
-            refreshData()
-            sAdapter.notifyDataSetChanged()
+            usersAdapter.notifyDataSetChanged()
         }
     }
 

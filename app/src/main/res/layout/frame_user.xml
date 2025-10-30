@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
@@ -41,12 +42,13 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edPhone"
-                    android:inputType="phone"
-                    android:digits="+-1234567890 ()"
-                    android:maxLength="20"
-                    android:ems="20"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
+                    android:digits="+-1234567890 ()"
+                    android:ems="20"
+                    android:inputType="phone"
+                    android:maxLength="20"
+                    tools:ignore="TextContrastCheck"
                     />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -78,11 +80,12 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edName"
-                    android:inputType="textCapWords"
-                    android:maxLength="25"
-                    android:ems="25"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ems="25"
+                    android:inputType="textCapWords"
+                    android:maxLength="25"
+                    tools:ignore="TextContrastCheck,VisualLintTextFieldSize"
                     />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -125,6 +128,7 @@
                     android:text="@string/ed_label"
                     android:textAppearance="?attr/textAppearanceBodyLarge"
                     android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:ignore="TextSizeCheck"
                     />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

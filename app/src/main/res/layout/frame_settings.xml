@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
@@ -31,12 +32,13 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/myphone"
-                    android:inputType="phone"
-                    android:digits="+-1234567890 ()"
-                    android:maxLength="20"
-                    android:ems="20"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
+                    android:digits="+-1234567890 ()"
+                    android:ems="20"
+                    android:inputType="phone"
+                    android:maxLength="20"
+                    tools:ignore="TextContrastCheck"
                     />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -165,7 +167,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintTop_toTopOf="parent"
         >
-	<LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -199,12 +201,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/map_openstreet_org"
+                    tools:ignore="VisualLintLocaleText"
                     />
                 <RadioButton
                     android:id="@+id/Yandex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/map_yandex_ru"
+                    tools:ignore="VisualLintLocaleText"
                     />
             </RadioGroup>
             <TextView
@@ -297,6 +301,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="VisualLintBounds"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -312,6 +317,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/selectService"
                 android:textSize="16sp"
+                tools:ignore="VisualLintBounds,VisualLintLocaleText"
                 />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

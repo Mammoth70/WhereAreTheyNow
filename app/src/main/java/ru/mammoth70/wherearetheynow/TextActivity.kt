@@ -2,34 +2,22 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
-import android.widget.ListView
-import android.widget.SimpleAdapter
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.RecyclerView
 import java.util.Locale
 
 class TextActivity : LocationActivity() {
     // Activity выводит текст с геолокацией, переданной через intent.
 
-    companion object {
-        private const val COLUMN_NAME = "name"
-        private const val COLUMN_BACK = "background"
-        private const val COLUMN_LATITUDE = "latitude"
-        private const val COLUMN_LONGITUDE = "longitude"
-        private const val COLUMN_DATE = "date"
-    }
-
-    private val data: ArrayList<MutableMap<String?, Any?>?> by lazy { ArrayList(Util.phone2record.size) }
     private val tvLatitude: TextView by lazy { findViewById(R.id.tvLatitude) }
     private val tvLongitude: TextView by lazy { findViewById(R.id.tvLongitude) }
-    private val lvSimple: ListView by lazy { findViewById(R.id.lvGeoSimple) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
-	    // Получение из intent данных.
+        // Получение из intent данных.
         // Подготовка данных для вывода таблицы контактов с координатами.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,39 +32,11 @@ class TextActivity : LocationActivity() {
 
         createFrameTitle(this)
 
-        val sAdapter = simpleAdapter
-        lvSimple.setAdapter(sAdapter)
+        val geoAdapter = GeoAdapter()
+        val recyclerView: RecyclerView = findViewById(R.id.lvGeoRecicler)
+        recyclerView.adapter = geoAdapter
 
         reloadMapFromPoint(this, startRecord)
-    }
-
-    private fun refreshData() {
-        // Функция обновляет данные для списка контактов с координатами.
-        data.clear()
-        for (phone in Util.phones) {
-            if (Util.phone2record.containsKey(phone)) {
-                val value = Util.phone2record[phone]
-                value?.let {
-                    val m: MutableMap<String?, Any?> = HashMap()
-                    m.put(COLUMN_NAME, Util.phone2name[phone])
-                    m.put(COLUMN_BACK, Util.phone2color[phone])
-                    m.put(
-                        COLUMN_LATITUDE, String.format(
-                            Locale.US, PointRecord.FORMAT_DOUBLE,
-                            value.latitude
-                        )
-                    )
-                    m.put(
-                        COLUMN_LONGITUDE, String.format(
-                            Locale.US, PointRecord.FORMAT_DOUBLE,
-                            value.longitude
-                        )
-                    )
-                    m.put(COLUMN_DATE, value.dateTime)
-                    data.add(m)
-                }
-            }
-        }
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
@@ -85,47 +45,6 @@ class TextActivity : LocationActivity() {
             PointRecord.FORMAT_DOUBLE, rec.latitude)
         tvLongitude.text = String.format(Locale.US,
             PointRecord.FORMAT_DOUBLE, rec.longitude)
-    }
-
-    private val simpleAdapter: SimpleAdapter
-        get() {
-            // Функция создаёт и заполняет SimpleAdapter.
-            refreshData()
-            val from = arrayOf<String?>(
-                COLUMN_NAME,
-                COLUMN_BACK,
-                COLUMN_LATITUDE,
-                COLUMN_LONGITUDE,
-                COLUMN_DATE
-            )
-            val to = intArrayOf(
-                R.id.itemUserName,
-                R.id.itemUserGeoLayout,
-                R.id.itemLattitude,
-                R.id.itemLongitude,
-                R.id.itemDate
-            )
-            val sAdapter = SimpleAdapter(this, data, R.layout.item_geo, from, to)
-            sAdapter.viewBinder = ViewBinder()
-            return sAdapter
-        }
-
-    private class ViewBinder : SimpleAdapter.ViewBinder {
-        // Класс обрабатывает форматирование вывода на экран
-        // списка контактов с координатами и датами получения геолокации.
-        override fun setViewValue(
-            view: View, data: Any?,
-            textRepresentation: String?
-        ): Boolean {
-            val color: String?
-            if (view.id == R.id.itemUserGeoLayout) {
-                color = (data as String?)
-                view.setBackgroundColor(AppColors.getColorAlpha16(color))
-                return true
-            } else {
-                return false
-            }
-        }
     }
 
 }

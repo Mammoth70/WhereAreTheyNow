@@ -11,8 +11,8 @@ android {
         applicationId "ru.mammoth70.wherearetheynow"
         minSdk 31
         targetSdk 36
-        versionCode 309
-        versionName "3.09"
+        versionCode 310
+        versionName "3.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -48,7 +48,7 @@ android {
 dependencies {
     implementation libs.appcompat
     //noinspection UseTomlInstead
-    implementation 'com.google.android.material:material:1.14.0-alpha05'
+    implementation 'com.google.android.material:material:1.14.0-alpha06'
     implementation libs.activity
     implementation libs.constraintlayout
     implementation libs.play.services.location

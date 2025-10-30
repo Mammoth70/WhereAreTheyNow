@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemUserGeoLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
     >
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="12dp"
         app:layout_constraintStart_toStartOf="@+id/itemUserName"
         app:layout_constraintTop_toBottomOf="@+id/itemLattitude"
+        tools:ignore="VisualLintLocaleText"
         />
     <TextView
         android:id="@+id/itemUserName"

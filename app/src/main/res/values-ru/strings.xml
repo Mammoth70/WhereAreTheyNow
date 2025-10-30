@@ -16,6 +16,8 @@
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
     <string name="save">Сохранить</string>
+    <string name="menu">Меню</string>
+    <string name="self">Моё положение</string>
 
     <string name="permissions">разрешения</string>
     <string name="titlePermissions">Разрешения</string>

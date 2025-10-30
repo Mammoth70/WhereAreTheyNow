@@ -288,7 +288,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     }
 
     private fun setFabStatus() {
-        // Функция устанавливает в правильное состояние все FAB-ы.
+        // Функция устанавливает в правильное состояние все FAB'ы.
         val zoom = map.cameraPosition.zoom
         when
             { (zoom <= map.cameraBounds.minZoom) -> {

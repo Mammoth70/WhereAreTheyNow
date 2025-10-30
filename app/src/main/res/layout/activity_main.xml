@@ -9,35 +9,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <!-- Top AppBar -->
-    <include layout="@layout/frame_app_bar"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         >
-        <ListView
-            android:id="@+id/lvUsersSimple"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
             tools:ignore="MissingConstraints"
-            />
+            >
+            <!-- Top AppBar -->
+            <include layout="@layout/frame_app_bar"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lvUsersRecicler"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonAdd"
-            android:onClick="onAddUserClicked"
-            android:contentDescription="@string/add"
-            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            tools:ignore="OnClick"
-            app:srcCompat="@drawable/ic_action_add"
+            android:clickable="true"
+            android:contentDescription="@string/add"
+            android:onClick="onAddUserClicked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_action_add"
+            tools:ignore="OnClick,ClassNameCheck"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
     <!-- Bottom navigation bar -->
