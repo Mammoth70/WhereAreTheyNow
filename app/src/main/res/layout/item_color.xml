@@ -7,13 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:shapeAppearance="@style/ShapeAppearance.App.Corner.Medium"
+    android:clickable="true"
+    android:focusable="true"
     app:strokeColor="?attr/colorOutline"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemColorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/itemColorLayout"
         >
         <TextView
             android:id="@+id/itemColorLabel"

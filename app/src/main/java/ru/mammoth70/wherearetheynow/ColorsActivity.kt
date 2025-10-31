@@ -35,18 +35,17 @@ class ColorsActivity : AppCompatActivity() {
         }
 
         val colorsAdapter = ColorsAdapter()
-        colorsAdapter.setOnClickListener(object: ColorsAdapter.OnClickListener {
-            override fun onClick(position: Int) {
-                val selectedItem = AppColors.colors[position]
-                val intent = Intent()
-                intent.putExtra(INTENT_EXTRA_COLOR, selectedItem)
-                setResult(RESULT_OK, intent)
-                finish()
-            }
-        })
+        colorsAdapter.setOnItemViewClick(::onClickViewItem)
         val recyclerView: RecyclerView = findViewById(R.id.lvColorsRecicler)
         recyclerView.adapter = colorsAdapter
-        recyclerView.isClickable = true
     }
 
+    fun onClickViewItem(position: Int) {
+        // Функция вызывается по клику на элемент списка.
+        val selectedItem = AppColors.colors[position]
+        val intent = Intent()
+        intent.putExtra(INTENT_EXTRA_COLOR, selectedItem)
+        setResult(RESULT_OK, intent)
+        finish()
+    }
 }

@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View.OnClickListener, View.OnLongClickListener {
+class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
     // RecyclerView.Adapter для списка контактов.
 
-    private var itemLayoutClick: (view: View) -> Unit = { }
-    private var itemLayoutLongClick: (view: View) -> Unit = { }
+    private var itemViewClick: (position: Int) -> Unit = { }
+    private var itemViewLongClick: (view: View) -> Boolean = { false }
     private var btnMenuClick: (view: View) -> Unit = { }
     private var btnSelfClick: (view: View) -> Unit = { }
 
@@ -22,7 +22,7 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
        const val FOOTER_VIEW = 3
     }
 
-    abstract class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract class GenericViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Абстрактный класс, от которого наследуются viewHolder'ы для списка контактов и футера.
         abstract fun bindView(position: Int)
     }
@@ -40,17 +40,13 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
             // Функция привязывает к viewHolder'у данные списка контактов.
             val phone = Util.phones[position]
             this.itemUserName.text = Util.phone2name[phone]
-            this.itemUserName.tag = position
             this.itemUserPhone.text = phone
-            this.itemUserPhone.tag = position
             this.itemUserLabel.setBackgroundResource(
                 AppColors.getMarker(Util.phone2color[phone]))
-            this.itemUserLabel.tag = position
             this.itemUserLayout.setBackgroundColor(
                 AppColors.getColorAlpha16(Util.phone2color[phone]))
             this.itemUserLayout.tag = position
             this.btnUserMenu.tag = position
-            this.btnUserSelf.tag = position
             if (phone == Util.myphone) {
                 this.btnUserSelf.isEnabled = true
                 this.btnUserSelf.visibility = View.VISIBLE
@@ -82,11 +78,9 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
             else -> {
                 view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_user, parent, false)
-                ListItemViewHolder(view).apply{
-                    itemUserLayout.setOnClickListener(this@UsersAdapter)
-                    itemUserLayout.setOnLongClickListener(this@UsersAdapter)
-                    btnUserMenu.setOnClickListener(this@UsersAdapter)
-                    btnUserSelf.setOnClickListener(this@UsersAdapter)
+                ListItemViewHolder(view).apply {
+                    btnUserMenu.setOnClickListener(btnMenuClick)
+                    btnUserSelf.setOnClickListener(btnSelfClick)
                 }
             }
         }
@@ -95,6 +89,10 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
     override fun onBindViewHolder(holder: GenericViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         holder.bindView(position)
+        if (holder is ListItemViewHolder) {
+            holder.itemView.setOnClickListener { itemViewClick(position) }
+            holder.itemView.setOnLongClickListener { itemViewLongClick(holder.itemUserLayout) }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -110,11 +108,15 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
         }
     }
 
-    fun setOnItemLayoutClick(listener: (View) -> Unit) {
+    fun setOnItemViewClick(listener: (Int) -> Unit) {
         // Функция устанавливает click listener для всего элемента списка.
-        itemLayoutClick = listener
+        itemViewClick = listener
     }
 
+    fun setOnItemViewLongClick(listener: (View) -> Boolean) {
+        // Функция устанавливает long click listener для всего элемента списка.
+        itemViewLongClick = listener
+    }
     fun setOnBtnMenuClick(listener: (View) -> Unit) {
         // Функция устанавливает click listener для кнопки меню на элементе.
         btnMenuClick = listener
@@ -123,31 +125,6 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
     fun setOnBtnSelfClick(listener: (View) -> Unit) {
         // Функция устанавливает click listener для кнопки self на элементе.
         btnSelfClick = listener
-    }
-
-    fun setOnItemLayoutLongClick(listener: (View) -> Unit) {
-        // Функция устанавливает long click listener для всего элемента списка.
-        itemLayoutLongClick = listener
-    }
-
-    override fun onClick(view: View) {
-        // Обработка нажатия на элементы списка.
-        when (view.id) {
-            R.id.itemUserLayout -> itemLayoutClick(view)
-            R.id.btnUserMenu -> btnMenuClick(view)
-            R.id.btnUserSelf -> btnSelfClick(view)
-        }
-    }
-
-    override fun onLongClick(view: View): Boolean {
-        // Обработка длинного нажатия на элементы списка.
-        when (view.id) {
-            R.id.itemUserLayout -> {
-                itemLayoutLongClick(view)
-                return true
-            }
-            else -> return false
-        }
     }
 
 }

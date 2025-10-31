@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
     // RecyclerView.Adapter для выбора цвета.
 
-    private var onClickListener: OnClickListener? = null
+    private var itemViewClick: (position: Int) -> Unit = { }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка цветов.
@@ -32,9 +32,7 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
             AppColors.getMarker(AppColors.colors[position]))
         holder.itemColorLayout.setBackgroundColor(
             AppColors.getColorAlpha16(AppColors.colors[position]))
-        holder.itemView.setOnClickListener {
-            onClickListener?.onClick(position)
-        }
+        holder.itemView.setOnClickListener { itemViewClick(position) }
     }
 
     override fun getItemCount(): Int {
@@ -42,14 +40,8 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
         return AppColors.colors.size
     }
 
-    fun setOnClickListener(listener: OnClickListener?) {
-        // Функция устанавливает click listener для адаптера
-        this.onClickListener = listener
+    fun setOnItemViewClick(listener: (Int) -> Unit) {
+        // Функция устанавливает click listener для всего элемента списка.
+        itemViewClick = listener
     }
-
-    interface OnClickListener {
-        // Интерфейс для click listener
-        fun onClick(position: Int)
-    }
-
 }

@@ -10,7 +10,8 @@
     android:layout_marginEnd="8dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
-    app:shapeAppearance="@style/ShapeAppearance.App.Corner.Medium"
+    android:clickable="true"
+    android:focusable="true"
     app:strokeColor="?attr/colorOutline"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,21 +34,21 @@
             />
         <TextView
             android:id="@+id/itemUserName"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/itemUserLabel"
             app:layout_constraintTop_toTopOf="@+id/itemUserLabel"
             />
         <TextView
             android:id="@+id/itemUserPhone"
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/itemUserLabel"
             app:layout_constraintStart_toStartOf="@+id/itemUserName"
-            app:layout_constraintTop_toBottomOf="@+id/itemUserName"
             />
         <Button
             android:id="@+id/btnUserSelf"

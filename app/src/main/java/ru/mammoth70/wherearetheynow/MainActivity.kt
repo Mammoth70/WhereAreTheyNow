@@ -60,12 +60,11 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView: RecyclerView =  findViewById(R.id.lvUsersRecicler)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        usersAdapter.setOnItemLayoutClick(::editUser)
-        usersAdapter.setOnItemLayoutLongClick(::showPopupMenu)
         usersAdapter.setOnBtnMenuClick(::showPopupMenu)
         usersAdapter.setOnBtnSelfClick(::selfPosition)
+        usersAdapter.setOnItemViewClick(::editUser)
+        usersAdapter.setOnItemViewLongClick(::showContextMenu)
         recyclerView.adapter = usersAdapter
-        recyclerView.isClickable = true
 
         if (!checkAllPermissions()) {
             startPermissionActivity()
@@ -80,7 +79,14 @@ class MainActivity : AppCompatActivity() {
         navBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
     }
 
+    private fun showContextMenu(view: View) : Boolean {
+        // Функция вызывается по длинному клику на элемент списка.
+        showPopupMenu(view)
+        return false
+    }
+
     private fun showPopupMenu(view: View) {
+        // Функция вызывается по клику на кнопку меню.
         val position: Int = view.tag as Int
         val popupMenu = PopupMenu(this, view)
         popupMenu.inflate(R.menu.user_menu)
@@ -127,10 +133,6 @@ class MainActivity : AppCompatActivity() {
         startActivityUserIntent.launch(intent)
     }
 
-    private fun editUser(view: View) {
-        val position: Int = view.tag as Int
-        editUser(position)
-    }
     private fun editUser(position: Int) {
         // Функция редактирует контакт.
         val intent = Intent(this, UserActivity::class.java)
@@ -197,7 +199,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    private fun selfPosition(@Suppress("UNUSED_PARAMETER")view: View) {
+    private fun selfPosition(@Suppress("UNUSED_PARAMETER")ignored: View) {
+        // Функция вызывается по клику на кнопку self.
         selfPosition()
     }
     private fun selfPosition() {

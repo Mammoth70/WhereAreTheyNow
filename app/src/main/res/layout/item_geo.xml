@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Элемент для RecyclerView с контактами и их координатами в TextActivity. -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/itemUserGeoLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
+    app:shapeAppearance="@style/ShapeAppearance.App.Corner.Medium"
+    app:strokeWidth="0dp"
     >
-    <TextView
-        android:id="@+id/itemUserName"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemUserGeoLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-    <TextView
-        android:id="@+id/itemLattitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/itemUserName"
-        app:layout_constraintTop_toBottomOf="@+id/itemUserName"
-        />
-    <TextView
-        android:id="@+id/itemLongitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/itemLattitude"
-        app:layout_constraintTop_toTopOf="@+id/itemLattitude"
-        />
-    <TextView
-        android:id="@+id/itemDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/itemLongitude"
-        app:layout_constraintTop_toTopOf="@+id/itemLattitude"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        >
+        <TextView
+            android:id="@+id/itemUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <TextView
+            android:id="@+id/itemLattitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/itemUserName"
+            app:layout_constraintTop_toBottomOf="@+id/itemUserName"
+            />
+        <TextView
+            android:id="@+id/itemLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/itemLattitude"
+            app:layout_constraintTop_toTopOf="@+id/itemLattitude"
+            />
+        <TextView
+            android:id="@+id/itemDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/itemLongitude"
+            app:layout_constraintTop_toTopOf="@+id/itemLattitude"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
