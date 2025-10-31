@@ -97,12 +97,18 @@
     <color name="blue">#002EFF</color>
     <color name="blue_alpha">#48002EFF</color>
     <color name="blue_alpha16">#16002EFF</color>
+    <color name="lightblue">#4495FF</color>
+    <color name="lightblue_alpha">#484495FF</color>
+    <color name="lightblue_alpha16">#164495FF</color>
     <color name="violet">#8F00FF</color>
     <color name="violet_alpha">#488F00FF</color>
     <color name="violet_alpha16">#168F00FF</color>
     <color name="magenta">#FF00B1</color>
     <color name="magenta_alpha">#48FF00B1</color>
     <color name="magenta_alpha16">#16FF00B1</color>
+    <color name="brown">#7E4301</color>
+    <color name="brown_alpha">#487E4301</color>
+    <color name="brown_alpha16">#167E4301</color>
 
     <color name="md_theme_primary">#00696D</color>
     <color name="md_theme_onPrimary">#FFFFFF</color>

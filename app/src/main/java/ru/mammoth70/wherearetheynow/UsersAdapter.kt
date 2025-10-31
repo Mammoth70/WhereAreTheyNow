@@ -63,11 +63,9 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>(), View
 
     private class FooterViewHolder(view: View) : GenericViewHolder(view) {
         // Представление viewHolder для футера.
-        val itemUserFooterLayout: ConstraintLayout = view.findViewById(R.id.itemUserFooterLayout)
 
         override fun bindView(position: Int) {
             // Функция привязывает к viewHolder'у данные футера.
-            this.itemUserFooterLayout.tag = position
         }
     }
 

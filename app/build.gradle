@@ -3,6 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+def versionMajor = 3
+def versionMinor = 11
+def versionPatch = 0
+
 android {
     namespace 'ru.mammoth70.wherearetheynow'
     //noinspection GrDeprecatedAPIUsage
@@ -12,8 +16,8 @@ android {
         applicationId "ru.mammoth70.wherearetheynow"
         minSdk 31
         targetSdk 36
-        versionCode 310
-        versionName "3.10"
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "MAPKIT_API_KEY", "\"${mapkitApiKey}\""
         resConfigs "en", "ru"
@@ -40,7 +44,7 @@ android {
     }
 
     buildFeatures {
-	buildConfig = true
+        buildConfig = true
     }
 
     packagingOptions {

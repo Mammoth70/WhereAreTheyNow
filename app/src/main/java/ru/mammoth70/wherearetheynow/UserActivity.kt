@@ -173,8 +173,10 @@ class UserActivity : AppCompatActivity() {
             AppColors.COLOR_DARKGREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_darkgreen)
             AppColors.COLOR_CYAN -> tvMark.setBackgroundResource(R.drawable.ic_pin_cyan)
             AppColors.COLOR_BLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_blue)
+            AppColors.COLOR_LIGHTBLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_lightblue)
             AppColors.COLOR_VIOLET -> tvMark.setBackgroundResource(R.drawable.ic_pin_violet)
             AppColors.COLOR_MAGENTA -> tvMark.setBackgroundResource(R.drawable.ic_pin_magenta)
+            AppColors.COLOR_BROWN -> tvMark.setBackgroundResource(R.drawable.ic_pin_brown)
             else -> tvMark.setBackgroundResource(R.drawable.ic_pin_black)
         }
     }

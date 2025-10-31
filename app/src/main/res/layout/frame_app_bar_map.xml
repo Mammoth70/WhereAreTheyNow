@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout
+<!-- Top AppBar с кнопкой возврата и с кнопкой меню вызова контактов с локацией
+     для всех Activity показа координат. -->
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/topAppBar"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_action_back"
+            app:menu="@menu/top_app_bar_map"
+            />
+    </com.google.android.material.appbar.AppBarLayout>
+    <!-- Скрытый объект.
+         Находится максимально близко к кнопке меню на Top AppBar.
+         К нему привязывается PopupMenu. -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_action_back"
-        app:menu="@menu/top_app_bar_map"
-        />
-</com.google.android.material.appbar.AppBarLayout>
+        >
+        <TextView
+            android:id="@+id/gravityView"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints,VisualLintLocaleText"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

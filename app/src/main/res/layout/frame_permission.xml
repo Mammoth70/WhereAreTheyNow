@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Скроллируемая часть с кнопками и описаниями для PermissionsActivity. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:orientation="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
     >
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -17,74 +15,68 @@
         android:layout_marginBottom="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
         >
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="136dp"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-        <TextView
-            android:id="@+id/tvCoarseLocation1"
-            android:text="@string/denied1"
-            android:textColor="?attr/colorError"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <TextView
-            android:id="@+id/tvCoarseLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/access_coarse_location"
-            android:textColor="?attr/colorError"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/tvCoarseLocation1"
-            app:layout_constraintTop_toTopOf="@+id/tvCoarseLocation1"
-            />
-        <TextView
-            android:id="@+id/tvFineLocation1"
-            android:text="@string/denied1"
-            android:textColor="?attr/colorError"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation1"
-            app:layout_constraintTop_toBottomOf="@+id/tvCoarseLocation1"
-            />
-        <TextView
-            android:id="@+id/tvFineLocation"
-            android:text="@string/access_fine_location"
-            android:textColor="?attr/colorError"
-            android:textSize="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation"
-            app:layout_constraintTop_toTopOf="@+id/tvFineLocation1"
-            />
-
-        <Button
-            android:id="@+id/btnLocation"
-            style="?attr/materialButtonTonalStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:onClick="requestLocationPermissionButtonClick"
-            android:text="@string/request"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvFineLocation"
-            tools:ignore="DuplicateSpeakableTextCheck"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="136dp"
+            >
+            <TextView
+                android:id="@+id/tvCoarseLocation1"
+                android:text="@string/denied1"
+                android:textColor="?attr/colorError"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <TextView
+                android:id="@+id/tvCoarseLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/access_coarse_location"
+                android:textColor="?attr/colorError"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/tvCoarseLocation1"
+                app:layout_constraintTop_toTopOf="@+id/tvCoarseLocation1"
+                />
+            <TextView
+                android:id="@+id/tvFineLocation1"
+                android:text="@string/denied1"
+                android:textColor="?attr/colorError"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation1"
+                app:layout_constraintTop_toBottomOf="@+id/tvCoarseLocation1"
+                />
+            <TextView
+                android:id="@+id/tvFineLocation"
+                android:text="@string/access_fine_location"
+                android:textColor="?attr/colorError"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation"
+                app:layout_constraintTop_toTopOf="@+id/tvFineLocation1"
+                />
+            <Button
+                android:id="@+id/btnLocation"
+                style="?attr/materialButtonTonalStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:onClick="requestLocationPermissionButtonClick"
+                android:text="@string/request"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFineLocation"
+                tools:ignore="DuplicateSpeakableTextCheck"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
@@ -94,16 +86,10 @@
         android:layout_marginBottom="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="124dp"
-            android:layout_weight="1"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             >
             <TextView
                 android:id="@+id/tvBackgroundLocation1"
@@ -157,16 +143,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintTop_toTopOf="parent"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="136dp"
-            android:layout_weight="1"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             >
             <TextView
                 android:id="@+id/tvReceiveSMS1"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Layout для BrowserActivity. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".BrowserActivity"
     android:id="@+id/browser"
@@ -9,23 +9,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <!-- Top AppBar -->
+    <!-- Top AppBar. -->
     <include layout="@layout/frame_app_bar_map"/>
-    <!-- Hidden gravity object -->
-    <include layout="@layout/frame_gravity_view"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
         />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

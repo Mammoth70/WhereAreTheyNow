@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<!-- Bottom navigation bar для MainActivity.
+     FrameLayout нужен, иначе Bottom navigation bar занимает больше места. -->
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="76dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
     >
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -17,4 +16,4 @@
         app:labelVisibilityMode="labeled"
         tools:ignore="VisualLintBottomNav,VisualLintBounds"
         />
-</LinearLayout>
+</FrameLayout>

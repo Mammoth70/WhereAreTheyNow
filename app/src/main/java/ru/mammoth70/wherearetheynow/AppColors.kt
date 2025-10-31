@@ -14,13 +14,15 @@ object AppColors {
     const val COLOR_DARKGREEN: String = "#168000"
     const val COLOR_CYAN: String = "#00FFFB"
     const val COLOR_BLUE: String = "#002EFF"
+    const val COLOR_LIGHTBLUE: String = "#4495FF"
     const val COLOR_VIOLET: String = "#8F00FF"
     const val COLOR_MAGENTA: String = "#FF00B1"
+    const val COLOR_BROWN: String = "#7E4301"
 
     val colors =
         listOf(
-            COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_DARKGREEN,
-            COLOR_CYAN, COLOR_BLUE, COLOR_VIOLET, COLOR_MAGENTA, COLOR_BLACK,
+            COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_DARKGREEN, COLOR_CYAN,
+            COLOR_BLUE, COLOR_LIGHTBLUE, COLOR_VIOLET, COLOR_MAGENTA, COLOR_BROWN, COLOR_BLACK,
         )
 
     private const val OCTOHORPE = '#'
@@ -50,8 +52,10 @@ object AppColors {
                 COLOR_DARKGREEN -> R.drawable.ic_pin_darkgreen
                 COLOR_CYAN -> R.drawable.ic_pin_cyan
                 COLOR_BLUE -> R.drawable.ic_pin_blue
+                COLOR_LIGHTBLUE -> R.drawable.ic_pin_lightblue
                 COLOR_VIOLET -> R.drawable.ic_pin_violet
                 COLOR_MAGENTA -> R.drawable.ic_pin_magenta
+                COLOR_BROWN -> R.drawable.ic_pin_brown
                 COLOR_BLACK -> R.drawable.ic_pin_black
                 else -> R.drawable.ic_pin_empty
             }
