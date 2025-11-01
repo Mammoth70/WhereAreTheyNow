@@ -82,47 +82,49 @@ class MainActivity : AppCompatActivity() {
     private fun showContextMenu(view: View) : Boolean {
         // Функция вызывается по длинному клику на элемент списка.
         showPopupMenu(view)
-        return false
+        return true
     }
 
     private fun showPopupMenu(view: View) {
         // Функция вызывается по клику на кнопку меню.
-        val position: Int = view.tag as Int
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.inflate(R.menu.user_menu)
-        popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem): Boolean {
-                when (item.itemId) {
-                    R.id.item_add_user -> {
-                        addUser()
-                        return true
-                    }
+        val position: Int? = view.tag as Int?
+        position?.let {
+            val popupMenu = PopupMenu(this, view)
+            popupMenu.inflate(R.menu.user_menu)
+            popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+                override fun onMenuItemClick(item: MenuItem): Boolean {
+                    when (item.itemId) {
+                        R.id.item_add_user -> {
+                            addUser()
+                            return true
+                        }
 
-                    R.id.item_edit_user -> {
-                        editUser(position)
-                        return true
-                    }
+                        R.id.item_edit_user -> {
+                            editUser(position)
+                            return true
+                        }
 
-                    R.id.item_delete_user -> {
-                        deleteUser(position)
-                        return true
-                    }
+                        R.id.item_delete_user -> {
+                            deleteUser(position)
+                            return true
+                        }
 
-                    R.id.item_sms_request_user -> {
-                        smsRequestUser(position)
-                        return true
-                    }
+                        R.id.item_sms_request_user -> {
+                            smsRequestUser(position)
+                            return true
+                        }
 
-                    R.id.item_sms_answer_user -> {
-                        smsAnswerUser(position)
-                        return true
-                    }
+                        R.id.item_sms_answer_user -> {
+                            smsAnswerUser(position)
+                            return true
+                        }
 
-                    else -> return false
+                        else -> return false
+                    }
                 }
-            }
-        })
-        popupMenu.show()
+            })
+            popupMenu.show()
+        }
     }
 
     private fun addUser() {
