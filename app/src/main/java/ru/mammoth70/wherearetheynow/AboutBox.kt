@@ -18,7 +18,7 @@ class AboutBox : DialogFragment() {
         val builder = AlertDialog.Builder(requireActivity(),
             R.style.AboutDialogStyle)
         builder.setIcon(R.mipmap.ic_launcher_round)
-        builder.setPositiveButton(R.string.ok) { dialog: DialogInterface?, id: Int -> }
+        builder.setPositiveButton(R.string.ok) { _: DialogInterface?, _: Int -> }
         arguments?.let {
             builder.setView(R.layout.dialog_about)
             builder.setTitle(requireArguments().getString(DIALOG_TITLE))

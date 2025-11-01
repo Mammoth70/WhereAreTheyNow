@@ -76,12 +76,12 @@ class UserActivity : AppCompatActivity() {
             finish()
         }
         val intent = getIntent()
-        edPhone.setOnFocusChangeListener { v: View?, hasFocus: Boolean ->
+        edPhone.setOnFocusChangeListener { _: View?, hasFocus: Boolean ->
             if (hasFocus) {
                 ilPhone.error = null
             }
         }
-        edName.setOnFocusChangeListener { v: View?, hasFocus: Boolean ->
+        edName.setOnFocusChangeListener { _: View?, hasFocus: Boolean ->
             if (hasFocus) {
                 ilName.error = null //
             }

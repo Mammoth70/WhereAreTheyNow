@@ -132,7 +132,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Обработка переключения состояния переключателя карт.
-        radioMap.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
+        radioMap.setOnCheckedChangeListener { _: RadioGroup?, id: Int ->
             // Получение выбранной кнопки.
             when (id) {
                 R.id.frameTextActivity -> {
@@ -173,8 +173,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Обработка переключения состояния чекера круга.
-        checkBoxCircle.setOnCheckedChangeListener { buttonView: CompoundButton?,
-                                                      isChecked: Boolean ->
+        checkBoxCircle.setOnCheckedChangeListener { _: CompoundButton?,
+                                                    isChecked: Boolean ->
             if (isChecked) {
                 lbCircleRadius.visibility = View.VISIBLE
                 sliderCircleRadius.visibility = View.VISIBLE
@@ -197,7 +197,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Обработка переключения состояния переключателя режимов цвета.
-        radioThemeColor.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
+        radioThemeColor.setOnCheckedChangeListener { _: RadioGroup?, id: Int ->
             // Получение выбранной кнопки.
             when (id) {
                 R.id.themeDynamic -> selectedModeColorTemp = COLOR_DYNAMIC_WALLPAPER
@@ -219,7 +219,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         // Обработка переключения состояния переключателя режимов темы.
-        radioTheme.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
+        radioTheme.setOnCheckedChangeListener { _: RadioGroup?, id: Int ->
             // Получение выбранной кнопки.
             when (id) {
                 R.id.themeNight -> selectedModeNightTemp = MODE_NIGHT_YES

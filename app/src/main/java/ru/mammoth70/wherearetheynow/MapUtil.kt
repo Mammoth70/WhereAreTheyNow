@@ -75,8 +75,7 @@ object MapUtil {
         val dateSMS = Util.stringToDate(dateTime) ?: return ""
         val dateCurrent = Date()
         val duration = dateCurrent.time - dateSMS.time
-        val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
-        return when (diffInMinutes) {
+        return when (val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)) {
            0L -> context.getString(R.string.now)
            in 1L..30L -> String.format(Locale.US, context.getString(R.string.minutes_ago), diffInMinutes)
            else -> context.getString(R.string.long_ago)

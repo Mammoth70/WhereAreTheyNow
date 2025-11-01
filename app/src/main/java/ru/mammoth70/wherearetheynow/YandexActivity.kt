@@ -154,7 +154,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     }
 
     private val mapObjectTapListener =
-        MapObjectTapListener { mapObject: MapObject?, point: Point? ->
+        MapObjectTapListener { mapObject: MapObject?, _: Point? ->
             // Функция, отвечающий за тапы по различным объектам на карте.
             val phone = mapObject!!.userData as String?
             val name = Util.phone2name[phone]

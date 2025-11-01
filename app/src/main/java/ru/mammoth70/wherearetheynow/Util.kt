@@ -55,9 +55,9 @@ object Util {
     const val HEADER_REQUEST: String = "^WATN R$"
     const val HEADER_REQUEST_AND_LOCATION: String = "^WATN R "
     const val HEADER_ANSWER: String = "^WATN A "
-    const val FORMAT_ANSWER: String = "WATN A lat %1$.6f, lon %2$.6f, time %3\$tF %3\$tT"
+    const val FORMAT_ANSWER: String = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
     const val FORMAT_REQUEST_AND_LOCATION: String =
-        "WATN R lat %1$.6f, lon %2$.6f, time %3\$tF %3\$tT"
+        $$"WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
     const val REGEXP_ANSWER: String =
         "^WATN [AR] lat (-?\\d{2,3}\\.\\d{6}), lon (-?\\d{2,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$"
 

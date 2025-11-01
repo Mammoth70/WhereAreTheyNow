@@ -73,10 +73,10 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
                     val color = cursor.getString(cursor.getColumnIndexOrThrow("color"))
                     Util.phones.add(phone!!)
-                    Util.id2phone.put(id, phone)
-                    Util.phone2id.put(phone, id)
-                    Util.phone2name.put(phone, name!!)
-                    Util.phone2color.put(phone, color!!)
+                    Util.id2phone[id] = phone
+                    Util.phone2id[phone] = id
+                    Util.phone2name[phone] = name!!
+                    Util.phone2color[phone] = color!!
                     val record = readLastPoint(phone)
                     record?.let {
                         Util.phone2record.put(phone, record)
@@ -176,7 +176,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             (record.longitude < -180) || (record.longitude > 180)) {
             return
         }
-        Util.phone2record.put(record.phone, record)
+        Util.phone2record[record.phone] = record
         Util.lastAnswerRecord = record
         val phone = record.phone
         val latitude = String.format(Locale.US,PointRecord.FORMAT_DOUBLE, record.latitude)

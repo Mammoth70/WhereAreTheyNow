@@ -90,7 +90,7 @@ class PermissionActivity : AppCompatActivity() {
         // Функция запрашивает все разрешения разом.
         val locationPermissionRequest = registerForActivityResult(
             RequestMultiplePermissions()
-        ) { isGranted: Map<String, @JvmSuppressWildcards() Boolean> -> }
+        ) { _: Map<String, @JvmSuppressWildcards Boolean> -> }
         locationPermissionRequest.launch(
             arrayOf(
                 Manifest.permission.ACCESS_FINE_LOCATION,
