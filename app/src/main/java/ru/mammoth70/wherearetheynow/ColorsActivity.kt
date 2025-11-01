@@ -36,7 +36,7 @@ class ColorsActivity : AppCompatActivity() {
 
         val colorsAdapter = ColorsAdapter()
         colorsAdapter.setOnItemViewClick(::onClickViewItem)
-        val recyclerView: RecyclerView = findViewById(R.id.itemColorsRecicler)
+        val recyclerView: RecyclerView = findViewById(R.id.itemColorsRecycler)
         recyclerView.adapter = colorsAdapter
     }
 

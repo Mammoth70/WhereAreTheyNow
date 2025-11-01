@@ -64,7 +64,7 @@
         android:layout_weight="1"
         >
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemGeoRecicler"
+            android:id="@+id/itemGeoRecycler"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_geo"
             android:orientation="vertical"

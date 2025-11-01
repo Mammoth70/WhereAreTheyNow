@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        val recyclerView: RecyclerView =  findViewById(R.id.itemUsersRecicler)
+        val recyclerView: RecyclerView =  findViewById(R.id.itemUsersRecycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         usersAdapter.setOnBtnMenuClick(::showPopupMenu)
         usersAdapter.setOnBtnSelfClick(::selfPosition)

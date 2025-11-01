@@ -12,7 +12,7 @@
         <!-- Top AppBar. -->
         <include layout="@layout/frame_app_bar"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemColorsRecicler"
+            android:id="@+id/itemColorsRecycler"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_color"

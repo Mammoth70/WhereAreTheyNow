@@ -33,7 +33,7 @@ class TextActivity : LocationActivity() {
         createFrameTitle(this)
 
         val geoAdapter = GeoAdapter()
-        val recyclerView: RecyclerView = findViewById(R.id.itemGeoRecicler)
+        val recyclerView: RecyclerView = findViewById(R.id.itemGeoRecycler)
         recyclerView.adapter = geoAdapter
 
         reloadMapFromPoint(this, startRecord)
