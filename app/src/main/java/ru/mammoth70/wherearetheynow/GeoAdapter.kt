@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
 class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
@@ -21,7 +21,7 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
         val itemLattitude: TextView = view.findViewById(R.id.itemLattitude)
         val itemLongitude: TextView = view.findViewById(R.id.itemLongitude)
         val itemDate: TextView = view.findViewById(R.id.itemDate)
-        val itemUserGeoLayout: ConstraintLayout = view.findViewById(R.id.itemUserGeoLayout)
+        val itemCard: MaterialCardView = view.findViewById(R.id.itemUserCard)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,9 +52,8 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
             value.longitude
         )
         holder.itemDate.text = value.dateTime
-        holder.itemUserGeoLayout.setBackgroundColor(
-            AppColors.getColorAlpha16(Util.phone2color[phone])
-        )
+        holder.itemCard.setCardBackgroundColor(
+            AppColors.getColorAlpha16(Util.phone2color[phone]))
     }
 
     override fun getItemCount(): Int {

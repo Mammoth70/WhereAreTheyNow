@@ -39,8 +39,26 @@
     </style>
 
     <style name="ShapeAppearance.App.Corner.Medium" parent="ShapeAppearance.Material3.Corner.Medium">
-        <!-- Цвет поля выбора цвета метки в карточке контакта -->
+        <!-- Стиль формы метки в карточке контакта -->
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="Widget.App.CardView.Decorative" parent="@style/Widget.Material3.CardView.Outlined">
+        <!-- Стиль элемента для RecyclerView в TextActivity -->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Decorative</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Decorative" parent="">
+        <!-- Стиль формы элемента для RecyclerView в TextActivity -->
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerFamilyBottomLeft">cut</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeBottomRight">36dp</item>
     </style>
 </resources>
