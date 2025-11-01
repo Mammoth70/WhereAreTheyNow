@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 
 class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
     // RecyclerView.Adapter для выбора цвета.
@@ -15,7 +15,7 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка цветов.
         val itemColorLabel: TextView = view.findViewById(R.id.itemColorLabel)
-        val itemColorLayout: ConstraintLayout = view.findViewById(R.id.itemColorLayout)
+        val itemCardColor: MaterialCardView = view.findViewById(R.id.frameItemCardColor)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,7 +30,7 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         holder.itemColorLabel.setBackgroundResource(
             AppColors.getMarker(AppColors.colors[position]))
-        holder.itemColorLayout.setBackgroundColor(
+        holder.itemCardColor.setCardBackgroundColor(
             AppColors.getColorAlpha16(AppColors.colors[position]))
         holder.itemView.setOnClickListener { itemViewClick(position) }
     }

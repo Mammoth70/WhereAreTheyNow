@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity"
-    android:id="@+id/main"
+    android:id="@+id/frameMainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -23,7 +23,7 @@
             <!-- Top AppBar. -->
             <include layout="@layout/frame_app_bar"/>
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/lvUsersRecicler"
+                android:id="@+id/itemUsersRecicler"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/item_user"

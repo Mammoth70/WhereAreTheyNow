@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main))
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameMainActivity))
         { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        val recyclerView: RecyclerView =  findViewById(R.id.lvUsersRecicler)
+        val recyclerView: RecyclerView =  findViewById(R.id.itemUsersRecicler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         usersAdapter.setOnBtnMenuClick(::showPopupMenu)
         usersAdapter.setOnBtnSelfClick(::selfPosition)

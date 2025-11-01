@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PermissionActivity"
-    android:id="@+id/permissions"
+    android:id="@+id/framePermissionsActivity"
     >
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

@@ -69,7 +69,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_settings)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings))
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameSettingsActivity))
         { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,
@@ -94,7 +94,7 @@ class SettingsActivity : AppCompatActivity() {
         // Назначение кнопки переключателя карт.
         when (selectedMapTemp) {
             MAP_TEXT -> {
-                radioMap.check(R.id.text)
+                radioMap.check(R.id.frameTextActivity)
                 lbMapZoom.visibility = View.GONE
                 sliderMapZoom.visibility = View.GONE
                 lbMapTilt.visibility = View.GONE
@@ -135,7 +135,7 @@ class SettingsActivity : AppCompatActivity() {
         radioMap.setOnCheckedChangeListener { radiogroup: RadioGroup?, id: Int ->
             // Получение выбранной кнопки.
             when (id) {
-                R.id.text -> {
+                R.id.frameTextActivity -> {
                     selectedMapTemp = MAP_TEXT
                     lbMapZoom.visibility = View.GONE
                     sliderMapZoom.visibility = View.GONE

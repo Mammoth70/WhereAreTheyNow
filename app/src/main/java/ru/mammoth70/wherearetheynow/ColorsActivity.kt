@@ -21,7 +21,7 @@ class ColorsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_colors)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.colors))
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameColorsActivity))
         { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,
@@ -36,7 +36,7 @@ class ColorsActivity : AppCompatActivity() {
 
         val colorsAdapter = ColorsAdapter()
         colorsAdapter.setOnItemViewClick(::onClickViewItem)
-        val recyclerView: RecyclerView = findViewById(R.id.lvColorsRecicler)
+        val recyclerView: RecyclerView = findViewById(R.id.itemColorsRecicler)
         recyclerView.adapter = colorsAdapter
     }
 

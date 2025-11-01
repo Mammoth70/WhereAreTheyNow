@@ -57,7 +57,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_yandex)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.yandex))
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameYandexActivity))
         { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,

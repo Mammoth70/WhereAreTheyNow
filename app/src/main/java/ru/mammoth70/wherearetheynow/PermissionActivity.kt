@@ -55,7 +55,7 @@ class PermissionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_permission)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.permissions))
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.framePermissionsActivity))
         { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,

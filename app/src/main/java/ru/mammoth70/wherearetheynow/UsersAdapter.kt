@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 
 class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
     // RecyclerView.Adapter для списка контактов.
@@ -33,7 +33,7 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
         val itemUserPhone: TextView = view.findViewById(R.id.itemUserPhone)
         val itemUserLabel: TextView = view.findViewById(R.id.itemUserLabel)
         val btnUserMenu: Button = view.findViewById(R.id.btnUserMenu)
-        val itemUserLayout: ConstraintLayout = view.findViewById(R.id.itemUserLayout)
+        val itemCardUser: MaterialCardView = view.findViewById(R.id.frameItemCardUser)
         val btnUserSelf: Button = view.findViewById(R.id.btnUserSelf)
 
         override fun bindView(position: Int) {
@@ -43,9 +43,9 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
             this.itemUserPhone.text = phone
             this.itemUserLabel.setBackgroundResource(
                 AppColors.getMarker(Util.phone2color[phone]))
-            this.itemUserLayout.setBackgroundColor(
+            this.itemCardUser.setCardBackgroundColor(
                 AppColors.getColorAlpha16(Util.phone2color[phone]))
-            this.itemUserLayout.tag = position
+            this.itemCardUser.tag = position
             this.btnUserMenu.tag = position
             if (phone == Util.myphone) {
                 this.btnUserSelf.isEnabled = true
@@ -91,7 +91,7 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
         holder.bindView(position)
         if (holder is ListItemViewHolder) {
             holder.itemView.setOnClickListener { itemViewClick(position) }
-            holder.itemView.setOnLongClickListener { itemViewLongClick(holder.itemUserLayout) }
+            holder.itemView.setOnLongClickListener { itemViewLongClick(holder.itemCardUser) }
         }
     }
 

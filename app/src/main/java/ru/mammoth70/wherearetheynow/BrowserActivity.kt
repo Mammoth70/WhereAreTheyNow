@@ -20,7 +20,7 @@ class BrowserActivity : LocationActivity() {
             "https://www.openstreetmap.org/?mlat=%1$.6f&mlon=%2$.6f#map=%3$.0f/%1$.6f/%2$.6f"
     }
 
-    private val webView: WebView by lazy { findViewById(R.id.webView) }
+    private val webView: WebView by lazy { findViewById(R.id.itemWebView) }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +30,7 @@ class BrowserActivity : LocationActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_browser)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.browser))
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameBrowserActivity))
         { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top,

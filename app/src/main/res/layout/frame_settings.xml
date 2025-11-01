@@ -182,7 +182,7 @@
                 android:layout_marginBottom="16dp"
                 >
                 <RadioButton
-                    android:id="@+id/text"
+                    android:id="@+id/frameTextActivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/map_text"
