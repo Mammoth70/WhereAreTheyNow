@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/latitude"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,13 +32,13 @@
             android:id="@+id/lbLongitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/longitude"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/lbLatitude"
             app:layout_constraintTop_toBottomOf="@+id/lbLatitude"
+            app:layout_constraintBottom_toBottomOf="parent"
             />
         <TextView
             android:id="@+id/tvLatitude"
@@ -57,6 +57,7 @@
             app:layout_constraintStart_toStartOf="@+id/tvLatitude"
             app:layout_constraintTop_toTopOf="@+id/lbLongitude"
             />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

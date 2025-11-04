@@ -27,6 +27,14 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
         abstract fun bindView(position: Int)
     }
 
+    private class FooterViewHolder(view: View) : GenericViewHolder(view) {
+        // Представление viewHolder для футера.
+
+        override fun bindView(position: Int) {
+            // Функция привязывает к viewHolder'у данные футера.
+        }
+    }
+
     private class ListItemViewHolder(view: View) : GenericViewHolder(view) {
         // Представление viewHolder'а для списка контактов.
         val itemUserName: TextView = view.findViewById(R.id.itemUserName)
@@ -57,35 +65,23 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
         }
     }
 
-    private class FooterViewHolder(view: View) : GenericViewHolder(view) {
-        // Представление viewHolder для футера.
-
-        override fun bindView(position: Int) {
-            // Функция привязывает к viewHolder'у данные футера.
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет.
-        val view: View
         return when(viewType) {
             FOOTER_VIEW -> {
-                view = LayoutInflater.from(parent.context).
-                inflate(R.layout.item_user_footer, parent, false)
-                FooterViewHolder(view)
+                FooterViewHolder(LayoutInflater.from(parent.context).
+                inflate(R.layout.item_user_footer, parent, false))
             }
 
             else -> {
-                view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_user, parent, false)
-                ListItemViewHolder(view).apply {
+                ListItemViewHolder(view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_user, parent, false)).apply {
                     btnUserMenu.setOnClickListener(btnMenuClick)
                     btnUserSelf.setOnClickListener(btnSelfClick)
                 }
             }
         }
     }
-
     override fun onBindViewHolder(holder: GenericViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         holder.bindView(position)

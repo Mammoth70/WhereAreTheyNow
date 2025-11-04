@@ -45,20 +45,50 @@
     </style>
 
     <style name="Widget.App.CardView.Decorative" parent="@style/Widget.Material3.CardView.Outlined">
-        <!-- Стиль элемента для RecyclerView в TextActivity -->
+        <!-- Стиль не первого и не последнего элемента для RecyclerView в TextActivity -->
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Decorative</item>
         <item name="strokeWidth">0dp</item>
     </style>
 
+    <style name="Widget.App.CardView.Decorative.First" parent="@style/Widget.Material3.CardView.Outlined">
+        <!-- Стиль первого элемента для RecyclerView в TextActivity -->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Decorative.First</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="Widget.App.CardView.Decorative.Last" parent="@style/Widget.Material3.CardView.Outlined">
+        <!-- Стиль последнего элемента для RecyclerView в TextActivity -->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Decorative.Last</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.Decorative" parent="">
-        <!-- Стиль формы элемента для RecyclerView в TextActivity -->
+        <!-- Стиль формы не первого и не послдеднего элемента для RecyclerView в TextActivity -->
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Decorative.First" parent="">
+        <!-- Стиль формы первого элемента для RecyclerView в TextActivity -->
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerSizeTopLeft">16dp</item>
-        <item name="cornerFamilyTopRight">cut</item>
-        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
         <item name="cornerFamilyBottomLeft">cut</item>
         <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Decorative.Last" parent="">
+        <!-- Стиль формы последнего элемента для RecyclerView в TextActivity -->
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
         <item name="cornerFamilyBottomRight">rounded</item>
-        <item name="cornerSizeBottomRight">36dp</item>
+        <item name="cornerSizeBottomRight">16dp</item>
     </style>
 </resources>

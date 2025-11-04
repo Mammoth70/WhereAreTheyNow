@@ -13,6 +13,9 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
 
     companion object {
         private val phones2: ArrayList<String> = ArrayList() // список телефонов, у которых есть point
+        const val FIRST_ITEM_VIEW = 1
+        const val CENTER_ITEM_VIEW = 2
+        const val LAST_ITEM_VIEW = 3
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -33,9 +36,22 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
                 phones2.add(phone)
             }
         }
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_geo, parent, false)
-        return ViewHolder(view)
+        return when (viewType) {
+            FIRST_ITEM_VIEW -> {
+                ViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_geo_first, parent, false))
+            }
+
+            LAST_ITEM_VIEW -> {
+                ViewHolder(LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_geo_last, parent, false))
+            }
+
+            else -> {
+                ViewHolder(view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_geo, parent, false))
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -59,6 +75,15 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.
         return Util.phone2record.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        // Функция определяет тип элемента.
+        return when (position) {
+            0 -> FIRST_ITEM_VIEW
+            (Util.phone2record.size-1) -> LAST_ITEM_VIEW
+            else -> CENTER_ITEM_VIEW
+        }
     }
 
 }

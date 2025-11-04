@@ -21,9 +21,8 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_color, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_color, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

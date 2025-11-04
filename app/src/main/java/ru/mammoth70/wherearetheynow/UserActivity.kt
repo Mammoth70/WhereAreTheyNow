@@ -139,7 +139,7 @@ class UserActivity : AppCompatActivity() {
                 edName.setText(intent.getStringExtra(INTENT_EXTRA_NAME))
                 edName.setEnabled(false)
                 setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
-                tvMark.setEnabled(false)
+                cardColor.setEnabled(false)
             }
 
             else -> {
