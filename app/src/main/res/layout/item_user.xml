@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Элемент для RecyclerView с контактами в MainActivity. -->
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameItemCardUser"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,8 +12,7 @@
     android:layout_marginBottom="4dp"
     android:clickable="true"
     android:focusable="true"
-    app:strokeColor="?attr/colorOutline"
-    >
+    app:strokeColor="?attr/colorOutline">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +38,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintStart_toEndOf="@+id/itemUserLabel"
             app:layout_constraintTop_toTopOf="@+id/itemUserLabel"
+            tools:text="Имя фамилия контакта"
             />
         <TextView
             android:id="@+id/itemUserPhone"
@@ -48,20 +48,22 @@
             android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/itemUserLabel"
             app:layout_constraintStart_toStartOf="@+id/itemUserName"
+            tools:text="+73332223333"
             />
         <Button
             android:id="@+id/btnUserSelf"
-            android:visibility="gone"
             style="?attr/materialIconButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/self"
+            android:visibility="gone"
             android:enabled="false"
             app:icon="@drawable/ic_action_self"
             app:iconTint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnUserMenu"
             app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
             />
         <Button
             style="?attr/materialIconButtonStyle"

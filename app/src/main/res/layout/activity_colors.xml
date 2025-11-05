@@ -16,6 +16,7 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:listitem="@layout/item_color"
+            tools:itemCount="12"
             app:spanCount="2"
             android:orientation="vertical"
             android:layout_width="match_parent"

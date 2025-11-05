@@ -16,6 +16,8 @@
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_action_back"
             app:menu="@menu/top_app_bar_map"
+            tools:title="Имя фамилия контакта"
+            tools:subtitle="сколько минут назад"
             />
     </com.google.android.material.appbar.AppBarLayout>
     <!-- Скрытый объект.

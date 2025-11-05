@@ -50,6 +50,11 @@
         <item name="strokeWidth">0dp</item>
     </style>
 
+    <style name="Widget.App.CardView.Decorative.Title" parent="@style/Widget.Material3.CardView.Filled">
+        <!-- Стиль не первого и не последнего элемента для RecyclerView в TextActivity -->
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Decorative.Title</item>
+    </style>
+
     <style name="Widget.App.CardView.Decorative.First" parent="@style/Widget.Material3.CardView.Outlined">
         <!-- Стиль первого элемента для RecyclerView в TextActivity -->
         <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Decorative.First</item>
@@ -66,6 +71,12 @@
         <!-- Стиль формы не первого и не послдеднего элемента для RecyclerView в TextActivity -->
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">0dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.Decorative.Title" parent="">
+        <!-- Стиль формы не первого и не послдеднего элемента для RecyclerView в TextActivity -->
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.Decorative.First" parent="">

@@ -48,6 +48,7 @@
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/lbLatitude"
             app:layout_constraintTop_toTopOf="@+id/lbLatitude"
+            tools:text="55.768533"
             />
         <TextView
             android:id="@+id/tvLongitude"
@@ -56,9 +57,11 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tvLatitude"
             app:layout_constraintTop_toTopOf="@+id/lbLongitude"
+            tools:text="37.589055"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/frame_geo_title"/>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
