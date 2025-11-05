@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".YandexActivity"
     android:id="@+id/frameYandexActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context=".YandexActivity"
     >
     <!-- Top AppBar. -->
     <include layout="@layout/frame_app_bar_map"/>
@@ -21,10 +21,10 @@
             android:id="@+id/yandexview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             >
             <!-- Группа кнопок FAB. -->
             <include layout="@layout/frame_fab_yandex"/>

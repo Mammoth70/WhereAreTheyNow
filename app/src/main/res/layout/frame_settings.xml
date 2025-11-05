@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         >
         <LinearLayout
@@ -28,12 +28,12 @@
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/myphone"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
                     android:digits="+-1234567890 ()"
                     android:ems="20"
                     android:inputType="phone"
                     android:maxLength="20"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
                     tools:ignore="TextContrastCheck"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -43,8 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         >
         <LinearLayout
@@ -55,8 +55,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/selectThemeColor"
                 android:textSize="16sp"
                 />
@@ -65,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 >
                 <RadioButton
@@ -115,8 +115,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/selectThemeMode"
                 android:textSize="16sp"
                 />
@@ -125,8 +125,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 >
                 <RadioButton
@@ -137,10 +137,10 @@
                     />
                 <RadioButton
                     android:id="@+id/themeSystem"
+                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/themeSystem"
-                    android:checked="true"
                     />
                 <RadioButton
                     android:id="@+id/themeNight"
@@ -155,8 +155,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         >
         <LinearLayout
@@ -167,8 +167,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/selectMap"
                 android:textSize="16sp"
                 />
@@ -177,8 +177,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 >
                 <RadioButton
@@ -206,20 +206,20 @@
                 android:id="@+id/lbMapZoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/mapZoom"
                 android:textSize="16sp"
                 android:visibility="gone"
                 />
             <com.google.android.material.slider.Slider
                 android:id="@+id/sliderMapZoom"
+                android:contentDescription="@string/mapZoom"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
-                android:contentDescription="@string/mapZoom"
                 android:stepSize="1.0"
                 android:value="17.0"
                 android:valueFrom="10.0"
@@ -230,20 +230,20 @@
                 android:id="@+id/lbMapTilt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/mapTilt"
                 android:textSize="16sp"
                 android:visibility="gone"
                 />
             <com.google.android.material.slider.Slider
                 android:id="@+id/sliderMapTilt"
+                android:contentDescription="@string/mapTilt"
                 android:layout_width="140dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="0dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/mapTilt"
                 android:stepSize="10.0"
                 android:value="30.0"
                 android:valueFrom="0.0"
@@ -254,8 +254,8 @@
                 android:id="@+id/checkBoxCircle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/mapCircle"
                 android:textSize="16sp"
@@ -265,20 +265,20 @@
                 android:id="@+id/lbCircleRadius"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/mapCircleRadius"
                 android:textSize="16sp"
                 android:visibility="gone"
                 />
             <com.google.android.material.slider.Slider
                 android:id="@+id/sliderCircleRadius"
+                android:contentDescription="@string/mapCircleRadius"
                 android:layout_width="160dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/mapCircleRadius"
                 android:stepSize="10.0"
                 android:value="70.0"
                 android:valueFrom="20.0"
@@ -302,8 +302,8 @@
                 android:id="@+id/checkBoxService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/selectService"
                 android:textSize="16sp"

@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+            android:id="@+id/topAppBarMap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_action_back"
             app:menu="@menu/top_app_bar_map"
+            app:navigationIcon="@drawable/ic_action_back"
             tools:title="Имя фамилия контакта"
-            tools:subtitle="сколько минут назад"
+            tools:subtitle="несколько минут назад"
             />
     </com.google.android.material.appbar.AppBarLayout>
     <!-- Скрытый объект.

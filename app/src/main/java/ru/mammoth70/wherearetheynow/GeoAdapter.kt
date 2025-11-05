@@ -20,10 +20,10 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка контактов с координатами.
-        val itemUserName: TextView = view.findViewById(R.id.itemUserName)
-        val itemLattitude: TextView = view.findViewById(R.id.itemLattitude)
-        val itemLongitude: TextView = view.findViewById(R.id.itemLongitude)
-        val itemDate: TextView = view.findViewById(R.id.itemDate)
+        val itemUserName: TextView = view.findViewById(R.id.itemUserNameGeo)
+        val itemLattitude: TextView = view.findViewById(R.id.itemLattitudeGeo)
+        val itemLongitude: TextView = view.findViewById(R.id.itemLongitudeGeo)
+        val itemDate: TextView = view.findViewById(R.id.itemDateGeo)
         val itemCardGeo: MaterialCardView = view.findViewById(R.id.frameItemCardGeo)
     }
 

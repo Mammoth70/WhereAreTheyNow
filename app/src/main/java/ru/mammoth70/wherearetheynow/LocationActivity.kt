@@ -19,7 +19,7 @@ abstract class LocationActivity : AppCompatActivity() {
                intent.getDoubleExtra(INTENT_EXTRA_LATITUDE, 0.0),
                intent.getDoubleExtra(INTENT_EXTRA_LONGITUDE, 0.0),
                intent.getStringExtra(INTENT_EXTRA_TIME)!!) }
-    protected val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
+    protected val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBarMap) }
 
     protected fun createFrameTitle(context: Context) {
         // Функция вызывается при создании Activity.

@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Поля вывода для всех item_geo. -->
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
     <TextView
-        android:id="@+id/itemUserName"
+        android:id="@+id/itemUserNameGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:text="Имя фамилия контакта"
         />
     <TextView
-        android:id="@+id/itemLattitude"
+        android:id="@+id/itemLattitudeGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/itemUserNameGeo"
+        app:layout_constraintStart_toStartOf="@+id/itemUserNameGeo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/itemUserName"
-        app:layout_constraintTop_toBottomOf="@+id/itemUserName"
         tools:text="55.768533"
         />
     <TextView
-        android:id="@+id/itemLongitude"
+        android:id="@+id/itemLongitudeGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/itemLattitude"
-        app:layout_constraintTop_toTopOf="@+id/itemLattitude"
+        app:layout_constraintTop_toTopOf="@+id/itemLattitudeGeo"
+        app:layout_constraintStart_toEndOf="@+id/itemLattitudeGeo"
         tools:text="37.589055"
         />
     <TextView
-        android:id="@+id/itemDate"
+        android:id="@+id/itemDateGeo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/itemLongitude"
-        app:layout_constraintTop_toTopOf="@+id/itemLattitude"
+        app:layout_constraintTop_toTopOf="@+id/itemLattitudeGeo"
+        app:layout_constraintStart_toEndOf="@+id/itemLongitudeGeo"
         tools:text="2025-11-05 09:16:37"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

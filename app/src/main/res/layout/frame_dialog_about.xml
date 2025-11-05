@@ -7,13 +7,13 @@
     >
     <TextView
         style="@style/AboutDialogStyle"
+        android:autoLink="all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/for_about"
-        android:autoLink="all"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginEnd="96dp"
+        android:text="@string/for_about"
         />
 </FrameLayout>

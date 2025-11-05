@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Последний элемент для RecyclerView с контактами и их координатами в TextActivity. -->
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.App.CardView.Decorative.Last"
     android:id="@+id/frameItemCardGeo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginTop="4dp"
+    android:layout_marginStart="8dp"
     android:layout_marginBottom="4dp"
-    style="@style/Widget.App.CardView.Decorative.Last"
+    android:layout_marginEnd="8dp"
     >
     <include layout="@layout/item_geo_frame"/>
 </com.google.android.material.card.MaterialCardView>

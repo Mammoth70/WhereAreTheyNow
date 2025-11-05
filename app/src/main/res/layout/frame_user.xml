@@ -21,33 +21,33 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="0dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="0dp"
+                android:layout_marginEnd="0dp"
                 android:importantForAccessibility="no"
                 app:srcCompat="@drawable/ic_action_phone"
                 app:tint="?attr/colorOnSurface"
                 />
             <com.google.android.material.textfield.TextInputLayout
-                android:hint="@string/ed_phone"
                 android:id="@+id/ilPhone"
-                app:errorEnabled="true"
+                android:hint="@string/ed_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="0dp"
+                android:layout_marginEnd="16dp"
+                app:errorEnabled="true"
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edPhone"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
                     android:digits="+-1234567890 ()"
                     android:ems="20"
                     android:inputType="phone"
                     android:maxLength="20"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
                     tools:ignore="TextContrastCheck"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -60,31 +60,31 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="0dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="0dp"
+                android:layout_marginEnd="0dp"
                 android:importantForAccessibility="no"
                 app:srcCompat="@drawable/ic_action_person"
                 app:tint="?attr/colorOnSurface" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ilName"
                 android:hint="@string/ed_name"
-                app:errorEnabled="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="0dp"
+                android:layout_marginEnd="16dp"
+                app:errorEnabled="true"
                 >
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:ems="25"
                     android:inputType="textCapWords"
                     android:maxLength="25"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     tools:ignore="TextContrastCheck,VisualLintTextFieldSize"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -97,33 +97,33 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="0dp"
                 android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="0dp"
+                android:layout_marginEnd="0dp"
                 android:importantForAccessibility="no"
                 app:srcCompat="@drawable/ic_action_pin"
                 app:tint="?attr/colorOnSurface"
                 />
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardColor"
-                android:onClick="onMarkClicked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="0dp"
+                android:layout_marginEnd="16dp"
+                android:onClick="onMarkClicked"
                 app:shapeAppearance="@style/ShapeAppearance.App.Corner.Medium"
                 app:strokeColor="?attr/colorOutline"
                 >
                 <TextView
                     android:id="@+id/tvMark"
+                    android:background="@drawable/ic_pin_empty"
+                    android:gravity="center"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_margin="8dp"
-                    android:background="@drawable/ic_pin_empty"
-                    android:gravity="center"
                     android:text="@string/ed_label"
                     android:textAppearance="?attr/textAppearanceBodyLarge"
                     android:textColor="?attr/colorOnSurfaceVariant"
@@ -138,14 +138,14 @@
             >
             <TextView
                 android:id="@+id/tvColorError"
-                android:text=""
-                android:textColor="?attr/colorError"
-                android:textAppearance="?attr/textAppearanceBodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="72dp"
                 android:layout_marginBottom="24dp"
+                android:text=""
+                android:textColor="?attr/colorError"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 />
         </LinearLayout>
     </LinearLayout>

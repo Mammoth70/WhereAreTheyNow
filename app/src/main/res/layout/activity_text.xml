@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".TextActivity"
     android:id="@+id/frameTextActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:context=".TextActivity"
     >
     <!-- Top AppBar. -->
     <include layout="@layout/frame_app_bar_map"/>
@@ -21,12 +21,12 @@
             android:id="@+id/lbLatitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:layout_marginTop="16dp"
+            android:layout_marginStart="28dp"
             android:text="@string/latitude"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             />
         <TextView
             android:id="@+id/lbLongitude"
@@ -36,8 +36,8 @@
             android:layout_marginBottom="16dp"
             android:text="@string/longitude"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/lbLatitude"
             app:layout_constraintTop_toBottomOf="@+id/lbLatitude"
+            app:layout_constraintStart_toStartOf="@+id/lbLatitude"
             app:layout_constraintBottom_toBottomOf="parent"
             />
         <TextView
@@ -46,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/lbLatitude"
             app:layout_constraintTop_toTopOf="@+id/lbLatitude"
+            app:layout_constraintStart_toEndOf="@+id/lbLatitude"
             tools:text="55.768533"
             />
         <TextView
@@ -55,8 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tvLatitude"
             app:layout_constraintTop_toTopOf="@+id/lbLongitude"
+            app:layout_constraintStart_toStartOf="@+id/tvLatitude"
             tools:text="37.589055"
             />
 
@@ -69,11 +69,11 @@
         >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemGeoRecycler"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_geo"
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_geo"
             />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

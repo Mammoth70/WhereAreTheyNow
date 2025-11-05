@@ -2,24 +2,25 @@
 <!-- Layout для ColorsActivity. -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ColorsActivity"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameColorsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ColorsActivity"
     >
         <!-- Top AppBar. -->
         <include layout="@layout/frame_app_bar"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemColorsRecycler"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/item_color"
-            tools:itemCount="12"
-            app:spanCount="2"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:spanCount="2"
+            tools:itemCount="12"
+            tools:listitem="@layout/item_color"
+            tools:spanCount="2"
             />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
