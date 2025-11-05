@@ -12,7 +12,9 @@
     >
     <!-- Top AppBar. -->
     <include layout="@layout/frame_app_bar_map"/>
+    <!-- Поля вывода координат текущего контакта. -->
     <include layout="@layout/frame_text"/>
+    <!-- Заголовок перед RecyclerView. -->
     <include layout="@layout/frame_geo_title"/>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

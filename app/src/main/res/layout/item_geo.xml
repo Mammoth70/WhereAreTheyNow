@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
+        <!-- Поля вывода элемента. -->
         <include layout="@layout/item_geo_frame"/>
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>
