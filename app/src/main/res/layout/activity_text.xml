@@ -12,55 +12,7 @@
     >
     <!-- Top AppBar. -->
     <include layout="@layout/frame_app_bar_map"/>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        >
-        <TextView
-            android:id="@+id/lbLatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="28dp"
-            android:text="@string/latitude"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-        <TextView
-            android:id="@+id/lbLongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="@string/longitude"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/lbLatitude"
-            app:layout_constraintStart_toStartOf="@+id/lbLatitude"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <TextView
-            android:id="@+id/tvLatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="@+id/lbLatitude"
-            app:layout_constraintStart_toEndOf="@+id/lbLatitude"
-            tools:text="55.768533"
-            />
-        <TextView
-            android:id="@+id/tvLongitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="@+id/lbLongitude"
-            app:layout_constraintStart_toStartOf="@+id/tvLatitude"
-            tools:text="37.589055"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/frame_text"/>
     <include layout="@layout/frame_geo_title"/>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

@@ -5,7 +5,7 @@ plugins {
 
 def versionMajor = 3
 def versionMinor = 11
-def versionPatch = 9
+def versionPatch = 10
 
 android {
     namespace 'ru.mammoth70.wherearetheynow'

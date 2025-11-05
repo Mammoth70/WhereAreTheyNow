@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         >
         <LinearLayout
@@ -44,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         >
         <LinearLayout
@@ -65,7 +63,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 >
@@ -125,7 +122,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 >
@@ -156,7 +152,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         >
         <LinearLayout
@@ -177,7 +172,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 >
@@ -217,7 +211,6 @@
                 android:contentDescription="@string/mapZoom"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:stepSize="1.0"
@@ -230,7 +223,6 @@
                 android:id="@+id/lbMapTilt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/mapTilt"
                 android:textSize="16sp"
@@ -240,9 +232,7 @@
                 android:id="@+id/sliderMapTilt"
                 android:contentDescription="@string/mapTilt"
                 android:layout_width="140dp"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="0dp"
                 android:layout_height="wrap_content"
                 android:stepSize="10.0"
                 android:value="30.0"
@@ -265,7 +255,6 @@
                 android:id="@+id/lbCircleRadius"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/mapCircleRadius"
                 android:textSize="16sp"
@@ -275,7 +264,6 @@
                 android:id="@+id/sliderCircleRadius"
                 android:contentDescription="@string/mapCircleRadius"
                 android:layout_width="160dp"
-                android:layout_marginTop="0dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
                 android:layout_height="wrap_content"
