@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.graphics.toColorInt
 import androidx.core.graphics.createBitmap
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,6 +36,9 @@ import ru.mammoth70.wherearetheynow.MapUtil.MAP_TILT_DEFAULT
 class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     // Activity выводит yandex-карту с геолокацией, переданной через intent.
 
+    override val idLayout = R.layout.activity_yandex
+    override val idActivity = R.id.frameYandexActivity
+
     private val mapView: MapView by lazy { findViewById<MapView>(R.id.yandexview) }
     private val map: Map by lazy { mapView.mapWindow.map }
     private val fabNord: FloatingActionButton by lazy {
@@ -55,17 +55,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         // Получение из intent данных.
         // Обработка данных для вывода карты.
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_yandex)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameYandexActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
-            insets
-        }
-
-        createFrameTitle(this)
 
         mapView.mapWindow.map.addCameraListener(this)
         when (getResources().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
