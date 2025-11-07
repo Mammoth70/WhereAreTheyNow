@@ -75,8 +75,6 @@ class SMSMonitor : BroadcastReceiver() {
         // Функция проверяет правильность заполнения полей SMS-сообщения с геолокацией,
         // (поскольку данные приходят извне, проверять надо тщательно)
         // сохраняет полученные данные и передаёт обработку в MapUtil.
-        val intent = Intent(context, BrowserActivity::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val pattern = Pattern.compile(REGEXP_ANSWER)
         val matcher = pattern.matcher(message)
         if ((matcher.find())) {
