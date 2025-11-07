@@ -5,42 +5,26 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_TIME
 
-abstract class LocationActivity : AppCompatActivity() {
+abstract class LocationActivity : AppActivity() {
     // Абстрактный класс для создания Activity вывода геолокации, переданной через intent.
-
-    protected abstract val idLayout : Int
-    protected abstract val idActivity : Int
 
     protected val startRecord: PointRecord by lazy { PointRecord(
                intent.getStringExtra(INTENT_EXTRA_SMS_FROM)!!,
                intent.getDoubleExtra(INTENT_EXTRA_LATITUDE, 0.0),
                intent.getDoubleExtra(INTENT_EXTRA_LONGITUDE, 0.0),
                intent.getStringExtra(INTENT_EXTRA_TIME)!!) }
-    protected val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBarMap) }
+    override val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBarMap) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Может быть переопределена, но обычно не переопределяется.
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(idLayout)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(idActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
-            insets
-        }
 
         createFrameTitle(this)
         initMap(this)

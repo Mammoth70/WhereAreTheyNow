@@ -13,7 +13,7 @@ abstract class AppActivity : AppCompatActivity() {
     protected abstract val idLayout : Int
     protected abstract val idActivity : Int
 
-    protected val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
+    protected open val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
