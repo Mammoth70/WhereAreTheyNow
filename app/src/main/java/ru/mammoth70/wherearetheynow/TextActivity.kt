@@ -1,7 +1,6 @@
 package ru.mammoth70.wherearetheynow
 
 import android.content.Context
-import android.os.Bundle
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Locale
@@ -15,17 +14,11 @@ class TextActivity : LocationActivity() {
     private val tvLatitude: TextView by lazy { findViewById(R.id.tvLatitude) }
     private val tvLongitude: TextView by lazy { findViewById(R.id.tvLongitude) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // Функция вызывается при создании Activity.
-        // Получение из intent данных.
-        // Подготовка данных для вывода таблицы контактов с координатами.
-        super.onCreate(savedInstanceState)
-
+    override fun initMap(context: Context) {
+        // Функция делает настройку recyclerView для вывода списка контактов с координатами.
         val geoAdapter = GeoAdapter()
         val recyclerView: RecyclerView = findViewById(R.id.itemGeoRecycler)
         recyclerView.adapter = geoAdapter
-
-        reloadMapFromPoint(this, startRecord)
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {

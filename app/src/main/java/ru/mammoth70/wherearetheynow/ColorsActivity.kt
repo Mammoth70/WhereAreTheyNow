@@ -2,32 +2,19 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
-class ColorsActivity : AppCompatActivity() {
+class ColorsActivity : AppActivity() {
     // Activity выбора цвета.
 
-    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
+    override val idLayout = R.layout.activity_colors
+    override val idActivity = R.id.frameColorsActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Обработка данных для подготовки списка меток.
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_colors)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameColorsActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
-            insets
-        }
 
         topAppBar.setTitle(R.string.titleColors)
         topAppBar.setNavigationOnClickListener {

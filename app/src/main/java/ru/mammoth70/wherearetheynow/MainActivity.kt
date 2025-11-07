@@ -8,31 +8,28 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationBarView
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppActivity() {
     // Главная activity приложения.
     // Выводит список контактов и bottom Navigatin bar.
+
+    override val idLayout = R.layout.activity_main
+    override val idActivity = R.id.frameMainActivity
 
     companion object {
         private const val NM_MAP_ID = 0
         private const val NM_USERS_ID = 1
     }
 
-    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
     private val usersAdapter by lazy { UsersAdapter() }
 
@@ -41,17 +38,6 @@ class MainActivity : AppCompatActivity() {
         // Чтение списков и словарей контактов из БД.
         // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameMainActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom
-            )
-            insets
-        }
 
         topAppBar.setTitle(R.string.app_name)
         topAppBar.setNavigationOnClickListener {

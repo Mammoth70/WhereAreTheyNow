@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PointF
-import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
@@ -50,17 +49,14 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     private val fab2D3D: FloatingActionButton by lazy {
         findViewById<FloatingActionButton>(R.id.floatingActionButtonMapTilt) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // Функция вызывается при создании Activity.
-        // Получение из intent данных.
-        // Обработка данных для вывода карты.
-        super.onCreate(savedInstanceState)
-
+    override fun initMap(context: Context) {
+        // Функция делает начальную настройку карты.
         mapView.mapWindow.map.addCameraListener(this)
         when (getResources().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
                 // ночная тема не активна, используется светлая тема
                 map.isNightModeEnabled = false
+
             Configuration.UI_MODE_NIGHT_YES ->
                 // ночная тема активна, и она используется
                 map.isNightModeEnabled = true
@@ -84,20 +80,25 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                     )
                     placemarkMapObjects.add(mapObjectCollection.addPlacemark().apply {
                         geometry = Point(value.latitude, value.longitude)
-                        setIcon(ImageProvider.fromBitmap(
-                            getBitmapFromColor(Util.phone2color[key])
-                        ),IconStyle().apply { anchor = PointF(0.5f, 1f) })
+                        setIcon(
+                            ImageProvider.fromBitmap(
+                                getBitmapFromColor(Util.phone2color[key])
+                            ), IconStyle().apply { anchor = PointF(0.5f, 1f) })
                         userData = key
                         addTapListener(mapObjectTapListener)
-                        setText(Util.phone2name[key]!! ,markTextStyle)
+                        setText(Util.phone2name[key]!!, markTextStyle)
                     }
                     )
 
                     if (MapUtil.selectedMapCircle) {
                         circleMapObjects.add(
                             mapObjectCollection.addCircle(
-                                Circle(Point(value.latitude,
-                                    value.longitude), MapUtil.selectedMapCircleRadius)
+                                Circle(
+                                    Point(
+                                        value.latitude,
+                                        value.longitude
+                                    ), MapUtil.selectedMapCircleRadius
+                                )
                             ).apply {
                                 strokeColor = Util.phone2color[key]?.toColorInt()!!
                                 strokeWidth = 1f
@@ -108,9 +109,15 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
                 }
             }
-        }
 
-        reloadMapFromPoint(this, startRecord)
+        }
+    }
+
+    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
+        // Функция передвигает карту на PointRecord.
+        start2D3D()
+        map.move(CameraPosition(Point(rec.latitude, rec.longitude),
+            MapUtil.selectedMapZoom, 0f, MapUtil.selectedMapTilt))
     }
 
     private val markTextStyle: TextStyle
@@ -134,13 +141,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 placement = TextStyle.Placement.TOP
             }
         }
-
-    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
-        // Функция передвигает карту на PointRecord.
-        start2D3D()
-        map.move(CameraPosition(Point(rec.latitude, rec.longitude),
-            MapUtil.selectedMapZoom, 0f, MapUtil.selectedMapTilt))
-    }
 
     private val mapObjectTapListener =
         MapObjectTapListener { mapObject: MapObject?, _: Point? ->

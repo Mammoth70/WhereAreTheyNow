@@ -29,6 +29,8 @@ abstract class LocationActivity : AppCompatActivity() {
     protected val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBarMap) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Функция вызывается при создании Activity.
+        // Может быть переопределена, но обычно не переопределяется.
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(idLayout)
@@ -39,19 +41,23 @@ abstract class LocationActivity : AppCompatActivity() {
                 systemBars.right, systemBars.bottom)
             insets
         }
+
         createFrameTitle(this)
+        initMap(this)
+        reloadMapFromPoint(this, startRecord)
     }
 
     protected fun createFrameTitle(context: Context) {
-        // Функция вызывается при создании Activity.
-        // Не должна переопределяться, но должна вызываться из onCreate после вызова setContentView.
+        // Функция вызывается из onCreate после вызова setContentView.
+        // Не может переопределяться.
+        // Функция выводит в заголовок карты имя контакта и время получения координат из записи startRecord,
+        // а также создаёт меню со списком контактов в панели заголовка.
         topAppBar.setTitle(Util.phone2name[startRecord.phone])
         topAppBar.setSubtitle(MapUtil.timePassed(startRecord.dateTime, context))
         topAppBar.setNavigationOnClickListener {
             finish()
         }
 
-        // Настройка меню со списком контактов.
         DBhelper.dbHelper.readMenuUsers()
         topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -71,7 +77,7 @@ abstract class LocationActivity : AppCompatActivity() {
                         reloadMapFromId(context, item!!.itemId)
                         true
                     }
-                    popupMenu.show() // Отображение меню со списком контактов.
+                    popupMenu.show()
                     true
                 }
                 else -> false
@@ -80,19 +86,24 @@ abstract class LocationActivity : AppCompatActivity() {
     }
 
     protected open fun reloadMapFromId(context: Context, id: Int) {
-        // Функция выводит координаты тектом, меняя заголовок карты.
-        // Вызывается из меню со списком контактов.
+        // Функция вызывается из меню со списком контактов.
+        // Может быть переопределена, но обычно не переопределяется.
+        // Функция выводит в заголовок карты имя контакта и время получения координат.
         // После выполнения, вызывает функцию reloadMapFromPoint.
-        // Может быть переопределена.
         val phone = Util.id2phone[id]
         topAppBar.setTitle(Util.phone2name[phone])
         topAppBar.setSubtitle(MapUtil.timePassed(Util.phone2record[phone]!!.dateTime, context))
         reloadMapFromPoint( context, Util.phone2record[phone]!!)
     }
 
+    protected abstract fun initMap(context: Context)
+    // Абстрактная функция, должна быть переопределена.
+    // Вызывается из onCreate после createFrameTitle и перед reloadMapFromPoint.
+    // Функция делает начальную настройку карты.
+
     protected abstract fun reloadMapFromPoint(context: Context, rec: PointRecord)
     // Абстрактная функция, должна быть переопределена.
-    // Вызывается из reloadMapFromId, а также из OnCreate.
+    // Вызывается из из onCreate после initMap, а также из reloadMapFromId.
     // Функция перестраивает карту по передаваемой записи PoinRecord.
 
 }

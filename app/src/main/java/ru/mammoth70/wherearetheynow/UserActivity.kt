@@ -7,21 +7,19 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.appbar.MaterialToolbar
 import java.util.Objects
 import kotlin.getValue
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : AppActivity() {
     // Activity выводит карточку контакта для добавления, редактирования, удаления.
+
+    override val idLayout = R.layout.activity_user
+    override val idActivity = R.id.frameUserActivity
 
     companion object {
         const val INTENT_EXTRA_ACTION: String = "action"
@@ -40,7 +38,6 @@ class UserActivity : AppCompatActivity() {
 
     private val action: String by lazy { intent.getStringExtra(INTENT_EXTRA_ACTION)!! }
 
-    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val ilPhone: TextInputLayout by lazy { findViewById(R.id.ilPhone) }
     private val edPhone: TextInputEditText by lazy { findViewById(R.id.edPhone) }
     private val ilName: TextInputLayout by lazy { findViewById(R.id.ilName) }
@@ -61,15 +58,6 @@ class UserActivity : AppCompatActivity() {
         // Функция вызывается при создании Activity.
         // Подготовка структуры данных для вывода карточки контакта.
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_user)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameUserActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
-            insets
-        }
 
         topAppBar.setTitle(R.string.titleUser)
         topAppBar.setNavigationOnClickListener {

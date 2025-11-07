@@ -22,8 +22,8 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
        const val FOOTER_VIEW = 3
     }
 
-    abstract class GenericViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // Абстрактный класс, от которого наследуются viewHolder'ы для списка контактов и футера.
+    sealed class GenericViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        // Запечатанный (абстрактный) класс, от которого наследуются viewHolder'ы для списка контактов и футера.
         abstract fun bindView(position: Int)
     }
 

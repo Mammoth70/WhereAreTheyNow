@@ -8,13 +8,8 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.appbar.MaterialToolbar
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_TEXT
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_OPENSTREET
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_YANDEX
@@ -38,14 +33,16 @@ import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE_RADIUS
 import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_M3
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppActivity() {
     // Activity показывает и позволяет изменять настройки выбора карт.
+
+    override val idLayout = R.layout.activity_settings
+    override val idActivity = R.id.frameSettingsActivity
 
     companion object {
         const val INTENT_EXTRA_RESULT: String = "refresh"
     }
 
-    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val edMyPhone: TextInputEditText by lazy { findViewById(R.id.myphone) }
     private val checkBoxService: CheckBox by lazy { findViewById(R.id.checkBoxService) }
     private val checkBoxCircle: CheckBox by lazy { findViewById(R.id.checkBoxCircle) }
@@ -67,15 +64,6 @@ class SettingsActivity : AppCompatActivity() {
     @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_settings)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.frameSettingsActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
-            insets
-        }
 
         topAppBar.setTitle(R.string.titleSettings)
         topAppBar.setNavigationOnClickListener {

@@ -2,7 +2,6 @@ package ru.mammoth70.wherearetheynow
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import java.util.Locale
@@ -23,17 +22,11 @@ class BrowserActivity : LocationActivity() {
     private val webView: WebView by lazy { findViewById(R.id.itemWebView) }
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // Функция вызывается при создании Activity.
-        // Получение из intent данных, создание на основе них uri.
-        // Обработка данных для вывода uri через броузер.
-        super.onCreate(savedInstanceState)
-
+    override fun initMap(context: Context) {
+        // Функция делает начальную настройку карты.
         webView.setWebViewClient(WebViewClient())
         val webSettings = webView.getSettings()
         webSettings.javaScriptEnabled = true
-
-        reloadMapFromPoint(this, startRecord)
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {

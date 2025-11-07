@@ -9,20 +9,18 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 
-class PermissionActivity : AppCompatActivity() {
+class PermissionActivity : AppActivity() {
     // Activity показывает все выданные и необходимые разрешения для работы приложения,
     // а также (для невыданных разрешений) кнопки,
     // вызвающие код с запросом на выдачу этих разрешений.
+
+    override val idLayout = R.layout.activity_permission
+    override val idActivity = R.id.framePermissionsActivity
 
     companion object {
         private const val REQUEST_PERMISSIONS_LOCATION = 482
@@ -30,7 +28,6 @@ class PermissionActivity : AppCompatActivity() {
         private const val REQUEST_PERMISSIONS_SMS = 484
     }
 
-    private val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
     private val tvCoarseLocation: TextView by lazy { findViewById(R.id.tvCoarseLocation) }
     private val tvFineLocation: TextView by lazy { findViewById(R.id.tvFineLocation) }
     private val tvBackgroundLocation: TextView by lazy { findViewById(R.id.tvBackgroundLocation) }
@@ -51,17 +48,8 @@ class PermissionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Выполнение запросов недостающих разрешений.
-	// Настройка данных для отображения разрешений и кнопок запроса недостающих разрешений.
+	    // Настройка данных для отображения разрешений и кнопок запроса недостающих разрешений.
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_permission)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.framePermissionsActivity))
-        { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top,
-                systemBars.right, systemBars.bottom)
-            insets
-        }
 
         topAppBar.setTitle(R.string.titlePermissions)
         topAppBar.setNavigationOnClickListener {
