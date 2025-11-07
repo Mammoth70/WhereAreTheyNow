@@ -231,7 +231,7 @@ class SettingsActivity : AppActivity() {
 
         val action = (Util.themeColor != selectedModeColorTemp)
         if (action) {
-            Util.setAppThemeColor(App.application, selectedModeColorTemp,
+            Util.setAppThemeColor(applicationContext as App, selectedModeColorTemp,
                 true)
         }
         Util.themeColor = selectedModeColorTemp

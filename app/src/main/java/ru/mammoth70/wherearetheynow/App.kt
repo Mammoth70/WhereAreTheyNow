@@ -25,7 +25,6 @@ class App : Application() {
     // Обмен запросами положения и ответами с геолокацией реализован через SMS-сообщения.
 
     companion object {
-        lateinit var application: Application
         lateinit var appContext: Context
     }
 
@@ -33,7 +32,6 @@ class App : Application() {
         // Функция вызывается при запуске приложения.
         // Производит выполнение стартовых настроек.
         super.onCreate()
-        application = this
         appContext = applicationContext
 
         // Чтение из настроек MAPKIT-API key и его установка.
@@ -45,7 +43,7 @@ class App : Application() {
         // Чтение из SharedPreferences, как определять цвет темы.
         Util.themeColor = settings.getInt(NAME_THEME_COLOR, Util.themeColor)
         // Определение цвета темы.
-        Util.setAppThemeColor(application, Util.themeColor, false)
+        Util.setAppThemeColor(this, Util.themeColor, false)
 
         // Чтение из SharedPreferences, как определять режим темы.
         Util.themeMode = settings.getInt(NAME_THEME_MODE, Util.themeMode)
