@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
-        app:srcCompat="@drawable/ic_action_nord"
+        app:srcCompat="@drawable/ic_action_compass"
         tools:ignore="OnClick,ClassNameCheck"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
