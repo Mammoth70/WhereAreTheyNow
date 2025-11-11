@@ -5,19 +5,19 @@ import androidx.core.graphics.toColorInt
 object AppColors {
     // Объект для работы с цветовыми ресурсами.
 
-    const val COLOR_WHITE: String = "#FFFFFF"
-    const val COLOR_BLACK: String = "#000000"
-    const val COLOR_RED: String = "#FF001A"
-    const val COLOR_ORANGE: String = "#FF5D00"
-    const val COLOR_YELLOW: String = "#FFBB00"
-    const val COLOR_GREEN: String = "#32FF00"
-    const val COLOR_DARKGREEN: String = "#168000"
-    const val COLOR_CYAN: String = "#00FFFB"
-    const val COLOR_BLUE: String = "#002EFF"
-    const val COLOR_LIGHTBLUE: String = "#4495FF"
-    const val COLOR_VIOLET: String = "#8F00FF"
-    const val COLOR_MAGENTA: String = "#FF00B1"
-    const val COLOR_BROWN: String = "#7E4301"
+    const val COLOR_WHITE = "#FFFFFF"
+    const val COLOR_BLACK = "#000000"
+    const val COLOR_RED = "#FF001A"
+    const val COLOR_ORANGE = "#FF5D00"
+    const val COLOR_YELLOW = "#FFBB00"
+    const val COLOR_GREEN = "#32FF00"
+    const val COLOR_DARKGREEN = "#168000"
+    const val COLOR_CYAN = "#00FFFB"
+    const val COLOR_BLUE = "#002EFF"
+    const val COLOR_LIGHTBLUE = "#4495FF"
+    const val COLOR_VIOLET = "#8F00FF"
+    const val COLOR_MAGENTA = "#FF00B1"
+    const val COLOR_BROWN = "#7E4301"
 
     val colors =
         listOf(
@@ -66,7 +66,7 @@ object AppColors {
     private fun addTransparenty(color: String?, tranparent: String?): String {
         // Функция добавляет прозрачность к цвету без прозрачности.
         // Если что-то не так - возвращает белый цвет.
-        return if ((!color.isNullOrEmpty()) && (!tranparent.isNullOrEmpty())
+        return if ((!color.isNullOrBlank()) && (!tranparent.isNullOrBlank())
             && (color.length == 7) && (tranparent.length == 2) && (color[0] == OCTOHORPE)
         ) {
             OCTOHORPE.toString() + tranparent + color.substring(1, 7)

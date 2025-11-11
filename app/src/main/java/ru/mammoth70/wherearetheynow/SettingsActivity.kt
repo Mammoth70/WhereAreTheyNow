@@ -40,7 +40,7 @@ class SettingsActivity : AppActivity() {
     override val idActivity = R.id.frameSettingsActivity
 
     companion object {
-        const val INTENT_EXTRA_RESULT: String = "refresh"
+        const val INTENT_EXTRA_RESULT = "refresh"
     }
 
     private val edMyPhone: TextInputEditText by lazy { findViewById(R.id.myphone) }

@@ -122,7 +122,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private val markTextStyle: TextStyle
         get() {
-            // Функция настраивает стиль текста над меткой.
+            // Геттер настраивает стиль текста над меткой.
             val typedValueTextColor = TypedValue()
             val typedValueOutLineColor = TypedValue()
             getTheme().resolveAttribute(
@@ -144,31 +144,36 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private val mapObjectTapListener =
         MapObjectTapListener { mapObject: MapObject?, _: Point? ->
-            // Функция, отвечающий за тапы по различным объектам на карте.
+            // Обработчик, отвечающий за тапы по различным объектам на карте.
             val phone = mapObject!!.userData as String?
-            val name = Util.phone2name[phone]
-            val rec = Util.phone2record[phone]
-            rec?.let {
-                val newZoom = if (map.cameraPosition.zoom < MapUtil.selectedMapZoom) {
-                    MapUtil.selectedMapZoom
-                } else {
-                    map.cameraPosition.zoom
+            Util.phone2name[phone]?.let { name ->
+                Util.phone2record[phone]?.let { rec ->
+                    val newZoom = if (map.cameraPosition.zoom < MapUtil.selectedMapZoom) {
+                        MapUtil.selectedMapZoom
+                    } else {
+                        map.cameraPosition.zoom
+                    }
+                    topAppBar.setTitle(name)
+                    topAppBar.setSubtitle(
+                        MapUtil.timePassed(
+                            rec.dateTime,
+                            this
+                        )
+                    )
+                    map.move(
+                        CameraPosition(
+                            Point(rec.latitude, rec.longitude),
+                            newZoom,
+                            map.cameraPosition.azimuth,
+                            map.cameraPosition.tilt
+                        )
+                    )
+                    val message = name + "\n" + String.format(
+                        Locale.US, PointRecord.FORMAT_POINT,
+                        rec.latitude, rec.longitude
+                    )
+                    Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
                 }
-                topAppBar.setTitle(name)
-                topAppBar.setSubtitle(MapUtil.timePassed(rec.dateTime,
-                    this
-                ))
-                map.move(CameraPosition(
-                    Point(rec.latitude, rec.longitude),
-                    newZoom,
-                    0f,
-                    map.cameraPosition.tilt
-                ))
-                val message = name + "\n" + String.format(
-                    Locale.US, PointRecord.FORMAT_POINT,
-                    rec.latitude, rec.longitude
-                )
-                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
             true
         }

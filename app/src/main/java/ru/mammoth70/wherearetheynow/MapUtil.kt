@@ -13,26 +13,26 @@ import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_TIME
 object MapUtil {
     // Объект содержит настройки карт и утилиты работы с данными карт.
 
-    const val MAP_TEXT: Int = 0
-    const val MAP_YANDEX: Int = 1
-    const val MAP_OPENSTREET: Int = 2
-    const val MAP_DEFAULT: Int = MAP_YANDEX
-    const val NAME_MAP: String = "map"
-    const val NAME_MAP_ZOOM: String = "zoom"
-    const val NAME_MAP_TILT: String = "tilt"
-    const val NAME_MAP_CIRCLE: String = "circle"
-    const val NAME_MAP_CIRCLE_RADIUS: String = "radius"
+    const val MAP_TEXT = 0
+    const val MAP_YANDEX = 1
+    const val MAP_OPENSTREET = 2
+    const val MAP_DEFAULT = MAP_YANDEX
+    const val NAME_MAP = "map"
+    const val NAME_MAP_ZOOM = "zoom"
+    const val NAME_MAP_TILT = "tilt"
+    const val NAME_MAP_CIRCLE = "circle"
+    const val NAME_MAP_CIRCLE_RADIUS = "radius"
 
-    const val MAP_ZOOM_DEFAULT: Float = 17f
-    const val MAP_TILT_DEFAULT: Float = 30f
-    const val MAP_CIRCLE_DEFAULT: Boolean = true
-    const val MAP_CIRCLE_DEFAULT_RADIUS: Float = 70f
+    const val MAP_ZOOM_DEFAULT = 17f
+    const val MAP_TILT_DEFAULT = 30f
+    const val MAP_CIRCLE_DEFAULT = true
+    const val MAP_CIRCLE_DEFAULT_RADIUS = 70f
 
-    var selectedMap: Int = MAP_DEFAULT
-    var selectedMapZoom: Float = MAP_ZOOM_DEFAULT
-    var selectedMapTilt: Float = MAP_TILT_DEFAULT
-    var selectedMapCircle: Boolean = MAP_CIRCLE_DEFAULT
-    var selectedMapCircleRadius: Float = MAP_CIRCLE_DEFAULT_RADIUS
+    var selectedMap = MAP_DEFAULT
+    var selectedMapZoom = MAP_ZOOM_DEFAULT
+    var selectedMapTilt = MAP_TILT_DEFAULT
+    var selectedMapCircle = MAP_CIRCLE_DEFAULT
+    var selectedMapCircleRadius = MAP_CIRCLE_DEFAULT_RADIUS
 
     fun viewLocation(context: Context, record: PointRecord, newTask: Boolean) {
         // Функция получает данные из последней SMS,
@@ -69,7 +69,7 @@ object MapUtil {
     fun timePassed(dateTime: String?, context: Context): String {
         // Функция возвращает разницу в минутах между текущим временем
         // и временем в пришедшем SMS-сообщении.
-        if (dateTime.isNullOrEmpty()) {
+        if (dateTime.isNullOrBlank()) {
             return ""
         }
         val dateSMS = Util.stringToDate(dateTime) ?: return ""

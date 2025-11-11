@@ -10,8 +10,8 @@ class AboutBox : DialogFragment() {
     // Класс создаёт диалоговое окно About.
 
     companion object {
-        const val DIALOG_MESSAGE: String = "DIALOG_MESSAGE"
-        const val DIALOG_TITLE: String = "DIALOG_TITLE"
+        const val DIALOG_MESSAGE = "DIALOG_MESSAGE"
+        const val DIALOG_TITLE = "DIALOG_TITLE"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

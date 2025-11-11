@@ -11,9 +11,9 @@ data class PointRecord (
     val dateTime: String = "")
 {
     companion object {
-        const val FORMAT_DOUBLE: String = "%1$.6f"
-        const val FORMAT_POINT: String = "%1$.6f %2$.6f"
-        const val FORMAT_DATE: String = $$"%1$tF %1$tT"
+        const val FORMAT_DOUBLE = "%1$.6f"
+        const val FORMAT_POINT = "%1$.6f %2$.6f"
+        const val FORMAT_DATE = $$"%1$tF %1$tT"
     }
 
     internal constructor(

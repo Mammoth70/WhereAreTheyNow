@@ -18,8 +18,8 @@ class GetLocation {
     // Класс запрашивает геолокацию и возвращает её указанным способом.
 
     companion object {
-        const val WAY_SMS: Int = 1
-        const val WAY_LOCAL: Int = 2
+        const val WAY_SMS = 1
+        const val WAY_LOCAL = 2
     }
 
     fun sendLocation(context: Context, way: Int, address: String?, sendRequest: Boolean) {

@@ -15,7 +15,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     companion object {
         private const val DB_VERSION = 3 // версия БД
         val dbHelper = DBhelper(appContext)
-        private const  val CREATE_TABLE_USERS = "CREATE TABLE IF NOT EXISTS users " +
+        private const val CREATE_TABLE_USERS = "CREATE TABLE IF NOT EXISTS users " +
                 "(id integer PRIMARY KEY AUTOINCREMENT, phone text UNIQUE, name text, color text);"
         private const val CREATE_TABLE_POINTS = "CREATE TABLE IF NOT EXISTS points " +
                 "(phone text UNIQUE, latitude text, longitude text, datetime text);"

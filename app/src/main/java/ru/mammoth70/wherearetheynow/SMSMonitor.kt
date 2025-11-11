@@ -76,12 +76,12 @@ class SMSMonitor : BroadcastReceiver() {
         val pattern = Pattern.compile(REGEXP_ANSWER)
         val matcher = pattern.matcher(message)
         if ((matcher.find())) {
-            if (matcher.group(1).isNullOrEmpty()) return
-            if (matcher.group(2).isNullOrEmpty()) return
-            if (matcher.group(3).isNullOrEmpty()) return
+            if (matcher.group(1).isNullOrBlank()) return
+            if (matcher.group(2).isNullOrBlank()) return
+            if (matcher.group(3).isNullOrBlank()) return
             try {
-                val latitude = matcher.group(1)?.toDouble()!!
-                val longitude = matcher.group(2)?.toDouble()!!
+                val latitude = matcher.group(1)!!.toDouble()
+                val longitude = matcher.group(2)!!.toDouble()
                 val dateTime = Util.stringToDate(matcher.group(3)!!) ?: return
                 if ((latitude < -90) || (latitude > 90) || (longitude < -180) || (longitude > 180)) {
                     return

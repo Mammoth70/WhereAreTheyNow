@@ -54,11 +54,11 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         val phone = phones2[position]
-        val value = Util.phone2record[phone]
+        val value = Util.phone2record[phone]!!
         holder.itemUserName.text = Util.phone2name[phone]
         holder.itemLattitude.text = String.format(
             Locale.US, PointRecord.FORMAT_DOUBLE,
-            value!!.latitude
+            value.latitude
         )
         holder.itemLongitude.text = String.format(
             Locale.US, PointRecord.FORMAT_DOUBLE,

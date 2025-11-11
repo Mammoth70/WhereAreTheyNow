@@ -12,36 +12,36 @@ import java.util.Locale
 object Util {
     // Объект для констант, синглтонов и статических функций.
 
-    const val INTENT_EXTRA_COLOR: String = "color"
-    const val INTENT_EXTRA_SMS_TO: String = "sms_to"
-    const val INTENT_EXTRA_NEW_VERSION_REQUEST: String = "new_version_request"
-    const val INTENT_EXTRA_SMS_FROM: String = "sms_from"
-    const val INTENT_EXTRA_LATITUDE: String = "latitude"
-    const val INTENT_EXTRA_LONGITUDE: String = "longitude"
-    const val INTENT_EXTRA_TIME: String = "time"
+    const val INTENT_EXTRA_COLOR = "color"
+    const val INTENT_EXTRA_SMS_TO = "sms_to"
+    const val INTENT_EXTRA_NEW_VERSION_REQUEST = "new_version_request"
+    const val INTENT_EXTRA_SMS_FROM = "sms_from"
+    const val INTENT_EXTRA_LATITUDE = "latitude"
+    const val INTENT_EXTRA_LONGITUDE = "longitude"
+    const val INTENT_EXTRA_TIME = "time"
 
-    const val NAME_SETTINGS: String = "Settings"
-    const val NAME_USE_SERVICE: String = "UseService"
-    const val NAME_MY_PHONE: String = "myphone"
+    const val NAME_SETTINGS = "Settings"
+    const val NAME_USE_SERVICE = "UseService"
+    const val NAME_MY_PHONE = "myphone"
 
-    var myphone: String = "" // номер моего телефона
+    var myphone = "" // номер моего телефона
 
-    var useService: Boolean = false // используем при определении координат сервис или напрямую
+    var useService = false // используем при определении координат сервис или напрямую
 
-    const val MODE_NIGHT_NO: Int = 1
-    const val MODE_NIGHT_YES: Int = 2
-    const val MODE_NIGHT_FOLLOW_SYSTEM: Int = -1
-    const val COLOR_DYNAMIC_NO: Int = -1
-    const val COLOR_DYNAMIC_WALLPAPER: Int = 0
-    const val COLOR_DYNAMIC_RED: Int = 1
-    const val COLOR_DYNAMIC_YELLOW: Int = 2
-    const val COLOR_DYNAMIC_GREEN: Int = 3
-    const val COLOR_DYNAMIC_BLUE: Int = 4
-    const val COLOR_DYNAMIC_M3: Int = 5
-    const val NAME_THEME_MODE: String = "theme"
-    const val NAME_THEME_COLOR: String = "color"
-    var themeMode: Int = MODE_NIGHT_FOLLOW_SYSTEM
-    var themeColor: Int = COLOR_DYNAMIC_NO
+    const val MODE_NIGHT_NO = 1
+    const val MODE_NIGHT_YES = 2
+    const val MODE_NIGHT_FOLLOW_SYSTEM = -1
+    const val COLOR_DYNAMIC_NO = -1
+    const val COLOR_DYNAMIC_WALLPAPER = 0
+    const val COLOR_DYNAMIC_RED = 1
+    const val COLOR_DYNAMIC_YELLOW = 2
+    const val COLOR_DYNAMIC_GREEN = 3
+    const val COLOR_DYNAMIC_BLUE = 4
+    const val COLOR_DYNAMIC_M3 = 5
+    const val NAME_THEME_MODE = "theme"
+    const val NAME_THEME_COLOR = "color"
+    var themeMode = MODE_NIGHT_FOLLOW_SYSTEM
+    var themeColor = COLOR_DYNAMIC_NO
 
     val phones: ArrayList<String> = ArrayList() // список телефонов
     val menuPhones: ArrayList<String> = ArrayList() // список телефонов, ограниченный наличием записей геолокации
@@ -52,16 +52,15 @@ object Util {
     val phone2record: HashMap<String, PointRecord> =  HashMap() // словарь телефон:point
     var lastAnswerRecord: PointRecord? = null // запись с данными последнего ответа
 
-    const val HEADER_REQUEST: String = "^WATN R$"
-    const val HEADER_REQUEST_AND_LOCATION: String = "^WATN R "
-    const val HEADER_ANSWER: String = "^WATN A "
-    const val FORMAT_ANSWER: String = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
-    const val FORMAT_REQUEST_AND_LOCATION: String =
-        $$"WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
-    const val REGEXP_ANSWER: String =
+    const val HEADER_REQUEST = "^WATN R$"
+    const val HEADER_REQUEST_AND_LOCATION = "^WATN R "
+    const val HEADER_ANSWER = "^WATN A "
+    const val FORMAT_ANSWER = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
+    const val FORMAT_REQUEST_AND_LOCATION = $$"WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
+    const val REGEXP_ANSWER =
         "^WATN [AR] lat (-?\\d{2,3}\\.\\d{6}), lon (-?\\d{2,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$"
 
-    const val FORMAT_DATETIME: String = "yyyy-MM-dd HH:mm:ss"
+    const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
 
     fun themeMode(mode: Int) {
         // Функция включает или выключает ночную тему в соответствии с переданными настройками.
