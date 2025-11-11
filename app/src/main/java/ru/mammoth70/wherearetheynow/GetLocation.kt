@@ -85,11 +85,10 @@ class GetLocation {
         sendRequest: Boolean
     ) {
         // Функция отправляет SMS-сообщение.
-        val message = formatLocation(location, sendRequest)
-        message?.let {
+        formatLocation(location, sendRequest)?.let {
             val smsManager = context.getSystemService(SmsManager::class.java)
             smsManager.sendTextMessage(smsTo, null,
-                message, null, null)
+                it, null, null)
         }
     }
 

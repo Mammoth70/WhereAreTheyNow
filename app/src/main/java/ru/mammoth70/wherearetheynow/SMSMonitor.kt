@@ -28,9 +28,7 @@ class SMSMonitor : BroadcastReceiver() {
             return
         }
         val bodyText = StringBuilder()
-        for (message in messages) {
-            bodyText.append(message.messageBody)
-        }
+        messages.map { bodyText.append(it.messageBody) }
         val smsBody = bodyText.toString()
         val patternHeaderRequest = Pattern.compile(HEADER_REQUEST)
         val patternHeaderRequestAnswer = Pattern.compile(HEADER_REQUEST_AND_LOCATION)

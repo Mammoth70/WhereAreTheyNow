@@ -48,15 +48,13 @@ abstract class LocationActivity : AppActivity() {
                 R.id.itemUsers -> {
                     val gravityView: TextView = findViewById(R.id.gravityView)
                     val popupMenu = PopupMenu(context, gravityView)
-                    for (key in Util.menuPhones) {
-                        if ((Util.phone2record.containsKey(key)) && (Util.phone2id.containsKey(key))) {
-                            val id = Util.phone2id[key]
-                            id?.let {
-                                popupMenu.menu.add(0, id, 0,
-                                    Util.phone2name[key])
+                    Util.menuPhones
+                        .filter { phone -> ((Util.phone2record.containsKey(phone)) && (Util.phone2id.containsKey(phone))) }
+                        .map { phone ->
+                            Util.phone2id[phone]?.let { id ->
+                                popupMenu.menu.add(0, id, 0,Util.phone2name[phone])
                             }
                         }
-                    }
                     popupMenu.setOnMenuItemClickListener { item: MenuItem? ->
                         reloadMapFromId(context, item!!.itemId)
                         true

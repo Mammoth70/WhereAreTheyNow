@@ -68,26 +68,27 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         val circleMapObjects = ArrayList<CircleMapObject?>()
 
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
-        for (key in Util.phones) {
-            if (Util.phone2record.containsKey(key)) {
-                val value = Util.phone2record[key]
-                value?.let {
-                    points.add(Point(value.latitude, value.longitude))
+        Util.phones
+            .filter { phone -> Util.phone2record.containsKey(phone) }
+            .map { phone ->
+                Util.phone2record[phone]?.let { point ->
+                    points.add(Point(point.latitude, point.longitude))
                     imageProviders.add(
                         ImageProvider.fromBitmap(
-                            getBitmapFromColor(Util.phone2color[key])
+                            getBitmapFromColor(Util.phone2color[phone])
                         )
                     )
-                    placemarkMapObjects.add(mapObjectCollection.addPlacemark().apply {
-                        geometry = Point(value.latitude, value.longitude)
-                        setIcon(
-                            ImageProvider.fromBitmap(
-                                getBitmapFromColor(Util.phone2color[key])
-                            ), IconStyle().apply { anchor = PointF(0.5f, 1f) })
-                        userData = key
-                        addTapListener(mapObjectTapListener)
-                        setText(Util.phone2name[key]!!, markTextStyle)
-                    }
+                    placemarkMapObjects.add(
+                        mapObjectCollection.addPlacemark().apply {
+                            geometry = Point(point.latitude, point.longitude)
+                            setIcon(
+                                ImageProvider.fromBitmap(
+                                    getBitmapFromColor(Util.phone2color[phone])
+                                ), IconStyle().apply { anchor = PointF(0.5f, 1f) })
+                            userData = phone
+                            addTapListener(mapObjectTapListener)
+                            setText(Util.phone2name[phone]!!, markTextStyle)
+                        }
                     )
 
                     if (MapUtil.selectedMapCircle) {
@@ -95,22 +96,21 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                             mapObjectCollection.addCircle(
                                 Circle(
                                     Point(
-                                        value.latitude,
-                                        value.longitude
+                                        point.latitude,
+                                        point.longitude
                                     ), MapUtil.selectedMapCircleRadius
                                 )
                             ).apply {
-                                strokeColor = Util.phone2color[key]?.toColorInt()!!
+                                strokeColor = Util.phone2color[phone]?.toColorInt()!!
                                 strokeWidth = 1f
-                                fillColor = AppColors.getColorAlpha(Util.phone2color[key])
+                                fillColor = AppColors.getColorAlpha(Util.phone2color[phone])
                             }
                         )
                     }
 
                 }
+        
             }
-
-        }
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {

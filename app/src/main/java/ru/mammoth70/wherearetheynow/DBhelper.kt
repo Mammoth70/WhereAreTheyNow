@@ -75,11 +75,10 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     Util.phones.add(phone!!)
                     Util.id2phone[id] = phone
                     Util.phone2id[phone] = id
-                    Util.phone2name[phone] = name!!
-                    Util.phone2color[phone] = color!!
-                    val record = readLastPoint(phone)
-                    record?.let {
-                        Util.phone2record.put(phone, record)
+                    Util.phone2name[phone] = name
+                    Util.phone2color[phone] = color
+                    readLastPoint(phone)?.let {
+                        Util.phone2record.put(phone, it)
                     }
                 }
             }

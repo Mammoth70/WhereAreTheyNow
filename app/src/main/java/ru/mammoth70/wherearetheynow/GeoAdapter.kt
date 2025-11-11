@@ -31,11 +31,8 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
         phones2.clear()
-        for (phone in Util.phones) {
-            if (Util.phone2record.containsKey(phone)) {
-                phones2.add(phone)
-            }
-        }
+        Util.phones.filter { Util.phone2record.containsKey(it) }.map { phones2.add(it) }
+
         return when (viewType) {
             FIRST_ITEM_VIEW -> {
                 ViewHolder(LayoutInflater.from(parent.context)

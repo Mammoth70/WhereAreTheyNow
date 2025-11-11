@@ -207,8 +207,8 @@ class MainActivity : AppActivity() {
     fun onMapClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
         // Функция - обработчик кнопки меню "карта".
         // Вызывает соответствующую Activity.
-        Util.lastAnswerRecord.let {
-            MapUtil.viewLocation(this, Util.lastAnswerRecord!!, false)
+        Util.lastAnswerRecord?.let {
+            MapUtil.viewLocation(this, it, false)
         }
     }
 
