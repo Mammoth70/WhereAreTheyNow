@@ -69,10 +69,10 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             db.rawQuery("SELECT * FROM users;", null).use { cursor ->
                 while (cursor.moveToNext()) {
                     val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"))
-                    val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
-                    val color = cursor.getString(cursor.getColumnIndexOrThrow("color"))
-                    Util.phones.add(phone!!)
+                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"))!!
+                    val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))!!
+                    val color = cursor.getString(cursor.getColumnIndexOrThrow("color"))!!
+                    Util.phones.add(phone)
                     Util.id2phone[id] = phone
                     Util.phone2id[phone] = id
                     Util.phone2name[phone] = name
@@ -100,8 +100,8 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         readableDatabase.use { db ->
             db.rawQuery(execSting, null).use { cursor ->
                 while (cursor.moveToNext()) {
-                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"))
-                    Util.menuPhones.add(phone!!)
+                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"))!!
+                    Util.menuPhones.add(phone)
                 }
             }
         }
