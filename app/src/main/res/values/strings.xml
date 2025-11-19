@@ -46,6 +46,7 @@
     <string name="map3d">Map 3D</string>
     <string name="mapCircle">Show circle</string>
     <string name="mapCircleRadius">Radius of a circle in m.</string>
+    <string name="colorsSpanCount">Label selection columns</string>
 
     <string name="selectThemeColor">Select theme color</string>
     <string name="themeDynamic">dynamic</string>

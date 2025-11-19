@@ -278,7 +278,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         tools:ignore="VisualLintBounds"
         >
         <LinearLayout
@@ -296,6 +298,42 @@
                 android:text="@string/selectService"
                 android:textSize="16sp"
                 tools:ignore="VisualLintBounds,VisualLintLocaleText"
+                />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        tools:ignore="VisualLintBounds"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/lbColorsSpanCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/colorsSpanCount"
+                android:textSize="16sp"
+                tools:ignore="VisualLintBounds,VisualLintLocaleText"
+                />
+            <com.google.android.material.slider.Slider
+                android:id="@+id/sliderColorsSpanCount"
+                android:contentDescription="@string/colorsSpanCount"
+                android:layout_width="100dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_height="wrap_content"
+                android:stepSize="1.0"
+                android:value="2.0"
+                android:valueFrom="1.0"
+                android:valueTo="4.0"
+                tools:ignore="VisualLintBounds"
                 />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -24,6 +24,10 @@ object Util {
     const val NAME_USE_SERVICE = "UseService"
     const val NAME_MY_PHONE = "myphone"
 
+    const val NAME_COLORS_SPAN_COUNT = "ColorsSpanCount"
+    const val COLORS_SPAN_COUNT_DEFAULT = 2
+    var colorsSpanCount = COLORS_SPAN_COUNT_DEFAULT
+
     var myphone = "" // номер моего телефона
 
     var useService = false // используем при определении координат сервис или напрямую

@@ -26,12 +26,13 @@ import ru.mammoth70.wherearetheynow.Util.NAME_MY_PHONE
 import ru.mammoth70.wherearetheynow.Util.NAME_THEME_COLOR
 import ru.mammoth70.wherearetheynow.Util.NAME_THEME_MODE
 import ru.mammoth70.wherearetheynow.Util.NAME_USE_SERVICE
+import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_M3
+import ru.mammoth70.wherearetheynow.Util.NAME_COLORS_SPAN_COUNT
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_ZOOM
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_TILT
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE_RADIUS
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_M3
 
 class SettingsActivity : AppActivity() {
     // Activity показывает и позволяет изменять настройки выбора карт.
@@ -45,6 +46,8 @@ class SettingsActivity : AppActivity() {
 
     private val edMyPhone: TextInputEditText by lazy { findViewById(R.id.myphone) }
     private val checkBoxService: CheckBox by lazy { findViewById(R.id.checkBoxService) }
+    private val sliderColorsSpanCount: Slider by lazy { findViewById(R.id.sliderColorsSpanCount) }
+
     private val checkBoxCircle: CheckBox by lazy { findViewById(R.id.checkBoxCircle) }
     private val lbMapZoom: TextView by lazy { findViewById(R.id.lbMapZoom) }
     private val sliderMapZoom: Slider by lazy { findViewById(R.id.sliderMapZoom) }
@@ -70,6 +73,7 @@ class SettingsActivity : AppActivity() {
             finish()
         }
         checkBoxService.setChecked(Util.useService)
+        sliderColorsSpanCount.value = Util.colorsSpanCount.toFloat()
         checkBoxCircle.setChecked(MapUtil.selectedMapCircle)
         sliderMapZoom.value = MapUtil.selectedMapZoom
         sliderMapTilt.value = MapUtil.selectedMapTilt
@@ -256,6 +260,9 @@ class SettingsActivity : AppActivity() {
 
         Util.useService = checkBoxService.isChecked
         prefEditor.putBoolean(NAME_USE_SERVICE, Util.useService)
+
+        Util.colorsSpanCount = sliderColorsSpanCount.value.toInt()
+        prefEditor.putInt(NAME_COLORS_SPAN_COUNT, Util.colorsSpanCount)
 
         prefEditor.apply()
 

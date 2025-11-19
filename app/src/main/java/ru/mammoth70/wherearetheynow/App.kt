@@ -8,6 +8,8 @@ import ru.mammoth70.wherearetheynow.Util.NAME_THEME_COLOR
 import ru.mammoth70.wherearetheynow.Util.NAME_THEME_MODE
 import ru.mammoth70.wherearetheynow.Util.NAME_USE_SERVICE
 import ru.mammoth70.wherearetheynow.Util.NAME_MY_PHONE
+import ru.mammoth70.wherearetheynow.Util.NAME_COLORS_SPAN_COUNT
+import ru.mammoth70.wherearetheynow.Util.COLORS_SPAN_COUNT_DEFAULT
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP
 import ru.mammoth70.wherearetheynow.MapUtil.MAP_DEFAULT
 import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_ZOOM
@@ -52,6 +54,9 @@ class App : Application() {
 
         // Чтение из SharedPreferences, как определять геолокацию - через сервис или напрямую.
         Util.useService = settings.getBoolean(NAME_USE_SERVICE, Util.useService)
+
+        // Чтение из SharedPreferences, количество колонок в ColorsActivity.
+        Util.colorsSpanCount = settings.getInt(NAME_COLORS_SPAN_COUNT, COLORS_SPAN_COUNT_DEFAULT)
 
         // Чтение из SharedPreferences вида и настройки выбранной карты для вывода геолокации.
         MapUtil.selectedMap = settings.getInt(NAME_MAP, MAP_DEFAULT)
