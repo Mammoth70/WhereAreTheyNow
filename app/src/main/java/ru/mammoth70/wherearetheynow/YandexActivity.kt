@@ -115,7 +115,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция передвигает карту на PointRecord.
-        start2D3D()
         map.move(CameraPosition(Point(rec.latitude, rec.longitude),
             MapUtil.selectedMapZoom, 0f, MapUtil.selectedMapTilt))
     }
@@ -205,17 +204,6 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
-    }
-
-    private fun start2D3D() {
-        // Функция устанавливает в начальное состояние кнопку FAB "2D/3D".
-        if (MapUtil.selectedMapTilt == 0f) {
-            fab2D3D.setContentDescription(getString(R.string.map3d))
-            fab2D3D.setImageResource(R.drawable.ic_action_3d)
-        } else {
-            fab2D3D.setContentDescription(getString(R.string.map2d))
-            fab2D3D.setImageResource(R.drawable.ic_action_2d)
-        }
     }
 
     fun onMap2D3D(@Suppress("UNUSED_PARAMETER") ignored: View?) {
