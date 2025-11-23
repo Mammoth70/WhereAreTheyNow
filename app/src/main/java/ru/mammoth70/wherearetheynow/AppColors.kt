@@ -27,7 +27,7 @@ object AppColors {
 
     enum class Alpha(val tranparent: String) {
         ALPHA_48("#48"),
-        ALPHA_16("#16")
+        ALPHA_16("#16"),
     }
 
     fun getColorAlpha(color: String?): Int {
