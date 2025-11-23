@@ -25,19 +25,19 @@ object AppColors {
             COLOR_BLUE, COLOR_LIGHTBLUE, COLOR_VIOLET, COLOR_MAGENTA, COLOR_BROWN, COLOR_BLACK,
         )
 
-    private const val OCTOHORPE = '#'
-    private const val COLOR_WHITE_8 = "#FFFFFFFF"
-    private const val ALPHA_48 = "48"
-    private const val ALPHA_16 = "16"
+    enum class Alpha(val tranparent: String) {
+        ALPHA_48("#48"),
+        ALPHA_16("#16")
+    }
 
     fun getColorAlpha(color: String?): Int {
         // Функция возвращает номер прозрачного цвета по строке с цветом.
-        return addTransparenty(color, ALPHA_48).toColorInt()
+        return addTransparenty(color, Alpha.ALPHA_48).toColorInt()
     }
 
     fun getColorAlpha16(color: String?): Int {
         // Функция возвращает номер прозрачного цвета по строке с цветом.
-        return addTransparenty(color, ALPHA_16).toColorInt()
+        return addTransparenty(color, Alpha.ALPHA_16).toColorInt()
     }
 
     fun getMarker(color: String?): Int {
@@ -63,15 +63,13 @@ object AppColors {
         return R.drawable.ic_pin_error
     }
 
-    private fun addTransparenty(color: String?, tranparent: String?): String {
+    private fun addTransparenty(color: String?, alpha: Alpha): String {
         // Функция добавляет прозрачность к цвету без прозрачности.
         // Если что-то не так - возвращает белый цвет.
-        return if ((!color.isNullOrBlank()) && (!tranparent.isNullOrBlank())
-            && (color.length == 7) && (tranparent.length == 2) && (color[0] == OCTOHORPE)
-        ) {
-            OCTOHORPE.toString() + tranparent + color.substring(1, 7)
+        return if ((!color.isNullOrBlank()) && (color.length == 7) && (color[0] == '#')) {
+            alpha.tranparent + color.substring(1, 7)
         } else {
-            COLOR_WHITE_8
+            "#FFFFFFFF"
         }
     }
 
