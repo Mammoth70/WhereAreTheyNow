@@ -95,6 +95,10 @@
     <string name="now">сейчас</string>
     <string name="long_ago">давно</string>
     <string name="minutes_ago">%1$d мин. назад</string>
+    <string name="hours_ago">%1$d ч. назад</string>
+    <string name="today">сегодня</string>
+    <string name="yesterday">вчера</string>
+    <string name="before_yesterday">позавчера</string>
 
     <string name="menu_add_user">Добавить контакт</string>
     <string name="menu_delete_user">Удалить контакт</string>

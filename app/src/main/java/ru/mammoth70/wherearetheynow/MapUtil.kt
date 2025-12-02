@@ -2,13 +2,15 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Context
 import android.content.Intent
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
+import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_TIME
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_FROM
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LATITUDE
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_LONGITUDE
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_TIME
+import kotlin.math.abs
 
 object MapUtil {
     // Объект содержит настройки карт и утилиты работы с данными карт.
@@ -67,7 +69,7 @@ object MapUtil {
     }
 
     fun timePassed(dateTime: String?, context: Context): String {
-        // Функция возвращает разницу в минутах между текущим временем
+        // Функция возвращает разницу текстом между текущим временем
         // и временем в пришедшем SMS-сообщении.
         if (dateTime.isNullOrBlank()) {
             return ""
@@ -75,9 +77,22 @@ object MapUtil {
         val dateSMS = Util.stringToDate(dateTime) ?: return ""
         val dateCurrent = Date()
         val duration = dateCurrent.time - dateSMS.time
-        return when (val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)) {
-           0L -> context.getString(R.string.now)
-           in 1L..30L -> String.format(Locale.US, context.getString(R.string.minutes_ago), diffInMinutes)
+        val calendar: Calendar = Calendar.getInstance()
+        calendar.setTime(dateSMS)
+        val daySMS = calendar.get(Calendar.DAY_OF_WEEK)
+        calendar.setTime(dateCurrent)
+        val dayCurrent = calendar.get(Calendar.DAY_OF_WEEK)
+        val dayDuration = abs(dayCurrent - daySMS)
+        val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
+        val diffInHours = TimeUnit.MILLISECONDS.toHours(duration)
+        return when {
+           diffInMinutes < 0 -> ""
+           diffInMinutes in 0L..3L -> context.getString(R.string.now)
+           diffInMinutes in 4L..59L -> String.format(Locale.US, context.getString(R.string.minutes_ago), diffInMinutes)
+           diffInHours in 0L..4L -> String.format(Locale.US, context.getString(R.string.hours_ago), diffInHours)
+           diffInHours in 5L..72L && dayDuration == 0 -> context.getString(R.string.today)
+           diffInHours in 5L..72L && dayDuration == 1 -> context.getString(R.string.yesterday)
+           diffInHours in 5L..72L && dayDuration == 2 -> context.getString(R.string.before_yesterday)
            else -> context.getString(R.string.long_ago)
         }
     }

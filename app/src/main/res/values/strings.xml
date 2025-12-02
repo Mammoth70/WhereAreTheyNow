@@ -96,6 +96,10 @@
     <string name="now">now</string>
     <string name="long_ago">long ago</string>
     <string name="minutes_ago">%1$d minutes ago</string>
+    <string name="hours_ago">%1$d hours ago</string>
+    <string name="today">today</string>
+    <string name="yesterday">yesterday</string>
+    <string name="before_yesterday">the day before yesterday</string>
 
     <string name="menu_add_user">Add contact</string>
     <string name="menu_delete_user">Delete contact</string>
