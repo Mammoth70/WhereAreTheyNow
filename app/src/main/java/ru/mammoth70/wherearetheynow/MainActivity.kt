@@ -15,8 +15,6 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationBarView
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
 class MainActivity : AppActivity() {
     // Главная activity приложения.
@@ -56,13 +54,13 @@ class MainActivity : AppActivity() {
             startPermissionActivity()
         }
 
-        navBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
+        navBarView.menu[NM_MAP_ID].isEnabled = (lastAnswerRecord != null)
         navBarView.menu[NM_USERS_ID].isChecked = true
     }
 
     override fun onResume() {
         super.onResume()
-        navBarView.menu[NM_MAP_ID].isEnabled = (Util.lastAnswerRecord != null)
+        navBarView.menu[NM_MAP_ID].isEnabled = (lastAnswerRecord != null)
     }
 
     private fun showContextMenu(view: View) : Boolean {
@@ -126,11 +124,11 @@ class MainActivity : AppActivity() {
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_EDIT_USER)
-        val phone = Util.phones[position]
-        intent.putExtra(UserActivity.INTENT_EXTRA_ID, Util.phone2id[phone])
+        val phone = phones[position]
+        intent.putExtra(UserActivity.INTENT_EXTRA_ID, phone2id[phone])
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone)
-        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name[phone])
-        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color[phone])
+        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, phone2name[phone])
+        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, phone2color[phone])
         startActivityUserIntent.launch(intent)
     }
 
@@ -139,21 +137,21 @@ class MainActivity : AppActivity() {
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_DELETE_USER)
-        val phone = Util.phones[position]
-        intent.putExtra(UserActivity.INTENT_EXTRA_ID, Util.phone2id[phone])
+        val phone = phones[position]
+        intent.putExtra(UserActivity.INTENT_EXTRA_ID, phone2id[phone])
         intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone)
-        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, Util.phone2name[phone])
-        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, Util.phone2color[phone])
+        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, phone2name[phone])
+        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, phone2color[phone])
         startActivityUserIntent.launch(intent)
     }
 
     private fun smsRequestUser(position: Int) {
         // Функция посылает контакту запрос координат.
-        val phone = Util.phones[position]
-        if (phone == Util.myphone) {
+        val phone = phones[position]
+        if (phone == myphone) {
             selfPosition()
         } else {
-            if (Util.useService) {
+            if (useService) {
                 // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
                 intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
@@ -170,11 +168,11 @@ class MainActivity : AppActivity() {
 
     private fun smsAnswerUser(position: Int) {
         // Функция посылает контакту геолокацию.
-        val phone = Util.phones[position]
-        if (phone == Util.myphone) {
+        val phone = phones[position]
+        if (phone == myphone) {
             selfPosition()
         } else {
-            if (Util.useService) {
+            if (useService) {
                 // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
                 intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
@@ -207,8 +205,8 @@ class MainActivity : AppActivity() {
     fun onMapClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
         // Функция - обработчик кнопки меню "карта".
         // Вызывает соответствующую Activity.
-        Util.lastAnswerRecord?.let {
-            MapUtil.viewLocation(this, it, false)
+        lastAnswerRecord?.let {
+            viewLocation(this, it, false)
         }
     }
 

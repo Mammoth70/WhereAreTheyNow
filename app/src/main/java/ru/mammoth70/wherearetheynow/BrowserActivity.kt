@@ -5,7 +5,6 @@ import android.content.Context
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_OPENSTREET
 
 class BrowserActivity : LocationActivity() {
     // Activity выводит карту с геолокацией, переданной через intent.
@@ -32,9 +31,9 @@ class BrowserActivity : LocationActivity() {
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит uri по PointRecord.
         val uri: String?
-        if (MapUtil.selectedMap == MAP_OPENSTREET) {
+        if (selectedMap == MAP_OPENSTREET) {
             uri = String.format(Locale.US, URL_OPENSTREET,
-                rec.latitude, rec.longitude, MapUtil.selectedMapZoom)
+                rec.latitude, rec.longitude, selectedMapZoom)
             webView.loadUrl(uri)
         } else {
             finish()

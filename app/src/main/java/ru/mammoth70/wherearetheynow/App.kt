@@ -3,27 +3,10 @@ package ru.mammoth70.wherearetheynow
 import android.app.Application
 import android.content.Context
 import com.yandex.mapkit.MapKitFactory
-import ru.mammoth70.wherearetheynow.Util.NAME_SETTINGS
-import ru.mammoth70.wherearetheynow.Util.NAME_THEME_COLOR
-import ru.mammoth70.wherearetheynow.Util.NAME_THEME_MODE
-import ru.mammoth70.wherearetheynow.Util.NAME_USE_SERVICE
-import ru.mammoth70.wherearetheynow.Util.NAME_MY_PHONE
-import ru.mammoth70.wherearetheynow.Util.NAME_COLORS_SPAN_COUNT
-import ru.mammoth70.wherearetheynow.Util.COLORS_SPAN_COUNT_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_ZOOM
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_ZOOM_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_TILT
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_TILT_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_CIRCLE_DEFAULT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE_RADIUS
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_CIRCLE_DEFAULT_RADIUS
 
 class App : Application() {
     // Класс приложения.
-    // Приложение предназначено для определения местоположения родтвенников и друзей.
+    // Приложение предназначено для определения местоположения родственников и друзей.
     // Обмен запросами положения и ответами с геолокацией реализован через SMS-сообщения.
 
     companion object {
@@ -43,33 +26,33 @@ class App : Application() {
         val settings = getSharedPreferences(NAME_SETTINGS, MODE_PRIVATE)
 
         // Чтение из SharedPreferences, как определять цвет темы.
-        Util.themeColor = settings.getInt(NAME_THEME_COLOR, Util.themeColor)
+        themeColor = settings.getInt(NAME_THEME_COLOR, themeColor)
         // Определение цвета темы.
-        Util.setAppThemeColor(this, Util.themeColor, false)
+        setAppThemeColor(this, themeColor, false)
 
         // Чтение из SharedPreferences, как определять режим темы.
-        Util.themeMode = settings.getInt(NAME_THEME_MODE, Util.themeMode)
+        themeMode = settings.getInt(NAME_THEME_MODE, themeMode)
         // Определение режима темы.
-        Util.themeMode(Util.themeMode)
+        themeMode(themeMode)
 
         // Чтение из SharedPreferences, как определять геолокацию - через сервис или напрямую.
-        Util.useService = settings.getBoolean(NAME_USE_SERVICE, Util.useService)
+        useService = settings.getBoolean(NAME_USE_SERVICE, useService)
 
         // Чтение из SharedPreferences, количество колонок в ColorsActivity.
-        Util.colorsSpanCount = settings.getInt(NAME_COLORS_SPAN_COUNT, COLORS_SPAN_COUNT_DEFAULT)
+        colorsSpanCount = settings.getInt(NAME_COLORS_SPAN_COUNT, COLORS_SPAN_COUNT_DEFAULT)
 
         // Чтение из SharedPreferences вида и настройки выбранной карты для вывода геолокации.
-        MapUtil.selectedMap = settings.getInt(NAME_MAP, MAP_DEFAULT)
-        MapUtil.selectedMapZoom = settings.getFloat(NAME_MAP_ZOOM, MAP_ZOOM_DEFAULT)
-        MapUtil.selectedMapTilt = settings.getFloat(NAME_MAP_TILT, MAP_TILT_DEFAULT)
-        MapUtil.selectedMapCircle = settings.getBoolean(NAME_MAP_CIRCLE,
+        selectedMap = settings.getInt(NAME_MAP, MAP_DEFAULT)
+        selectedMapZoom = settings.getFloat(NAME_MAP_ZOOM, MAP_ZOOM_DEFAULT)
+        selectedMapTilt = settings.getFloat(NAME_MAP_TILT, MAP_TILT_DEFAULT)
+        selectedMapCircle = settings.getBoolean(NAME_MAP_CIRCLE,
             MAP_CIRCLE_DEFAULT)
-        MapUtil.selectedMapCircleRadius = settings.getFloat(NAME_MAP_CIRCLE_RADIUS,
+        selectedMapCircleRadius = settings.getFloat(NAME_MAP_CIRCLE_RADIUS,
             MAP_CIRCLE_DEFAULT_RADIUS)
 
         // Чтение из SharedPreferences номера собственного телефона.
         // Он нужен, чтобы не отправлять самому себе SMS-сообщения, а получать геолокацию напрямую.
-        Util.myphone = settings.getString(NAME_MY_PHONE, Util.myphone)?: ""
+        myphone = settings.getString(NAME_MY_PHONE, myphone)?: ""
 
         // Чтение из БД списка разрешенных телефонов и словарей контактов.
         DBhelper.dbHelper.readUsers()
@@ -78,7 +61,7 @@ class App : Application() {
         DBhelper.dbHelper.checkRecords()
 
         // Чтение из БД данных с последнего ответа на запрос.
-        Util.lastAnswerRecord = DBhelper.dbHelper.readLastAnswer()
+        lastAnswerRecord = DBhelper.dbHelper.readLastAnswer()
     }
 
 }

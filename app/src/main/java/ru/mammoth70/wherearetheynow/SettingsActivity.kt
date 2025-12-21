@@ -10,29 +10,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_TEXT
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_OPENSTREET
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_YANDEX
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_WALLPAPER
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_NO
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_RED
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_YELLOW
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_GREEN
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_BLUE
-import ru.mammoth70.wherearetheynow.Util.MODE_NIGHT_YES
-import ru.mammoth70.wherearetheynow.Util.MODE_NIGHT_NO
-import ru.mammoth70.wherearetheynow.Util.MODE_NIGHT_FOLLOW_SYSTEM
-import ru.mammoth70.wherearetheynow.Util.NAME_MY_PHONE
-import ru.mammoth70.wherearetheynow.Util.NAME_THEME_COLOR
-import ru.mammoth70.wherearetheynow.Util.NAME_THEME_MODE
-import ru.mammoth70.wherearetheynow.Util.NAME_USE_SERVICE
-import ru.mammoth70.wherearetheynow.Util.COLOR_DYNAMIC_M3
-import ru.mammoth70.wherearetheynow.Util.NAME_COLORS_SPAN_COUNT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_ZOOM
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_TILT
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE
-import ru.mammoth70.wherearetheynow.MapUtil.NAME_MAP_CIRCLE_RADIUS
 
 class SettingsActivity : AppActivity() {
     // Activity показывает и позволяет изменять настройки выбора карт.
@@ -72,17 +49,17 @@ class SettingsActivity : AppActivity() {
         topAppBar.setNavigationOnClickListener {
             finish()
         }
-        checkBoxService.setChecked(Util.useService)
-        sliderColorsSpanCount.value = Util.colorsSpanCount.toFloat()
-        checkBoxCircle.setChecked(MapUtil.selectedMapCircle)
-        sliderMapZoom.value = MapUtil.selectedMapZoom
-        sliderMapTilt.value = MapUtil.selectedMapTilt
-        sliderCircleRadius.value = MapUtil.selectedMapCircleRadius
-        if (!Util.myphone.isEmpty()) {
-            edMyPhone.setText(Util.myphone)
+        checkBoxService.setChecked(useService)
+        sliderColorsSpanCount.value = colorsSpanCount.toFloat()
+        checkBoxCircle.setChecked(selectedMapCircle)
+        sliderMapZoom.value = selectedMapZoom
+        sliderMapTilt.value = selectedMapTilt
+        sliderCircleRadius.value = selectedMapCircleRadius
+        if (!myphone.isEmpty()) {
+            edMyPhone.setText(myphone)
         }
 
-        selectedMapTemp = MapUtil.selectedMap
+        selectedMapTemp = selectedMap
         // Назначение кнопки переключателя карт.
         when (selectedMapTemp) {
             MAP_TEXT -> {
@@ -176,7 +153,7 @@ class SettingsActivity : AppActivity() {
             }
         }
 
-        selectedModeColorTemp = Util.themeColor
+        selectedModeColorTemp = themeColor
         // Назначение кнопки переключателя цвета темы.
         when (selectedModeColorTemp) {
             COLOR_DYNAMIC_WALLPAPER -> radioThemeColor.check(R.id.themeDynamic)
@@ -202,7 +179,7 @@ class SettingsActivity : AppActivity() {
             }
         }
 
-        selectedModeNightTemp = Util.themeMode
+        selectedModeNightTemp = themeMode
         // Назначение кнопки переключателя режимов темы.
         when (selectedModeNightTemp) {
             MODE_NIGHT_YES -> radioTheme.check(R.id.themeNight)
@@ -223,46 +200,46 @@ class SettingsActivity : AppActivity() {
 
     fun onActionClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
         // Функция - обработчик кнопки "сохранить настройки".
-        val settings = getSharedPreferences(Util.NAME_SETTINGS, MODE_PRIVATE)
+        val settings = getSharedPreferences(NAME_SETTINGS, MODE_PRIVATE)
         val prefEditor = settings.edit()
 
-        Util.myphone = edMyPhone.getText().toString()
-        Util.myphone = Util.myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
+        myphone = edMyPhone.getText().toString()
+        myphone = myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
             "")
-        if (!Util.myphone.isEmpty()) {
-            prefEditor.putString(NAME_MY_PHONE, Util.myphone)
+        if (!myphone.isEmpty()) {
+            prefEditor.putString(NAME_MY_PHONE, myphone)
         }
 
-        val action = (Util.themeColor != selectedModeColorTemp)
+        val action = (themeColor != selectedModeColorTemp)
         if (action) {
-            Util.setAppThemeColor(applicationContext as App, selectedModeColorTemp,
+            setAppThemeColor(applicationContext as App, selectedModeColorTemp,
                 true)
         }
-        Util.themeColor = selectedModeColorTemp
-        prefEditor.putInt(NAME_THEME_COLOR, Util.themeColor)
+        themeColor = selectedModeColorTemp
+        prefEditor.putInt(NAME_THEME_COLOR, themeColor)
 
-        if (Util.themeMode != selectedModeNightTemp) {
-            Util.themeMode(selectedModeNightTemp)
+        if (themeMode != selectedModeNightTemp) {
+            themeMode(selectedModeNightTemp)
         }
-        Util.themeMode = selectedModeNightTemp
-        prefEditor.putInt(NAME_THEME_MODE, Util.themeMode)
+        themeMode = selectedModeNightTemp
+        prefEditor.putInt(NAME_THEME_MODE, themeMode)
 
-        MapUtil.selectedMap = selectedMapTemp
-        prefEditor.putInt(NAME_MAP, MapUtil.selectedMap)
-        MapUtil.selectedMapZoom = sliderMapZoom.value
-        prefEditor.putFloat(NAME_MAP_ZOOM, MapUtil.selectedMapZoom)
-        MapUtil.selectedMapTilt = sliderMapTilt.value
-        prefEditor.putFloat(NAME_MAP_TILT, MapUtil.selectedMapTilt)
-        MapUtil.selectedMapCircle = checkBoxCircle.isChecked
-        prefEditor.putBoolean(NAME_MAP_CIRCLE, MapUtil.selectedMapCircle)
-        MapUtil.selectedMapCircleRadius = sliderCircleRadius.value
-        prefEditor.putFloat(NAME_MAP_CIRCLE_RADIUS, MapUtil.selectedMapCircleRadius)
+        selectedMap = selectedMapTemp
+        prefEditor.putInt(NAME_MAP, selectedMap)
+        selectedMapZoom = sliderMapZoom.value
+        prefEditor.putFloat(NAME_MAP_ZOOM, selectedMapZoom)
+        selectedMapTilt = sliderMapTilt.value
+        prefEditor.putFloat(NAME_MAP_TILT, selectedMapTilt)
+        selectedMapCircle = checkBoxCircle.isChecked
+        prefEditor.putBoolean(NAME_MAP_CIRCLE, selectedMapCircle)
+        selectedMapCircleRadius = sliderCircleRadius.value
+        prefEditor.putFloat(NAME_MAP_CIRCLE_RADIUS, selectedMapCircleRadius)
 
-        Util.useService = checkBoxService.isChecked
-        prefEditor.putBoolean(NAME_USE_SERVICE, Util.useService)
+        useService = checkBoxService.isChecked
+        prefEditor.putBoolean(NAME_USE_SERVICE, useService)
 
-        Util.colorsSpanCount = sliderColorsSpanCount.value.toInt()
-        prefEditor.putInt(NAME_COLORS_SPAN_COUNT, Util.colorsSpanCount)
+        colorsSpanCount = sliderColorsSpanCount.value.toInt()
+        prefEditor.putInt(NAME_COLORS_SPAN_COUNT, colorsSpanCount)
 
         prefEditor.apply()
 

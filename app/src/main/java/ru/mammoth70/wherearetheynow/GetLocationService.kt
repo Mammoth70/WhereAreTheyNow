@@ -4,8 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.google.android.gms.location.LocationServices
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_NEW_VERSION_REQUEST
 
 class GetLocationService : Service() {
     // Класс получает запрос геолокации с телефонным номером запросившего

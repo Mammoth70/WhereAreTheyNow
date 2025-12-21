@@ -11,8 +11,6 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.OnSuccessListener
 import java.util.Date
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.Util.FORMAT_REQUEST_AND_LOCATION
-import ru.mammoth70.wherearetheynow.Util.FORMAT_ANSWER
 
 class GetLocation {
     // Класс запрашивает геолокацию и возвращает её указанным способом.
@@ -66,11 +64,11 @@ class GetLocation {
 
     private fun updateLocalLocation(location: Location) {
         // Функция сохраняет локальное состояние локации.
-        if (Util.myphone.isEmpty()) {
+        if (myphone.isEmpty()) {
             return
         }
         val record = PointRecord(
-            Util.myphone,
+            myphone,
             location.latitude,
             location.longitude,
             Date(location.time)
@@ -95,12 +93,12 @@ class GetLocation {
     private fun sendLocal(context: Context, location: Location) {
         // Функция открывает activity с картой.
         val record = PointRecord(
-            Util.myphone,
+            myphone,
             location.latitude,
             location.longitude,
             Date(location.time)
         )
-        MapUtil.viewLocation(context, record, false)
+        viewLocation(context, record, false)
     }
 
 }

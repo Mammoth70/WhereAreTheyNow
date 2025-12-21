@@ -5,11 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import java.util.regex.Pattern
-import ru.mammoth70.wherearetheynow.Util.HEADER_REQUEST
-import ru.mammoth70.wherearetheynow.Util.HEADER_REQUEST_AND_LOCATION
-import ru.mammoth70.wherearetheynow.Util.HEADER_ANSWER
-import ru.mammoth70.wherearetheynow.Util.REGEXP_ANSWER
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_SMS_TO
 
 class SMSMonitor : BroadcastReceiver() {
     // Класс слушает поток SMS. Если SMS-сообщение приходит от разрешённых абонентов,
@@ -23,7 +18,7 @@ class SMSMonitor : BroadcastReceiver() {
         }
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent) ?: return
         val smsFrom = messages[0].displayOriginatingAddress
-        if (smsFrom !in Util.phones) {
+        if (smsFrom !in phones) {
             // Дальнейшая обработка идёт только в том случае, если телефон есть в списке.
             return
         }
@@ -56,7 +51,7 @@ class SMSMonitor : BroadcastReceiver() {
     }
 
     private fun requestLocation(context: Context, smsTo: String?) {
-        if (Util.useService) {
+        if (useService) {
             // Функция передаёт обработку запроса геолокации в GetLocationService.
             val intent = Intent(context, GetLocationService::class.java)
             intent.putExtra(INTENT_EXTRA_SMS_TO, smsTo)
@@ -82,14 +77,14 @@ class SMSMonitor : BroadcastReceiver() {
             try {
                 val latitude = matcher.group(1)!!.toDouble()
                 val longitude = matcher.group(2)!!.toDouble()
-                val dateTime = Util.stringToDate(matcher.group(3)!!) ?: return
+                val dateTime = stringToDate(matcher.group(3)!!) ?: return
                 if ((latitude < -90) || (latitude > 90) || (longitude < -180) || (longitude > 180)) {
                     return
                 }
                 val record = PointRecord(smsFrom,latitude, longitude, dateTime)
                 DBhelper.dbHelper.writeLastPoint(record)
                 if (show) {
-                    MapUtil.viewLocation(context, record, true)
+                    viewLocation(context, record, true)
                 }
             } catch (_: NumberFormatException) {
             } catch (_: NullPointerException) {

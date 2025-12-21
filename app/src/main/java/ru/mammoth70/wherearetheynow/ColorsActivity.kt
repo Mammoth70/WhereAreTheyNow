@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.mammoth70.wherearetheynow.Util.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppActivity() {
     // Activity выбора цвета.
@@ -25,7 +24,7 @@ class ColorsActivity : AppActivity() {
         val colorsAdapter = ColorsAdapter()
         colorsAdapter.setOnItemViewClick(::onClickViewItem)
         val recyclerView: RecyclerView = findViewById(R.id.itemColorsRecycler)
-        (recyclerView.layoutManager as GridLayoutManager).spanCount = Util.colorsSpanCount
+        (recyclerView.layoutManager as GridLayoutManager).spanCount = colorsSpanCount
         recyclerView.adapter = colorsAdapter
     }
 

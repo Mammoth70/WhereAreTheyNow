@@ -31,7 +31,7 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
         phones2.clear()
-        Util.phones.filter { Util.phone2record.containsKey(it) }.map { phones2.add(it) }
+        phones.filter { phone2record.containsKey(it) }.map { phones2.add(it) }
 
         return when (viewType) {
             FIRST_ITEM_VIEW -> {
@@ -54,8 +54,8 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         val phone = phones2[position]
-        val value = Util.phone2record[phone]!!
-        holder.itemUserName.text = Util.phone2name[phone]
+        val value = phone2record[phone]!!
+        holder.itemUserName.text = phone2name[phone]
         holder.itemLattitude.text = String.format(
             Locale.US, PointRecord.FORMAT_DOUBLE,
             value.latitude
@@ -66,19 +66,19 @@ class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
         )
         holder.itemDate.text = value.dateTime
         holder.itemCardGeo.setCardBackgroundColor(
-            AppColors.getColorAlpha16(Util.phone2color[phone]))
+            AppColors.getColorAlpha16(phone2color[phone]))
     }
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.
-        return Util.phone2record.size
+        return phone2record.size
     }
 
     override fun getItemViewType(position: Int): Int {
         // Функция определяет тип элемента.
         return when (position) {
             0 -> FIRST_ITEM_VIEW
-            (Util.phone2record.size-1) -> LAST_ITEM_VIEW
+            (phone2record.size-1) -> LAST_ITEM_VIEW
             else -> CENTER_ITEM_VIEW
         }
     }

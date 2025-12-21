@@ -22,18 +22,18 @@ class UserActivity : AppActivity() {
     override val idActivity = R.id.frameUserActivity
 
     companion object {
-        const val INTENT_EXTRA_ACTION: String = "action"
-        const val INTENT_EXTRA_RESULT: String = "refresh"
-        const val INTENT_EXTRA_ID: String = "id"
-        const val INTENT_EXTRA_PHONE: String = "phone"
-        const val INTENT_EXTRA_NAME: String = "name"
-        const val INTENT_EXTRA_COLOR: String = "color"
+        const val INTENT_EXTRA_ACTION = "action"
+        const val INTENT_EXTRA_RESULT = "refresh"
+        const val INTENT_EXTRA_ID = "id"
+        const val INTENT_EXTRA_PHONE = "phone"
+        const val INTENT_EXTRA_NAME = "name"
+        const val INTENT_EXTRA_COLOR = "color"
 
-        const val REGEXP_CLEAR_PHONE: String = "[- ()]"
+        const val REGEXP_CLEAR_PHONE = "[- ()]"
 
-        const val ACTION_ADD_USER: String = "add user"
-        const val ACTION_EDIT_USER: String = "edit user"
-        const val ACTION_DELETE_USER: String = "delete user"
+        const val ACTION_ADD_USER = "add user"
+        const val ACTION_EDIT_USER = "edit user"
+        const val ACTION_DELETE_USER = "delete user"
     }
 
     private val action: String by lazy { intent.getStringExtra(INTENT_EXTRA_ACTION)!! }
@@ -177,7 +177,7 @@ class UserActivity : AppActivity() {
             // проверяем телефон на заполнение
             ilPhone.error = getString(R.string.err_empty_phone)
         }
-        if (action == ACTION_ADD_USER && phone in Util.phones) {
+        if (action == ACTION_ADD_USER && phone in phones) {
             // проверяем телефон на уникальность при добавлении
             ilPhone.error = getString(R.string.err_not_unique_phone)
         }
@@ -200,7 +200,7 @@ class UserActivity : AppActivity() {
 
         when (action) {
             ACTION_ADD_USER -> {
-                if (phone in Util.phones) {
+                if (phone in phones) {
                     // если при добавлении телефон не уникальный - выходим
                     return
                 }
@@ -257,7 +257,7 @@ class UserActivity : AppActivity() {
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {
-                setMarkColor(intent.getStringExtra(Util.INTENT_EXTRA_COLOR)!!)
+                setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
             }
         }
     }

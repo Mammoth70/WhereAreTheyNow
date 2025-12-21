@@ -30,7 +30,6 @@ import com.yandex.mapkit.map.TextStyle
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
-import ru.mammoth70.wherearetheynow.MapUtil.MAP_TILT_DEFAULT
 
 class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     // Activity выводит yandex-карту с геолокацией, переданной через intent.
@@ -68,14 +67,14 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         val circleMapObjects = ArrayList<CircleMapObject?>()
 
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
-        Util.phones
-            .filter { phone -> Util.phone2record.containsKey(phone) }
+        phones
+            .filter { phone -> phone2record.containsKey(phone) }
             .map { phone ->
-                Util.phone2record[phone]?.let { point ->
+                phone2record[phone]?.let { point ->
                     points.add(Point(point.latitude, point.longitude))
                     imageProviders.add(
                         ImageProvider.fromBitmap(
-                            getBitmapFromColor(Util.phone2color[phone])
+                            getBitmapFromColor(phone2color[phone])
                         )
                     )
                     placemarkMapObjects.add(
@@ -83,27 +82,27 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                             geometry = Point(point.latitude, point.longitude)
                             setIcon(
                                 ImageProvider.fromBitmap(
-                                    getBitmapFromColor(Util.phone2color[phone])
+                                    getBitmapFromColor(phone2color[phone])
                                 ), IconStyle().apply { anchor = PointF(0.5f, 1f) })
                             userData = phone
                             addTapListener(mapObjectTapListener)
-                            setText(Util.phone2name[phone]!!, markTextStyle)
+                            setText(phone2name[phone]!!, markTextStyle)
                         }
                     )
 
-                    if (MapUtil.selectedMapCircle) {
+                    if (selectedMapCircle) {
                         circleMapObjects.add(
                             mapObjectCollection.addCircle(
                                 Circle(
                                     Point(
                                         point.latitude,
                                         point.longitude
-                                    ), MapUtil.selectedMapCircleRadius
+                                    ), selectedMapCircleRadius
                                 )
                             ).apply {
-                                strokeColor = Util.phone2color[phone]?.toColorInt()!!
+                                strokeColor = phone2color[phone]?.toColorInt()!!
                                 strokeWidth = 1f
-                                fillColor = AppColors.getColorAlpha(Util.phone2color[phone])
+                                fillColor = AppColors.getColorAlpha(phone2color[phone])
                             }
                         )
                     }
@@ -116,7 +115,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция передвигает карту на PointRecord.
         map.move(CameraPosition(Point(rec.latitude, rec.longitude),
-            MapUtil.selectedMapZoom, 0f, MapUtil.selectedMapTilt))
+            selectedMapZoom, 0f, selectedMapTilt))
     }
 
     private val markTextStyle: TextStyle
@@ -145,16 +144,16 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         MapObjectTapListener { mapObject: MapObject?, _: Point? ->
             // Обработчик, отвечающий за тапы по различным объектам на карте.
             val phone = mapObject!!.userData as String?
-            Util.phone2name[phone]?.let { name ->
-                Util.phone2record[phone]?.let { rec ->
-                    val newZoom = if (map.cameraPosition.zoom < MapUtil.selectedMapZoom) {
-                        MapUtil.selectedMapZoom
+            phone2name[phone]?.let { name ->
+                phone2record[phone]?.let { rec ->
+                    val newZoom = if (map.cameraPosition.zoom < selectedMapZoom) {
+                        selectedMapZoom
                     } else {
                         map.cameraPosition.zoom
                     }
                     topAppBar.setTitle(name)
                     topAppBar.setSubtitle(
-                        MapUtil.timePassed(
+                        timePassed(
                             rec.dateTime,
                             this
                         )
@@ -210,10 +209,10 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         // Обработчик кнопки FAB "2D/3D".
         // Функция меняет режим карты 2D / 3D.
         val newTilt = if (map.cameraPosition.tilt == 0f) {
-            if (MapUtil.selectedMapTilt == 0f) {
+            if (selectedMapTilt == 0f) {
                 MAP_TILT_DEFAULT
             } else {
-                MapUtil.selectedMapTilt
+                selectedMapTilt
             }
         } else {
             0f

@@ -46,16 +46,16 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
 
         override fun bindView(position: Int) {
             // Функция привязывает к viewHolder'у данные списка контактов.
-            val phone = Util.phones[position]
-            this.itemUserName.text = Util.phone2name[phone]
+            val phone = phones[position]
+            this.itemUserName.text = phone2name[phone]
             this.itemUserPhone.text = phone
             this.itemUserLabel.setBackgroundResource(
-                AppColors.getMarker(Util.phone2color[phone]))
+                AppColors.getMarker(phone2color[phone]))
             this.itemCardUser.setCardBackgroundColor(
-                AppColors.getColorAlpha16(Util.phone2color[phone]))
+                AppColors.getColorAlpha16(phone2color[phone]))
             this.itemCardUser.tag = position
             this.btnUserMenu.tag = position
-            if (phone == Util.myphone) {
+            if (phone == myphone) {
                 this.btnUserSelf.isEnabled = true
                 this.btnUserSelf.visibility = View.VISIBLE
             } else {
@@ -93,13 +93,13 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке + футер.
-        return Util.phones.size + 1
+        return phones.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
         // Функция определяет тип элемента.
         return when (position) {
-            Util.phones.size -> FOOTER_VIEW
+            phones.size -> FOOTER_VIEW
             else -> LIST_ITEM_VIEW
         }
     }
