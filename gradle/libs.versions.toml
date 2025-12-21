@@ -1,16 +1,18 @@
 [versions]
 agp = "8.13.2"
+kotlin = "2.3.0"
+coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 appcompat = "1.7.1"
-activity = "1.12.1"
+activity = "1.12.2"
 constraintlayout = "2.2.1"
 playServicesLocation = "21.3.0"
-kotlin = "2.2.21"
-coreKtx = "1.17.0"
+
 
 [libraries]
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -18,7 +20,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
