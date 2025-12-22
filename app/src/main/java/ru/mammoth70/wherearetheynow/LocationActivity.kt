@@ -46,7 +46,7 @@ abstract class LocationActivity : AppActivity() {
                     val popupMenu = PopupMenu(context, gravityView)
                     menuPhones
                         .filter { phone -> ((phone2record.containsKey(phone)) && (phone2id.containsKey(phone))) }
-                        .map { phone ->
+                        .forEach { phone ->
                             phone2id[phone]?.let { id ->
                                 popupMenu.menu.add(0, id, 0,phone2name[phone])
                             }

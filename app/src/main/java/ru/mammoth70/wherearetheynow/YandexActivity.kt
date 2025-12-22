@@ -69,7 +69,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
         phones
             .filter { phone -> phone2record.containsKey(phone) }
-            .map { phone ->
+            .forEach { phone ->
                 phone2record[phone]?.let { point ->
                     points.add(Point(point.latitude, point.longitude))
                     imageProviders.add(
