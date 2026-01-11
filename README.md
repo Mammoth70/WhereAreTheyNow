@@ -4,7 +4,7 @@
 
 [1]: https://img.shields.io/badge/Android-12+-blue.svg?logo=Android&color=brightgreen
 [2]: https://android.com/
-[3]: https://img.shields.io/badge/Kotlin-2.2-blue.svg?logo=Kotlin
+[3]: https://img.shields.io/badge/Kotlin-2.3-blue.svg?logo=Kotlin
 [4]: http://kotlinlang.org
 [5]: https://img.shields.io/github/license/Mammoth70/WhereAreTheyNow.svg
 [6]: LICENSE
