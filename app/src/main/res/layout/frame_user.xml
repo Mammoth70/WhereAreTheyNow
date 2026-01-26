@@ -104,7 +104,6 @@
                 android:layout_marginTop="28dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:onClick="onMarkClicked"
                 app:shapeAppearance="@style/ShapeAppearance.App.Corner.Medium"
                 app:strokeColor="?attr/colorOutline"
                 >

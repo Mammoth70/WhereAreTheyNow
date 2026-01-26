@@ -45,7 +45,6 @@ class UserActivity : AppActivity() {
     private val cardColor: MaterialCardView by lazy { findViewById(R.id.cardColor) }
     private val tvColorError: TextView by lazy { findViewById(R.id.tvColorError) }
     private val id: Int  by lazy { intent.getIntExtra(INTENT_EXTRA_ID, 0) }
-
     private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
     private val tvMark: TextView by lazy {findViewById(R.id.tvMark)}
     private var selectedColorTemp = ""
@@ -96,6 +95,100 @@ class UserActivity : AppActivity() {
         colorError = typedValueColorError.data
 
         getAction(intent)
+
+        btnAction.setOnClickListener { _ ->
+            // Обработчик кнопки "действие".
+            val phone = edPhone.getText().toString().replace(REGEXP_CLEAR_PHONE.toRegex(), "")
+            val name = edName.getText().toString()
+            if (phone.isEmpty()) {
+                // проверяем телефон на заполнение
+                ilPhone.error = getString(R.string.err_empty_phone)
+            }
+            if (action == ACTION_ADD_USER && phone in phones) {
+                // проверяем телефон на уникальность при добавлении
+                ilPhone.error = getString(R.string.err_not_unique_phone)
+            }
+            if (name.isEmpty()) {
+                // проверяем имя на заполнение
+                ilName.error = getString(R.string.err_empty_user)
+            }
+            if (selectedColorTemp.isEmpty()) {
+                // проверяем метку на заполнение
+                cardColor.strokeColor = colorError
+                tvMark.setTextColor(colorError)
+                tvMark.setBackgroundResource(R.drawable.ic_pin_error)
+                tvColorError.setText(R.string.err_empty_label)
+            }
+
+            if (phone.isEmpty() || name.isEmpty() || selectedColorTemp.isEmpty()) {
+                // если хоть что-то незаполнено - выходим
+                return@setOnClickListener
+            }
+
+            when (action) {
+                ACTION_ADD_USER -> {
+                    if (phone in phones) {
+                        // если при добавлении телефон не уникальный - выходим
+                        return@setOnClickListener
+                    }
+                    if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
+                        val intent = Intent()
+                        intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this, R.string.failed_to_add_user,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                ACTION_EDIT_USER -> {
+                    if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
+                        val intent = Intent()
+                        intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this, R.string.failed_to_change_user,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                ACTION_DELETE_USER -> {
+                    if (DBhelper.dbHelper.deleteUser(id)) {
+                        val intent = Intent()
+                        intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this, R.string.failed_to_delete_user,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                else -> {
+                    finish()
+                }
+            }
+        }
+
+        cardColor.setOnClickListener { _ ->
+            // Обработчик кнопки "метка" (выбор цвета).
+            if (selectedColorTemp.isEmpty()) {
+                tvMark.setTextColor(colorOnSurfaceVariant)
+                tvMark.setBackgroundResource(R.drawable.ic_pin_empty)
+                cardColor.strokeColor = colorOutline
+                tvColorError.text = ""
+            }
+            val intent = Intent(this, ColorsActivity::class.java)
+            startActivityIntent.launch(intent)
+        }
     }
 
     private fun getAction(intent: Intent) {
@@ -136,18 +229,6 @@ class UserActivity : AppActivity() {
         }
     }
 
-    fun onMarkClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Функция - обработчик кнопки "метка" (выбор цвета).
-        if (selectedColorTemp.isEmpty()) {
-            tvMark.setTextColor(colorOnSurfaceVariant)
-            tvMark.setBackgroundResource(R.drawable.ic_pin_empty)
-            cardColor.strokeColor = colorOutline
-            tvColorError.text = ""
-        }
-        val intent = Intent(this, ColorsActivity::class.java)
-        startActivityIntent.launch(intent)
-    }
-
     fun setMarkColor(color: String) {
         // Функция выставляет цвет метки.
         tvMark.text = ""
@@ -166,88 +247,6 @@ class UserActivity : AppActivity() {
             AppColors.COLOR_MAGENTA -> tvMark.setBackgroundResource(R.drawable.ic_pin_magenta)
             AppColors.COLOR_BROWN -> tvMark.setBackgroundResource(R.drawable.ic_pin_brown)
             else -> tvMark.setBackgroundResource(R.drawable.ic_pin_black)
-        }
-    }
-
-    fun onActionClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Функция - обработчик кнопки "действие".
-        val phone = edPhone.getText().toString().replace(REGEXP_CLEAR_PHONE.toRegex(), "")
-        val name = edName.getText().toString()
-        if (phone.isEmpty()) {
-            // проверяем телефон на заполнение
-            ilPhone.error = getString(R.string.err_empty_phone)
-        }
-        if (action == ACTION_ADD_USER && phone in phones) {
-            // проверяем телефон на уникальность при добавлении
-            ilPhone.error = getString(R.string.err_not_unique_phone)
-        }
-        if (name.isEmpty()) {
-            // проверяем имя на заполнение
-            ilName.error = getString(R.string.err_empty_user)
-        }
-        if (selectedColorTemp.isEmpty()) {
-            // проверяем метку на заполнение
-            cardColor.strokeColor = colorError
-            tvMark.setTextColor(colorError)
-            tvMark.setBackgroundResource(R.drawable.ic_pin_error)
-            tvColorError.setText(R.string.err_empty_label)
-        }
-
-        if (phone.isEmpty() || name.isEmpty() || selectedColorTemp.isEmpty()) {
-            // если хоть что-то незаполнено - выходим
-            return
-        }
-
-        when (action) {
-            ACTION_ADD_USER -> {
-                if (phone in phones) {
-                    // если при добавлении телефон не уникальный - выходим
-                    return
-                }
-                if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
-                    val intent = Intent()
-                    intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
-                    setResult(RESULT_OK, intent)
-                    finish()
-                } else {
-                    Toast.makeText(
-                        this, R.string.failed_to_add_user,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            ACTION_EDIT_USER -> {
-                if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
-                    val intent = Intent()
-                    intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
-                    setResult(RESULT_OK, intent)
-                    finish()
-                } else {
-                    Toast.makeText(
-                        this, R.string.failed_to_change_user,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            ACTION_DELETE_USER -> {
-                if (DBhelper.dbHelper.deleteUser(id)) {
-                    val intent = Intent()
-                    intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
-                    setResult(RESULT_OK, intent)
-                    finish()
-                } else {
-                    Toast.makeText(
-                        this, R.string.failed_to_delete_user,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-            else -> {
-                finish()
-            }
         }
     }
 

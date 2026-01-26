@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.result.ActivityResult
@@ -14,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppActivity() {
@@ -29,7 +29,13 @@ class MainActivity : AppActivity() {
     }
 
     private val navBarView: NavigationBarView by lazy { findViewById(R.id.bottom_navigation) }
-    private val usersAdapter by lazy { UsersAdapter() }
+    private val usersAdapter by lazy { UsersAdapter(
+        ::editUser,
+        ::showContextMenu,
+        ::showPopupMenu,
+        ::selfPosition) }
+    private val floatingActionButtonAdd: FloatingActionButton by lazy { findViewById(R.id.floatingActionButtonAdd) }
+    private val recyclerView: RecyclerView by lazy { findViewById(R.id.itemUsersRecycler) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -42,12 +48,7 @@ class MainActivity : AppActivity() {
             finish()
         }
 
-        val recyclerView: RecyclerView =  findViewById(R.id.itemUsersRecycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        usersAdapter.setOnBtnMenuClick(::showPopupMenu)
-        usersAdapter.setOnBtnSelfClick(::selfPosition)
-        usersAdapter.setOnItemViewClick(::editUser)
-        usersAdapter.setOnItemViewLongClick(::showContextMenu)
         recyclerView.adapter = usersAdapter
 
         if (!checkAllPermissions()) {
@@ -56,6 +57,51 @@ class MainActivity : AppActivity() {
 
         navBarView.menu[NM_MAP_ID].isEnabled = (lastAnswerRecord != null)
         navBarView.menu[NM_USERS_ID].isChecked = true
+        navBarView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.item_map -> {
+                    // Обработчик кнопки меню "карта".
+                    // Вызывает соответствующую Activity.
+                    lastAnswerRecord?.let {
+                        viewLocation(this, it, false)
+                    }
+                }
+
+                R.id.item_settings -> {
+                    // Обработчик кнопки меню "настройки".
+                    // Вызывает соответствующую Activity.
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivitySettingsIntent.launch(intent)
+                }
+
+                R.id.item_permissions -> {
+                    // Обработчик кнопки меню "разрешения".
+                    // Вызывает соответствующую Activity.
+                    startPermissionActivity()
+                }
+
+                R.id.item_about -> {
+                    // Обработчик кнопки меню "about".
+                    val bundle = Bundle()
+                    bundle.putString(AboutBox.DIALOG_TITLE, getString(R.string.app_name))
+                    val text =
+                        getString(R.string.description) + "\n" +
+                                getString(R.string.version) + " " +
+                                BuildConfig.VERSION_NAME
+                    bundle.putString(AboutBox.DIALOG_MESSAGE, text)
+                    val aboutBox = AboutBox()
+                    aboutBox.setArguments(bundle)
+                    aboutBox.show(this.supportFragmentManager, "MESSAGE_DIALOG")
+                }
+
+            }
+            false
+        }
+
+        floatingActionButtonAdd.setOnClickListener { _ ->
+            // Обработчик кнопки FAB "Добавить контакт".
+            addUser()
+        }
     }
 
     override fun onResume() {
@@ -75,38 +121,36 @@ class MainActivity : AppActivity() {
         position?.let {
             val popupMenu = PopupMenu(this, view)
             popupMenu.inflate(R.menu.user_menu)
-            popupMenu.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-                override fun onMenuItemClick(item: MenuItem): Boolean {
-                    when (item.itemId) {
-                        R.id.item_add_user -> {
-                            addUser()
-                            return true
-                        }
-
-                        R.id.item_edit_user -> {
-                            editUser(position)
-                            return true
-                        }
-
-                        R.id.item_delete_user -> {
-                            deleteUser(position)
-                            return true
-                        }
-
-                        R.id.item_sms_request_user -> {
-                            smsRequestUser(position)
-                            return true
-                        }
-
-                        R.id.item_sms_answer_user -> {
-                            smsAnswerUser(position)
-                            return true
-                        }
-
-                        else -> return false
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item_add_user -> {
+                        addUser()
+                        true
                     }
+
+                    R.id.item_edit_user -> {
+                        editUser(position)
+                        true
+                    }
+
+                    R.id.item_delete_user -> {
+                        deleteUser(position)
+                        true
+                    }
+
+                    R.id.item_sms_request_user -> {
+                        smsRequestUser(position)
+                        true
+                    }
+
+                    R.id.item_sms_answer_user -> {
+                        smsAnswerUser(position)
+                        true
+                    }
+
+                    else -> false
                 }
-            })
+            }
             popupMenu.show()
         }
     }
@@ -196,27 +240,6 @@ class MainActivity : AppActivity() {
             "", false)
     }
 
-    fun onPermissionClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Функция - обработчик кнопки меню "разрешения".
-        // Вызывает соответствующую Activity.
-        startPermissionActivity()
-    }
-
-    fun onMapClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Функция - обработчик кнопки меню "карта".
-        // Вызывает соответствующую Activity.
-        lastAnswerRecord?.let {
-            viewLocation(this, it, false)
-        }
-    }
-
-    fun onSettingsClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Функция - обработчик кнопки меню "настройки".
-        // Вызывает соответствующую Activity.
-        val intent = Intent(this, SettingsActivity::class.java)
-        startActivitySettingsIntent.launch(intent)
-    }
-
     private fun startPermissionActivity() {
         // Функция запускает PermissionActivity.
         val intent = Intent(this, PermissionActivity::class.java)
@@ -246,25 +269,6 @@ class MainActivity : AppActivity() {
                     applicationContext,
                     Manifest.permission.SEND_SMS
                 ) == PackageManager.PERMISSION_GRANTED))
-    }
-
-    fun onAddUserClicked(@Suppress("UNUSED_PARAMETER")ignored: View?) {
-        // Функция - обработчик кнопки FAB "Добавить контакт".
-        addUser()
-    }
-
-    fun onAboutClicked(@Suppress("UNUSED_PARAMETER")ignored: MenuItem?) {
-        // Функция - обработчик кнопки меню "about".
-        val bundle = Bundle()
-        bundle.putString(AboutBox.DIALOG_TITLE, getString(R.string.app_name))
-        val text =
-            getString(R.string.description) + "\n" +
-                    getString(R.string.version) + " " +
-                    BuildConfig.VERSION_NAME
-        bundle.putString(AboutBox.DIALOG_MESSAGE, text)
-        val aboutBox = AboutBox()
-        aboutBox.setArguments(bundle)
-        aboutBox.show(this.supportFragmentManager, "MESSAGE_DIALOG")
     }
 
     @SuppressLint("NotifyDataSetChanged")

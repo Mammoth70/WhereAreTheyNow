@@ -7,13 +7,22 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
+class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
+    RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
     // RecyclerView.Adapter для выбора цвета.
 
-    private var itemViewClick: (position: Int) -> Unit = { }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка цветов.
+
+        init {
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(position)
+                }
+            }
+        }
+
         val itemColorLabel: TextView = view.findViewById(R.id.itemColorLabel)
         val itemCardColor: MaterialCardView = view.findViewById(R.id.frameItemCardColor)
     }
@@ -31,7 +40,6 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
             AppColors.getMarker(AppColors.colors[position]))
         holder.itemCardColor.setCardBackgroundColor(
             AppColors.getColorAlpha16(AppColors.colors[position]))
-        holder.itemView.setOnClickListener { itemViewClick(position) }
     }
 
     override fun getItemCount(): Int {
@@ -39,8 +47,4 @@ class ColorsAdapter: RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
         return AppColors.colors.size
     }
 
-    fun setOnItemViewClick(listener: (Int) -> Unit) {
-        // Функция устанавливает click listener для всего элемента списка.
-        itemViewClick = listener
-    }
 }

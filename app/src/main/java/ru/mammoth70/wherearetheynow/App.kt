@@ -10,7 +10,7 @@ class App : Application() {
     // Обмен запросами положения и ответами с геолокацией реализован через SMS-сообщения.
 
     companion object {
-        lateinit var appContext: Context
+        lateinit var appContext: Context private set
     }
 
     override fun onCreate() {

@@ -21,8 +21,7 @@ class ColorsActivity : AppActivity() {
             finish()
         }
 
-        val colorsAdapter = ColorsAdapter()
-        colorsAdapter.setOnItemViewClick(::onClickViewItem)
+        val colorsAdapter = ColorsAdapter(::onClickViewItem)
         val recyclerView: RecyclerView = findViewById(R.id.itemColorsRecycler)
         (recyclerView.layoutManager as GridLayoutManager).spanCount = colorsSpanCount
         recyclerView.adapter = colorsAdapter

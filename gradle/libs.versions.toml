@@ -1,6 +1,5 @@
 [versions]
-agp = "8.13.2"
-kotlin = "2.3.0"
+agp = "9.0.0"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -9,19 +8,23 @@ appcompat = "1.7.1"
 activity = "1.12.2"
 constraintlayout = "2.2.1"
 playServicesLocation = "21.3.0"
-
+googleMaterial = "1.14.0-alpha08"
+#noinspection NewerVersionAvailable
+yandexMaps = "4.19.0-lite"
+secretsPlugin = "2.0.1"
 
 [libraries]
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
+yandex-maps-mobile = { group = "com.yandex.android", name = "maps.mobile", version.ref = "yandexMaps" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin" }

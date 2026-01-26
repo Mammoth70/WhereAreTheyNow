@@ -72,6 +72,18 @@ class PermissionActivity : AppActivity() {
         requestPermissions()
         requestBackgroundLocationPermission(btnBackgroundLocation)
         viewPermissions()
+
+        btnLocation.setOnClickListener { view ->
+            requestLocationPermissionButtonClick(view)
+        }
+
+        btnBackgroundLocation.setOnClickListener { view ->
+            requestBackgroundLocationPermissionButtonClick(view)
+        }
+
+        btnSMS.setOnClickListener { view ->
+            requestSMSPermissionButtonClick(view)
+        }
     }
 
     private fun requestPermissions() {

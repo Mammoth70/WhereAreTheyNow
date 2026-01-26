@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PointF
 import android.util.TypedValue
-import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
@@ -65,6 +64,19 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         val imageProviders = ArrayList<ImageProvider?>()
         val placemarkMapObjects = ArrayList<PlacemarkMapObject?>()
         val circleMapObjects = ArrayList<CircleMapObject?>()
+
+        fabNord.setOnClickListener { _ ->
+            onMapNord()
+        }
+        fabZoomIn.setOnClickListener { _ ->
+            onMapZoomIn()
+        }
+        fabZoomOut.setOnClickListener { _ ->
+            onMapZoomOut()
+        }
+        fab2D3D.setOnClickListener { _ ->
+            onMap2D3D()
+        }
 
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
         phones
@@ -205,7 +217,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         super.onStop()
     }
 
-    fun onMap2D3D(@Suppress("UNUSED_PARAMETER") ignored: View?) {
+    fun onMap2D3D() {
         // Обработчик кнопки FAB "2D/3D".
         // Функция меняет режим карты 2D / 3D.
         val newTilt = if (map.cameraPosition.tilt == 0f) {
@@ -225,7 +237,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         ))
     }
 
-    fun onMapNordClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
+    fun onMapNord() {
         // Обработчик кнопки FAB "На север".
         // Функция поворачивает карту в положение север сверху.
         map.move(CameraPosition(
@@ -236,7 +248,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         ))
     }
 
-    fun onMapZoomIn(@Suppress("UNUSED_PARAMETER") ignored: View?) {
+    fun onMapZoomIn() {
         // Обработчик кнопки FAB "Zoom In".
         // Функция приближает объекты на карте.
         val newZoom = if ((map.cameraPosition.zoom + 1f) > map.cameraBounds.maxZoom) {
@@ -252,7 +264,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         ))
     }
 
-    fun onMapZoomOut(@Suppress("UNUSED_PARAMETER") ignored: View?) {
+    fun onMapZoomOut() {
         // Обработчик кнопки FAB "Zoom Out".
         // Функция отдаляет объекты на карте.
         val newZoom = if ((map.cameraPosition.zoom - 1f) < map.cameraBounds.minZoom) {

@@ -8,13 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
-class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
+class UsersAdapter(
+    private val itemViewClick: (position: Int) -> Unit,
+    private val itemViewLongClick: (view: View) -> Boolean,
+    private val btnMenuClick: (view: View) -> Unit,
+    private val btnSelfClick: (view: View) -> Unit
+): RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
     // RecyclerView.Adapter для списка контактов.
-
-    private var itemViewClick: (position: Int) -> Unit = { }
-    private var itemViewLongClick: (view: View) -> Boolean = { false }
-    private var btnMenuClick: (view: View) -> Unit = { }
-    private var btnSelfClick: (view: View) -> Unit = { }
 
     companion object {
        //const val HEADER_VIEW = 1
@@ -35,7 +35,7 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
         }
     }
 
-    private class ListItemViewHolder(view: View) : GenericViewHolder(view) {
+    private inner class ListItemViewHolder(view: View) : GenericViewHolder(view) {
         // Представление viewHolder'а для списка контактов.
         val itemUserName: TextView = view.findViewById(R.id.itemUserName)
         val itemUserPhone: TextView = view.findViewById(R.id.itemUserPhone)
@@ -43,6 +43,33 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
         val btnUserMenu: Button = view.findViewById(R.id.btnUserMenu)
         val itemCardUser: MaterialCardView = view.findViewById(R.id.frameItemCardUser)
         val btnUserSelf: Button = view.findViewById(R.id.btnUserSelf)
+
+        init {
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) itemViewClick.invoke(position)
+            }
+
+            itemView.setOnLongClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    itemViewLongClick.invoke(itemCardUser)
+                    true
+                } else {
+                    false
+                }
+            }
+
+            btnUserMenu.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) btnMenuClick.invoke(it)
+            }
+
+            btnUserSelf.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) btnSelfClick.invoke(it)
+            }
+        }
 
         override fun bindView(position: Int) {
             // Функция привязывает к viewHolder'у данные списка контактов.
@@ -85,10 +112,6 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
     override fun onBindViewHolder(holder: GenericViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         holder.bindView(position)
-        if (holder is ListItemViewHolder) {
-            holder.itemView.setOnClickListener { itemViewClick(position) }
-            holder.itemView.setOnLongClickListener { itemViewLongClick(holder.itemCardUser) }
-        }
     }
 
     override fun getItemCount(): Int {
@@ -102,25 +125,6 @@ class UsersAdapter: RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
             phones.size -> FOOTER_VIEW
             else -> LIST_ITEM_VIEW
         }
-    }
-
-    fun setOnItemViewClick(listener: (Int) -> Unit) {
-        // Функция устанавливает click listener для всего элемента списка.
-        itemViewClick = listener
-    }
-
-    fun setOnItemViewLongClick(listener: (View) -> Boolean) {
-        // Функция устанавливает long click listener для всего элемента списка.
-        itemViewLongClick = listener
-    }
-    fun setOnBtnMenuClick(listener: (View) -> Unit) {
-        // Функция устанавливает click listener для кнопки меню на элементе.
-        btnMenuClick = listener
-    }
-
-    fun setOnBtnSelfClick(listener: (View) -> Unit) {
-        // Функция устанавливает click listener для кнопки self на элементе.
-        btnSelfClick = listener
     }
 
 }

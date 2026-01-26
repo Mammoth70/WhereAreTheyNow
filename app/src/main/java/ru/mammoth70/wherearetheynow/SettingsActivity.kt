@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.RadioGroup
@@ -36,6 +37,7 @@ class SettingsActivity : AppActivity() {
     private val radioMap: RadioGroup by lazy { findViewById(R.id.radioMap) }
     private val radioThemeColor: RadioGroup by lazy { findViewById(R.id.radioThemeColor) }
     private val radioTheme: RadioGroup by lazy { findViewById(R.id.radioTheme) }
+    private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
 
     private var selectedMapTemp = 0
     private var selectedModeColorTemp = 0
@@ -196,57 +198,57 @@ class SettingsActivity : AppActivity() {
                 R.id.themeSystem -> selectedModeNightTemp = MODE_NIGHT_FOLLOW_SYSTEM
             }
         }
-    }
 
-    fun onActionClicked(@Suppress("UNUSED_PARAMETER") ignored: View?) {
-        // Функция - обработчик кнопки "сохранить настройки".
-        val settings = getSharedPreferences(NAME_SETTINGS, MODE_PRIVATE)
-        val prefEditor = settings.edit()
+        btnAction.setOnClickListener { _ ->
+            // Обработчик кнопки "сохранить настройки".
+            val settings = getSharedPreferences(NAME_SETTINGS, MODE_PRIVATE)
+            val prefEditor = settings.edit()
 
-        myphone = edMyPhone.getText().toString()
-        myphone = myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
-            "")
-        if (!myphone.isEmpty()) {
-            prefEditor.putString(NAME_MY_PHONE, myphone)
+            myphone = edMyPhone.getText().toString()
+            myphone = myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
+                "")
+            if (!myphone.isEmpty()) {
+                prefEditor.putString(NAME_MY_PHONE, myphone)
+            }
+
+            val action = (themeColor != selectedModeColorTemp)
+            if (action) {
+                setAppThemeColor(applicationContext as App, selectedModeColorTemp,
+                    true)
+            }
+            themeColor = selectedModeColorTemp
+            prefEditor.putInt(NAME_THEME_COLOR, themeColor)
+
+            if (themeMode != selectedModeNightTemp) {
+                themeMode(selectedModeNightTemp)
+            }
+            themeMode = selectedModeNightTemp
+            prefEditor.putInt(NAME_THEME_MODE, themeMode)
+
+            selectedMap = selectedMapTemp
+            prefEditor.putInt(NAME_MAP, selectedMap)
+            selectedMapZoom = sliderMapZoom.value
+            prefEditor.putFloat(NAME_MAP_ZOOM, selectedMapZoom)
+            selectedMapTilt = sliderMapTilt.value
+            prefEditor.putFloat(NAME_MAP_TILT, selectedMapTilt)
+            selectedMapCircle = checkBoxCircle.isChecked
+            prefEditor.putBoolean(NAME_MAP_CIRCLE, selectedMapCircle)
+            selectedMapCircleRadius = sliderCircleRadius.value
+            prefEditor.putFloat(NAME_MAP_CIRCLE_RADIUS, selectedMapCircleRadius)
+
+            useService = checkBoxService.isChecked
+            prefEditor.putBoolean(NAME_USE_SERVICE, useService)
+
+            colorsSpanCount = sliderColorsSpanCount.value.toInt()
+            prefEditor.putInt(NAME_COLORS_SPAN_COUNT, colorsSpanCount)
+
+            prefEditor.apply()
+
+            val intent = Intent()
+            intent.putExtra(INTENT_EXTRA_RESULT, action)
+            setResult(RESULT_OK, intent)
+            finish()
         }
-
-        val action = (themeColor != selectedModeColorTemp)
-        if (action) {
-            setAppThemeColor(applicationContext as App, selectedModeColorTemp,
-                true)
-        }
-        themeColor = selectedModeColorTemp
-        prefEditor.putInt(NAME_THEME_COLOR, themeColor)
-
-        if (themeMode != selectedModeNightTemp) {
-            themeMode(selectedModeNightTemp)
-        }
-        themeMode = selectedModeNightTemp
-        prefEditor.putInt(NAME_THEME_MODE, themeMode)
-
-        selectedMap = selectedMapTemp
-        prefEditor.putInt(NAME_MAP, selectedMap)
-        selectedMapZoom = sliderMapZoom.value
-        prefEditor.putFloat(NAME_MAP_ZOOM, selectedMapZoom)
-        selectedMapTilt = sliderMapTilt.value
-        prefEditor.putFloat(NAME_MAP_TILT, selectedMapTilt)
-        selectedMapCircle = checkBoxCircle.isChecked
-        prefEditor.putBoolean(NAME_MAP_CIRCLE, selectedMapCircle)
-        selectedMapCircleRadius = sliderCircleRadius.value
-        prefEditor.putFloat(NAME_MAP_CIRCLE_RADIUS, selectedMapCircleRadius)
-
-        useService = checkBoxService.isChecked
-        prefEditor.putBoolean(NAME_USE_SERVICE, useService)
-
-        colorsSpanCount = sliderColorsSpanCount.value.toInt()
-        prefEditor.putInt(NAME_COLORS_SPAN_COUNT, colorsSpanCount)
-
-        prefEditor.apply()
-
-        val intent = Intent()
-        intent.putExtra(INTENT_EXTRA_RESULT, action)
-        setResult(RESULT_OK, intent)
-        finish()
     }
 
 }
