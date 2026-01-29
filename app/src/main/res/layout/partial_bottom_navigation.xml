@@ -6,14 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="76dp"
-    >
+    android:layout_height="76dp">
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/bottom_navigation"
         app:labelVisibilityMode="labeled"
-        tools:ignore="VisualLintBottomNav,VisualLintBounds"
-        />
+        tools:ignore="VisualLintBottomNav,VisualLintBounds" />
 </FrameLayout>

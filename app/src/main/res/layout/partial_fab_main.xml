@@ -13,5 +13,4 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:srcCompat="@drawable/ic_action_add"
-    tools:ignore="ClassNameCheck"
-    />
+    tools:ignore="ClassNameCheck"  />

@@ -9,17 +9,17 @@
     android:layout_marginTop="4dp"
     android:layout_marginStart="8dp"
     android:layout_marginBottom="4dp"
-    android:layout_marginEnd="8dp"
-    >
+    android:layout_marginEnd="8dp">
+
     <FrameLayout
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <!-- Поля вывода элемента. -->
-        <include layout="@layout/item_geo_frame"/>
+        <include layout="@layout/partial_item_geo" />
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>

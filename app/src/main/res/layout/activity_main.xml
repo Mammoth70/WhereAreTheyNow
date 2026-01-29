@@ -8,20 +8,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:ignore="MissingConstraints"
-            >
+            tools:ignore="MissingConstraints">
+
             <!-- Top AppBar. -->
-            <include layout="@layout/frame_app_bar"/>
+            <include layout="@layout/partial_app_bar" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemUsersRecycler"
                 android:orientation="vertical"
@@ -29,12 +30,13 @@
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/item_user"
-                />
+                tools:listitem="@layout/item_user" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
             <!-- Кнопка FAB. -->
-            <include layout="@layout/frame_fab_main"/>
+            <include layout="@layout/partial_fab_main" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <!-- Bottom navigation bar. -->
-    <include layout="@layout/frame_bottom_navigation"/>
+    <include layout="@layout/partial_bottom_navigation" />
 </LinearLayout>

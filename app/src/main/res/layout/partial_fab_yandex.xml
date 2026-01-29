@@ -3,8 +3,8 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="?attr/floatingActionButtonSmallStyle"
         android:id="@+id/floatingActionButtonMapNord"
@@ -20,8 +20,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
         app:srcCompat="@drawable/ic_action_compass"
-        tools:ignore="ClassNameCheck"
-        />
+        tools:ignore="ClassNameCheck" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="?attr/floatingActionButtonSmallStyle"
         android:id="@+id/floatingActionButtonMapZoomIn"
@@ -37,8 +37,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
         app:srcCompat="@drawable/ic_action_zoom_in"
-        tools:ignore="ClassNameCheck"
-        />
+        tools:ignore="ClassNameCheck" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="?attr/floatingActionButtonSmallStyle"
         android:id="@+id/floatingActionButtonMapZoomOut"
@@ -54,8 +54,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
         app:srcCompat="@drawable/ic_action_zoom_out"
-        tools:ignore="ClassNameCheck"
-        />
+        tools:ignore="ClassNameCheck" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="?attr/floatingActionButtonSmallStyle"
         android:id="@+id/floatingActionButtonMapTilt"
@@ -71,6 +71,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:materialThemeOverlay="@style/ThemeOverlay.Material3Expressive.FloatingActionButton.Primary"
         app:srcCompat="@drawable/ic_action_2d"
-        tools:ignore="ClassNameCheck"
-        />
+        tools:ignore="ClassNameCheck" />
 </merge>

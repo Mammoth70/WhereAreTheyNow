@@ -8,15 +8,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".YandexActivity"
-    >
+    tools:context=".YandexActivity">
+
     <!-- Top AppBar. -->
-    <include layout="@layout/frame_app_bar_map"/>
+    <include layout="@layout/partial_app_bar_map" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <com.yandex.mapkit.mapview.MapView
             android:id="@+id/yandexview"
             android:layout_width="match_parent"
@@ -24,10 +25,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
+
             <!-- Группа кнопок FAB. -->
-            <include layout="@layout/frame_fab_yandex"/>
+            <include layout="@layout/partial_fab_yandex" />
         </com.yandex.mapkit.mapview.MapView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

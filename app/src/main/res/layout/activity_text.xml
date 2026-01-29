@@ -8,26 +8,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TextActivity"
-    >
+    tools:context=".TextActivity">
+
     <!-- Top AppBar. -->
-    <include layout="@layout/frame_app_bar_map"/>
+    <include layout="@layout/partial_app_bar_map" />
+
     <!-- Поля вывода координат текущего контакта. -->
-    <include layout="@layout/frame_text"/>
+    <include layout="@layout/partial_text" />
+
     <!-- Заголовок перед RecyclerView. -->
-    <include layout="@layout/frame_geo_title"/>
+    <include layout="@layout/partial_geo_title" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemGeoRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_geo"
-            />
+            tools:listitem="@layout/item_geo" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

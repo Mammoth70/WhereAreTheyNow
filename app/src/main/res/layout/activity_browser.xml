@@ -7,14 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BrowserActivity"
-    >
+    tools:context=".BrowserActivity">
+
     <!-- Top AppBar. -->
-    <include layout="@layout/frame_app_bar_map"/>
+    <include layout="@layout/partial_app_bar_map" />
+
     <WebView
         android:id="@+id/itemWebView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 </LinearLayout>

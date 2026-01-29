@@ -9,8 +9,8 @@
     android:layout_marginTop="4dp"
     android:layout_marginStart="8dp"
     android:layout_marginBottom="4dp"
-    android:layout_marginEnd="8dp"
-    >
+    android:layout_marginEnd="8dp">
+
     <!-- Поля вывода элемента. -->
-    <include layout="@layout/item_geo_frame"/>
+    <include layout="@layout/partial_item_geo" />
 </com.google.android.material.card.MaterialCardView>

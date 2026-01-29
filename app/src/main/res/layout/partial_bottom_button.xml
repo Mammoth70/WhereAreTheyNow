@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/colorSurfaceContainer"
     android:layout_width="match_parent"
-    android:layout_height="76dp"
-    >
+    android:layout_height="76dp">
+
     <Button
         android:id="@+id/btnAction"
         android:layout_width="wrap_content"
@@ -15,6 +15,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

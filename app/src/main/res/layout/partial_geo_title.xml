@@ -6,12 +6,12 @@
     style="@style/Widget.App.CardView.Decorative.Title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    >
+    android:layout_margin="8dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/nameLattitude"
             android:layout_width="wrap_content"
@@ -23,8 +23,8 @@
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
+
         <TextView
             android:id="@+id/nameLongitude"
             android:layout_width="wrap_content"
@@ -33,8 +33,8 @@
             android:text="@string/longitude"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="@+id/nameLattitude"
-            app:layout_constraintStart_toEndOf="@+id/nameLattitude"
-            />
+            app:layout_constraintStart_toEndOf="@+id/nameLattitude" />
+
         <TextView
             android:id="@+id/nameDate"
             android:layout_width="wrap_content"
@@ -43,7 +43,6 @@
             android:text="@string/time"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="@+id/nameLattitude"
-            app:layout_constraintStart_toEndOf="@+id/nameLongitude"
-            />
+            app:layout_constraintStart_toEndOf="@+id/nameLongitude" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -6,19 +6,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
+    <!-- Разрешения местоположения. -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        >
+        android:layout_marginEnd="16dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="136dp"
-            >
+            android:layout_height="136dp">
+
             <TextView
                 android:id="@+id/tvCoarseLocation1"
                 android:layout_width="wrap_content"
@@ -29,8 +30,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
+
             <TextView
                 android:id="@+id/tvCoarseLocation"
                 android:layout_width="wrap_content"
@@ -40,8 +41,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="@+id/tvCoarseLocation1"
-                app:layout_constraintStart_toEndOf="@+id/tvCoarseLocation1"
-                />
+                app:layout_constraintStart_toEndOf="@+id/tvCoarseLocation1" />
+
             <TextView
                 android:id="@+id/tvFineLocation1"
                 android:layout_width="wrap_content"
@@ -51,8 +52,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvCoarseLocation1"
-                app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation1"
-                />
+                app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation1" />
+
             <TextView
                 android:id="@+id/tvFineLocation"
                 android:layout_width="wrap_content"
@@ -61,8 +62,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="@+id/tvFineLocation1"
-                app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation"
-                />
+                app:layout_constraintStart_toStartOf="@+id/tvCoarseLocation" />
+
             <Button
                 style="?attr/materialButtonTonalStyle"
                 android:id="@+id/btnLocation"
@@ -73,21 +74,22 @@
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvFineLocation"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="DuplicateSpeakableTextCheck"
-                />
+                tools:ignore="DuplicateSpeakableTextCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Разрешения работы в фоновом режиме. -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        >
+        android:layout_marginEnd="16dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="124dp"
-            >
+            android:layout_height="124dp">
+
             <TextView
                 android:id="@+id/tvBackgroundLocation1"
                 android:layout_width="wrap_content"
@@ -98,8 +100,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
+
             <TextView
                 android:id="@+id/tvBackgroundLocation"
                 android:layout_width="wrap_content"
@@ -109,8 +111,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="@+id/tvBackgroundLocation1"
-                app:layout_constraintStart_toEndOf="@+id/tvBackgroundLocation1"
-                />
+                app:layout_constraintStart_toEndOf="@+id/tvBackgroundLocation1" />
+
             <TextView
                 android:id="@+id/tvAnyMode"
                 android:layout_marginTop="8dp"
@@ -119,8 +121,8 @@
                 android:text="@string/access_any_mode"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvBackgroundLocation"
-                app:layout_constraintStart_toStartOf="@+id/tvBackgroundLocation"
-                />
+                app:layout_constraintStart_toStartOf="@+id/tvBackgroundLocation" />
+
             <Button
                 style="?attr/materialButtonTonalStyle"
                 android:id="@+id/btnBackgroundLocation"
@@ -131,19 +133,20 @@
                 android:text="@string/request"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvAnyMode"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Разрешения SMS. -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        >
+        android:layout_margin="16dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="136dp"
-            >
+            android:layout_height="136dp">
+
             <TextView
                 android:id="@+id/tvReceiveSMS1"
                 android:layout_width="wrap_content"
@@ -154,8 +157,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
+
             <TextView
                 android:id="@+id/tvReceiveSMS"
                 android:layout_width="wrap_content"
@@ -165,8 +168,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="@+id/tvReceiveSMS1"
-                app:layout_constraintStart_toEndOf="@+id/tvReceiveSMS1"
-                />
+                app:layout_constraintStart_toEndOf="@+id/tvReceiveSMS1" />
+
             <TextView
                 android:id="@+id/tvSendSMS1"
                 android:layout_width="wrap_content"
@@ -176,8 +179,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvReceiveSMS1"
-                app:layout_constraintStart_toStartOf="@+id/tvReceiveSMS1"
-                />
+                app:layout_constraintStart_toStartOf="@+id/tvReceiveSMS1" />
+
             <TextView
                 android:id="@+id/tvSendSMS"
                 android:layout_marginStart="8dp"
@@ -187,8 +190,8 @@
                 android:textColor="?attr/colorError"
                 android:textSize="16sp"
                 app:layout_constraintTop_toTopOf="@+id/tvSendSMS1"
-                app:layout_constraintStart_toEndOf="@+id/tvSendSMS1"
-                />
+                app:layout_constraintStart_toEndOf="@+id/tvSendSMS1" />
+
             <Button
                 style="?attr/materialButtonTonalStyle"
                 android:id="@+id/btnSMS"
@@ -199,8 +202,7 @@
                 android:text="@string/request"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvSendSMS"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

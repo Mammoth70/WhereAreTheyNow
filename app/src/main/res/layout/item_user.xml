@@ -13,12 +13,12 @@
     android:layout_marginStart="8dp"
     android:layout_marginBottom="4dp"
     android:layout_marginEnd="8dp"
-    app:strokeColor="?attr/colorOutline"
-    >
+    app:strokeColor="?attr/colorOutline">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/itemUserLabel"
             android:background="@drawable/ic_pin_empty"
@@ -30,8 +30,8 @@
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
+
         <TextView
             android:id="@+id/itemUserName"
             android:layout_width="wrap_content"
@@ -40,8 +40,8 @@
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="@+id/itemUserLabel"
             app:layout_constraintStart_toEndOf="@+id/itemUserLabel"
-            tools:text="Имя фамилия контакта"
-            />
+            tools:text="Имя фамилия контакта" />
+
         <TextView
             android:id="@+id/itemUserPhone"
             android:layout_width="wrap_content"
@@ -50,8 +50,8 @@
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/itemUserName"
             app:layout_constraintBottom_toBottomOf="@+id/itemUserLabel"
-            tools:text="+73332223333"
-            />
+            tools:text="+73332223333" />
+
         <Button
             style="?attr/materialIconButtonStyle"
             android:id="@+id/btnUserSelf"
@@ -65,8 +65,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnUserMenu"
-            tools:visibility="visible"
-            />
+            tools:visibility="visible" />
+
         <Button
             style="?attr/materialIconButtonStyle"
             android:id="@+id/btnUserMenu"
@@ -78,7 +78,6 @@
             app:iconTint="?attr/colorOnSurface"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

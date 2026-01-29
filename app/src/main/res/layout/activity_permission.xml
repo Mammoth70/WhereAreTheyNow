@@ -7,23 +7,25 @@
     android:id="@+id/framePermissionsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PermissionActivity"
-    >
+    tools:context=".PermissionActivity">
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <!-- Top AppBar. -->
-        <include layout="@layout/frame_app_bar"/>
+        <include layout="@layout/partial_app_bar" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <!-- Скроллируемая часть с кнопками и описаниями. -->
-            <include layout="@layout/frame_permission"/>
+            <include layout="@layout/partial_permission" />
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <!-- Bottom sheet. -->
-    <include layout="@layout/frame_bottom_sheet"/>
+    <include layout="@layout/partial_bottom_sheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
