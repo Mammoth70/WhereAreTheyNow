@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:icon="@drawable/ic_action_map"
         android:title="@string/map"
-        android:id="@+id/item_map"
-        android:enabled="false"
-        />
+        android:id="@+id/item_map" />
+
     <item
         android:icon="@drawable/ic_action_list"
         android:title="@string/users"
         android:id="@+id/item_users"
         android:enabled="false"
-        android:visible="false"
-        />
+        android:visible="false" />
+
     <item
         android:icon="@drawable/ic_action_settings"
         android:title="@string/settings"
-        android:id="@+id/item_settings"
-        android:enabled="true"
-        />
+        android:id="@+id/item_settings" />
+
     <item
         android:icon="@drawable/ic_action_shield"
         android:title="@string/permissions"
-        android:id="@+id/item_permissions"
-        android:enabled="true"
-        />
+        android:id="@+id/item_permissions" />
+        
     <item
         android:icon="@drawable/ic_action_info"
         android:title="@string/about"
-        android:id="@+id/item_about"
-        android:enabled="true"
-        />
+        android:id="@+id/item_about" />
 </menu>

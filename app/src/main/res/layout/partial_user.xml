@@ -75,7 +75,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edName"
-                    android:ems="25"
                     android:inputType="textCapWords"
                     android:maxLength="25"
                     android:layout_width="match_parent"
