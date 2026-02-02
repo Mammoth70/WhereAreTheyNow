@@ -27,6 +27,8 @@ const val MAP_CIRCLE_DEFAULT = true
 const val MAP_CIRCLE_DEFAULT_RADIUS = 70f
 
 const val NAME_SETTINGS = "Settings"
+
+
 private const val NAME_USE_SERVICE = "UseService"
 private const val NAME_COLORS_SPAN_COUNT = "ColorsSpanCount"
 private const val NAME_THEME_MODE = "theme"
@@ -41,6 +43,7 @@ private const val COLORS_SPAN_COUNT_DEFAULT = 2
 
 object SettingsManager {
     // Объект содержит переменные с настройками..
+
     private val prefs by lazy {
         App.appContext.getSharedPreferences(NAME_SETTINGS, Context.MODE_PRIVATE)
     }
@@ -101,4 +104,5 @@ object SettingsManager {
         set(value) {
             cachedMapCircleRadius = value
             prefs.edit { putFloat(NAME_MAP_CIRCLE_RADIUS, value) }
-        }}
+        }
+}

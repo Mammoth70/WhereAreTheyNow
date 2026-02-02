@@ -7,7 +7,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-// Настройки карт и утилиты работы с данными карт.
+// Утилиты работы с данными карт.
 
 fun viewLocation(context: Context, record: PointRecord, newTask: Boolean) {
     // Функция получает данные из последней SMS, проверяет их и выводит в выбранную карту.
