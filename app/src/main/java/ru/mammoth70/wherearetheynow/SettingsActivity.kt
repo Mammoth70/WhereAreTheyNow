@@ -1,6 +1,5 @@
 package ru.mammoth70.wherearetheynow
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,13 +12,14 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 
 class SettingsActivity : AppActivity() {
-    // Activity показывает и позволяет изменять настройки выбора карт.
+    // Activity управляет настройками.
 
     override val idLayout = R.layout.activity_settings
     override val idActivity = R.id.frameSettingsActivity
 
     companion object {
-        const val INTENT_EXTRA_RESULT = "refresh"
+        const val INTENT_THEME_CHANGED = "themechanged"
+        const val INTENT_PHONE_CHANGED = "phonechanged"
     }
 
     private val edMyPhone: TextInputEditText by lazy { findViewById(R.id.myphone) }
@@ -43,25 +43,29 @@ class SettingsActivity : AppActivity() {
     private var selectedModeColorTemp = 0
     private var selectedModeNightTemp = 0
 
-    @SuppressLint("NonConstantResourceId")
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Функция вызывается при создании Activity.
+        // Весь код управления настройками здесь.
+
         super.onCreate(savedInstanceState)
 
         topAppBar.setTitle(R.string.titleSettings)
         topAppBar.setNavigationOnClickListener {
             finish()
         }
-        checkBoxService.setChecked(useService)
-        sliderColorsSpanCount.value = colorsSpanCount.toFloat()
-        checkBoxCircle.setChecked(selectedMapCircle)
-        sliderMapZoom.value = selectedMapZoom
-        sliderMapTilt.value = selectedMapTilt
-        sliderCircleRadius.value = selectedMapCircleRadius
-        if (!myphone.isEmpty()) {
-            edMyPhone.setText(myphone)
+
+        checkBoxService.setChecked(SettingsManager.useService)
+        sliderColorsSpanCount.value = SettingsManager.colorsSpanCount.toFloat()
+        checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)
+        sliderMapZoom.value = SettingsManager.selectedMapZoom
+        sliderMapTilt.value = SettingsManager.selectedMapTilt
+        sliderCircleRadius.value = SettingsManager.selectedMapCircleRadius
+        val myPhoneTemp = DataRepository.myPhone
+        if (!DataRepository.myPhone.isEmpty()) {
+            edMyPhone.setText(DataRepository.myPhone)
         }
 
-        selectedMapTemp = selectedMap
+        selectedMapTemp = SettingsManager.selectedMap
         // Назначение кнопки переключателя карт.
         when (selectedMapTemp) {
             MAP_TEXT -> {
@@ -155,7 +159,7 @@ class SettingsActivity : AppActivity() {
             }
         }
 
-        selectedModeColorTemp = themeColor
+        selectedModeColorTemp = SettingsManager.themeColor
         // Назначение кнопки переключателя цвета темы.
         when (selectedModeColorTemp) {
             COLOR_DYNAMIC_WALLPAPER -> radioThemeColor.check(R.id.themeDynamic)
@@ -181,7 +185,7 @@ class SettingsActivity : AppActivity() {
             }
         }
 
-        selectedModeNightTemp = themeMode
+        selectedModeNightTemp = SettingsManager.themeMode
         // Назначение кнопки переключателя режимов темы.
         when (selectedModeNightTemp) {
             MODE_NIGHT_YES -> radioTheme.check(R.id.themeNight)
@@ -201,51 +205,38 @@ class SettingsActivity : AppActivity() {
 
         btnAction.setOnClickListener { _ ->
             // Обработчик кнопки "сохранить настройки".
-            val settings = getSharedPreferences(NAME_SETTINGS, MODE_PRIVATE)
-            val prefEditor = settings.edit()
 
-            myphone = edMyPhone.getText().toString()
-            myphone = myphone.replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(),
-                "")
-            if (!myphone.isEmpty()) {
-                prefEditor.putString(NAME_MY_PHONE, myphone)
-            }
+            DataRepository.myPhone = edMyPhone.text.toString()
+                .replace(UserActivity.REGEXP_CLEAR_PHONE.toRegex(), "")
+            val isPhoneChanged = (DataRepository.myPhone != myPhoneTemp)
 
-            val action = (themeColor != selectedModeColorTemp)
-            if (action) {
+            val isThemeChanged = (SettingsManager.themeColor != selectedModeColorTemp)
+            if (isThemeChanged) {
                 setAppThemeColor(applicationContext as App, selectedModeColorTemp,
                     true)
             }
-            themeColor = selectedModeColorTemp
-            prefEditor.putInt(NAME_THEME_COLOR, themeColor)
 
-            if (themeMode != selectedModeNightTemp) {
+            SettingsManager.themeColor = selectedModeColorTemp
+
+            if (SettingsManager.themeMode != selectedModeNightTemp) {
                 themeMode(selectedModeNightTemp)
             }
-            themeMode = selectedModeNightTemp
-            prefEditor.putInt(NAME_THEME_MODE, themeMode)
+            SettingsManager.themeMode = selectedModeNightTemp
 
-            selectedMap = selectedMapTemp
-            prefEditor.putInt(NAME_MAP, selectedMap)
-            selectedMapZoom = sliderMapZoom.value
-            prefEditor.putFloat(NAME_MAP_ZOOM, selectedMapZoom)
-            selectedMapTilt = sliderMapTilt.value
-            prefEditor.putFloat(NAME_MAP_TILT, selectedMapTilt)
-            selectedMapCircle = checkBoxCircle.isChecked
-            prefEditor.putBoolean(NAME_MAP_CIRCLE, selectedMapCircle)
-            selectedMapCircleRadius = sliderCircleRadius.value
-            prefEditor.putFloat(NAME_MAP_CIRCLE_RADIUS, selectedMapCircleRadius)
+            SettingsManager.selectedMap = selectedMapTemp
+            SettingsManager.selectedMapZoom = sliderMapZoom.value
+            SettingsManager.selectedMapTilt = sliderMapTilt.value
+            SettingsManager.selectedMapCircle = checkBoxCircle.isChecked
+            SettingsManager.selectedMapCircleRadius = sliderCircleRadius.value
 
-            useService = checkBoxService.isChecked
-            prefEditor.putBoolean(NAME_USE_SERVICE, useService)
+            SettingsManager.useService = checkBoxService.isChecked
 
-            colorsSpanCount = sliderColorsSpanCount.value.toInt()
-            prefEditor.putInt(NAME_COLORS_SPAN_COUNT, colorsSpanCount)
+            SettingsManager.colorsSpanCount = sliderColorsSpanCount.value.toInt()
 
-            prefEditor.apply()
-
-            val intent = Intent()
-            intent.putExtra(INTENT_EXTRA_RESULT, action)
+            val intent = Intent().apply {
+                putExtra(INTENT_THEME_CHANGED, isThemeChanged)
+                putExtra(INTENT_PHONE_CHANGED, isPhoneChanged)
+            }
             setResult(RESULT_OK, intent)
             finish()
         }

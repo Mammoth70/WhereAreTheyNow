@@ -16,13 +16,18 @@ class TextActivity : LocationActivity() {
 
     override fun initMap(context: Context) {
         // Функция делает настройку recyclerView для вывода списка контактов с координатами.
-        val geoAdapter = GeoAdapter()
+
+        val geoAdapter = GeoAdapter(DataRepository.users.filter { it.lastRecord != null })
         val recyclerView: RecyclerView = findViewById(R.id.itemGeoRecycler)
-        recyclerView.adapter = geoAdapter
+        recyclerView.apply {
+            adapter = geoAdapter
+            setHasFixedSize(true)
+        }
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит текстом широту и долготу по PointRecord.
+
         tvLatitude.text = String.format(Locale.US,
             PointRecord.FORMAT_DOUBLE, rec.latitude)
         tvLongitude.text = String.format(Locale.US,

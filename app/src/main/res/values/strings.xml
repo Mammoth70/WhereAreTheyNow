@@ -118,6 +118,10 @@
     <string name="ed_name">Name Surname</string>
     <string name="ed_label">Label</string>
 
+    <string name="notification_channel_name">Where are they now?</string>
+    <string name="notification_title">Location Update</string>
+    <string name="notification_text">Location coordinates for response…</string>
+
     <string name="denied1" translatable="false">\u2716</string>
     <string name="granted1" translatable="false">\u2714</string>
 </resources>

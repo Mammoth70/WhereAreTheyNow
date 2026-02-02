@@ -8,7 +8,6 @@ import android.telephony.SmsManager
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.OnSuccessListener
 import java.util.Date
 import java.util.Locale
 
@@ -20,21 +19,18 @@ class GetLocation {
         const val WAY_LOCAL = 2
     }
 
-    fun sendLocation(context: Context, way: Int, address: String?, sendRequest: Boolean) {
+    fun sendLocation(context: Context, way: Int, address: String?, sendRequest: Boolean, onFinished: (() -> Unit)? = null) {
         // Функция запрашивает геолокацию (если есть разрешения),
         // и отправляет ответ указанным способом.
+
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-        if ((ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED) &&
-            (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED)
+        if ((ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) &&
+            (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         ) {
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                .addOnSuccessListener(OnSuccessListener { location: Location? ->
+                .addOnSuccessListener { location: Location? ->
                     location?.let {
                         updateLocalLocation(location)
                         when (way) {
@@ -42,12 +38,19 @@ class GetLocation {
                             WAY_LOCAL -> sendLocal(context, location)
                         }
                     }
-                })
+                    onFinished?.invoke()
+                }
+                .addOnFailureListener {
+                    onFinished?.invoke()
+                }
+        } else {
+            onFinished?.invoke()
         }
     }
 
     private fun formatLocation(location: Location?, sendRequest: Boolean): String? {
         // Функция форматирует геолокацию для SMS-сообщения.
+
         location ?: return null
         return if (sendRequest) {
             String.format(
@@ -64,16 +67,17 @@ class GetLocation {
 
     private fun updateLocalLocation(location: Location) {
         // Функция сохраняет локальное состояние локации.
-        if (myphone.isEmpty()) {
+
+        if (DataRepository.myPhone.isEmpty()) {
             return
         }
         val record = PointRecord(
-            myphone,
+            DataRepository.myPhone,
             location.latitude,
             location.longitude,
             Date(location.time)
         )
-        DBhelper.dbHelper.writeLastPoint(record)
+        DataRepository.writeLastPoint(record)
     }
 
     private fun sendSMS(
@@ -83,6 +87,7 @@ class GetLocation {
         sendRequest: Boolean
     ) {
         // Функция отправляет SMS-сообщение.
+
         formatLocation(location, sendRequest)?.let {
             val smsManager = context.getSystemService(SmsManager::class.java)
             smsManager.sendTextMessage(smsTo, null,
@@ -92,8 +97,9 @@ class GetLocation {
 
     private fun sendLocal(context: Context, location: Location) {
         // Функция открывает activity с картой.
+
         val record = PointRecord(
-            myphone,
+            DataRepository.myPhone,
             location.latitude,
             location.longitude,
             Date(location.time)

@@ -49,6 +49,7 @@ class PermissionActivity : AppActivity() {
         // Функция вызывается при создании Activity.
         // Выполнение запросов недостающих разрешений.
 	    // Настройка данных для отображения разрешений и кнопок запроса недостающих разрешений.
+
         super.onCreate(savedInstanceState)
 
         topAppBar.setTitle(R.string.titlePermissions)
@@ -88,6 +89,7 @@ class PermissionActivity : AppActivity() {
 
     private fun requestPermissions() {
         // Функция запрашивает все разрешения разом.
+
         val locationPermissionRequest = registerForActivityResult(
             RequestMultiplePermissions()
         ) { _: Map<String, @JvmSuppressWildcards Boolean> -> }
@@ -104,6 +106,7 @@ class PermissionActivity : AppActivity() {
     fun requestBackgroundLocationPermission(view: View) {
         // Функция запрашивает разрешения работы в фоновом режиме,
         // если выданы все разрешения геолокации.
+
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -137,6 +140,7 @@ class PermissionActivity : AppActivity() {
     fun requestBackgroundLocationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса работы в фоновом режиме.
         // Запрашивает разрешения работы в фоновом режиме.
+
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
@@ -162,6 +166,7 @@ class PermissionActivity : AppActivity() {
     fun requestLocationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений геолокации.
         // Запрашивает все разрешения геолокации.
+
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -198,6 +203,7 @@ class PermissionActivity : AppActivity() {
     fun requestSMSPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений SMS.
         // Запрашивает все разрешения SMS.
+
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.RECEIVE_SMS
@@ -374,6 +380,7 @@ class PermissionActivity : AppActivity() {
     ) {
         // Функция обработки ответа на запрос разрешений.
         // Выводятся вплывающие сообщения, в том случае, если пришёл отказ на выдачу разрешений.
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         viewPermissions()
         when (requestCode) {

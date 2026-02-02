@@ -8,77 +8,70 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import java.util.Locale
 
-class GeoAdapter: RecyclerView.Adapter<GeoAdapter.ViewHolder>() {
+class GeoAdapter(
+    private val data: List<User> // Передаем уже отфильтрованный список телефонов
+) : RecyclerView.Adapter<GeoAdapter.GeoViewHolder>() {
     // RecyclerView.Adapter для списка контактов с координатами.
 
     companion object {
-        private val phones2: ArrayList<String> = ArrayList() // список телефонов, у которых есть point
         const val FIRST_ITEM_VIEW = 1
         const val CENTER_ITEM_VIEW = 2
         const val LAST_ITEM_VIEW = 3
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class GeoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка контактов с координатами.
-        val itemUserName: TextView = view.findViewById(R.id.itemUserNameGeo)
-        val itemLattitude: TextView = view.findViewById(R.id.itemLattitudeGeo)
-        val itemLongitude: TextView = view.findViewById(R.id.itemLongitudeGeo)
-        val itemDate: TextView = view.findViewById(R.id.itemDateGeo)
-        val itemCardGeo: MaterialCardView = view.findViewById(R.id.frameItemCardGeo)
+
+        private val itemUserName: TextView = view.findViewById(R.id.itemUserNameGeo)
+        private val itemLattitude: TextView = view.findViewById(R.id.itemLattitudeGeo)
+        private val itemLongitude: TextView = view.findViewById(R.id.itemLongitudeGeo)
+        private val itemDate: TextView = view.findViewById(R.id.itemDateGeo)
+        private val itemCardGeo: MaterialCardView = view.findViewById(R.id.frameItemCardGeo)
+
+        fun bind(user: User) {
+            val record = user.lastRecord ?: return
+            itemUserName.text = user.name
+            itemLattitude.text = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.latitude)
+            itemLongitude.text = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.longitude)
+            itemDate.text = record.dateTime
+            itemCardGeo.setCardBackgroundColor(AppColors.getColorAlpha16(user.color))
+        }
+
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GeoViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
-        phones2.clear()
-        phones.filter { phone2record.containsKey(it) }.forEach { phones2.add(it) }
 
-        return when (viewType) {
-            FIRST_ITEM_VIEW -> {
-                ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_geo_first, parent, false))
-            }
-
-            LAST_ITEM_VIEW -> {
-                ViewHolder(LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_geo_last, parent, false))
-            }
-
-            else -> {
-                ViewHolder(view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_geo, parent, false))
-            }
+        val layoutRes = when (viewType) {
+            FIRST_ITEM_VIEW -> R.layout.item_geo_first
+            LAST_ITEM_VIEW -> R.layout.item_geo_last
+            else -> R.layout.item_geo
         }
+        val view = LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
+        return GeoViewHolder(view)
+
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GeoViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
-        val phone = phones2[position]
-        val value = phone2record[phone]!!
-        holder.itemUserName.text = phone2name[phone]
-        holder.itemLattitude.text = String.format(
-            Locale.US, PointRecord.FORMAT_DOUBLE,
-            value.latitude
-        )
-        holder.itemLongitude.text = String.format(
-            Locale.US, PointRecord.FORMAT_DOUBLE,
-            value.longitude
-        )
-        holder.itemDate.text = value.dateTime
-        holder.itemCardGeo.setCardBackgroundColor(
-            AppColors.getColorAlpha16(phone2color[phone]))
+
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.
-        return phone2record.size
+
+        return data.size
     }
 
     override fun getItemViewType(position: Int): Int {
         // Функция определяет тип элемента.
+
+        if (data.size <= 1) return CENTER_ITEM_VIEW
         return when (position) {
             0 -> FIRST_ITEM_VIEW
-            (phone2record.size-1) -> LAST_ITEM_VIEW
+            (data.size-1) -> LAST_ITEM_VIEW
             else -> CENTER_ITEM_VIEW
         }
     }

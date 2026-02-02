@@ -32,16 +32,19 @@ object AppColors {
 
     fun getColorAlpha(color: String?): Int {
         // Функция возвращает номер прозрачного цвета по строке с цветом.
+
         return addTransparenty(color, Alpha.ALPHA_48).toColorInt()
     }
 
     fun getColorAlpha16(color: String?): Int {
         // Функция возвращает номер прозрачного цвета по строке с цветом.
+
         return addTransparenty(color, Alpha.ALPHA_16).toColorInt()
     }
 
     fun getMarker(color: String?): Int {
         // Функция возвращает маленькую метку по строке с цветом.
+
         color?.let {
             return when (color) {
                 COLOR_WHITE -> R.drawable.ic_pin_white
@@ -66,6 +69,7 @@ object AppColors {
     private fun addTransparenty(color: String?, alpha: Alpha): String {
         // Функция добавляет прозрачность к цвету без прозрачности.
         // Если что-то не так - возвращает белый цвет.
+
         return if ((!color.isNullOrBlank()) && (color.length == 7) && (color[0] == '#')) {
             alpha.tranparent + color.substring(1, 7)
         } else {

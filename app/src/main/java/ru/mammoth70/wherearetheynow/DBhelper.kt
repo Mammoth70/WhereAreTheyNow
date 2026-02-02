@@ -1,5 +1,6 @@
 package ru.mammoth70.wherearetheynow
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
@@ -29,6 +30,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Функция делает апгрейд БД.
+
         if (oldVersion == 1 && newVersion > 1) {
             // Удаление из таблицы users поля label.
             // Удаление ограничения на уникальность поля name в таблице users.
@@ -57,216 +59,209 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         }
     }
 
-    fun readUsers() {
-        // Функция считывает из БД список разрешенных телефонов и словари контактов.
-        phones.clear()
-        id2phone.clear()
-        phone2id.clear()
-        phone2name.clear()
-        phone2color.clear()
-        phone2record.clear()
-        readableDatabase.use { db ->
-            db.rawQuery("SELECT * FROM users;", null).use { cursor ->
+    fun readDbAllUsers(): List<User> {
+        // Функция считывает из БД данные контактов и координат.
+
+        val userList = mutableListOf<User>()
+        val query = """
+        SELECT u.id, u.phone, u.name, u.color, p.latitude, p.longitude, p.datetime 
+        FROM users u 
+        LEFT JOIN points p ON u.phone = p.phone
+    """.trimIndent()
+
+        try {
+            readableDatabase.rawQuery(query, null).use { cursor ->
+                val idIdx = cursor.getColumnIndexOrThrow("id")
+                val phoneIdx = cursor.getColumnIndexOrThrow("phone")
+                val nameIdx = cursor.getColumnIndexOrThrow("name")
+                val colorIdx = cursor.getColumnIndexOrThrow("color")
+                val latIdx = cursor.getColumnIndexOrThrow("latitude")
+                val lonIdx = cursor.getColumnIndexOrThrow("longitude")
+                val dateIdx = cursor.getColumnIndexOrThrow("datetime")
+
                 while (cursor.moveToNext()) {
-                    val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
-                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"))!!
-                    val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))!!
-                    val color = cursor.getString(cursor.getColumnIndexOrThrow("color"))!!
-                    phones.add(phone)
-                    id2phone[id] = phone
-                    phone2id[phone] = id
-                    phone2name[phone] = name
-                    phone2color[phone] = color
-                    readLastPoint(phone)?.let {
-                        phone2record.put(phone, it)
+                    val phone = cursor.getString(phoneIdx) ?: continue
+                    val rawLat = cursor.getString(latIdx)
+                    val rawLon = cursor.getString(lonIdx)
+                    val dateTime = cursor.getString(dateIdx)
+
+                    var lastRecord: PointRecord? = null
+
+                    if (rawLat != null && rawLon != null && dateTime != null) {
+                        val lat = rawLat.toDoubleOrNull() ?: 0.0
+                        val lon = rawLon.toDoubleOrNull() ?: 0.0
+
+                        if (lat in -90.0..90.0 && lon in -180.0..180.0) {
+                            lastRecord = PointRecord(phone, lat, lon, dateTime)
+                        }
                     }
+
+                    val user = User(
+                        id = cursor.getInt(idIdx),
+                        phone = phone,
+                        name = cursor.getString(nameIdx) ?: "",
+                        color = cursor.getString(colorIdx) ?: "",
+                        lastRecord = lastRecord
+                    )
+                    userList.add(user)
                 }
             }
-        }
+        } catch (_: Exception) { }
+        return userList
     }
 
-    fun readMenuUsers() {
+    fun readDbMenuUsers(): List<String> {
         // Функция возвращает список телефонов, отсортированный по id ASC,
         // которые имеют координаты, отсортированные по дате DESC, и по id ASC,
         // и ограничены заданным (10-ю) количеством записей.
         // Функция используется для построения меню.
-        menuPhones.clear()
-        val execSting =
-            "SELECT users.phone AS phone1 FROM " +
-                "(SELECT points.phone AS phone2 " +
-                "FROM points INNER JOIN users ON points.phone = users.phone " +
-                "ORDER BY points.datetime DESC, users.id ASC LIMIT 10 OFFSET 0) AS tmp " +
-                "INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;"
-        readableDatabase.use { db ->
-            db.rawQuery(execSting, null).use { cursor ->
+
+        val list = mutableListOf<String>()
+        val query = """
+            SELECT users.phone AS phone_result FROM
+                (SELECT points.phone AS phone2
+                FROM points INNER JOIN users ON points.phone = users.phone
+                ORDER BY points.datetime DESC, users.id ASC LIMIT 10 OFFSET 0) AS tmp
+                INNER JOIN users ON tmp.phone2 = users.phone ORDER BY users.id;
+            """.trimIndent()
+        try {
+            readableDatabase.rawQuery(query, null).use { cursor ->
+                val phoneIdx = cursor.getColumnIndexOrThrow("phone_result")
                 while (cursor.moveToNext()) {
-                    val phone = cursor.getString(cursor.getColumnIndexOrThrow("phone1"))!!
-                    menuPhones.add(phone)
+                    cursor.getString(phoneIdx)?.let { list.add(it) }
                 }
             }
+        } catch (_: Exception) { }
+        return list
+    }
+
+    fun addDbUser(phone: String, name: String, color: String): Long {
+        // Функция добавляет контакт в БД.
+
+        val values = ContentValues().apply {
+            put("phone", phone)
+            put("name", name)
+            put("color", color)
+        }
+
+        return try {
+            writableDatabase.insertWithOnConflict(
+                "users",
+                null,
+                values,
+                SQLiteDatabase.CONFLICT_IGNORE
+            )
+        } catch (_: SQLException) {
+            -1L
         }
     }
 
-    fun addUser(phone: String?, name: String?, color: String?): Boolean {
-        // Функция добавляет запись контакта в БД и обновляет структуры.
-        // Возвращает true, если успешно и false, если нет.
-        if (phone in phones) {
-            return false
+    fun editDbUser(id: Int, phone: String?, name: String?, color: String?): Boolean {
+        // Функция меняет контакт в БД.
+
+        if (phone == null) return false
+
+        val values = ContentValues().apply {
+            put("phone", phone)
+            put("name", name ?: "")
+            put("color", color ?: "")
         }
-        val execSting = "INSERT OR IGNORE INTO users (phone, name, color) VALUES ('$phone', '$name', '$color');"
-        writableDatabase.use { db ->
-            try {
-                db.execSQL(execSting)
-            } catch (_: SQLException) {
-                return false
+
+        return try {
+            val rowsAffected = writableDatabase.update(
+                "users",
+                values,
+                "id = ?",
+                arrayOf(id.toString())
+            )
+
+            if (rowsAffected > 0) {
+                checkDbRecords() // Чистим "висящие" точки в БД
+                true
+            } else {
+                false
             }
+        } catch (_: SQLException) {
+            false
         }
-        readUsers()
-        return (phone in phones)
     }
 
-    fun editUser(id: Int, phone: String?, name: String?, color: String?): Boolean {
-        // Функция изменяет запись контакта в БД и обновляет структуры.
-        // Возвращает true, если успешно и false, если нет.
-        if (id !in id2phone) {
-            return false
-        }
-        val execSting = "UPDATE users SET phone = '$phone', name = '$name', color = '$color' WHERE id = '$id';"
-        writableDatabase.use { db ->
-            try {
-                db.execSQL(execSting)
-            } catch (_: SQLException) {
-                return false
+    fun deleteDbUser(id: Int, phone: String): Boolean {
+        // Функция удаляет контакт из БД.
+
+        return try {
+            writableDatabase.transaction {
+                // Удаляем пользователя
+                delete("users", "id = ?", arrayOf(id.toString()))
+                // Удаляем его координаты
+                delete("points", "phone = ?", arrayOf(phone))
             }
+            // Если транзакция завершилась без ошибок — успех
+            true
+        } catch (_: SQLException) {
+            false
         }
-        checkRecords()
-        readUsers()
-        lastAnswerRecord = readLastAnswer()
-        return (phone in phones)
     }
 
-    fun deleteUser(id: Int): Boolean {
-        // Функция удаляет запись контакта в БД и обновляет структуры.
-        // Возвращает true, если успешно и false, если нет.
-        if (id !in id2phone) {
-            return false
-        }
-        val phone = id2phone[id]
-        writableDatabase.use { db ->
-            try {
-                db.execSQL("DELETE FROM users WHERE id = '$id';")
-                db.execSQL("DELETE FROM points WHERE phone = '$phone';")
-            } catch (_: SQLException) {
-                return false
-            }
-        }
-        readUsers()
-        lastAnswerRecord = readLastAnswer()
-        return (id !in id2phone)
-    }
+    fun writeDbLastPoint(record: PointRecord) {
+        // Функция заносит в БД последние известные координаты контакта.
 
-    fun writeLastPoint(record: PointRecord) {
-        // Функция заносит в HashMap и в БД последние известные координаты контакта.
-        // Функция заносит в record ответ с последними полученными координатами.
-        if (record.phone !in phones) {
+        if (record.latitude !in -90.0..90.0 || record.longitude !in -180.0..180.0) {
             return
         }
-        if ((record.latitude < -90) || (record.latitude > 90) ||
-            (record.longitude < -180) || (record.longitude > 180)) {
-            return
+
+        val values = ContentValues().apply {
+            put("phone", record.phone)
+            put("latitude", String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.latitude))
+            put("longitude", String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.longitude))
+            put("datetime", record.dateTime)
         }
-        phone2record[record.phone] = record
-        lastAnswerRecord = record
-        val phone = record.phone
-        val latitude = String.format(Locale.US,PointRecord.FORMAT_DOUBLE, record.latitude)
-        val longitude = String.format(Locale.US,PointRecord.FORMAT_DOUBLE, record.longitude)
-        val dateTime = record.dateTime
-        val execSting =
-                "INSERT OR REPLACE INTO points (phone, latitude, longitude, datetime)" +
-                " VALUES ('$phone', '$latitude', '$longitude', '$dateTime');"
-        writableDatabase.use { db ->
-            try {
-                db.execSQL(execSting)
-            } catch (_: SQLException) {
-            }
-        }
+
+        try {
+            writableDatabase.replace("points", null, values)
+        } catch (_: SQLException) { }
     }
 
-    fun readLastPoint(phone: String): PointRecord? {
-        // Функция считывает из БД и возвращает PointRecord по заданному телефону,
-        // Возвращает null, если записи нет, или она некорректная.
-        if (phone !in phones) {
-            return null
-        }
-        val execSting = "SELECT * FROM points WHERE phone = '$phone';"
-        readableDatabase.use { db ->
-            db.rawQuery(execSting, null).use { cursor ->
-                if (cursor.moveToFirst()) {
+    fun readDbLastAnswer(): PointRecord? {
+        // Функция считывает из БД последнюю запись и возвращает PointRecord.
+        // Возвращает null, если записи нет, или координаты выходят за допустимые границы.
+
+        val query = "SELECT * FROM points ORDER BY datetime DESC LIMIT 1;"
+
+        return readableDatabase.rawQuery(query, null).use { cursor ->
+            val phoneIdx = cursor.getColumnIndexOrThrow("phone")
+            val latIdx = cursor.getColumnIndexOrThrow("latitude")
+            val lonIdx = cursor.getColumnIndexOrThrow("longitude")
+            val dateIdx = cursor.getColumnIndexOrThrow("datetime")
+
+            if (cursor.moveToFirst()) {
+                try {
                     val record = PointRecord(
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("phone")),
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("latitude")).toDouble(),
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("longitude")).toDouble(),
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("datetime"))
+                        cursor.getString(phoneIdx),
+                        cursor.getString(latIdx).toDouble(),
+                        cursor.getString(lonIdx).toDouble(),
+                        cursor.getString(dateIdx)
                     )
-                    return if ((record.latitude < -90) || (record.latitude > 90) ||
-                        (record.longitude < -180) || (record.longitude > 180)
-                    ) {
+
+                    if (record.latitude !in -90.0..90.0 || record.longitude !in -180.0..180.0) {
                         null
-                    } else {
-                        record
-                    }
-                }
-            }
+                    } else { record }
+                } catch (_: Exception) { null }
+            } else { null }
         }
-        return null
     }
 
-    fun readLastAnswer(): PointRecord? {
-        // Функция считывает из БД и возвращает PointRecord с последним запросом,
-        // Возвращает null, если записи нет, или она некорректная.
-        val execSting = "SELECT * FROM points ORDER BY datetime DESC LIMIT 10 OFFSET 0;"
-        readableDatabase.use { db ->
-            db.rawQuery(execSting, null).use { cursor ->
-                if (cursor.moveToFirst()) {
-                    val record = PointRecord(
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("phone")),
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("latitude"))
-                            .toDouble(),
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("longitude"))
-                            .toDouble(),
-                        cursor.getString(
-                            cursor.getColumnIndexOrThrow("datetime"))
-                    )
-                    return if ((record.latitude < -90) || (record.latitude > 90) ||
-                        (record.longitude < -180) || (record.longitude > 180)
-                    ) {
-                        null
-                    } else {
-                        record
-                    }
-                }
-            }
-        }
-        return null
-    }
-
-    fun checkRecords() {
+    fun checkDbRecords() {
         // Функция удаляет из таблицы points записи, не имеющие ссылок на таблицу phones.
-        val execSting = "DELETE FROM points WHERE NOT EXISTS " +
-                        "(SELECT 1 FROM users WHERE points.phone = users.phone);"
-        writableDatabase.use { db ->
-            try {
-                db.execSQL(execSting)
-            } catch (_: SQLException) {
-            }
-        }
+        // Это предотвращает накопление "мусорных" данных.
+
+        try {
+            writableDatabase.delete(
+                "points",
+                "phone NOT IN (SELECT phone FROM users)",
+                null
+            )
+        } catch (_: SQLException) { }
     }
 
 }

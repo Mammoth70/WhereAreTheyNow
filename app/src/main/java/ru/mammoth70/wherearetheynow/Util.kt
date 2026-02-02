@@ -9,52 +9,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-// Константы, синглтоны и статические функции.
+// Константы и статические функции.
 
 const val INTENT_EXTRA_COLOR = "color"
 const val INTENT_EXTRA_SMS_TO = "sms_to"
 const val INTENT_EXTRA_NEW_VERSION_REQUEST = "new_version_request"
+
 const val INTENT_EXTRA_SMS_FROM = "sms_from"
 const val INTENT_EXTRA_LATITUDE = "latitude"
 const val INTENT_EXTRA_LONGITUDE = "longitude"
 const val INTENT_EXTRA_TIME = "time"
-
-const val NAME_SETTINGS = "Settings"
-const val NAME_USE_SERVICE = "UseService"
-const val NAME_MY_PHONE = "myphone"
-
-const val NAME_COLORS_SPAN_COUNT = "ColorsSpanCount"
-const val COLORS_SPAN_COUNT_DEFAULT = 2
-var colorsSpanCount = COLORS_SPAN_COUNT_DEFAULT
-
-var myphone = "" // номер моего телефона
-
-var useService = false // используем при определении координат сервис или напрямую
-
-const val MODE_NIGHT_NO = 1
-const val MODE_NIGHT_YES = 2
-const val MODE_NIGHT_FOLLOW_SYSTEM = -1
-const val COLOR_DYNAMIC_NO = -1
-const val COLOR_DYNAMIC_WALLPAPER = 0
-const val COLOR_DYNAMIC_RED = 1
-const val COLOR_DYNAMIC_YELLOW = 2
-const val COLOR_DYNAMIC_GREEN = 3
-const val COLOR_DYNAMIC_BLUE = 4
-const val COLOR_DYNAMIC_M3 = 5
-const val NAME_THEME_MODE = "theme"
-const val NAME_THEME_COLOR = "color"
-var themeMode = MODE_NIGHT_FOLLOW_SYSTEM
-var themeColor = COLOR_DYNAMIC_NO
-
-val phones: ArrayList<String> = ArrayList() // список телефонов
-val menuPhones: ArrayList<String> =
-    ArrayList() // список телефонов, ограниченный наличием записей геолокации
-val phone2name: HashMap<String, String> = HashMap() // словарь телефон:контакт
-val id2phone: HashMap<Int, String> = HashMap() // словарь id:телефон
-val phone2id: HashMap<String, Int> = HashMap() // словарь телефон:id
-val phone2color: HashMap<String, String> = HashMap() // словарь телефон:цвет
-val phone2record: HashMap<String, PointRecord> = HashMap() // словарь телефон:point
-var lastAnswerRecord: PointRecord? = null // запись с данными последнего ответа
 
 const val HEADER_REQUEST = "^WATN R$"
 const val HEADER_REQUEST_AND_LOCATION = "^WATN R "
@@ -137,7 +101,7 @@ fun setAppThemeColor(application: Application, color: Int, refresh: Boolean) {
 fun stringToDate(dateTime: String): Date? {
     // Функция преобразовывает строку в дату.
     val dateFormat =
-        SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault())
+        SimpleDateFormat(FORMAT_DATETIME, Locale.US)
     return try {
         dateFormat.parse(dateTime)
     } catch (_: ParseException) {

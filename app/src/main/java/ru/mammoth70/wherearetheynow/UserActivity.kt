@@ -56,6 +56,7 @@ class UserActivity : AppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Подготовка структуры данных для вывода карточки контакта.
+
         super.onCreate(savedInstanceState)
 
         topAppBar.setTitle(R.string.titleUser)
@@ -104,7 +105,7 @@ class UserActivity : AppActivity() {
                 // проверяем телефон на заполнение
                 ilPhone.error = getString(R.string.err_empty_phone)
             }
-            if (action == ACTION_ADD_USER && phone in phones) {
+            if (action == ACTION_ADD_USER && DataRepository.getUser(phone) != null) {
                 // проверяем телефон на уникальность при добавлении
                 ilPhone.error = getString(R.string.err_not_unique_phone)
             }
@@ -127,11 +128,11 @@ class UserActivity : AppActivity() {
 
             when (action) {
                 ACTION_ADD_USER -> {
-                    if (phone in phones) {
+                    if (DataRepository.getUser(phone) != null) {
                         // если при добавлении телефон не уникальный - выходим
                         return@setOnClickListener
                     }
-                    if (DBhelper.dbHelper.addUser(phone, name, selectedColorTemp)) {
+                    if (DataRepository.addUser(phone, name, selectedColorTemp)) {
                         val intent = Intent()
                         intent.putExtra(INTENT_EXTRA_RESULT, ACTION_ADD_USER)
                         setResult(RESULT_OK, intent)
@@ -145,7 +146,7 @@ class UserActivity : AppActivity() {
                 }
 
                 ACTION_EDIT_USER -> {
-                    if (DBhelper.dbHelper.editUser(id, phone, name, selectedColorTemp)) {
+                    if (DataRepository.editUser(id, phone, name, selectedColorTemp)) {
                         val intent = Intent()
                         intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
                         setResult(RESULT_OK, intent)
@@ -159,7 +160,7 @@ class UserActivity : AppActivity() {
                 }
 
                 ACTION_DELETE_USER -> {
-                    if (DBhelper.dbHelper.deleteUser(id)) {
+                    if (DataRepository.deleteUser(id)) {
                         val intent = Intent()
                         intent.putExtra(INTENT_EXTRA_RESULT, ACTION_DELETE_USER)
                         setResult(RESULT_OK, intent)
@@ -195,6 +196,7 @@ class UserActivity : AppActivity() {
         // Функция выясняет, какое действие над записью контакта будем выполнять.
         // Получает через intent поля из запускающей activity.
         // Соответственно настраивает поля и кнопки.
+
         when (action) {
             ACTION_ADD_USER -> {
                 btnAction.setText(R.string.add)
@@ -231,6 +233,7 @@ class UserActivity : AppActivity() {
 
     fun setMarkColor(color: String) {
         // Функция выставляет цвет метки.
+
         tvMark.text = ""
         selectedColorTemp = color
         when (Objects.requireNonNull(color)) {

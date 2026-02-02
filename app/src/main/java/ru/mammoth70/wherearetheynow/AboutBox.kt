@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 
 class AboutBox : DialogFragment() {
-    // Класс создаёт диалоговое окно About.
+    // Диалоговое окно About.
 
     companion object {
         const val DIALOG_MESSAGE = "DIALOG_MESSAGE"
@@ -15,6 +15,8 @@ class AboutBox : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        // Функция создаёт диалоговое окно.
+
         val builder = AlertDialog.Builder(requireActivity(),
             R.style.AboutDialogStyle)
         builder.setIcon(R.mipmap.ic_launcher_round)

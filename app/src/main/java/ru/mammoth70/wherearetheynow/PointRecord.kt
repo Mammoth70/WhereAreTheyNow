@@ -10,6 +10,7 @@ data class PointRecord (
     val longitude: Double = 0.0,
     val dateTime: String = "")
 {
+
     companion object {
         const val FORMAT_DOUBLE = "%1$.6f"
         const val FORMAT_POINT = "%1$.6f %2$.6f"

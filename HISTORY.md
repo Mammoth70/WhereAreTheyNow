@@ -213,3 +213,26 @@ Patch - совсем незначительные изменения.
 ### 3.13.2
 Изменения в ресурсах.  
 В меню удалены группы.
+
+### 3.14.0
+Большие изменения в архитектуре проекта.  
+
+Добавлен data class User для хранения всех полей контакта.  
+Добавлен object DataRepository - основной список объектов. В результате, избавились от большого количества несвязанных HashMap.  
+
+Класс DBhelper переписан для работы с DataRepository. Вызовы DBhelper мимо DataRepository больше не применяются.  
+Оптимизированы SQL-вызовы.  
+
+Адаптеры UsersAdapter и GeoAdapter переписаны для работы с DataRepository.  
+В UsersAdapter используется ListAdapter, добавлен DiffUtil.ItemCallback.  
+
+Добавлен object SettingsManager. В него перенесено всё управление переменными настроек, а также чтение и запись настроек из SharedPreferences. Некоторые настройки кешируются в памяти.  
+
+Изменения в классах GetLocation и GetLocationService. GetLocationService переведён в Foreground-режим, добавлен NotificationChannel. Добавлен Callback для остановки сервиса.  
+В GetLocation используется fusedLocationClient.getCurrentLocation.  
+
+Сделан более "умным" возврат в MainActivity из SettingsActivity.  
+
+Исправлена ошибка подсчёта разности дат в функции timePassed.
+
+

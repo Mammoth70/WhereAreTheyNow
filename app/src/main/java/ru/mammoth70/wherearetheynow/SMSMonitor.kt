@@ -13,12 +13,13 @@ class SMSMonitor : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // Функция слушает входящие SMS-сообщения, парсит их и передает обработку в другие функции.
+
         if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION != intent.action) {
             return
         }
         val messages = Telephony.Sms.Intents.getMessagesFromIntent(intent) ?: return
         val smsFrom = messages[0].displayOriginatingAddress
-        if (smsFrom !in phones) {
+        if (DataRepository.getUser(smsFrom) == null) {
             // Дальнейшая обработка идёт только в том случае, если телефон есть в списке.
             return
         }
@@ -51,7 +52,7 @@ class SMSMonitor : BroadcastReceiver() {
     }
 
     private fun requestLocation(context: Context, smsTo: String?) {
-        if (useService) {
+        if (SettingsManager.useService) {
             // Функция передаёт обработку запроса геолокации в GetLocationService.
             val intent = Intent(context, GetLocationService::class.java)
             intent.putExtra(INTENT_EXTRA_SMS_TO, smsTo)
@@ -68,6 +69,7 @@ class SMSMonitor : BroadcastReceiver() {
         // Функция проверяет правильность заполнения полей SMS-сообщения с геолокацией,
         // (поскольку данные приходят извне, проверять надо тщательно)
         // сохраняет полученные данные и передаёт обработку в MapUtil.
+
         val pattern = Pattern.compile(REGEXP_ANSWER)
         val matcher = pattern.matcher(message)
         if ((matcher.find())) {
@@ -78,11 +80,11 @@ class SMSMonitor : BroadcastReceiver() {
                 val latitude = matcher.group(1)!!.toDouble()
                 val longitude = matcher.group(2)!!.toDouble()
                 val dateTime = stringToDate(matcher.group(3)!!) ?: return
-                if ((latitude < -90) || (latitude > 90) || (longitude < -180) || (longitude > 180)) {
+                if (latitude !in -90.0..90.0 || longitude !in -180.0..180.0) {
                     return
                 }
                 val record = PointRecord(smsFrom,latitude, longitude, dateTime)
-                DBhelper.dbHelper.writeLastPoint(record)
+                DataRepository.writeLastPoint(record)
                 if (show) {
                     viewLocation(context, record, true)
                 }

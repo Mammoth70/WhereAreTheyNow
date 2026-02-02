@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 
 class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
-    RecyclerView.Adapter<ColorsAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
     // RecyclerView.Adapter для выбора цвета.
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ColorViewHolder(view: View, onItemClick: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка цветов.
+
+        private val itemColorLabel: TextView = view.findViewById(R.id.itemColorLabel)
+        private val itemCardColor: MaterialCardView = view.findViewById(R.id.frameItemCardColor)
 
         init {
             itemView.setOnClickListener {
@@ -23,27 +26,32 @@ class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
             }
         }
 
-        val itemColorLabel: TextView = view.findViewById(R.id.itemColorLabel)
-        val itemCardColor: MaterialCardView = view.findViewById(R.id.frameItemCardColor)
+        fun bind(color: String) {
+            // Функция связывает цвет элементами макета.
+
+            itemColorLabel.setBackgroundResource(AppColors.getMarker(color))
+            itemCardColor.setCardBackgroundColor(AppColors.getColorAlpha16(color))
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
-        return ViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_color, parent, false))
+
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_color,
+            parent, false)
+        return ColorViewHolder(view, onItemClick)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
-        holder.itemColorLabel.setBackgroundResource(
-            AppColors.getMarker(AppColors.colors[position]))
-        holder.itemCardColor.setCardBackgroundColor(
-            AppColors.getColorAlpha16(AppColors.colors[position]))
+
+        holder.bind(AppColors.colors[position])
     }
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.
+
         return AppColors.colors.size
     }
 

@@ -49,6 +49,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     override fun initMap(context: Context) {
         // Функция делает начальную настройку карты.
+
         mapView.mapWindow.map.addCameraListener(this)
         when (getResources().configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO ->
@@ -59,6 +60,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 // ночная тема активна, и она используется
                 map.isNightModeEnabled = true
         }
+
         val mapObjectCollection = mapView.mapWindow.map.mapObjects.addCollection()
         val points = ArrayList<Point?>()
         val imageProviders = ArrayList<ImageProvider?>()
@@ -79,60 +81,54 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         }
 
         // Добавляем все метки. Цикл по списку разрешённых телефонов.
-        phones
-            .filter { phone -> phone2record.containsKey(phone) }
-            .forEach { phone ->
-                phone2record[phone]?.let { point ->
-                    points.add(Point(point.latitude, point.longitude))
-                    imageProviders.add(
-                        ImageProvider.fromBitmap(
-                            getBitmapFromColor(phone2color[phone])
-                        )
-                    )
-                    placemarkMapObjects.add(
-                        mapObjectCollection.addPlacemark().apply {
-                            geometry = Point(point.latitude, point.longitude)
-                            setIcon(
-                                ImageProvider.fromBitmap(
-                                    getBitmapFromColor(phone2color[phone])
-                                ), IconStyle().apply { anchor = PointF(0.5f, 1f) })
-                            userData = phone
-                            addTapListener(mapObjectTapListener)
-                            setText(phone2name[phone]!!, markTextStyle)
+        DataRepository.users
+            .filter { it.lastRecord != null }
+            .forEach { user ->
+                val point = user.lastRecord!!
+                val mapPoint = Point(point.latitude, point.longitude)
+                val userColor = user.color
+
+                points.add(mapPoint)
+
+                val iconProvider = ImageProvider.fromBitmap(getBitmapFromColor(userColor))
+                imageProviders.add(iconProvider)
+
+                placemarkMapObjects.add(
+                    mapObjectCollection.addPlacemark().apply {
+                        geometry = mapPoint
+                        setIcon(iconProvider, IconStyle().apply { anchor = PointF(0.5f, 1f) })
+                        userData = user.phone
+                        addTapListener(mapObjectTapListener)
+                        setText(user.name, markTextStyle) // Имя берем из объекта
+                    }
+                )
+
+                if (SettingsManager.selectedMapCircle) {
+                    circleMapObjects.add(
+                        mapObjectCollection.addCircle(
+                            Circle(mapPoint, SettingsManager.selectedMapCircleRadius)
+                        ).apply {
+                            strokeColor = userColor.toColorInt()
+                            strokeWidth = 1f
+                            fillColor = AppColors.getColorAlpha(userColor)
                         }
                     )
-
-                    if (selectedMapCircle) {
-                        circleMapObjects.add(
-                            mapObjectCollection.addCircle(
-                                Circle(
-                                    Point(
-                                        point.latitude,
-                                        point.longitude
-                                    ), selectedMapCircleRadius
-                                )
-                            ).apply {
-                                strokeColor = phone2color[phone]?.toColorInt()!!
-                                strokeWidth = 1f
-                                fillColor = AppColors.getColorAlpha(phone2color[phone])
-                            }
-                        )
-                    }
-
                 }
-        
+
             }
     }
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция передвигает карту на PointRecord.
+
         map.move(CameraPosition(Point(rec.latitude, rec.longitude),
-            selectedMapZoom, 0f, selectedMapTilt))
+            SettingsManager.selectedMapZoom, 0f, SettingsManager.selectedMapTilt))
     }
 
     private val markTextStyle: TextStyle
         get() {
             // Геттер настраивает стиль текста над меткой.
+
             val typedValueTextColor = TypedValue()
             val typedValueOutLineColor = TypedValue()
             getTheme().resolveAttribute(
@@ -155,41 +151,38 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     private val mapObjectTapListener =
         MapObjectTapListener { mapObject: MapObject?, _: Point? ->
             // Обработчик, отвечающий за тапы по различным объектам на карте.
-            val phone = mapObject!!.userData as String?
-            phone2name[phone]?.let { name ->
-                phone2record[phone]?.let { rec ->
-                    val newZoom = if (map.cameraPosition.zoom < selectedMapZoom) {
-                        selectedMapZoom
-                    } else {
-                        map.cameraPosition.zoom
-                    }
-                    topAppBar.setTitle(name)
-                    topAppBar.setSubtitle(
-                        timePassed(
-                            rec.dateTime,
-                            this
-                        )
-                    )
-                    map.move(
-                        CameraPosition(
-                            Point(rec.latitude, rec.longitude),
-                            newZoom,
-                            map.cameraPosition.azimuth,
-                            map.cameraPosition.tilt
-                        )
-                    )
-                    val message = name + "\n" + String.format(
-                        Locale.US, PointRecord.FORMAT_POINT,
-                        rec.latitude, rec.longitude
-                    )
-                    Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+
+            val phone = mapObject?.userData as? String ?: return@MapObjectTapListener true
+            val user = DataRepository.getUser(phone) ?: return@MapObjectTapListener true
+
+            user.lastRecord?.let { rec ->
+                val currentZoom = map.cameraPosition.zoom
+                val newZoom = if (currentZoom < SettingsManager.selectedMapZoom) {
+                    SettingsManager.selectedMapZoom
+                } else {
+                    currentZoom
                 }
+
+                topAppBar.setTitle(user.name)
+                topAppBar.setSubtitle(timePassed(rec.dateTime, this))
+
+                map.move(
+                    CameraPosition(
+                        Point(rec.latitude, rec.longitude),
+                        newZoom,
+                        map.cameraPosition.azimuth,
+                        map.cameraPosition.tilt
+                    )
+                )
+                val message = "${user.name}\n${String.format(Locale.US, PointRecord.FORMAT_POINT, rec.latitude, rec.longitude)}"
+                Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
             }
             true
         }
 
     private fun createBitmapFromVector(art: Int): Bitmap? {
         // Функция преобразовывает векторное изображение в bitmap.
+
         val drawable = ContextCompat.getDrawable(this, art) ?: return null
         val bitmap = createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight)
         val canvas = Canvas(bitmap)
@@ -200,11 +193,13 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private fun getBitmapFromColor(color: String?): Bitmap? {
         // Функция возвращает метку заданного цвета.
+
         return createBitmapFromVector(AppColors.getMarker(color))
     }
 
     override fun onStart() {
         // Функция вызывается перед тем, как Activity будет видно пользователю.
+
         super.onStart()
         MapKitFactory.getInstance().onStart()
         mapView.onStart()
@@ -212,6 +207,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     override fun onStop() {
         // Функция вызывается, когда Activity становится не видно пользователю.
+
         mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
@@ -220,11 +216,12 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     fun onMap2D3D() {
         // Обработчик кнопки FAB "2D/3D".
         // Функция меняет режим карты 2D / 3D.
+
         val newTilt = if (map.cameraPosition.tilt == 0f) {
-            if (selectedMapTilt == 0f) {
+            if (SettingsManager.selectedMapTilt == 0f) {
                 MAP_TILT_DEFAULT
             } else {
-                selectedMapTilt
+                SettingsManager.selectedMapTilt
             }
         } else {
             0f
@@ -240,6 +237,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     fun onMapNord() {
         // Обработчик кнопки FAB "На север".
         // Функция поворачивает карту в положение север сверху.
+
         map.move(CameraPosition(
             map.cameraPosition.target,
             map.cameraPosition.zoom,
@@ -251,6 +249,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     fun onMapZoomIn() {
         // Обработчик кнопки FAB "Zoom In".
         // Функция приближает объекты на карте.
+
         val newZoom = if ((map.cameraPosition.zoom + 1f) > map.cameraBounds.maxZoom) {
             map.cameraBounds.maxZoom
         } else {
@@ -267,6 +266,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     fun onMapZoomOut() {
         // Обработчик кнопки FAB "Zoom Out".
         // Функция отдаляет объекты на карте.
+
         val newZoom = if ((map.cameraPosition.zoom - 1f) < map.cameraBounds.minZoom) {
             map.cameraBounds.minZoom
         } else {
@@ -282,6 +282,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
 
     private fun setFabStatus() {
         // Функция устанавливает в правильное состояние все FAB'ы.
+
         val zoom = map.cameraPosition.zoom
         when
             { (zoom <= map.cameraBounds.minZoom) -> {

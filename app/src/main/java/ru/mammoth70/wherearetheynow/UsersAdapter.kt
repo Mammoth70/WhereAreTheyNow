@@ -5,15 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.google.android.material.card.MaterialCardView
 
 class UsersAdapter(
-    private val itemViewClick: (position: Int) -> Unit,
-    private val itemViewLongClick: (view: View) -> Boolean,
-    private val btnMenuClick: (view: View) -> Unit,
-    private val btnSelfClick: (view: View) -> Unit
-): RecyclerView.Adapter<UsersAdapter.GenericViewHolder>() {
+    private val itemViewClick: (pos: Int) -> Unit,
+    private val itemViewLongClick: (view: View, pos: Int) -> Boolean,
+    private val btnMenuClick: (view: View, pos: Int) -> Unit,
+    private val btnSelfClick: () -> Unit
+) : ListAdapter<User, UsersAdapter.GenericViewHolder>(UserDiffCallback()) {
     // RecyclerView.Adapter для списка контактов.
 
     companion object {
@@ -24,6 +26,7 @@ class UsersAdapter(
 
     sealed class GenericViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Запечатанный (абстрактный) класс, от которого наследуются viewHolder'ы для списка контактов и футера.
+
         abstract fun bindView(position: Int)
     }
 
@@ -35,54 +38,62 @@ class UsersAdapter(
         }
     }
 
-    private inner class ListItemViewHolder(view: View) : GenericViewHolder(view) {
+    private inner class ListItemViewHolder(
+        view: View,
+        private val itemViewClick: (Int) -> Unit,
+        private val itemViewLongClick: (View, Int) -> Boolean,
+        private val btnMenuClick: (View, Int) -> Unit,
+        private val btnSelfClick: () -> Unit
+    ) : GenericViewHolder(view) {
         // Представление viewHolder'а для списка контактов.
-        val itemUserName: TextView = view.findViewById(R.id.itemUserName)
-        val itemUserPhone: TextView = view.findViewById(R.id.itemUserPhone)
-        val itemUserLabel: TextView = view.findViewById(R.id.itemUserLabel)
-        val btnUserMenu: Button = view.findViewById(R.id.btnUserMenu)
-        val itemCardUser: MaterialCardView = view.findViewById(R.id.frameItemCardUser)
-        val btnUserSelf: Button = view.findViewById(R.id.btnUserSelf)
+
+        private val itemUserName: TextView = view.findViewById(R.id.itemUserName)
+        private val itemUserPhone: TextView = view.findViewById(R.id.itemUserPhone)
+        private val itemUserLabel: TextView = view.findViewById(R.id.itemUserLabel)
+        private val btnUserMenu: Button = view.findViewById(R.id.btnUserMenu)
+        private val itemCardUser: MaterialCardView = view.findViewById(R.id.frameItemCardUser)
+        private val btnUserSelf: Button = view.findViewById(R.id.btnUserSelf)
 
         init {
+            // Привязка листенеров.
+
             itemView.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) itemViewClick.invoke(position)
+                val pos = bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION) itemViewClick(pos)
             }
 
             itemView.setOnLongClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    itemViewLongClick.invoke(itemCardUser)
-                    true
-                } else {
-                    false
-                }
+                val pos = bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION) itemViewLongClick(itemCardUser, pos) else false
             }
 
             btnUserMenu.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) btnMenuClick.invoke(it)
+                val pos = bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION) btnMenuClick(itemCardUser, pos)
             }
 
             btnUserSelf.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) btnSelfClick.invoke(it)
+                val pos = bindingAdapterPosition
+                if (pos != RecyclerView.NO_POSITION) btnSelfClick()
             }
         }
 
         override fun bindView(position: Int) {
             // Функция привязывает к viewHolder'у данные списка контактов.
-            val phone = phones[position]
-            this.itemUserName.text = phone2name[phone]
-            this.itemUserPhone.text = phone
+
+            val user = getItem(position)
+
+            this.itemUserName.text = user.name
+            this.itemUserPhone.text = user.phone
+
+            // Работа с ресурсами
             this.itemUserLabel.setBackgroundResource(
-                AppColors.getMarker(phone2color[phone]))
+                AppColors.getMarker(user.color))
             this.itemCardUser.setCardBackgroundColor(
-                AppColors.getColorAlpha16(phone2color[phone]))
-            this.itemCardUser.tag = position
-            this.btnUserMenu.tag = position
-            if (phone == myphone) {
+                AppColors.getColorAlpha16(user.color))
+
+            // Логика кнопки "self"
+            if (user.phone == DataRepository.myPhone) {
                 this.btnUserSelf.isEnabled = true
                 this.btnUserSelf.visibility = View.VISIBLE
             } else {
@@ -94,37 +105,42 @@ class UsersAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenericViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет.
-        return when(viewType) {
-            FOOTER_VIEW -> {
-                FooterViewHolder(LayoutInflater.from(parent.context).
-                inflate(R.layout.item_user_footer, parent, false))
-            }
 
-            else -> {
-                ListItemViewHolder(view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_user, parent, false)).apply {
-                    btnUserMenu.setOnClickListener(btnMenuClick)
-                    btnUserSelf.setOnClickListener(btnSelfClick)
-                }
-            }
+        val inflater = LayoutInflater.from(parent.context)
+        return when(viewType) {
+            FOOTER_VIEW -> FooterViewHolder(inflater.inflate(R.layout.item_user_footer,
+                parent, false))
+            else -> ListItemViewHolder(
+                inflater.inflate(R.layout.item_user,
+                    parent, false),
+                 itemViewClick, itemViewLongClick, btnMenuClick, btnSelfClick
+            )
         }
     }
     override fun onBindViewHolder(holder: GenericViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
+
         holder.bindView(position)
     }
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке + футер.
-        return phones.size + 1
+        return currentList.size + 1
     }
 
     override fun getItemViewType(position: Int): Int {
         // Функция определяет тип элемента.
-        return when (position) {
-            phones.size -> FOOTER_VIEW
-            else -> LIST_ITEM_VIEW
-        }
+        return if (position == currentList.size) FOOTER_VIEW else LIST_ITEM_VIEW
+    }
+
+    class UserDiffCallback : DiffUtil.ItemCallback<User>() {
+        // Callback для рассчёта разницы между двумя элементами.
+
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
+            oldItem == newItem
     }
 
 }

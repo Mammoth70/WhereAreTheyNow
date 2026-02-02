@@ -1,7 +1,6 @@
 package ru.mammoth70.wherearetheynow
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -41,6 +40,7 @@ class MainActivity : AppActivity() {
         // Функция вызывается при создании Activity.
         // Чтение списков и словарей контактов из БД.
         // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
+
         super.onCreate(savedInstanceState)
 
         topAppBar.setTitle(R.string.app_name)
@@ -50,19 +50,20 @@ class MainActivity : AppActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = usersAdapter
+        usersAdapter.submitList(DataRepository.users.toList())
 
         if (!checkAllPermissions()) {
             startPermissionActivity()
         }
 
-        navBarView.menu[NM_MAP_ID].isEnabled = (lastAnswerRecord != null)
+        navBarView.menu[NM_MAP_ID].isEnabled = (DataRepository.lastAnswerRecord != null)
         navBarView.menu[NM_USERS_ID].isChecked = true
         navBarView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.item_map -> {
                     // Обработчик кнопки меню "карта".
                     // Вызывает соответствующую Activity.
-                    lastAnswerRecord?.let {
+                    DataRepository.lastAnswerRecord?.let {
                         viewLocation(this, it, false)
                     }
                 }
@@ -106,57 +107,57 @@ class MainActivity : AppActivity() {
 
     override fun onResume() {
         super.onResume()
-        navBarView.menu[NM_MAP_ID].isEnabled = (lastAnswerRecord != null)
+        navBarView.menu[NM_MAP_ID].isEnabled = (DataRepository.lastAnswerRecord != null)
     }
 
-    private fun showContextMenu(view: View) : Boolean {
+    private fun showContextMenu(view: View, position: Int) : Boolean {
         // Функция вызывается по длинному клику на элемент списка.
-        showPopupMenu(view)
+
+        showPopupMenu(view, position)
         return true
     }
 
-    private fun showPopupMenu(view: View) {
+    private fun showPopupMenu(view: View, position: Int) {
         // Функция вызывается по клику на кнопку меню.
-        val position: Int? = view.tag as Int?
-        position?.let {
-            val popupMenu = PopupMenu(this, view)
-            popupMenu.inflate(R.menu.user_menu)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.item_add_user -> {
-                        addUser()
-                        true
-                    }
 
-                    R.id.item_edit_user -> {
-                        editUser(position)
-                        true
-                    }
-
-                    R.id.item_delete_user -> {
-                        deleteUser(position)
-                        true
-                    }
-
-                    R.id.item_sms_request_user -> {
-                        smsRequestUser(position)
-                        true
-                    }
-
-                    R.id.item_sms_answer_user -> {
-                        smsAnswerUser(position)
-                        true
-                    }
-
-                    else -> false
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.inflate(R.menu.user_menu)
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.item_add_user -> {
+                    addUser()
+                    true
                 }
+
+                R.id.item_edit_user -> {
+                    editUser(position)
+                    true
+                }
+
+                R.id.item_delete_user -> {
+                    deleteUser(position)
+                    true
+                }
+
+                R.id.item_sms_request_user -> {
+                    smsRequestUser(position)
+                    true
+                }
+
+                R.id.item_sms_answer_user -> {
+                    smsAnswerUser(position)
+                    true
+                }
+
+                else -> false
             }
-            popupMenu.show()
         }
+        popupMenu.show()
     }
 
     private fun addUser() {
         // Функция добавляет контакт.
+
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_ADD_USER)
@@ -165,76 +166,78 @@ class MainActivity : AppActivity() {
 
     private fun editUser(position: Int) {
         // Функция редактирует контакт.
+
+        val user = DataRepository.users[position]
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_EDIT_USER)
-        val phone = phones[position]
-        intent.putExtra(UserActivity.INTENT_EXTRA_ID, phone2id[phone])
-        intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone)
-        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, phone2name[phone])
-        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, phone2color[phone])
+        intent.putExtra(UserActivity.INTENT_EXTRA_ID, user.id)
+        intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, user.phone)
+        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, user.name)
+        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, user.color)
         startActivityUserIntent.launch(intent)
     }
 
     private fun deleteUser(position: Int) {
         // Функция удаляет контакт.
+
+        val user = DataRepository.users[position]
         val intent = Intent(this, UserActivity::class.java)
         intent.putExtra(UserActivity.INTENT_EXTRA_ACTION,
             UserActivity.ACTION_DELETE_USER)
-        val phone = phones[position]
-        intent.putExtra(UserActivity.INTENT_EXTRA_ID, phone2id[phone])
-        intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, phone)
-        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, phone2name[phone])
-        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, phone2color[phone])
+        intent.putExtra(UserActivity.INTENT_EXTRA_ID, user.id)
+        intent.putExtra(UserActivity.INTENT_EXTRA_PHONE, user.phone)
+        intent.putExtra(UserActivity.INTENT_EXTRA_NAME, user.name)
+        intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, user.color)
         startActivityUserIntent.launch(intent)
     }
 
     private fun smsRequestUser(position: Int) {
         // Функция посылает контакту запрос координат.
-        val phone = phones[position]
-        if (phone == myphone) {
+
+        val user = DataRepository.users[position]
+        if (user.phone == DataRepository.myPhone) {
             selfPosition()
         } else {
-            if (useService) {
+            if (SettingsManager.useService) {
                 // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
-                intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
+                intent.putExtra(INTENT_EXTRA_SMS_TO, user.phone)
                 intent.putExtra(INTENT_EXTRA_NEW_VERSION_REQUEST, true)
                 this.startService(intent)
             } else {
                 // Функция передаёт обработку запроса геолокации в GetLocation.
                 val getLocation = GetLocation()
                 getLocation.sendLocation(this, GetLocation.WAY_SMS,
-                    phone, true)
+                    user.phone, true)
             }
         }
     }
 
     private fun smsAnswerUser(position: Int) {
         // Функция посылает контакту геолокацию.
-        val phone = phones[position]
-        if (phone == myphone) {
+
+        val user = DataRepository.users[position]
+        if (user.phone == DataRepository.myPhone) {
             selfPosition()
         } else {
-            if (useService) {
+            if (SettingsManager.useService) {
                 // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
-                intent.putExtra(INTENT_EXTRA_SMS_TO, phone)
+                intent.putExtra(INTENT_EXTRA_SMS_TO, user.phone)
                 this.startService(intent)
             } else {
                 // Функция передаёт обработку запроса геолокации в GetLocation.
                 val getLocation = GetLocation()
                 getLocation.sendLocation(this, GetLocation.WAY_SMS,
-                    phone, false)
+                    user.phone, false)
             }
         }
     }
-    private fun selfPosition(@Suppress("UNUSED_PARAMETER")ignored: View) {
-        // Функция вызывается по клику на кнопку self.
-        selfPosition()
-    }
+
     private fun selfPosition() {
         // Функция определяет собственную геолокацию и вызывает карту.
+
         val getLocation = GetLocation()
         getLocation.sendLocation(this, GetLocation.WAY_LOCAL,
             "", false)
@@ -242,6 +245,7 @@ class MainActivity : AppActivity() {
 
     private fun startPermissionActivity() {
         // Функция запускает PermissionActivity.
+
         val intent = Intent(this, PermissionActivity::class.java)
         startActivity(intent)
     }
@@ -249,6 +253,7 @@ class MainActivity : AppActivity() {
     private fun checkAllPermissions(): Boolean {
         // Функция проверяет все необходимые разрешения
         // (если их не хватает, нужно запустить PermissionActivity).
+
         return ((ContextCompat.checkSelfPermission(
             applicationContext,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -271,24 +276,37 @@ class MainActivity : AppActivity() {
                 ) == PackageManager.PERMISSION_GRANTED))
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     var startActivityUserIntent = registerForActivityResult(StartActivityForResult()
         // Функция возвращает результат формы контакта
+
     ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
-            usersAdapter.notifyDataSetChanged()
+            usersAdapter.submitList(DataRepository.users.toList())
         }
     }
 
     var startActivitySettingsIntent = registerForActivityResult(StartActivityForResult()
         // Функция возвращает результат вызова формы настроек.
+
     ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {
-                if (intent.getBooleanExtra(SettingsActivity.INTENT_EXTRA_RESULT,
-                        false)) {
-                    recreate()
+                val themeChanged = intent.getBooleanExtra(SettingsActivity.INTENT_THEME_CHANGED, false)
+                val phoneChanged = intent.getBooleanExtra(SettingsActivity.INTENT_PHONE_CHANGED, false)
+                when {
+                    themeChanged -> {
+                        recreate()
+                    }
+
+                    phoneChanged -> {
+                        recyclerView.adapter = usersAdapter
+                        usersAdapter.submitList(DataRepository.users.toList())
+                    }
+
+                    else -> {
+                        //
+                    }
                 }
             }
         }

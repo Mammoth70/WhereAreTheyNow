@@ -14,6 +14,7 @@ class ColorsActivity : AppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Обработка данных для подготовки списка меток.
+
         super.onCreate(savedInstanceState)
 
         topAppBar.setTitle(R.string.titleColors)
@@ -23,12 +24,16 @@ class ColorsActivity : AppActivity() {
 
         val colorsAdapter = ColorsAdapter(::onClickViewItem)
         val recyclerView: RecyclerView = findViewById(R.id.itemColorsRecycler)
-        (recyclerView.layoutManager as GridLayoutManager).spanCount = colorsSpanCount
-        recyclerView.adapter = colorsAdapter
+        (recyclerView.layoutManager as GridLayoutManager).spanCount = SettingsManager.colorsSpanCount
+        recyclerView.apply {
+            adapter = colorsAdapter
+            setHasFixedSize(true)
+        }
     }
 
     fun onClickViewItem(position: Int) {
         // Функция вызывается по клику на элемент списка.
+
         val selectedItem = AppColors.colors[position]
         val intent = Intent()
         intent.putExtra(INTENT_EXTRA_COLOR, selectedItem)

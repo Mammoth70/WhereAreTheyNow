@@ -23,6 +23,7 @@ class BrowserActivity : LocationActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun initMap(context: Context) {
         // Функция делает начальную настройку карты.
+
         webView.setWebViewClient(WebViewClient())
         val webSettings = webView.getSettings()
         webSettings.javaScriptEnabled = true
@@ -30,10 +31,11 @@ class BrowserActivity : LocationActivity() {
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит uri по PointRecord.
+
         val uri: String?
-        if (selectedMap == MAP_OPENSTREET) {
+        if (SettingsManager.selectedMap == MAP_OPENSTREET) {
             uri = String.format(Locale.US, URL_OPENSTREET,
-                rec.latitude, rec.longitude, selectedMapZoom)
+                rec.latitude, rec.longitude, SettingsManager.selectedMapZoom)
             webView.loadUrl(uri)
         } else {
             finish()
