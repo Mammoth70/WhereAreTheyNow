@@ -26,6 +26,10 @@ class App : Application() {
 
         // Чтение из БД списка разрешенных телефонов и словарей контактов.
         DataRepository.refreshData()
+
+        // Установка режима и цвета темы приложения.
+        themeMode(SettingsManager.themeMode)
+        setAppThemeColor(this, SettingsManager.themeColor, false)
     }
 
 }

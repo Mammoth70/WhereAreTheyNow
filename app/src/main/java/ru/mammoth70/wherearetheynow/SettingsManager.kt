@@ -65,7 +65,7 @@ object SettingsManager {
 
     // Сервис
     var useService: Boolean  // Флаг использования при определении координат сервиса (flase - напрямую, без сервиса).
-        get() = prefs.getBoolean(NAME_USE_SERVICE, false)
+        get() = prefs.getBoolean(NAME_USE_SERVICE, true)
         set(value) = prefs.edit { putBoolean(NAME_USE_SERVICE, value) }
 
 
@@ -86,7 +86,8 @@ object SettingsManager {
             cachedMapZoom = value
             prefs.edit { putFloat(NAME_MAP_ZOOM, value) }
         }
-    var selectedMapTilt: Float   // Начальный наклон камеры на Яндекс-карте.
+ 
+   var selectedMapTilt: Float   // Начальный наклон камеры на Яндекс-карте.
         get() = cachedMapTilt
         set(value) {
             cachedMapTilt = value
@@ -99,6 +100,7 @@ object SettingsManager {
             cachedMapCircle = value
             prefs.edit { putBoolean(NAME_MAP_CIRCLE, value) }
         }
+
     var selectedMapCircleRadius: Float   // Начальный радиус круга на Яндекс-карте.
         get() = cachedMapCircleRadius
         set(value) {
