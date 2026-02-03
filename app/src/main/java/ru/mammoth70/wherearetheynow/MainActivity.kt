@@ -3,6 +3,7 @@ package ru.mammoth70.wherearetheynow
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.PopupMenu
@@ -254,7 +255,7 @@ class MainActivity : AppActivity() {
         // Функция проверяет все необходимые разрешения
         // (если их не хватает, нужно запустить PermissionActivity).
 
-        return ((ContextCompat.checkSelfPermission(
+        val basePermissions = ((ContextCompat.checkSelfPermission(
             applicationContext,
             Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED) &&
@@ -274,6 +275,18 @@ class MainActivity : AppActivity() {
                     applicationContext,
                     Manifest.permission.SEND_SMS
                 ) == PackageManager.PERMISSION_GRANTED))
+
+        val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Проверка уведомлений только для Android 13 (API 33) и выше.
+            ContextCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true // На старых версиях считаем, что разрешение есть.
+        }
+
+        return basePermissions && notificationPermission
     }
 
     var startActivityUserIntent = registerForActivityResult(StartActivityForResult()
@@ -292,7 +305,7 @@ class MainActivity : AppActivity() {
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {
-                val themeChanged = intent.getBooleanExtra(SettingsActivity.INTENT_THEME_CHANGED, false)
+                val themeChanged = intent.getBooleanExtra(SettingsActivity.INTENT_THEME_COLOR_CHANGED, false)
                 val phoneChanged = intent.getBooleanExtra(SettingsActivity.INTENT_PHONE_CHANGED, false)
                 when {
                     themeChanged -> {

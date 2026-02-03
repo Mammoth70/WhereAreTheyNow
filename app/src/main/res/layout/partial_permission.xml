@@ -141,7 +141,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -202,6 +204,54 @@
                 android:text="@string/request"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/tvSendSMS"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Разрешения работы в фоновом режиме. -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/tvNotifications1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:text="@string/denied1"
+                android:textColor="?attr/colorError"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/access_notifications"
+                android:textColor="?attr/colorError"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="@+id/tvNotifications1"
+                app:layout_constraintStart_toEndOf="@+id/tvNotifications1" />
+
+            <Button
+                style="?attr/materialButtonTonalStyle"
+                android:id="@+id/btnNotifications"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/request"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@+id/tvNotifications"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

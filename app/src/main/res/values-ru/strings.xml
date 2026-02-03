@@ -70,13 +70,16 @@
     <string name="access_any_mode">(Разрешить в любом режиме)</string>
     <string name="access_Receive_SMS">Получение SMS</string>
     <string name="access_Send_SMS">Отправка SMS</string>
+    <string name="access_notifications">Уведомления</string>
     <string name="allow_fine_location">Разрешите определение точного местоположения.</string>
     <string name="allow_background_location">Разрешите работу геолокации в любом режиме.</string>
     <string name="allow_SMS">Разрешите приём и отправку SMS.</string>
+    <string name="allow_notifications">Разрешите уведомления.</string>
     <string name="request_blocked">Запрос заблокирован.</string>
     <string name="location_request_blocked">Запрос разрешений геолокации заблокирован.</string>
     <string name="location_bg_request_blocked">Запрос работы в фоновом режиме заблокирован.</string>
     <string name="sms_request_blocked">Запрос разрешений СМС заблокирован.</string>
+    <string name="notifications_request_blocked">Запрос разрешения уведомлений заблокирован.</string>
     <string name="set_access_manually">Установите разрешения вручную.</string>
 
     <string name="bootom_sheet_title">Зачем нужны разрешения?</string>
@@ -86,7 +89,8 @@
         \nПоэтому, приложению нужны права на работу в фоновом режиме. На экране выдачи разрешений эта опция называется, как
         \"Разрешить в любом режиме\".
         \n\nЗапросы на получение геолокации и ответы с координатами передаются SMS-сообщениями.
-        \nПоэтому, приложению нужны права на получение и отправку SMS.</string>
+        \nПоэтому, приложению нужны права на получение и отправку SMS.
+        \n\nУведомления нужны, чтобы приложение могло сообщить, когда оно запрашивает геолокацию.</string>
 
     <string name="phone">телефон</string>
     <string name="latitude">широта</string>

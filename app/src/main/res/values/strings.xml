@@ -71,13 +71,16 @@
     <string name="access_any_mode">(Allow in any mode)</string>
     <string name="access_Receive_SMS">Receive SMS</string>
     <string name="access_Send_SMS">Send SMS</string>
+    <string name="access_notifications">Notifications</string>
     <string name="allow_fine_location">Please allow the fine location permission.</string>
     <string name="allow_background_location">Please allow the background location permission.</string>
     <string name="allow_SMS">Please allow the SMS permission.</string>
-    <string name="request_blocked">Request blocked.</string>
-    <string name="location_request_blocked">Geolocation permission request blocked.</string>
-    <string name="location_bg_request_blocked">Background work request blocked.</string>
-    <string name="sms_request_blocked">SMS permission request blocked.</string>
+    <string name="allow_notifications">Please allow notifications.</string>
+    <string name="request_blocked">Request is blocked.</string>
+    <string name="location_request_blocked">Geolocation permission request is blocked.</string>
+    <string name="location_bg_request_blocked">Background work request is blocked.</string>
+    <string name="sms_request_blocked">SMS permission request is blocked.</string>
+    <string name="notifications_request_blocked">Notification permission request is blocked.</string>
     <string name="set_access_manually">Set permissions manually.</string>
 
     <string name="bootom_sheet_title">Why do you need permissions?</string>
@@ -87,7 +90,8 @@
         \nTherefore, the application needs rights to work in the background. On the permission screen, this option is called
         \"Allow in any mode\".
         \n\nRequests for geolocation and responses with coordinates are transmitted via SMS messages.
-        \nTherefore, the application needs rights to receive and send SMS.</string>
+        \nTherefore, the application needs rights to receive and send SMS.
+        \n\nNotifications allow the app to alert you whenever it accesses your geolocation.</string>
 
     <string name="phone">phone</string>
     <string name="latitude">latitude</string>
