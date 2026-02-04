@@ -23,13 +23,6 @@ class PermissionActivity : AppActivity() {
     override val idLayout = R.layout.activity_permission
     override val idActivity = R.id.framePermissionsActivity
 
-    companion object {
-        private const val REQUEST_PERMISSIONS_LOCATION = 482
-        private const val REQUEST_PERMISSIONS_BACKGROUND_LOCATION = 483
-        private const val REQUEST_PERMISSIONS_SMS = 484
-        private const val REQUEST_PERMISSIONS_NOTIFICATIONS = 485
-    }
-
     private val tvCoarseLocation1: TextView by lazy { findViewById(R.id.tvCoarseLocation1) }
     private val tvCoarseLocation: TextView by lazy { findViewById(R.id.tvCoarseLocation) }
     private val tvFineLocation1: TextView by lazy { findViewById(R.id.tvFineLocation1) }
@@ -54,11 +47,61 @@ class PermissionActivity : AppActivity() {
     private var colorGranted = 0
     private var colorError = 0
 
+    private val permissionsLauncher = registerForActivityResult(
+        RequestMultiplePermissions()
+    ) { results ->
+        // Всегда обновляем UI (цвета/зачеркивания берутся через checkSelfPermission).
+        viewPermissions()
+
+        // Проверяем разрешения уведомлений.
+        if (results.containsKey(Manifest.permission.POST_NOTIFICATIONS)) {
+            if (results[Manifest.permission.POST_NOTIFICATIONS] == false) {
+                showErrorSnackbar(btnNotifications, R.string.notifications_request_blocked)
+            }
+        }
+
+        // Проверяем разрешения SMS.
+        if (results.containsKey(Manifest.permission.SEND_SMS) || results.containsKey(Manifest.permission.RECEIVE_SMS)) {
+            val smsSent = results[Manifest.permission.SEND_SMS] ?: false
+            val smsRec = results[Manifest.permission.RECEIVE_SMS] ?: false
+            if (!smsSent || !smsRec) {
+                showErrorSnackbar(btnSMS, R.string.sms_request_blocked)
+            }
+        }
+
+        // Проверяем разрешения точного местоположения.
+        if (results.containsKey(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            val fineGranted = results[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+            if (!fineGranted) {
+                showErrorSnackbar(btnLocation, R.string.location_request_blocked)
+            } else {
+                // Если это разрешение только что дали — инициируем запрос фоновой локации.
+                requestBackgroundLocationPermission(btnNotifications)
+            }
+        }
+
+        // Проверяем разрешения работы в фоновом режиме.
+        if (results.containsKey(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+            if (results[Manifest.permission.ACCESS_BACKGROUND_LOCATION] == false) {
+                showErrorSnackbar(btnBackgroundLocation, R.string.location_bg_request_blocked)
+            }
+        }
+    }
+
+    private fun showErrorSnackbar(view: View, messageRes: Int) {
+        // Функция выводит ошибку в Snackbar.
+
+        val message = getString(messageRes) + "\n" + getString(R.string.set_access_manually)
+        Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(android.R.string.ok) {}
+            .show()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Выполнение запросов недостающих разрешений.
 	    // Настройка данных для отображения разрешений и кнопок запроса недостающих разрешений.
-
 
         super.onCreate(savedInstanceState)
 
@@ -67,23 +110,10 @@ class PermissionActivity : AppActivity() {
             finish()
         }
 
-        val theme = getTheme()
-        val typedValueColorGranted = TypedValue()
-        val typedValuecolorError = TypedValue()
-        theme.resolveAttribute(
-            R.attr.colorGranted,
-            typedValueColorGranted, true
-        )
-        theme.resolveAttribute(
-            androidx.appcompat.R.attr.colorError,
-            typedValuecolorError, true
-        )
-        colorGranted = typedValueColorGranted.data
-        colorError = typedValuecolorError.data
-
+        colorGranted = getThemeColor(R.attr.colorGranted)
+        colorError = getThemeColor(androidx.appcompat.R.attr.colorError)
 
         requestPermissions()
-        requestBackgroundLocationPermission(btnBackgroundLocation)
         viewPermissions()
 
         btnLocation.setOnClickListener { view ->
@@ -123,10 +153,9 @@ class PermissionActivity : AppActivity() {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
 
-        val locationPermissionRequest = registerForActivityResult(
-            RequestMultiplePermissions()
-        ) { _: Map<String, @JvmSuppressWildcards Boolean> -> }
-        locationPermissionRequest.launch(permissions.toTypedArray())
+        if (permissions.isNotEmpty()) {
+            permissionsLauncher.launch(permissions.toTypedArray())
+        }
     }
 
 
@@ -134,64 +163,22 @@ class PermissionActivity : AppActivity() {
         // Функция запрашивает разрешения работы в фоновом режиме,
         // если выданы все разрешения геолокации.
 
-        if ((ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED) &&
-            (ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED) &&
-            (ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED)
-        ) {
+        val hasFine = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        val hasBackground = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                ))
-            ) {
-                // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_background_location,
-                    Snackbar.LENGTH_LONG).show()
+        // Запрашиваем фоновую, только если обычная уже есть, а фоновой еще нет
+        if (hasFine && !hasBackground) {
+            // На API 31+ Rationale критически важен, так как системного диалога может не быть
+            // (пользователя сразу отправит в настройки)
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                // Показываем пояснение, если пользователь уже отклонял запрос ранее.
+                Snackbar.make(view, R.string.allow_background_location, Snackbar.LENGTH_LONG).show()
             }
 
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                REQUEST_PERMISSIONS_BACKGROUND_LOCATION
-            )
-        }
-    }
-
-
-    private fun requestBackgroundLocationPermissionButtonClick(view: View) {
-        // Функция - обработчик кнопки запроса работы в фоновом режиме.
-        // Запрашивает разрешения работы в фоновом режиме.
-
-        if ((ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED)
-        ) {
-
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                ))
-            ) {
-                // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_background_location,
-                    Snackbar.LENGTH_LONG).show()
-            }
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                REQUEST_PERMISSIONS_BACKGROUND_LOCATION
-            )
+            permissionsLauncher.launch(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
         }
     }
 
@@ -200,114 +187,89 @@ class PermissionActivity : AppActivity() {
         // Функция - обработчик кнопки запроса разрешений геолокации.
         // Запрашивает все разрешения геолокации.
 
-        if ((ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED) ||
-            (ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) ||
+            ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION)
         ) {
-
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )) ||
-                (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ))
-            ) {
-                // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_fine_location,
-                    Snackbar.LENGTH_LONG).show()
-            }
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                REQUEST_PERMISSIONS_LOCATION
-            )
+            // Показываем пояснение, если пользователь уже отклонял запрос ранее.
+            Snackbar.make(view, R.string.allow_fine_location, Snackbar.LENGTH_LONG).show()
         }
+
+        // На Android 12+ (API 31) система сама предложит пользователю выбор "Точно/Приблизительно".
+        permissionsLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
     }
 
+    private fun requestBackgroundLocationPermissionButtonClick(view: View) {
+        // Функция - обработчик кнопки запроса работы в фоновом режиме.
+        // Запрашивает разрешения работы в фоновом режиме.
+
+        val hasFine = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+        // Проверяем, есть ли основное разрешение. Без него фоновое запрашивать нельзя.
+        if (!hasFine) {
+            Snackbar.make(view, R.string.allow_fine_location, Snackbar.LENGTH_LONG).show()
+            return
+        }
+
+        // Если основное есть, а фонового нет — запрашиваем.
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+                // Показываем пояснение, если пользователь уже отклонял запрос ранее.
+                Snackbar.make(view, R.string.allow_background_location, Snackbar.LENGTH_LONG).show()
+            }
+
+            permissionsLauncher.launch(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
+        }
+    }
 
     private fun requestSMSPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений SMS.
         // Запрашивает все разрешения SMS.
 
-        if ((ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.RECEIVE_SMS
-            ) != PackageManager.PERMISSION_GRANTED) ||
-            (ContextCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.SEND_SMS
-            ) != PackageManager.PERMISSION_GRANTED)
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.RECEIVE_SMS) ||
+            ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.SEND_SMS)
         ) {
-
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.RECEIVE_SMS
-                )) ||
-                (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.SEND_SMS
-                ))
-            ) {
-                // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                Snackbar.make(view, R.string.allow_SMS,
-                    Snackbar.LENGTH_LONG).show()
-            }
-
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.RECEIVE_SMS,
-                    Manifest.permission.SEND_SMS
-                ),
-                REQUEST_PERMISSIONS_SMS
-            )
+            // Показываем пояснение, если пользователь уже отклонял запрос ранее.
+            Snackbar.make(view, R.string.allow_SMS, Snackbar.LENGTH_LONG).show()
         }
+
+        permissionsLauncher.launch(
+            arrayOf(
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.SEND_SMS
+            )
+        )
     }
 
 
-    private fun requestNotificationPermissionButtonClick(view: View) {
+    fun requestNotificationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений на уведомления.
 
         // Проверка актуальна только для Android 13 (API 33) и выше
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
 
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        this,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    )
-                ) {
-                    // Предоставляет дополнительную информацию, если разрешение так и не было выдано.
-                    Snackbar.make(
-                        view,
-                        R.string.allow_notifications,
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    REQUEST_PERMISSIONS_NOTIFICATIONS )
-
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.POST_NOTIFICATIONS)) {
+                // Показываем пояснение, если пользователь уже отклонял запрос ранее.
+                Snackbar.make(view, R.string.allow_notifications, Snackbar.LENGTH_LONG).show()
             }
+
+            permissionsLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         }
     }
+
 
     private fun viewPermissions() {
         // Функция проверяет необходимые разрешения и выводит их.
@@ -435,59 +397,9 @@ class PermissionActivity : AppActivity() {
         button.visibility = View.INVISIBLE
     }
 
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        // Функция обработки ответа на запрос разрешений.
-        // Выводятся вплывающие сообщения, в том случае, если пришёл отказ на выдачу разрешений.
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        viewPermissions()
-        when (requestCode) {
-            REQUEST_PERMISSIONS_LOCATION -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_DENIED) {
-                    val message = getString(R.string.location_request_blocked) + "\n" +
-                            getString(R.string.set_access_manually)
-                    Snackbar.make(btnLocation, message,
-                        Snackbar.LENGTH_INDEFINITE).show()
-                }
-                return
-            }
-
-            REQUEST_PERMISSIONS_BACKGROUND_LOCATION -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_DENIED) {
-                    val message = getString(R.string.location_bg_request_blocked) + "\n" +
-                            getString(R.string.set_access_manually)
-                    Snackbar.make(btnBackgroundLocation, message,
-                        Snackbar.LENGTH_INDEFINITE).show()
-                }
-                return
-            }
-
-            REQUEST_PERMISSIONS_SMS -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_DENIED) {
-                    val message = getString(R.string.sms_request_blocked) + "\n" +
-                            getString(R.string.set_access_manually)
-                    Snackbar.make(btnSMS, message,
-                        Snackbar.LENGTH_INDEFINITE).show()
-                }
-            }
-
-            REQUEST_PERMISSIONS_NOTIFICATIONS -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_DENIED) {
-                    val message = getString(R.string.notifications_request_blocked) + "\n" +
-                            getString(R.string.set_access_manually)
-                    Snackbar.make(btnNotifications, message,
-                        Snackbar.LENGTH_INDEFINITE).show()
-                }
-            }
-        }
+    private fun getThemeColor(attr: Int): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(attr, typedValue, true)
+        return typedValue.data
     }
 }

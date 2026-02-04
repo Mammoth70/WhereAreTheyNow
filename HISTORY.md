@@ -254,4 +254,13 @@ Patch - совсем незначительные изменения.
 Переписан UsersAdapter. Удалены классы футера из кода, а в макет добавлены атрибуты paddingBottom и clipToPadding, создающие внутренний отступ.
 
 ### 3.14.5
-Небольшая оптимизация PermissionActivity.
+Небольшая оптимизация PermissionActivity.  
+Перерисовка текста вынесена в функции setViewsGranted, setViewsDenied.  
+Отображение кнопок вынесено в функции setButtonEnable, setButtonDisable.
+
+### 3.14.6
+Изменения в PermissionActivity.  
+Отказ от requestPermissions и обработки в onRequestPermissionsResult. Переход на ActivityResultLauncher.  
+Теперь инициализация запроса Background Location поисходит строго после одобрения Fine Location.  
+Получение цветов темы вынесено в функцию getThemeColor.  
+Сделана функция showErrorSnackbar, для вывода сообщений в Snackbar.
