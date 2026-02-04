@@ -475,10 +475,10 @@ class PermissionActivity : AppActivity() {
                 spNotifications.setSpan(
                     StrikethroughSpan(),
                     0,
-                    getString(R.string.access_fine_location).length,
+                    getString(R.string.access_notifications).length,
                     0
                 )
-                tvNotifications.text = spFineLocation
+                tvNotifications.text = spNotifications
                 tvNotifications.setTextColor(colorError)
                 tvNotifications1.setText(R.string.denied1)
                 tvNotifications1.setTextColor(colorError)
