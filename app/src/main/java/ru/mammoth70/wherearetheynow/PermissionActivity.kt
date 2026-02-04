@@ -2,10 +2,9 @@ package ru.mammoth70.wherearetheynow
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.StrikethroughSpan
 import android.util.TypedValue
 import android.view.View
 import android.widget.Button
@@ -131,7 +130,7 @@ class PermissionActivity : AppActivity() {
     }
 
 
-    fun requestBackgroundLocationPermission(view: View) {
+    private fun requestBackgroundLocationPermission(view: View) {
         // Функция запрашивает разрешения работы в фоновом режиме,
         // если выданы все разрешения геолокации.
 
@@ -168,7 +167,7 @@ class PermissionActivity : AppActivity() {
     }
 
 
-    fun requestBackgroundLocationPermissionButtonClick(view: View) {
+    private fun requestBackgroundLocationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса работы в фоновом режиме.
         // Запрашивает разрешения работы в фоновом режиме.
 
@@ -197,7 +196,7 @@ class PermissionActivity : AppActivity() {
     }
 
 
-    fun requestLocationPermissionButtonClick(view: View) {
+    private fun requestLocationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений геолокации.
         // Запрашивает все разрешения геолокации.
 
@@ -237,7 +236,7 @@ class PermissionActivity : AppActivity() {
     }
 
 
-    fun requestSMSPermissionButtonClick(view: View) {
+    private fun requestSMSPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений SMS.
         // Запрашивает все разрешения SMS.
 
@@ -277,7 +276,7 @@ class PermissionActivity : AppActivity() {
     }
 
 
-    fun requestNotificationPermissionButtonClick(view: View) {
+    private fun requestNotificationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений на уведомления.
 
         // Проверка актуальна только для Android 13 (API 33) и выше
@@ -315,34 +314,15 @@ class PermissionActivity : AppActivity() {
         // Зелёный цвет, если разрешение выдано, красный цвет и зачёркнуто, если разрешение не выдано.
         // Также, если разрешения нет, делается видимой кнопка запроса.
 
-        val spCoarseLocation = SpannableString(getString(R.string.access_coarse_location))
-        val spFineLocation = SpannableString(getString(R.string.access_fine_location))
-        val spBackgroundLocation = SpannableString(getString(R.string.access_background_location))
-        val spReceiveSMS = SpannableString(getString(R.string.access_Receive_SMS))
-        val spSendSMS = SpannableString(getString(R.string.access_Send_SMS))
-        val spNotifications = SpannableString(getString(R.string.access_notifications))
-
         // Настройка показа разрешений примерного расположения.
         if ((ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvCoarseLocation.setText(R.string.access_coarse_location)
-            tvCoarseLocation.setTextColor(colorGranted)
-            tvCoarseLocation1.setText(R.string.granted1)
-            tvCoarseLocation1.setTextColor(colorGranted)
+            setViewsGranted(R.string.access_coarse_location, tvCoarseLocation, tvCoarseLocation1)
         } else {
-            spCoarseLocation.setSpan(
-                StrikethroughSpan(),
-                0,
-                getString(R.string.access_coarse_location).length,
-                0
-            )
-            tvCoarseLocation.text = spCoarseLocation
-            tvCoarseLocation.setTextColor(colorError)
-            tvCoarseLocation1.setText(R.string.denied1)
-            tvCoarseLocation1.setTextColor(colorError)
+            setViewsDenied(R.string.access_coarse_location, tvCoarseLocation, tvCoarseLocation1)
         }
 
         // Настройка показа разрешений точного расположения и кнопки запроса этих разрешений.
@@ -351,25 +331,11 @@ class PermissionActivity : AppActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvFineLocation.setText(R.string.access_fine_location)
-            tvFineLocation.setTextColor(colorGranted)
-            tvFineLocation1.setText(R.string.granted1)
-            tvFineLocation1.setTextColor(colorGranted)
-            btnLocation.setEnabled(false)
-            btnLocation.visibility = View.INVISIBLE
+            setViewsGranted(R.string.access_fine_location, tvFineLocation, tvFineLocation1)
+            setButtonDisable(btnLocation)
         } else {
-            spFineLocation.setSpan(
-                StrikethroughSpan(),
-                0,
-                getString(R.string.access_fine_location).length,
-                0
-            )
-            tvFineLocation.text = spFineLocation
-            tvFineLocation.setTextColor(colorError)
-            tvFineLocation1.setText(R.string.denied1)
-            tvFineLocation1.setTextColor(colorError)
-            btnLocation.setEnabled(true)
-            btnLocation.visibility = View.VISIBLE
+            setViewsDenied(R.string.access_fine_location, tvFineLocation, tvFineLocation1)
+            setButtonEnable(btnLocation)
         }
 
         // Настройка показа разрешений работы в фоновом режиме и кнопки запроса этих разрешений.
@@ -378,25 +344,11 @@ class PermissionActivity : AppActivity() {
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvBackgroundLocation.setText(R.string.access_background_location)
-            tvBackgroundLocation.setTextColor(colorGranted)
-            tvBackgroundLocation1.setText(R.string.granted1)
-            tvBackgroundLocation1.setTextColor(colorGranted)
-            btnBackgroundLocation.setEnabled(false)
-            btnBackgroundLocation.visibility = View.INVISIBLE
+            setViewsGranted(R.string.access_background_location, tvBackgroundLocation, tvBackgroundLocation1)
+            setButtonDisable(btnBackgroundLocation)
         } else {
-            spBackgroundLocation.setSpan(
-                StrikethroughSpan(),
-                0,
-                getString(R.string.access_background_location).length,
-                0
-            )
-            tvBackgroundLocation.text = spBackgroundLocation
-            tvBackgroundLocation.setTextColor(colorError)
-            tvBackgroundLocation1.setText(R.string.denied1)
-            tvBackgroundLocation1.setTextColor(colorError)
-            btnBackgroundLocation.setEnabled(true)
-            btnBackgroundLocation.visibility = View.VISIBLE
+            setViewsDenied(R.string.access_background_location, tvBackgroundLocation, tvBackgroundLocation1)
+            setButtonEnable(btnBackgroundLocation)
         }
 
         // Настройка показа разрешений получения SMS.
@@ -405,21 +357,9 @@ class PermissionActivity : AppActivity() {
                 Manifest.permission.RECEIVE_SMS
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvReceiveSMS.setText(R.string.access_Receive_SMS)
-            tvReceiveSMS.setTextColor(colorGranted)
-            tvReceiveSMS1.setText(R.string.granted1)
-            tvReceiveSMS1.setTextColor(colorGranted)
+            setViewsGranted(R.string.access_Receive_SMS, tvReceiveSMS, tvReceiveSMS1)
         } else {
-            spReceiveSMS.setSpan(
-                StrikethroughSpan(),
-                0,
-                getString(R.string.access_Receive_SMS).length,
-                0
-            )
-            tvReceiveSMS.text = spReceiveSMS
-            tvReceiveSMS.setTextColor(colorError)
-            tvReceiveSMS1.setText(R.string.denied1)
-            tvReceiveSMS1.setTextColor(colorError)
+            setViewsDenied(R.string.access_Receive_SMS, tvReceiveSMS, tvReceiveSMS1)
         }
 
         // Настройка показа разрешений отправки SMS и кнопки запроса разрешений SMS.
@@ -428,16 +368,9 @@ class PermissionActivity : AppActivity() {
                 Manifest.permission.SEND_SMS
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            tvSendSMS.setText(R.string.access_Send_SMS)
-            tvSendSMS.setTextColor(colorGranted)
-            tvSendSMS1.setText(R.string.granted1)
-            tvSendSMS1.setTextColor(colorGranted)
+            setViewsGranted(R.string.access_Send_SMS, tvSendSMS, tvSendSMS1)
         } else {
-            spSendSMS.setSpan(StrikethroughSpan(), 0, getString(R.string.access_Send_SMS).length, 0)
-            tvSendSMS.text = spSendSMS
-            tvSendSMS.setTextColor(colorError)
-            tvSendSMS1.setText(R.string.denied1)
-            tvSendSMS1.setTextColor(colorError)
+            setViewsDenied(R.string.access_Send_SMS, tvSendSMS, tvSendSMS1)
         }
 
         // Настройка кнопки запроса разрешений SMS.
@@ -450,11 +383,9 @@ class PermissionActivity : AppActivity() {
                 Manifest.permission.SEND_SMS
             ) == PackageManager.PERMISSION_GRANTED)
         ) {
-            btnSMS.setEnabled(false)
-            btnSMS.visibility = View.INVISIBLE
+            setButtonDisable(btnSMS)
         } else {
-            btnSMS.setEnabled(true)
-            btnSMS.visibility = View.VISIBLE
+            setButtonEnable(btnSMS)
         }
 
         // Настройка показа разрешений уведомлений и кнопки запроса этих разрешений.
@@ -465,28 +396,45 @@ class PermissionActivity : AppActivity() {
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED)
             ) {
-                tvNotifications.setText(R.string.access_notifications)
-                tvNotifications.setTextColor(colorGranted)
-                tvNotifications1.setText(R.string.granted1)
-                tvNotifications1.setTextColor(colorGranted)
-                btnNotifications.setEnabled(false)
-                btnNotifications.visibility = View.INVISIBLE
+                setViewsGranted(R.string.access_notifications, tvNotifications, tvNotifications1)
+                setButtonDisable(btnNotifications)
             } else {
-                spNotifications.setSpan(
-                    StrikethroughSpan(),
-                    0,
-                    getString(R.string.access_notifications).length,
-                    0
-                )
-                tvNotifications.text = spNotifications
-                tvNotifications.setTextColor(colorError)
-                tvNotifications1.setText(R.string.denied1)
-                tvNotifications1.setTextColor(colorError)
-                btnNotifications.setEnabled(true)
-                btnNotifications.visibility = View.VISIBLE
+                setViewsDenied(R.string.access_notifications, tvNotifications, tvNotifications1)
+                setButtonEnable(btnNotifications)
             }
         }
     }
+
+    private fun setViewsGranted(resId: Int, text: TextView, label: TextView) {
+        // Функция заполняет text, в label выводит галочку и красит всё в зелёный.
+        text.setText(resId)
+        text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        text.setTextColor(colorGranted)
+        label.setText(R.string.granted1)
+        label.setTextColor(colorGranted)
+    }
+
+    private fun setViewsDenied(resId: Int, text: TextView, label: TextView) {
+        // Функция заполняет и зачеркивает text, в label выводит крестик и красит всё в красный.
+        text.setText(resId)
+        text.paintFlags = text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        text.setTextColor(colorError)
+        label.setText(R.string.denied1)
+        label.setTextColor(colorError)
+    }
+
+    private fun setButtonEnable(button: Button) {
+        // Функция включает и показывает кнопочку.
+        button.setEnabled(true)
+        button.visibility = View.VISIBLE
+    }
+
+    private fun setButtonDisable(button: Button) {
+        // Функция выключает и прячет кнопочку.
+        button.setEnabled(false)
+        button.visibility = View.INVISIBLE
+    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
