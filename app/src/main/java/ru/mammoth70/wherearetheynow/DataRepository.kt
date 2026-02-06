@@ -8,31 +8,34 @@ object DataRepository {
     // Основной список объектов (единственный источник истины).
 
     private val _users = mutableListOf<User>()        // Список контактов с телефонами.
-    val users: List<User> get() = _users
+    val users: List<User> get() = synchronized(this) { _users.toList() }
 
     private val _menuPhones = mutableListOf<String>() // Список телефонов для меню. Ограничен наличием записей геолокации.
-    val menuPhones: List<String> get() = _menuPhones
+    val menuPhones: List<String> get() = synchronized(this) { _menuPhones.toList() }
 
     private val phoneMap = HashMap<String, User>()    // Индекс (поиск по номеру телефона за O(1)).
     private val idMap = HashMap<Int, User>()          // Индекс (поиск по id за O(1)).
 
     var lastAnswerRecord: PointRecord? = null         // Запись с данными последнего ответа.
+        get() = synchronized(this) { field }
+        private set
 
-    var myPhone: String = ""                          // Номер моего телефона.
-        get() {
+    var myPhone: String = ""
+        get() = synchronized(this) {        // Номер моего телефона.
             if (field.isEmpty()) {
                 val settings = App.appContext.getSharedPreferences(NAME_SETTINGS, android.content.Context.MODE_PRIVATE)
                 field = settings.getString(NAME_MY_PHONE, "") ?: ""
             }
-            return field
+            field
         }
-        set(value) {
+        set(value) = synchronized(this) {
             if (value.isNotBlank()) {
                 field = value
-                val settings = App.appContext.getSharedPreferences(NAME_SETTINGS,android.content.Context.MODE_PRIVATE)
+                val settings = App.appContext.getSharedPreferences(NAME_SETTINGS, android.content.Context.MODE_PRIVATE)
                 settings.edit { putString(NAME_MY_PHONE, value) }
             }
         }
+
 
     fun refreshData() {
         // Функция считывает из БД все данные.
@@ -41,20 +44,23 @@ object DataRepository {
         val freshMenu = DBhelper.dbHelper.readDbMenuUsers()
         val lastAnswer = DBhelper.dbHelper.readDbLastAnswer()
 
-        _users.clear()
-        _users.addAll(freshUsers)
+        synchronized(this) {
+            _users.clear()
+            _users.addAll(freshUsers)
 
-        _menuPhones.clear()
-        _menuPhones.addAll(freshMenu)
+            _menuPhones.clear()
+            _menuPhones.addAll(freshMenu)
 
-        lastAnswerRecord = lastAnswer
+            lastAnswerRecord = lastAnswer
 
-        phoneMap.clear()
-        phoneMap.putAll(_users.associateBy { it.phone })
+            phoneMap.clear()
+            phoneMap.putAll(freshUsers.associateBy { it.phone })
 
-        idMap.clear()
-        idMap.putAll(_users.associateBy { it.id })
+            idMap.clear()
+            idMap.putAll(freshUsers.associateBy { it.id })
+        }
     }
+
 
     fun addUser(phone: String, name: String, color: String): Boolean {
         // Функция для добавления контакта.
@@ -64,17 +70,22 @@ object DataRepository {
         if (name.isEmpty()) return false
         if (!PinColors.isValidColors(color)) return false
 
-        if (phoneMap.containsKey(phone)) {
-            return false
+        synchronized(this) {
+            if (phoneMap.containsKey(phone)) {
+                return false
+            }
         }
 
         val newId = DBhelper.dbHelper.addDbUser(User(-1, phone, name, color))
         if (newId != -1L) {
             val newUser = User(newId.toInt(), phone, name, color)
-            _users.add(newUser)
-            phoneMap[phone] = newUser
-            idMap[newUser.id] = newUser
-            return true
+            synchronized(this) {
+                if (phoneMap.containsKey(phone)) return false
+                _users.add(newUser)
+                phoneMap[phone] = newUser
+                idMap[newUser.id] = newUser
+                return true
+            }
         }
         return false
     }
@@ -83,17 +94,25 @@ object DataRepository {
         // Функция для добавления контакта.
         // Возвращает true, если успешно и false, если нет.
 
-        val user = idMap[id] ?: return false
+        val userToDelete = synchronized(this) {
+            idMap[id]
+        } ?: return false
 
-        if (DBhelper.dbHelper.deleteDbUser(user)) {
-            _users.remove(user)
-            idMap.remove(id)
-            phoneMap.remove(user.phone)
+        val isDeletedFromDb = DBhelper.dbHelper.deleteDbUser(userToDelete)
 
-            lastAnswerRecord = DBhelper.dbHelper.readDbLastAnswer()
+        if (isDeletedFromDb) {
+            val freshLastAnswer = DBhelper.dbHelper.readDbLastAnswer()
 
+            synchronized(this) {
+                _users.remove(userToDelete)
+                idMap.remove(id)
+                phoneMap.remove(userToDelete.phone)
+
+                lastAnswerRecord = freshLastAnswer
+            }
             return true
         }
+
         return false
     }
 
@@ -101,36 +120,43 @@ object DataRepository {
         // Функция для редактирования контакта.
         // Возвращает true, если успешно и false, если нет.
 
-        if (user.phone.isEmpty()) return false
-        if (user.name.isEmpty()) return false
+        if (user.phone.isBlank() || user.name.isBlank()) return false
         if (!PinColors.isValidColors(user.color)) return false
 
-        val oldUser = getUser(user.id) ?: return false
+        synchronized(this) {
+            val oldUser = idMap[user.id] ?: return false
 
-        if (oldUser.phone != user.phone && getUser(user.phone) != null) {
-            return false
+            if (oldUser.phone != user.phone && phoneMap.containsKey(user.phone)) {
+                return false
+            }
         }
 
         if (DBhelper.dbHelper.editDbUser(user)) {
-            val updatedUser = oldUser.copy(
-                phone = user.phone,
-                name = user.name,
-                color = user.color
-            )
+            val freshLastAnswer = DBhelper.dbHelper.readDbLastAnswer()
 
-            val index = users.indexOfFirst { it.id == user.id }
-            if (index != -1) {
-                _users[index] = updatedUser
+            synchronized(this) {
+                val currentOldUser = idMap[user.id] ?: return false
+
+                val updatedUser = currentOldUser.copy(
+                    phone = user.phone,
+                    name = user.name,
+                    color = user.color
+                )
+
+                val index = _users.indexOfFirst { it.id == user.id }
+                if (index != -1) {
+                    _users[index] = updatedUser
+                }
+
+                if (currentOldUser.phone != user.phone) {
+                    phoneMap.remove(currentOldUser.phone)
+                }
+                phoneMap[user.phone] = updatedUser
+
+                idMap[user.id] = updatedUser
+
+                lastAnswerRecord = freshLastAnswer
             }
-
-            if (oldUser.phone != user.phone) {
-                phoneMap.remove(oldUser.phone)
-            }
-            phoneMap[user.phone] = updatedUser
-            idMap[user.id] = updatedUser
-
-            lastAnswerRecord = DBhelper.dbHelper.readDbLastAnswer()
-
             return true
         }
 
@@ -140,22 +166,31 @@ object DataRepository {
     fun writeLastPoint(record: PointRecord): Boolean {
         // Функция заносит в память и в БД последние известные координаты контакта.
 
-        val user = getUser(record.phone) ?: return false
-
         DBhelper.dbHelper.writeDbLastPoint(record)
-
-        user.lastRecord = record
-
-        lastAnswerRecord = record
-
         val freshMenu = DBhelper.dbHelper.readDbMenuUsers()
-        _menuPhones.clear()
-        _menuPhones.addAll(freshMenu)
+
+        synchronized(this) {
+            val oldUser = phoneMap[record.phone] ?: return false
+
+            val updatedUser = oldUser.copy(lastRecord = record)
+
+            val index = _users.indexOfFirst { it.phone == record.phone }
+            if (index != -1) {
+                _users[index] = updatedUser
+            }
+
+            phoneMap[record.phone] = updatedUser
+            idMap[updatedUser.id] = updatedUser
+
+            lastAnswerRecord = record
+            _menuPhones.clear()
+            _menuPhones.addAll(freshMenu)
+        }
 
         return true
     }
 
     // Методы доступа, заменяющие мапы.
-    fun getUser(phone: String) = phoneMap[phone]
-    fun getUser(id: Int) = idMap[id]
+    fun getUser(phone: String) = synchronized(this) { phoneMap[phone] }
+    fun getUser(id: Int): User? = synchronized(this) { idMap[id] }
 }
