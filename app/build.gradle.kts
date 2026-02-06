@@ -14,6 +14,15 @@ android {
         version = release(36)
     }
 
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
+
     /* androidResources {
         localeFilters.clear()
         localeFilters.addAll(listOf("en", "ru"))
@@ -21,8 +30,8 @@ android {
 
     defaultConfig {
         val versionMajor = 3
-        val versionMinor = 14
-        val versionPatch = 11
+        val versionMinor = 15
+        val versionPatch = 0
         applicationId = "ru.mammoth70.wherearetheynow"
         minSdk = 31
         targetSdk = 36
@@ -76,7 +85,9 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.yandex.maps.mobile)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.platform.launcher)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
