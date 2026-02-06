@@ -116,7 +116,6 @@ fun stringToDate(dateTime: String): Date? {
 
 object LogSmart {
     fun e(tag: String, message: String, throwable: Throwable? = null) {
-        @Suppress("KotlinConstantConditions")
         if (BuildConfig.DEBUG) {
             Log.e(tag, message, throwable)
         }
@@ -124,7 +123,6 @@ object LogSmart {
 
     @Suppress("unused")
     fun d(tag: String, message: String) {
-        @Suppress("KotlinConstantConditions")
         if (BuildConfig.DEBUG) {
             Log.d(tag, message)
         }
