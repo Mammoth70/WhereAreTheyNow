@@ -261,9 +261,19 @@ Patch - совсем незначительные изменения.
 ### 3.14.6
 Изменения в PermissionActivity.  
 Отказ от requestPermissions и обработки в onRequestPermissionsResult. Переход на ActivityResultLauncher.  
-Теперь инициализация запроса Background Location поисходит строго после одобрения Fine Location.  
+Теперь инициализация запроса Background Location происходит строго после одобрения Fine Location.  
 Получение цветов темы вынесено в функцию getThemeColor.  
 Сделана функция showErrorSnackbar, для вывода сообщений в Snackbar.
 
 ### 3.14.7
 Изменения в макете. В activity_main.xml избавились от ConstraintLayout. Поправлен макет partial_fab_main.xml, чтобы кнопка FAB могла взаимодействовать с coordinatorlayout.
+
+### 3.14.8
+Изменены параметры функций в модуле dbHelper.  
+Соответственно, в модуле DataRepository изменены вызовы этих функций.  
+Добавлены дополнительные проверки в функциях модуля DataRepository.  
+
+Написаны функции логирования при включённом debug-режиме.  
+Добавлено логирование ошибок во все пустые блоки catch.  
+
+Переименован класс SMSMonitor в SMSmonitor.

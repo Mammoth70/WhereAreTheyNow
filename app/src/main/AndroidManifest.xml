@@ -110,7 +110,7 @@
             tools:ignore="ExportedService" />
 
         <receiver
-            android:name=".SMSMonitor"
+            android:name=".SMSmonitor"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">

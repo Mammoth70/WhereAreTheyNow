@@ -1,6 +1,7 @@
 package ru.mammoth70.wherearetheynow
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
@@ -107,7 +108,25 @@ fun stringToDate(dateTime: String): Date? {
         SimpleDateFormat(FORMAT_DATETIME, Locale.US)
     return try {
         dateFormat.parse(dateTime)
-    } catch (_: ParseException) {
+    } catch (e: ParseException) {
+        LogSmart.e("Util", "ParseException в stringToDate(${dateTime})", e)
         null
+    }
+}
+
+object LogSmart {
+    fun e(tag: String, message: String, throwable: Throwable? = null) {
+        @Suppress("KotlinConstantConditions")
+        if (BuildConfig.DEBUG) {
+            Log.e(tag, message, throwable)
+        }
+    }
+
+    @Suppress("unused")
+    fun d(tag: String, message: String) {
+        @Suppress("KotlinConstantConditions")
+        if (BuildConfig.DEBUG) {
+            Log.d(tag, message)
+        }
     }
 }

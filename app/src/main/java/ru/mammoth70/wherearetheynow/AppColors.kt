@@ -77,4 +77,11 @@ object AppColors {
         }
     }
 
+
+    fun isValidColors(color: String): Boolean {
+        // Функция проверяет вхождение строки в список.
+
+        return (color in colors)
+    }
+
 }

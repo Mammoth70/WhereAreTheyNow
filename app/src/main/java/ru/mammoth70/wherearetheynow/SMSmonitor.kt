@@ -6,7 +6,7 @@ import android.content.Intent
 import android.provider.Telephony
 import java.util.regex.Pattern
 
-class SMSMonitor : BroadcastReceiver() {
+class SMSmonitor : BroadcastReceiver() {
     // Класс слушает поток SMS. Если SMS-сообщение приходит от разрешённых абонентов,
     // делается парсинг сообщения (запрос геолокации или ответ с голокацией)
     // и передача дальнейшей обработки.
@@ -88,8 +88,10 @@ class SMSMonitor : BroadcastReceiver() {
                 if (show) {
                     viewLocation(context, record, true)
                 }
-            } catch (_: NumberFormatException) {
-            } catch (_: NullPointerException) {
+            } catch (e: NumberFormatException) {
+                LogSmart.e("SMSmonitor", "NumberFormatException в receiveLocation(... $message ...)", e)
+            } catch (e: NullPointerException) {
+                LogSmart.e("SMSmonitor", "NullPointerException в receiveLocation(... $message ...)", e)
             }
         }
     }

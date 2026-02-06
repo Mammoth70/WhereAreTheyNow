@@ -88,8 +88,8 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     var lastRecord: PointRecord? = null
 
                     if (rawLat != null && rawLon != null && dateTime != null) {
-                        val lat = rawLat.toDoubleOrNull() ?: 0.0
-                        val lon = rawLon.toDoubleOrNull() ?: 0.0
+                        val lat = rawLat.toDouble()
+                        val lon = rawLon.toDouble()
 
                         if (lat in -90.0..90.0 && lon in -180.0..180.0) {
                             lastRecord = PointRecord(phone, lat, lon, dateTime)
@@ -106,7 +106,11 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     userList.add(user)
                 }
             }
-        } catch (_: Exception) { }
+        } catch (e: NumberFormatException) {
+            LogSmart.e("DBhelper", "NumberFormatException в readDbAllUsers()", e)
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в readDbAllUsers()", e)
+        }
         return userList
     }
 
@@ -131,17 +135,19 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     cursor.getString(phoneIdx)?.let { list.add(it) }
                 }
             }
-        } catch (_: Exception) { }
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в readDbMenuUsers()", e)
+        }
         return list
     }
 
-    fun addDbUser(phone: String, name: String, color: String): Long {
+    fun addDbUser(user: User): Long {
         // Функция добавляет контакт в БД.
 
         val values = ContentValues().apply {
-            put("phone", phone)
-            put("name", name)
-            put("color", color)
+            put("phone", user.phone)
+            put("name", user.name)
+            put("color", user.color)
         }
 
         return try {
@@ -151,20 +157,19 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 values,
                 SQLiteDatabase.CONFLICT_IGNORE
             )
-        } catch (_: SQLException) {
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в addDbUser($user)", e)
             -1L
         }
     }
 
-    fun editDbUser(id: Int, phone: String?, name: String?, color: String?): Boolean {
+    fun editDbUser(user: User): Boolean {
         // Функция меняет контакт в БД.
 
-        if (phone == null) return false
-
         val values = ContentValues().apply {
-            put("phone", phone)
-            put("name", name ?: "")
-            put("color", color ?: "")
+            put("phone", user.phone)
+            put("name", user.name)
+            put("color", user.color)
         }
 
         return try {
@@ -172,7 +177,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 "users",
                 values,
                 "id = ?",
-                arrayOf(id.toString())
+                arrayOf(user.id.toString())
             )
 
             if (rowsAffected > 0) {
@@ -181,24 +186,26 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             } else {
                 false
             }
-        } catch (_: SQLException) {
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в editDbUser($user)", e)
             false
         }
     }
 
-    fun deleteDbUser(id: Int, phone: String): Boolean {
+    fun deleteDbUser(user: User): Boolean {
         // Функция удаляет контакт из БД.
 
         return try {
             writableDatabase.transaction {
                 // Удаляем пользователя
-                delete("users", "id = ?", arrayOf(id.toString()))
+                delete("users", "id = ?", arrayOf(user.id.toString()))
                 // Удаляем его координаты
-                delete("points", "phone = ?", arrayOf(phone))
+                delete("points", "phone = ?", arrayOf(user.phone))
             }
             // Если транзакция завершилась без ошибок — успех
             true
-        } catch (_: SQLException) {
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в deleteDbUser($user)", e)
             false
         }
     }
@@ -219,7 +226,9 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
         try {
             writableDatabase.replace("points", null, values)
-        } catch (_: SQLException) { }
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в writeDbLastPoint($record)", e)
+        }
     }
 
     fun readDbLastAnswer(): PointRecord? {
@@ -246,7 +255,10 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     if (record.latitude !in -90.0..90.0 || record.longitude !in -180.0..180.0) {
                         null
                     } else { record }
-                } catch (_: Exception) { null }
+                } catch (e: SQLException) {
+                    LogSmart.e("DBhelper", "SQLException в readDbLastAnswer()", e)
+                    null
+                }
             } else { null }
         }
     }
@@ -261,7 +273,9 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 "phone NOT IN (SELECT phone FROM users)",
                 null
             )
-        } catch (_: SQLException) { }
+        } catch (e: SQLException) {
+            LogSmart.e("DBhelper", "SQLException в checkDbRecords()", e)
+        }
     }
 
 }

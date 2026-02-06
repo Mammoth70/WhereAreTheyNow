@@ -146,7 +146,7 @@ class UserActivity : AppActivity() {
                 }
 
                 ACTION_EDIT_USER -> {
-                    if (DataRepository.editUser(id, phone, name, selectedColorTemp)) {
+                    if (DataRepository.editUser(User(id, phone, name, selectedColorTemp))) {
                         val intent = Intent()
                         intent.putExtra(INTENT_EXTRA_RESULT, ACTION_EDIT_USER)
                         setResult(RESULT_OK, intent)

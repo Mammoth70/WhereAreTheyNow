@@ -60,11 +60,15 @@ object DataRepository {
         // Функция для добавления контакта.
         // Возвращает true, если успешно и false, если нет.
 
+        if (phone.isEmpty()) return false
+        if (name.isEmpty()) return false
+        if (!AppColors.isValidColors(color)) return false
+
         if (phoneMap.containsKey(phone)) {
             return false
         }
 
-        val newId = DBhelper.dbHelper.addDbUser(phone, name, color)
+        val newId = DBhelper.dbHelper.addDbUser(User(-1, phone, name, color))
         if (newId != -1L) {
             val newUser = User(newId.toInt(), phone, name, color)
             _users.add(newUser)
@@ -81,7 +85,7 @@ object DataRepository {
 
         val user = idMap[id] ?: return false
 
-        if (DBhelper.dbHelper.deleteDbUser(id, user.phone)) {
+        if (DBhelper.dbHelper.deleteDbUser(user)) {
             _users.remove(user)
             idMap.remove(id)
             phoneMap.remove(user.phone)
@@ -93,33 +97,37 @@ object DataRepository {
         return false
     }
 
-    fun editUser(id: Int, phone: String, name: String, color: String): Boolean {
+    fun editUser(user: User): Boolean {
         // Функция для редактирования контакта.
         // Возвращает true, если успешно и false, если нет.
 
-        val oldUser = getUser(id) ?: return false
+        if (user.phone.isEmpty()) return false
+        if (user.name.isEmpty()) return false
+        if (!AppColors.isValidColors(user.color)) return false
 
-        if (oldUser.phone != phone && getUser(phone) != null) {
+        val oldUser = getUser(user.id) ?: return false
+
+        if (oldUser.phone != user.phone && getUser(user.phone) != null) {
             return false
         }
 
-        if (DBhelper.dbHelper.editDbUser(id, phone, name, color)) {
+        if (DBhelper.dbHelper.editDbUser(user)) {
             val updatedUser = oldUser.copy(
-                phone = phone,
-                name = name,
-                color = color
+                phone = user.phone,
+                name = user.name,
+                color = user.color
             )
 
-            val index = users.indexOfFirst { it.id == id }
+            val index = users.indexOfFirst { it.id == user.id }
             if (index != -1) {
                 _users[index] = updatedUser
             }
 
-            if (oldUser.phone != phone) {
+            if (oldUser.phone != user.phone) {
                 phoneMap.remove(oldUser.phone)
             }
-            phoneMap[phone] = updatedUser
-            idMap[id] = updatedUser
+            phoneMap[user.phone] = updatedUser
+            idMap[user.id] = updatedUser
 
             lastAnswerRecord = DBhelper.dbHelper.readDbLastAnswer()
 
