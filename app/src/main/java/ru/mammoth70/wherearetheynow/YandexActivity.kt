@@ -110,7 +110,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                         ).apply {
                             strokeColor = userColor.toColorInt()
                             strokeWidth = 1f
-                            fillColor = AppColors.getColorAlpha(userColor)
+                            fillColor = PinColors.getColorAlpha(userColor)
                         }
                     )
                 }
@@ -194,7 +194,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     private fun getBitmapFromColor(color: String?): Bitmap? {
         // Функция возвращает метку заданного цвета.
 
-        return createBitmapFromVector(AppColors.getMarker(color))
+        return createBitmapFromVector(PinColors.getPin(color))
     }
 
     override fun onStart() {

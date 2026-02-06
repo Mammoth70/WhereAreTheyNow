@@ -62,7 +62,7 @@ object DataRepository {
 
         if (phone.isEmpty()) return false
         if (name.isEmpty()) return false
-        if (!AppColors.isValidColors(color)) return false
+        if (!PinColors.isValidColors(color)) return false
 
         if (phoneMap.containsKey(phone)) {
             return false
@@ -103,7 +103,7 @@ object DataRepository {
 
         if (user.phone.isEmpty()) return false
         if (user.name.isEmpty()) return false
-        if (!AppColors.isValidColors(user.color)) return false
+        if (!PinColors.isValidColors(user.color)) return false
 
         val oldUser = getUser(user.id) ?: return false
 

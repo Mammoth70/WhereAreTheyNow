@@ -29,8 +29,8 @@ class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
         fun bind(color: String) {
             // Функция связывает цвет элементами макета.
 
-            itemColorLabel.setBackgroundResource(AppColors.getMarker(color))
-            itemCardColor.setCardBackgroundColor(AppColors.getColorAlpha16(color))
+            itemColorLabel.setBackgroundResource(PinColors.getPin(color))
+            itemCardColor.setCardBackgroundColor(PinColors.getColorAlpha16(color))
         }
     }
 
@@ -46,13 +46,13 @@ class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
 
-        holder.bind(AppColors.colors[position])
+        holder.bind(PinColors.Color.entries[position].hex)
     }
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.
 
-        return AppColors.colors.size
+        return PinColors.Color.entries.size
     }
 
 }

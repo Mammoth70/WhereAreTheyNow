@@ -12,7 +12,6 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.util.Objects
 import kotlin.getValue
 
 class UserActivity : AppActivity() {
@@ -236,21 +235,9 @@ class UserActivity : AppActivity() {
 
         tvMark.text = ""
         selectedColorTemp = color
-        when (Objects.requireNonNull(color)) {
-            AppColors.COLOR_WHITE -> tvMark.setBackgroundResource(R.drawable.ic_pin_white)
-            AppColors.COLOR_RED -> tvMark.setBackgroundResource(R.drawable.ic_pin_red)
-            AppColors.COLOR_ORANGE -> tvMark.setBackgroundResource(R.drawable.ic_pin_orange)
-            AppColors.COLOR_YELLOW -> tvMark.setBackgroundResource(R.drawable.ic_pin_yellow)
-            AppColors.COLOR_GREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_green)
-            AppColors.COLOR_DARKGREEN -> tvMark.setBackgroundResource(R.drawable.ic_pin_darkgreen)
-            AppColors.COLOR_CYAN -> tvMark.setBackgroundResource(R.drawable.ic_pin_cyan)
-            AppColors.COLOR_BLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_blue)
-            AppColors.COLOR_LIGHTBLUE -> tvMark.setBackgroundResource(R.drawable.ic_pin_lightblue)
-            AppColors.COLOR_VIOLET -> tvMark.setBackgroundResource(R.drawable.ic_pin_violet)
-            AppColors.COLOR_MAGENTA -> tvMark.setBackgroundResource(R.drawable.ic_pin_magenta)
-            AppColors.COLOR_BROWN -> tvMark.setBackgroundResource(R.drawable.ic_pin_brown)
-            else -> tvMark.setBackgroundResource(R.drawable.ic_pin_black)
-        }
+
+        val appColor = PinColors.Color.fromHex(color) ?: PinColors.Color.BLACK
+        tvMark.setBackgroundResource(appColor.drawableRes)
     }
 
     var startActivityIntent = registerForActivityResult(StartActivityForResult()

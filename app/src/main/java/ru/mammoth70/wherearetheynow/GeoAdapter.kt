@@ -34,7 +34,7 @@ class GeoAdapter(
             itemLattitude.text = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.latitude)
             itemLongitude.text = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.longitude)
             itemDate.text = record.dateTime
-            itemCardGeo.setCardBackgroundColor(AppColors.getColorAlpha16(user.color))
+            itemCardGeo.setCardBackgroundColor(PinColors.getColorAlpha16(user.color))
         }
 
     }

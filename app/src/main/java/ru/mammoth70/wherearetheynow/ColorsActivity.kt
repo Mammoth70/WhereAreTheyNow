@@ -34,7 +34,7 @@ class ColorsActivity : AppActivity() {
     fun onClickViewItem(position: Int) {
         // Функция вызывается по клику на элемент списка.
 
-        val selectedItem = AppColors.colors[position]
+        val selectedItem = PinColors.Color.entries[position].hex
         val intent = Intent()
         intent.putExtra(INTENT_EXTRA_COLOR, selectedItem)
         setResult(RESULT_OK, intent)

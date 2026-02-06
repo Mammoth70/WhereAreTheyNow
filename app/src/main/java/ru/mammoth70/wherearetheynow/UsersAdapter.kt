@@ -62,9 +62,9 @@ class UsersAdapter(
 
             // Работа с ресурсами
             this.itemUserLabel.setBackgroundResource(
-                AppColors.getMarker(user.color))
+                PinColors.getPin(user.color))
             this.itemCardUser.setCardBackgroundColor(
-                AppColors.getColorAlpha16(user.color))
+                PinColors.getColorAlpha16(user.color))
 
             // Логика кнопки "self"
             if (user.phone == DataRepository.myPhone) {

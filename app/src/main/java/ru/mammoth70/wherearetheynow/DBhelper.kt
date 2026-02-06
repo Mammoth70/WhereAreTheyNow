@@ -87,13 +87,17 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
 
                     var lastRecord: PointRecord? = null
 
-                    if (rawLat != null && rawLon != null && dateTime != null) {
-                        val lat = rawLat.toDouble()
-                        val lon = rawLon.toDouble()
+                    try {
+                        if (rawLat != null && rawLon != null && dateTime != null) {
+                            val lat = rawLat.toDouble()
+                            val lon = rawLon.toDouble()
 
-                        if (lat in -90.0..90.0 && lon in -180.0..180.0) {
-                            lastRecord = PointRecord(phone, lat, lon, dateTime)
+                            if (lat in -90.0..90.0 && lon in -180.0..180.0) {
+                                lastRecord = PointRecord(phone, lat, lon, dateTime)
+                            }
                         }
+                    } catch (e: NumberFormatException) {
+                        LogSmart.e("DBhelper", "NumberFormatException в readDbAllUsers()", e)
                     }
 
                     val user = User(
@@ -106,8 +110,6 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     userList.add(user)
                 }
             }
-        } catch (e: NumberFormatException) {
-            LogSmart.e("DBhelper", "NumberFormatException в readDbAllUsers()", e)
         } catch (e: SQLException) {
             LogSmart.e("DBhelper", "SQLException в readDbAllUsers()", e)
         }
