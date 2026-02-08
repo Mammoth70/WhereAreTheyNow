@@ -48,37 +48,68 @@ object SettingsManager {
         App.appContext.getSharedPreferences(NAME_SETTINGS, Context.MODE_PRIVATE)
     }
 
+
+    @Volatile
+    private var cachedThemeColor: Int = prefs.getInt(NAME_THEME_COLOR, COLOR_DYNAMIC_NO)
+    @Volatile
+    private var cachedThemeMode: Int = prefs.getInt(NAME_THEME_MODE, MODE_NIGHT_FOLLOW_SYSTEM)
+    @Volatile
+    private var cachedUseService: Boolean = prefs.getBoolean(NAME_USE_SERVICE, true)
+    @Volatile
+    private var cachedColorsSpanCount: Int = prefs.getInt(NAME_COLORS_SPAN_COUNT, COLORS_SPAN_COUNT_DEFAULT)
+    @Volatile
+    private var cachedSelectedMap: Int = prefs.getInt(NAME_MAP, MAP_DEFAULT)
+    @Volatile
     private var cachedMapZoom: Float = prefs.getFloat(NAME_MAP_ZOOM, MAP_ZOOM_DEFAULT)
+    @Volatile
     private var cachedMapTilt: Float = prefs.getFloat(NAME_MAP_TILT, MAP_TILT_DEFAULT)
+    @Volatile
     private var cachedMapCircle: Boolean = prefs.getBoolean(NAME_MAP_CIRCLE, MAP_CIRCLE_DEFAULT)
+    @Volatile
     private var cachedMapCircleRadius: Float = prefs.getFloat(NAME_MAP_CIRCLE_RADIUS, MAP_CIRCLE_DEFAULT_RADIUS)
 
     // Тема
     var themeColor: Int   // Цвет темы.
-        get() = prefs.getInt(NAME_THEME_COLOR, COLOR_DYNAMIC_NO)
-        set(value) = prefs.edit { putInt(NAME_THEME_COLOR, value) }
+        get() = cachedThemeColor
+        set(value) {
+            cachedThemeColor = value
+            prefs.edit { putInt(NAME_THEME_COLOR, value) }
+        }
 
     var themeMode: Int    // Режим темы.
-        get() = prefs.getInt(NAME_THEME_MODE, MODE_NIGHT_FOLLOW_SYSTEM)
-        set(value) = prefs.edit { putInt(NAME_THEME_MODE, value) }
+        get() = cachedThemeMode
+        set(value)  {
+            cachedThemeMode = value
+            prefs.edit { putInt(NAME_THEME_MODE, value) }
+        }
+
 
 
     // Сервис
     var useService: Boolean  // Флаг использования при определении координат сервиса (flase - напрямую, без сервиса).
-        get() = prefs.getBoolean(NAME_USE_SERVICE, true)
-        set(value) = prefs.edit { putBoolean(NAME_USE_SERVICE, value) }
+        get() = cachedUseService
+        set(value) {
+            cachedUseService = value
+            prefs.edit { putBoolean(NAME_USE_SERVICE, value) }
+        }
 
 
     // UI
     var colorsSpanCount: Int  // Количество колонок в адаптере с цветовыми метками.
-        get() = prefs.getInt(NAME_COLORS_SPAN_COUNT, COLORS_SPAN_COUNT_DEFAULT)
-        set(value) = prefs.edit { putInt(NAME_COLORS_SPAN_COUNT, value) }
+        get() = cachedColorsSpanCount
+        set(value) {
+            cachedColorsSpanCount = value
+            prefs.edit { putInt(NAME_COLORS_SPAN_COUNT, value) }
+        }
 
 
     // Настройки карты
     var selectedMap: Int     // Выбор карты для вывода координа.
-        get() = prefs.getInt(NAME_MAP, MAP_DEFAULT)
-        set(value) = prefs.edit { putInt(NAME_MAP, value) }
+        get() = cachedSelectedMap
+        set(value) {
+            cachedSelectedMap = value
+            prefs.edit { putInt(NAME_MAP, value) }
+        }
 
     var selectedMapZoom: Float  // Начальный масштаб карты.
         get() = cachedMapZoom
@@ -107,4 +138,5 @@ object SettingsManager {
             cachedMapCircleRadius = value
             prefs.edit { putFloat(NAME_MAP_CIRCLE_RADIUS, value) }
         }
+
 }

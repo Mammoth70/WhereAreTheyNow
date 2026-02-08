@@ -4,10 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.CompoundButton
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 
@@ -33,12 +34,12 @@ class SettingsActivity : AppActivity() {
     private val sliderMapZoom: Slider by lazy { findViewById(R.id.sliderMapZoom) }
     private val lbMapTilt: TextView by lazy { findViewById(R.id.lbMapTilt) }
     private val sliderMapTilt: Slider by lazy { findViewById(R.id.sliderMapTilt) }
-    private val checkBoxCircle: CheckBox by lazy { findViewById(R.id.checkBoxCircle) }
+    private val checkBoxCircle: MaterialSwitch by lazy { findViewById(R.id.checkBoxCircle) }
     private val lbCircleRadius: TextView by lazy { findViewById(R.id.lbCircleRadius) }
     private val sliderCircleRadius: Slider by lazy { findViewById(R.id.sliderCircleRadius) }
 
 
-    private val checkBoxService: CheckBox by lazy { findViewById(R.id.checkBoxService) }
+    private val checkBoxService: MaterialSwitch by lazy { findViewById(R.id.checkBoxService) }
 
     private val sliderColorsSpanCount: Slider by lazy { findViewById(R.id.sliderColorsSpanCount) }
 
@@ -76,15 +77,18 @@ class SettingsActivity : AppActivity() {
         }
 
         // Обработчик переключения состояния переключателя цвета темы.
-        radioThemeColor.setOnCheckedChangeListener { _: RadioGroup?, id: Int ->
-            when (id) {
-                R.id.themeDynamic -> selectedModeColorTemp = COLOR_DYNAMIC_WALLPAPER
-                R.id.themeDefault -> selectedModeColorTemp = COLOR_DYNAMIC_NO
-                R.id.themeRed -> selectedModeColorTemp = COLOR_DYNAMIC_RED
-                R.id.themeYellow -> selectedModeColorTemp = COLOR_DYNAMIC_YELLOW
-                R.id.themeGreen -> selectedModeColorTemp = COLOR_DYNAMIC_GREEN
-                R.id.themeBlue -> selectedModeColorTemp = COLOR_DYNAMIC_BLUE
-                R.id.themeM3 -> selectedModeColorTemp = COLOR_DYNAMIC_M3
+        radioThemeColor.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+            val radioButton = group.findViewById<RadioButton>(id)
+            if (radioButton != null && radioButton.isPressed) {
+                when (id) {
+                    R.id.themeDynamic -> selectedModeColorTemp = COLOR_DYNAMIC_WALLPAPER
+                    R.id.themeDefault -> selectedModeColorTemp = COLOR_DYNAMIC_NO
+                    R.id.themeRed -> selectedModeColorTemp = COLOR_DYNAMIC_RED
+                    R.id.themeYellow -> selectedModeColorTemp = COLOR_DYNAMIC_YELLOW
+                    R.id.themeGreen -> selectedModeColorTemp = COLOR_DYNAMIC_GREEN
+                    R.id.themeBlue -> selectedModeColorTemp = COLOR_DYNAMIC_BLUE
+                    R.id.themeM3 -> selectedModeColorTemp = COLOR_DYNAMIC_M3
+                }
             }
         }
 
@@ -97,16 +101,19 @@ class SettingsActivity : AppActivity() {
         }
 
         // Обработчик переключения состояния переключателя режимов темы.
-        radioTheme.setOnCheckedChangeListener { _: RadioGroup?, id: Int ->
-            when (id) {
-                R.id.themeNight -> selectedModeNightTemp = MODE_NIGHT_YES
-                R.id.themeDay -> selectedModeNightTemp = MODE_NIGHT_NO
-                R.id.themeSystem -> selectedModeNightTemp = MODE_NIGHT_FOLLOW_SYSTEM
+        radioTheme.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+            val radioButton = group.findViewById<RadioButton>(id)
+            if (radioButton != null && radioButton.isPressed) {
+                when (id) {
+                    R.id.themeNight -> selectedModeNightTemp = MODE_NIGHT_YES
+                    R.id.themeDay -> selectedModeNightTemp = MODE_NIGHT_NO
+                    R.id.themeSystem -> selectedModeNightTemp = MODE_NIGHT_FOLLOW_SYSTEM
+                }
             }
         }
 
 
-        // Назначение кнопки переключателя карт.
+        // Назначение кнопки переключателя карт и видимости настроек карты, в зависимости от выбранной.
         var selectedMapTemp = SettingsManager.selectedMap
         when (selectedMapTemp) {
             MAP_TEXT -> {
@@ -148,40 +155,43 @@ class SettingsActivity : AppActivity() {
         }
 
         // Обработчик переключения состояния переключателя карт.
-        radioMap.setOnCheckedChangeListener { _: RadioGroup?, id: Int ->
-            when (id) {
-                R.id.frameTextActivity -> {
-                    selectedMapTemp = MAP_TEXT
-                    lbMapZoom.visibility = View.GONE
-                    sliderMapZoom.visibility = View.GONE
-                    lbMapTilt.visibility = View.GONE
-                    sliderMapTilt.visibility = View.GONE
-                    checkBoxCircle.visibility = View.GONE
-                    lbCircleRadius.visibility = View.GONE
-                    sliderCircleRadius.visibility = View.GONE
-                }
+        radioMap.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+            val radioButton = group.findViewById<RadioButton>(id)
+            if (radioButton != null && radioButton.isPressed) {
+                when (id) {
+                    R.id.frameTextActivity -> {
+                        selectedMapTemp = MAP_TEXT
+                        lbMapZoom.visibility = View.GONE
+                        sliderMapZoom.visibility = View.GONE
+                        lbMapTilt.visibility = View.GONE
+                        sliderMapTilt.visibility = View.GONE
+                        checkBoxCircle.visibility = View.GONE
+                        lbCircleRadius.visibility = View.GONE
+                        sliderCircleRadius.visibility = View.GONE
+                    }
 
-                R.id.OpenStreet -> {
-                    selectedMapTemp = MAP_OPENSTREET
-                    lbMapZoom.visibility = View.VISIBLE
-                    sliderMapZoom.visibility = View.VISIBLE
-                    lbMapTilt.visibility = View.GONE
-                    sliderMapTilt.visibility = View.GONE
-                    checkBoxCircle.visibility = View.GONE
-                    lbCircleRadius.visibility = View.GONE
-                    sliderCircleRadius.visibility = View.GONE
-                }
+                    R.id.OpenStreet -> {
+                        selectedMapTemp = MAP_OPENSTREET
+                        lbMapZoom.visibility = View.VISIBLE
+                        sliderMapZoom.visibility = View.VISIBLE
+                        lbMapTilt.visibility = View.GONE
+                        sliderMapTilt.visibility = View.GONE
+                        checkBoxCircle.visibility = View.GONE
+                        lbCircleRadius.visibility = View.GONE
+                        sliderCircleRadius.visibility = View.GONE
+                    }
 
-                R.id.Yandex -> {
-                    selectedMapTemp = MAP_YANDEX
-                    lbMapZoom.visibility = View.VISIBLE
-                    sliderMapZoom.visibility = View.VISIBLE
-                    lbMapTilt.visibility = View.VISIBLE
-                    sliderMapTilt.visibility = View.VISIBLE
-                    checkBoxCircle.visibility = View.VISIBLE
-                    if (checkBoxCircle.isChecked) {
-                        lbCircleRadius.visibility = View.VISIBLE
-                        sliderCircleRadius.visibility = View.VISIBLE
+                    R.id.Yandex -> {
+                        selectedMapTemp = MAP_YANDEX
+                        lbMapZoom.visibility = View.VISIBLE
+                        sliderMapZoom.visibility = View.VISIBLE
+                        lbMapTilt.visibility = View.VISIBLE
+                        sliderMapTilt.visibility = View.VISIBLE
+                        checkBoxCircle.visibility = View.VISIBLE
+                        if (checkBoxCircle.isChecked) {
+                            lbCircleRadius.visibility = View.VISIBLE
+                            sliderCircleRadius.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
@@ -196,26 +206,34 @@ class SettingsActivity : AppActivity() {
         sliderMapTilt.value = SettingsManager.selectedMapTilt
 
 
-        // Назначение чек-бокса показа кругов вокруг метки на Яндекс-карте.
+        // Назначение переключателя показа кругов вокруг метки на Яндекс-карте.
         checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)
 
-
         // Обработчик переключения состояния чекера круга.
-        checkBoxCircle.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            if (isChecked) {
-                lbCircleRadius.visibility = View.VISIBLE
-                sliderCircleRadius.visibility = View.VISIBLE
-            } else {
-                lbCircleRadius.visibility = View.GONE
-                sliderCircleRadius.visibility = View.GONE
+        checkBoxCircle.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
+            if (buttonView.isPressed) {
+                if (isChecked) {
+                    lbCircleRadius.visibility = View.VISIBLE
+                    sliderCircleRadius.visibility = View.VISIBLE
+                } else {
+                    lbCircleRadius.visibility = View.GONE
+                    sliderCircleRadius.visibility = View.GONE
+                }
             }
         }
 
         // Назначение слайдера диаметра кругов вокруг метки на Яндекс-карте.
         sliderCircleRadius.value = SettingsManager.selectedMapCircleRadius
+        if (SettingsManager.selectedMapCircle) {
+            lbCircleRadius.visibility = View.VISIBLE
+            sliderCircleRadius.visibility = View.VISIBLE
+        } else {
+            lbCircleRadius.visibility = View.GONE
+            sliderCircleRadius.visibility = View.GONE
+        }
 
 
-        // Назначение чек-бокса включения сервиса.
+        // Назначение переключателя включения сервиса.
         checkBoxService.setChecked(SettingsManager.useService)
 
 

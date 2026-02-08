@@ -250,7 +250,7 @@
                 android:visibility="gone"
                 tools:ignore="VisualLintBounds" />
 
-            <CheckBox
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/checkBoxCircle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -305,7 +305,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <CheckBox
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/checkBoxService"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
