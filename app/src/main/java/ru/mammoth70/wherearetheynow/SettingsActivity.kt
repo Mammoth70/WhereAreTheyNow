@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.CompoundButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -77,7 +76,7 @@ class SettingsActivity : AppActivity() {
         }
 
         // Обработчик переключения состояния переключателя цвета темы.
-        radioThemeColor.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+        radioThemeColor.setOnCheckedChangeListener { group, id ->
             val radioButton = group.findViewById<RadioButton>(id)
             if (radioButton != null && radioButton.isPressed) {
                 when (id) {
@@ -101,7 +100,7 @@ class SettingsActivity : AppActivity() {
         }
 
         // Обработчик переключения состояния переключателя режимов темы.
-        radioTheme.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+        radioTheme.setOnCheckedChangeListener { group, id ->
             val radioButton = group.findViewById<RadioButton>(id)
             if (radioButton != null && radioButton.isPressed) {
                 when (id) {
@@ -155,7 +154,7 @@ class SettingsActivity : AppActivity() {
         }
 
         // Обработчик переключения состояния переключателя карт.
-        radioMap.setOnCheckedChangeListener { group: RadioGroup, id: Int ->
+        radioMap.setOnCheckedChangeListener { group, id ->
             val radioButton = group.findViewById<RadioButton>(id)
             if (radioButton != null && radioButton.isPressed) {
                 when (id) {
@@ -210,7 +209,7 @@ class SettingsActivity : AppActivity() {
         checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)
 
         // Обработчик переключения состояния чекера круга.
-        checkBoxCircle.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
+        checkBoxCircle.setOnCheckedChangeListener { buttonView, isChecked ->
             if (buttonView.isPressed) {
                 if (isChecked) {
                     lbCircleRadius.visibility = View.VISIBLE

@@ -20,7 +20,6 @@ import com.yandex.mapkit.map.CameraUpdateReason
 import com.yandex.mapkit.map.CircleMapObject
 import com.yandex.mapkit.map.IconStyle
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.map.MapObject
 import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.MapWindow
 import com.yandex.mapkit.map.PlacemarkMapObject
@@ -149,10 +148,10 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         }
 
     private val mapObjectTapListener =
-        MapObjectTapListener { mapObject: MapObject?, _: Point? ->
+        MapObjectTapListener { mapObject, _ ->
             // Обработчик, отвечающий за тапы по различным объектам на карте.
 
-            val phone = mapObject?.userData as? String ?: return@MapObjectTapListener true
+            val phone = mapObject.userData as? String ?: return@MapObjectTapListener true
             val user = DataRepository.getUser(phone) ?: return@MapObjectTapListener true
 
             user.lastRecord?.let { rec ->

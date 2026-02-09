@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -63,12 +62,12 @@ class UserActivity : AppActivity() {
             finish()
         }
         val intent = getIntent()
-        edPhone.setOnFocusChangeListener { _: View?, hasFocus: Boolean ->
+        edPhone.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 ilPhone.error = null
             }
         }
-        edName.setOnFocusChangeListener { _: View?, hasFocus: Boolean ->
+        edName.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 ilName.error = null //
             }
