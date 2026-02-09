@@ -72,15 +72,19 @@ object SettingsManager {
     var themeColor: Int   // Цвет темы.
         get() = cachedThemeColor
         set(value) {
-            cachedThemeColor = value
-            prefs.edit { putInt(NAME_THEME_COLOR, value) }
+            if (value != cachedThemeColor ) {
+                cachedThemeColor = value
+                prefs.edit { putInt(NAME_THEME_COLOR, value) }
+            }
         }
 
     var themeMode: Int    // Режим темы.
         get() = cachedThemeMode
         set(value)  {
-            cachedThemeMode = value
-            prefs.edit { putInt(NAME_THEME_MODE, value) }
+            if (value != cachedThemeMode ) {
+                cachedThemeMode = value
+                prefs.edit { putInt(NAME_THEME_MODE, value) }
+            }
         }
 
 
@@ -89,8 +93,10 @@ object SettingsManager {
     var useService: Boolean  // Флаг использования при определении координат сервиса (flase - напрямую, без сервиса).
         get() = cachedUseService
         set(value) {
-            cachedUseService = value
-            prefs.edit { putBoolean(NAME_USE_SERVICE, value) }
+            if (value != cachedUseService ) {
+                cachedUseService = value
+                prefs.edit { putBoolean(NAME_USE_SERVICE, value) }
+            }
         }
 
 
@@ -98,8 +104,10 @@ object SettingsManager {
     var colorsSpanCount: Int  // Количество колонок в адаптере с цветовыми метками.
         get() = cachedColorsSpanCount
         set(value) {
-            cachedColorsSpanCount = value
-            prefs.edit { putInt(NAME_COLORS_SPAN_COUNT, value) }
+            if (value != cachedColorsSpanCount ) {
+                cachedColorsSpanCount = value
+                prefs.edit { putInt(NAME_COLORS_SPAN_COUNT, value) }
+            }
         }
 
 
@@ -107,36 +115,46 @@ object SettingsManager {
     var selectedMap: Int     // Выбор карты для вывода координа.
         get() = cachedSelectedMap
         set(value) {
-            cachedSelectedMap = value
-            prefs.edit { putInt(NAME_MAP, value) }
+            if (value != cachedSelectedMap ) {
+                cachedSelectedMap = value
+                prefs.edit { putInt(NAME_MAP, value) }
+            }
         }
 
     var selectedMapZoom: Float  // Начальный масштаб карты.
         get() = cachedMapZoom
         set(value) {
-            cachedMapZoom = value
-            prefs.edit { putFloat(NAME_MAP_ZOOM, value) }
+            if (value != cachedMapZoom ) {
+                cachedMapZoom = value
+                prefs.edit { putFloat(NAME_MAP_ZOOM, value) }
+            }
         }
  
    var selectedMapTilt: Float   // Начальный наклон камеры на Яндекс-карте.
         get() = cachedMapTilt
         set(value) {
-            cachedMapTilt = value
-            prefs.edit { putFloat(NAME_MAP_TILT, value) }
+            if (value != cachedMapTilt ) {
+                cachedMapTilt = value
+                prefs.edit { putFloat(NAME_MAP_TILT, value) }
+            }
         }
 
     var selectedMapCircle: Boolean    // Флаг показа круга вокруг метки на Яндекс-карте.
         get() = cachedMapCircle
         set(value) {
-            cachedMapCircle = value
-            prefs.edit { putBoolean(NAME_MAP_CIRCLE, value) }
+            if (value != cachedMapCircle ) {
+                cachedMapCircle = value
+                prefs.edit { putBoolean(NAME_MAP_CIRCLE, value) }
+            }
         }
 
     var selectedMapCircleRadius: Float   // Начальный радиус круга на Яндекс-карте.
         get() = cachedMapCircleRadius
         set(value) {
-            cachedMapCircleRadius = value
-            prefs.edit { putFloat(NAME_MAP_CIRCLE_RADIUS, value) }
+            if (value != cachedMapCircleRadius ) {
+                cachedMapCircleRadius = value
+                prefs.edit { putFloat(NAME_MAP_CIRCLE_RADIUS, value) }
+            }
         }
 
 }
