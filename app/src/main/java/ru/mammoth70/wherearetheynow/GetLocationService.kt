@@ -73,7 +73,7 @@ class GetLocationService : Service() {
     }
 
     private fun createNotificationChannel() {
-        // Функция открывает NotificationChannel и информарует о работе сервиса.
+        // Функция открывает NotificationChannel и информирует о работе сервиса.
 
         val serviceChannel = NotificationChannel(
             CHANNEL_ID,

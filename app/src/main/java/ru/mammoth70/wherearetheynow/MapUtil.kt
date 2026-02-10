@@ -47,7 +47,7 @@ fun timePassed(dateTime: String?, context: Context): String {
     // Функция возвращает разницу текстом между текущим временем и временем в пришедшем SMS-сообщении.
     return calculateTimePassed(
         dateTime = dateTime,
-        now = Date(), // В продакшене берем реальное время
+        now = Date(),
         getString = { resId, arg ->
             if (arg != null) {
                 String.format(Locale.US, context.getString(resId), arg)

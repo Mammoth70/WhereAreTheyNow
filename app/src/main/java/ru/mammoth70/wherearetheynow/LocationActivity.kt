@@ -85,6 +85,6 @@ abstract class LocationActivity : AppActivity() {
     protected abstract fun reloadMapFromPoint(context: Context, rec: PointRecord)
     // Абстрактная функция, должна быть переопределена.
     // Вызывается из из onCreate после initMap, а также из reloadMapFromId.
-    // Функция перестраивает карту по передаваемой записи PoinRecord.
+    // Функция перестраивает карту по передаваемой записи PointRecord.
 
 }

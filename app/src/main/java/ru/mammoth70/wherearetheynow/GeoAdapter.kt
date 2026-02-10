@@ -14,9 +14,9 @@ class GeoAdapter(
     // RecyclerView.Adapter для списка контактов с координатами.
 
     companion object {
-        const val FIRST_ITEM_VIEW = 1
-        const val CENTER_ITEM_VIEW = 2
-        const val LAST_ITEM_VIEW = 3
+        private const val FIRST_ITEM_VIEW = 1
+        private const val CENTER_ITEM_VIEW = 2
+        private const val LAST_ITEM_VIEW = 3
     }
 
     class GeoViewHolder(view: View) : RecyclerView.ViewHolder(view) {

@@ -98,10 +98,9 @@ object DataRepository {
             idMap[id]
         } ?: return false
 
-        val isDeletedFromDb = DBhelper.dbHelper.deleteDbUser(userToDelete)
-
-        if (isDeletedFromDb) {
+        if (DBhelper.dbHelper.deleteDbUser(userToDelete)) {
             val freshLastAnswer = DBhelper.dbHelper.readDbLastAnswer()
+            val freshMenu = DBhelper.dbHelper.readDbMenuUsers()
 
             synchronized(this) {
                 _users.remove(userToDelete)
@@ -109,6 +108,9 @@ object DataRepository {
                 phoneMap.remove(userToDelete.phone)
 
                 lastAnswerRecord = freshLastAnswer
+
+                _menuPhones.clear()
+                _menuPhones.addAll(freshMenu)
             }
             return true
         }
@@ -133,6 +135,7 @@ object DataRepository {
 
         if (DBhelper.dbHelper.editDbUser(user)) {
             val freshLastAnswer = DBhelper.dbHelper.readDbLastAnswer()
+            val freshMenu = DBhelper.dbHelper.readDbMenuUsers()
 
             synchronized(this) {
                 val currentOldUser = idMap[user.id] ?: return false
@@ -151,11 +154,15 @@ object DataRepository {
                 if (currentOldUser.phone != user.phone) {
                     phoneMap.remove(currentOldUser.phone)
                 }
+
                 phoneMap[user.phone] = updatedUser
 
                 idMap[user.id] = updatedUser
 
                 lastAnswerRecord = freshLastAnswer
+
+                _menuPhones.clear()
+                _menuPhones.addAll(freshMenu)
             }
             return true
         }

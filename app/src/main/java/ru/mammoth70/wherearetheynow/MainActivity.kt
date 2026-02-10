@@ -18,7 +18,7 @@ import com.google.android.material.navigation.NavigationBarView
 
 class MainActivity : AppActivity() {
     // Главная activity приложения.
-    // Выводит список контактов и bottom Navigatin bar.
+    // Выводит список контактов и bottom Navigation bar.
 
     override val idLayout = R.layout.activity_main
     override val idActivity = R.id.frameMainActivity
