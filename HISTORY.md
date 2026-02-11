@@ -228,7 +228,7 @@ Patch - совсем незначительные изменения.
 
 Добавлен объект SettingsManager. В него перенесено всё управление переменными настроек, и чтение/запись настроек из SharedPreferences. Некоторые настройки кешируются в памяти.  
 
-Произведены изменения в классах GetLocation и GetLocationService. GetLocationService переведён в Foreground-режим, добавлен NotificationChannel. Добавлен Callback для остановки сервиса.  
+Произведены изменения в классах GetLocation и GetLocationService. GetLocationService переведён в Foreground-режим, добавлен NotificationChannel. Добавлен обратный вызов для остановки сервиса.  
 В класе GetLocation используется fusedLocationClient.getCurrentLocation.  
 
 Сделан более "умным" возврат в MainActivity из SettingsActivity.  
@@ -323,3 +323,6 @@ Patch - совсем незначительные изменения.
 
 Изменения в классе GeoAdapter.  
 Константы типов элемента сделаны приватными.
+
+### 3.15.5
+Удалён более не используемый файл макета футера item_user_footer.xml.
