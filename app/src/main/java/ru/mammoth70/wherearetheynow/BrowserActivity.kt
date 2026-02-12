@@ -8,7 +8,7 @@ import java.util.Locale
 
 class BrowserActivity : LocationActivity() {
     // Activity выводит карту с геолокацией, переданной через intent.
-    // url карты определяется данными, переданными через intent.
+    // Url карты определяется данными, переданными через intent.
 
     override val idLayout = R.layout.activity_browser
     override val idActivity = R.id.frameBrowserActivity

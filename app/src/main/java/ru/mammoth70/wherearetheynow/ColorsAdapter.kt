@@ -9,7 +9,7 @@ import com.google.android.material.card.MaterialCardView
 
 class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
     RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
-    // RecyclerView.Adapter для выбора цвета.
+    // RecyclerView adapter для выбора цвета.
 
     class ColorViewHolder(view: View, onItemClick: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка цветов.

@@ -11,7 +11,7 @@ import java.util.Locale
 class GeoAdapter(
     private val data: List<User> // Передаем уже отфильтрованный список телефонов
 ) : RecyclerView.Adapter<GeoAdapter.GeoViewHolder>() {
-    // RecyclerView.Adapter для списка контактов с координатами.
+    // RecyclerView adapter для списка контактов с координатами.
 
     companion object {
         private const val FIRST_ITEM_VIEW = 1

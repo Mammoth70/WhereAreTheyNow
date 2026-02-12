@@ -31,7 +31,7 @@ android {
     defaultConfig {
         val versionMajor = 3
         val versionMinor = 15
-        val versionPatch = 5
+        val versionPatch = 6
         applicationId = "ru.mammoth70.wherearetheynow"
         minSdk = 31
         targetSdk = 36
@@ -57,8 +57,8 @@ android {
 
     packaging {
         jniLibs {
-            // useLegacyPackaging = true  // меньше размер apk (в два раза, со 100 до 50 МБ), но больше размер приложения в памяти
-            useLegacyPackaging = false  // больше размер apk, но меньше размер приложения в памяти
+            // useLegacyPackaging = true // меньше размер apk (в два раза, со 100 до 50 МБ), но больше размер приложения в памяти
+            useLegacyPackaging = false   // больше размер apk, но меньше размер приложения в памяти
         }
     }
 

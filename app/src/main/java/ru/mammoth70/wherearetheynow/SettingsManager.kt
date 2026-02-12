@@ -42,7 +42,7 @@ private const val NAME_MAP_CIRCLE_RADIUS = "radius"
 private const val COLORS_SPAN_COUNT_DEFAULT = 2
 
 object SettingsManager {
-    // Объект содержит переменные с настройками..
+    // Объект содержит переменные с настройками.
 
     private val prefs by lazy {
         App.appContext.getSharedPreferences(NAME_SETTINGS, Context.MODE_PRIVATE)

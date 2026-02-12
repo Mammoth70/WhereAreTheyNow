@@ -236,7 +236,7 @@ class SettingsActivity : AppActivity() {
         checkBoxService.setChecked(SettingsManager.useService)
 
 
-        // Назначение слайдера количества колонок выбора метки.
+        // Назначение слайдера, определяющего количество колонок в списке выбора метки.
         sliderColorsSpanCount.value = SettingsManager.colorsSpanCount.toFloat()
 
 

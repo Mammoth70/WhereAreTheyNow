@@ -35,16 +35,16 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     override val idLayout = R.layout.activity_yandex
     override val idActivity = R.id.frameYandexActivity
 
-    private val mapView: MapView by lazy { findViewById<MapView>(R.id.yandexview) }
+    private val mapView: MapView by lazy { findViewById(R.id.yandexview) }
     private val map: Map by lazy { mapView.mapWindow.map }
     private val fabNord: FloatingActionButton by lazy {
-        findViewById<FloatingActionButton>(R.id.floatingActionButtonMapNord) }
+        findViewById(R.id.floatingActionButtonMapNord) }
     private val fabZoomIn: FloatingActionButton by lazy {
-        findViewById<FloatingActionButton>(R.id.floatingActionButtonMapZoomIn) }
+        findViewById(R.id.floatingActionButtonMapZoomIn) }
     private val fabZoomOut: FloatingActionButton by lazy {
-        findViewById<FloatingActionButton>(R.id.floatingActionButtonMapZoomOut) }
+        findViewById(R.id.floatingActionButtonMapZoomOut) }
     private val fab2D3D: FloatingActionButton by lazy {
-        findViewById<FloatingActionButton>(R.id.floatingActionButtonMapTilt) }
+        findViewById(R.id.floatingActionButtonMapTilt) }
 
     override fun initMap(context: Context) {
         // Функция делает начальную настройку карты.

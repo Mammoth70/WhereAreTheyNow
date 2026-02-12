@@ -40,7 +40,7 @@ class MainActivity : AppActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Чтение списков и словарей контактов из БД.
-        // Если не хватает нужных разрешений, сразу вызывается Activity cо списком разрешений.
+        // Если не хватает нужных разрешений, сразу вызывается Activity со списком разрешений.
 
         super.onCreate(savedInstanceState)
 

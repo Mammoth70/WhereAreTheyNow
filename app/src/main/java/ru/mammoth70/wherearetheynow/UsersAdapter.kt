@@ -16,7 +16,7 @@ class UsersAdapter(
     private val btnMenuClick: (view: View, pos: Int) -> Unit,
     private val btnSelfClick: () -> Unit
 ) : ListAdapter<User, UsersAdapter.ListItemViewHolder>(UserDiffCallback()) {
-    // RecyclerView.Adapter для списка контактов.
+    // ListAdapter для списка контактов.
 
     inner class ListItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
