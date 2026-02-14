@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.mammoth70.wherearetheynow.UserActivity.Companion.INTENT_EXTRA_COLOR
 
 class ColorsActivity : AppActivity() {
     // Activity выбора цвета.

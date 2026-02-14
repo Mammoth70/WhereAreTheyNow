@@ -64,7 +64,10 @@
     <string name="denied">"denied"</string>
     <string name="granted">"granted"</string>
     <string name="request">"request"</string>
-
+    <string name="request_fine_location">"request the fine location permission"</string>
+    <string name="request_background_location">"request the background location permission"</string>
+    <string name="request_SMS">"request the SMS permission"</string>
+    <string name="request_notifications">"request the notifications permission"</string>
     <string name="access_coarse_location">Coarse location</string>
     <string name="access_fine_location">Fine location</string>
     <string name="access_background_location">Background location</string>
@@ -75,7 +78,7 @@
     <string name="allow_fine_location">Please allow the fine location permission.</string>
     <string name="allow_background_location">Please allow the background location permission.</string>
     <string name="allow_SMS">Please allow the SMS permission.</string>
-    <string name="allow_notifications">Please allow notifications.</string>
+    <string name="allow_notifications">Please allow notifications permission.</string>
     <string name="request_blocked">Request is blocked.</string>
     <string name="location_request_blocked">Geolocation permission request is blocked.</string>
     <string name="location_bg_request_blocked">Background work request is blocked.</string>

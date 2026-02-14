@@ -12,4 +12,4 @@
     android:layout_margin="16dp"
     android:layout_gravity="bottom|end"
     app:srcCompat="@drawable/ic_action_add"
-    tools:ignore="ClassNameCheck"  />
+    tools:ignore="ClassNameCheck" />

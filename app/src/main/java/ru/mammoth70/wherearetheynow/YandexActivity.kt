@@ -5,7 +5,6 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PointF
-import android.util.TypedValue
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
@@ -128,20 +127,10 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         get() {
             // Геттер настраивает стиль текста над меткой.
 
-            val typedValueTextColor = TypedValue()
-            val typedValueOutLineColor = TypedValue()
-            getTheme().resolveAttribute(
-                com.google.android.material.R.attr.colorOnBackground,
-                typedValueTextColor, true
-            )
-            getTheme().resolveAttribute(
-                android.R.attr.colorBackground,
-                typedValueOutLineColor, true
-            )
             return TextStyle().apply {
                 size = 12f
-                color = typedValueTextColor.data
-                outlineColor = typedValueOutLineColor.data
+                color = getThemeColor(R.attr.colorOnBackground)
+                outlineColor = getThemeColor(android.R.attr.colorBackground)
                 outlineWidth = 4f
                 placement = TextStyle.Placement.TOP
             }

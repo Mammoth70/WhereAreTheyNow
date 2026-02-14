@@ -1,12 +1,17 @@
 package ru.mammoth70.wherearetheynow
 
+import androidx.annotation.DrawableRes
 import androidx.core.graphics.toColorInt
+import org.intellij.lang.annotations.Language
 
 object PinColors {
     // Объект для работы с цветовыми метками и цветами.
 
-    enum class Color(val hex: String, val drawableRes: Int) {
-        RED("#FF001A", R.drawable.ic_pin_red),
+    enum class Color(
+        @field:Language("HTML-color")
+        val hex: String, @field:DrawableRes val drawableRes: Int
+    ) {
+        RED("#FF001A",R.drawable.ic_pin_red),
         ORANGE("#FF5D00", R.drawable.ic_pin_orange),
         YELLOW("#FFBB00", R.drawable.ic_pin_yellow),
         GREEN("#32FF00", R.drawable.ic_pin_green),

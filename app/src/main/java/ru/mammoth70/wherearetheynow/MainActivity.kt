@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.result.ActivityResult
@@ -122,6 +123,7 @@ class MainActivity : AppActivity() {
         // Функция вызывается по клику на кнопку меню.
 
         val popupMenu = PopupMenu(this, view)
+        popupMenu.gravity = Gravity.END
         popupMenu.inflate(R.menu.user_menu)
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {

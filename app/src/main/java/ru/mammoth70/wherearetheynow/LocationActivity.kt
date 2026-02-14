@@ -2,8 +2,9 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
 import android.widget.PopupMenu
-import android.widget.TextView
 import com.google.android.material.appbar.MaterialToolbar
 
 abstract class LocationActivity : AppActivity() {
@@ -43,8 +44,11 @@ abstract class LocationActivity : AppActivity() {
         topAppBar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.itemUsers -> {
-                    val gravityView: TextView = findViewById(R.id.gravityView)
-                    val popupMenu = PopupMenu(context, gravityView)
+                    val anchorView = findViewById<View>(R.id.itemUsers)
+
+                    // Если вдруг не нашли (бывает в редких случаях), используем сам тулбар
+                    val popupMenu = PopupMenu(context, anchorView ?: topAppBar)
+                    popupMenu.gravity = Gravity.END
 
                     DataRepository.menuPhones.forEach { phone ->
                         DataRepository.getUser(phone)?.let { user ->

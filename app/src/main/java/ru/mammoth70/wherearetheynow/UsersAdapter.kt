@@ -33,15 +33,15 @@ class UsersAdapter(
             // Привязка листенеров.
 
             itemView.setOnClickListener {
-                safePos { itemViewClick(it) }
+                safePos { pos -> itemViewClick(pos) }
             }
 
             itemView.setOnLongClickListener {
-                safePos { itemViewLongClick(itemCardUser, it) } ?: false
+                safePos { pos -> itemViewLongClick(btnUserMenu, pos) } ?: false
             }
 
             btnUserMenu.setOnClickListener {
-                safePos { btnMenuClick(itemCardUser, it) }
+                safePos { pos -> btnMenuClick(btnUserMenu, pos) }
             }
 
             btnUserSelf.setOnClickListener {

@@ -13,5 +13,6 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_action_back"
+        app:navigationContentDescription="@string/back"
         tools:title="Заголовок" />
 </com.google.android.material.appbar.AppBarLayout>

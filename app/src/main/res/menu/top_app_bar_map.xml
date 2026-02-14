@@ -5,6 +5,6 @@
         android:id="@+id/itemUsers"
         android:icon="@drawable/ic_action_list"
         android:title="@string/users"
-        android:contentDescription="@string/users"
+        app:contentDescription="@string/users"
         app:showAsAction="ifRoom" />
 </menu>

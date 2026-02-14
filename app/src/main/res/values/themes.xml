@@ -1,5 +1,4 @@
 <resources>
-    <attr name="colorGranted" format="color|reference"/>
     <style name="Base.Theme.WhereAreTheyNow" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_primary</item>
         <item name="colorOnPrimary">@color/md_theme_onPrimary</item>

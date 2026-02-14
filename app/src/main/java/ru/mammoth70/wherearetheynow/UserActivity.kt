@@ -2,7 +2,6 @@ package ru.mammoth70.wherearetheynow
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.TypedValue
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -73,25 +72,10 @@ class UserActivity : AppActivity() {
             }
         }
 
-        val theme = getTheme()
-        val typedValueColorOnSurfaceVariant = TypedValue()
-        val typedValueColorOutline = TypedValue()
-        val typedValueColorError = TypedValue()
-        theme.resolveAttribute(
-            com.google.android.material.R.attr.colorOnSurfaceVariant,
-            typedValueColorOnSurfaceVariant, true
-        )
-        theme.resolveAttribute(
-            com.google.android.material.R.attr.colorOutline,
-            typedValueColorOutline, true
-        )
-        theme.resolveAttribute(
-            androidx.appcompat.R.attr.colorError,
-            typedValueColorError, true
-        )
-        colorOnSurfaceVariant = typedValueColorOnSurfaceVariant.data
-        colorOutline = typedValueColorOutline.data
-        colorError = typedValueColorError.data
+
+        colorOnSurfaceVariant = getThemeColor(R.attr.colorOnSurfaceVariant)
+        colorOutline = getThemeColor(R.attr.colorOutline)
+        colorError = getThemeColor(R.attr.colorError)
 
         getAction(intent)
 

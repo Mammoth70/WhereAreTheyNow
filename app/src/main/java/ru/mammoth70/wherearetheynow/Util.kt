@@ -1,7 +1,10 @@
 package ru.mammoth70.wherearetheynow
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
@@ -12,7 +15,6 @@ import java.util.Locale
 
 // Константы и статические функции.
 
-const val INTENT_EXTRA_COLOR = "color"
 const val INTENT_EXTRA_SMS_TO = "sms_to"
 const val INTENT_EXTRA_NEW_VERSION_REQUEST = "new_version_request"
 
@@ -21,15 +23,7 @@ const val INTENT_EXTRA_LATITUDE = "latitude"
 const val INTENT_EXTRA_LONGITUDE = "longitude"
 const val INTENT_EXTRA_TIME = "time"
 
-const val HEADER_REQUEST = "^WATN R$"
-const val HEADER_REQUEST_AND_LOCATION = "^WATN R "
-const val HEADER_ANSWER = "^WATN A "
-const val FORMAT_ANSWER = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
-const val FORMAT_REQUEST_AND_LOCATION = $$"WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
-const val REGEXP_ANSWER =
-    "^WATN [AR] lat (-?\\d{2,3}\\.\\d{6}), lon (-?\\d{2,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$"
-
-const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
+private const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
 
 fun themeMode(mode: Int) {
     // Функция включает или выключает ночную тему в соответствии с переданными настройками.
@@ -101,17 +95,25 @@ fun setAppThemeColor(application: Application, color: Int, refresh: Boolean) {
     }
 }
 
+
 fun stringToDate(dateTime: String): Date? {
     // Функция преобразовывает строку в дату.
 
-    val dateFormat =
-        SimpleDateFormat(FORMAT_DATETIME, Locale.US)
+    val dateFormat = SimpleDateFormat(FORMAT_DATETIME, Locale.US)
+    dateFormat.isLenient = false // Включаем строгую проверку календаря.
     return try {
         dateFormat.parse(dateTime)
     } catch (e: ParseException) {
         LogSmart.e("Util", "ParseException в stringToDate(${dateTime})", e)
         null
     }
+}
+
+
+fun Context.getThemeColor(@AttrRes attr: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attr, typedValue, true)
+    return typedValue.data
 }
 
 object LogSmart {

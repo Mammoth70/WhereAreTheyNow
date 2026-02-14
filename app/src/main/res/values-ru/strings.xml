@@ -64,6 +64,10 @@
     <string name="denied">"запрещено"</string>
     <string name="granted">"разрешено"</string>
     <string name="request">"запросить"</string>
+    <string name="request_fine_location">"запросить разрешение определения точного местоположения"</string>
+    <string name="request_background_location">"запросить разрешение работы геолокации в любом режиме"</string>
+    <string name="request_SMS">"запросить разрешение приёма и отправки SMS"</string>
+    <string name="request_notifications">"запросить разрешение уведомлений"</string>
     <string name="access_coarse_location">Примерное местоположение</string>
     <string name="access_fine_location">Точное местоположение</string>
     <string name="access_background_location">Работа в фоновом режиме</string>

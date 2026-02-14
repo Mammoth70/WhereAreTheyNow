@@ -5,11 +5,11 @@ import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
+import androidx.annotation.StringRes
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
@@ -88,12 +88,12 @@ class PermissionActivity : AppActivity() {
         }
     }
 
-    private fun showErrorSnackbar(view: View, messageRes: Int) {
+    private fun showErrorSnackbar(view: View, @StringRes messageRes: Int) {
         // Функция выводит ошибку в Snackbar.
 
         val message = getString(messageRes) + "\n" + getString(R.string.set_access_manually)
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
-            .setAction(android.R.string.ok) {}
+            .setAction(R.string.ok) {}
             .show()
     }
 
@@ -111,7 +111,7 @@ class PermissionActivity : AppActivity() {
         }
 
         colorGranted = getThemeColor(R.attr.colorGranted)
-        colorError = getThemeColor(androidx.appcompat.R.attr.colorError)
+        colorError = getThemeColor(R.attr.colorError)
 
         requestPermissions()
         viewPermissions()
@@ -367,7 +367,7 @@ class PermissionActivity : AppActivity() {
         }
     }
 
-    private fun setViewsGranted(resId: Int, text: TextView, label: TextView) {
+    private fun setViewsGranted(@StringRes resId: Int, text: TextView, label: TextView) {
         // Функция заполняет text, в label выводит галочку и красит всё в зелёный.
         text.setText(resId)
         text.paintFlags = text.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
@@ -376,7 +376,7 @@ class PermissionActivity : AppActivity() {
         label.setTextColor(colorGranted)
     }
 
-    private fun setViewsDenied(resId: Int, text: TextView, label: TextView) {
+    private fun setViewsDenied(@StringRes resId: Int, text: TextView, label: TextView) {
         // Функция заполняет и зачеркивает text, в label выводит крестик и красит всё в красный.
         text.setText(resId)
         text.paintFlags = text.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -397,9 +397,4 @@ class PermissionActivity : AppActivity() {
         button.visibility = View.INVISIBLE
     }
 
-    private fun getThemeColor(attr: Int): Int {
-        val typedValue = TypedValue()
-        theme.resolveAttribute(attr, typedValue, true)
-        return typedValue.data
-    }
 }

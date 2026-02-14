@@ -5,7 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
 import java.util.*
 
-class TimePassedTest {
+class MapUtilTest {
 
     private val fixedNow: Date = Calendar.getInstance().apply {
         set(2025, Calendar.OCTOBER, 10, 12, 0, 0)
@@ -15,7 +15,6 @@ class TimePassedTest {
     @ParameterizedTest(name = "{index} => Дата: {0}, Ожидаем: {1} ({2})")
     @DisplayName("Тестирование логики вывода разности во времени")
     @CsvFileSource(resources = ["/time_data.csv"], numLinesToSkip = 1, delimiter = ';')
-
     fun `timePassed validation test`(smsDate: String?, resKey: String, description: String) {
 
         // Превращаем строковый ключ из CSV в реальный ID ресурса.

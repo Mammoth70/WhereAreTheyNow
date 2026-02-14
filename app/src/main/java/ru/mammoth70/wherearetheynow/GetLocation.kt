@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.telephony.SmsManager
+import androidx.annotation.VisibleForTesting
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -17,7 +18,10 @@ class GetLocation {
     companion object {
         const val WAY_SMS = 1
         const val WAY_LOCAL = 2
+        private const val FORMAT_ANSWER = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
+        private const val FORMAT_REQUEST_AND_LOCATION = $$"WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
     }
+
 
     fun sendLocation(context: Context, way: Int, address: String?, sendRequest: Boolean, onFinished: (() -> Unit)? = null) {
         // Функция запрашивает геолокацию (если есть разрешения),
@@ -48,22 +52,25 @@ class GetLocation {
         }
     }
 
+
     private fun formatLocation(location: Location?, sendRequest: Boolean): String? {
         // Функция форматирует геолокацию для SMS-сообщения.
 
         location ?: return null
+        return formatLocation(location.latitude, location.longitude, Date(location.time), sendRequest)
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal fun formatLocation(latitude: Double, longitude: Double, date: Date, sendRequest: Boolean): String? {
+        // Функция форматирует для SMS-сообщения геолокацию, разбитую по отдельным полям.
+
         return if (sendRequest) {
-            String.format(
-                Locale.US, FORMAT_REQUEST_AND_LOCATION,
-                location.latitude, location.longitude, Date(location.time)
-            )
+            String.format(Locale.US, FORMAT_REQUEST_AND_LOCATION, latitude, longitude, date)
         } else {
-            String.format(
-                Locale.US, FORMAT_ANSWER,
-                location.latitude, location.longitude, Date(location.time)
-            )
+            String.format(Locale.US, FORMAT_ANSWER, latitude, longitude, date)
         }
     }
+
 
     private fun updateLocalLocation(location: Location) {
         // Функция сохраняет локальное состояние локации.
@@ -80,6 +87,7 @@ class GetLocation {
         DataRepository.writeLastPoint(record)
     }
 
+
     private fun sendSMS(
         context: Context,
         location: Location?,
@@ -94,6 +102,7 @@ class GetLocation {
                 it, null, null)
         }
     }
+
 
     private fun sendLocal(context: Context, location: Location) {
         // Функция открывает activity с картой.
