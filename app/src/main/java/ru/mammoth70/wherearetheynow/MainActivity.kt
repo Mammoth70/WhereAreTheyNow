@@ -85,16 +85,19 @@ class MainActivity : AppActivity() {
 
                 R.id.item_about -> {
                     // Обработчик кнопки меню "about".
-                    val bundle = Bundle()
-                    bundle.putString(AboutBox.DIALOG_TITLE, getString(R.string.app_name))
-                    val text =
-                        getString(R.string.description) + "\n" +
-                                getString(R.string.version) + " " +
-                                BuildConfig.VERSION_NAME
-                    bundle.putString(AboutBox.DIALOG_MESSAGE, text)
-                    val aboutBox = AboutBox()
-                    aboutBox.setArguments(bundle)
-                    aboutBox.show(this.supportFragmentManager, "MESSAGE_DIALOG")
+                    val title = getString(R.string.app_name)
+                    val text = """
+                        |${getString(R.string.description)}
+                        |${getString(R.string.version)} ${BuildConfig.VERSION_NAME}
+                        |
+                        |${getString(R.string.for_about)}
+                        """.trimMargin()
+                    AboutBox().apply {
+                        arguments = Bundle().apply {
+                            putString(AboutBox.ABOUT_TITLE, title)
+                            putString(AboutBox.ABOUT_MESSAGE, text)
+                        }
+                    }.show(supportFragmentManager, "ABOUT_DIALOG")
                 }
 
             }

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Дополнительный Frame для DialogAbout. -->
-<FrameLayout
+<!-- TextView для DialogAbout. -->
+<TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-    <TextView
-        style="@style/AboutDialogStyle"
-        android:autoLink="all"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="96dp"
-        android:text="@string/for_about" />
-</FrameLayout>
+    android:id="@+id/about_text_content"
+    style="?attr/textAppearanceBodyMedium"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp"
+    android:textColorLink="?attr/colorPrimary"
+    android:textColor="?attr/colorOnSurfaceVariant"
+    android:textColorHighlight="?attr/colorPrimaryContainer"
+    android:autoLink="all" />

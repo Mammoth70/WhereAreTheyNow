@@ -3,10 +3,7 @@
     <string name="app_name">Where are they now?</string>
     <string name="description">Determining the location of relatives and friends</string>
     <string name="version">Version:</string>
-    <string name="for_about">Andrey Yakovlev © 2025-2026
-        \nhttps://github.com/mammoth70
-        \n\nTerms of use of individual Yandex Maps services:
-        \n https://yandex.ru/legal/maps_api/</string>
+    <string name="for_about">Andrey Yakovlev © 2025–2026\nhttps://github.com/mammoth70\n\nTerms of use of individual Yandex Maps services:\n https://yandex.ru/legal/maps_api/</string>
 
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
