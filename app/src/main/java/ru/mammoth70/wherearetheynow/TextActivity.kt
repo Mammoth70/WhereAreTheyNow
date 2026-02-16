@@ -14,6 +14,7 @@ class TextActivity : LocationActivity() {
     private val tvLatitude: TextView by lazy { findViewById(R.id.tvLatitude) }
     private val tvLongitude: TextView by lazy { findViewById(R.id.tvLongitude) }
 
+
     override fun initMap(context: Context) {
         // Функция делает настройку recyclerView для вывода списка контактов с координатами.
 
@@ -24,6 +25,7 @@ class TextActivity : LocationActivity() {
             setHasFixedSize(true)
         }
     }
+
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит текстом широту и долготу по PointRecord.

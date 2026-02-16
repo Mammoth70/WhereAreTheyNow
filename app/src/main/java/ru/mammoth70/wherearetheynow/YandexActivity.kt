@@ -45,6 +45,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     private val fab2D3D: FloatingActionButton by lazy {
         findViewById(R.id.floatingActionButtonMapTilt) }
 
+
     override fun initMap(context: Context) {
         // Функция делает начальную настройку карты.
 
@@ -116,12 +117,14 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             }
     }
 
+
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция передвигает карту на PointRecord.
 
         map.move(CameraPosition(Point(rec.latitude, rec.longitude),
             SettingsManager.selectedMapZoom, 0f, SettingsManager.selectedMapTilt))
     }
+
 
     private val markTextStyle: TextStyle
         get() {
@@ -135,6 +138,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
                 placement = TextStyle.Placement.TOP
             }
         }
+
 
     private val mapObjectTapListener =
         MapObjectTapListener { mapObject, _ ->
@@ -168,6 +172,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             true
         }
 
+
     private fun createBitmapFromVector(art: Int): Bitmap? {
         // Функция преобразовывает векторное изображение в bitmap.
 
@@ -179,11 +184,13 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         return bitmap
     }
 
+
     private fun getBitmapFromColor(color: String?): Bitmap? {
         // Функция возвращает метку заданного цвета.
 
         return createBitmapFromVector(PinColors.getPin(color))
     }
+
 
     override fun onStart() {
         // Функция вызывается перед тем, как Activity будет видно пользователю.
@@ -193,6 +200,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         mapView.onStart()
     }
 
+
     override fun onStop() {
         // Функция вызывается, когда Activity становится не видно пользователю.
 
@@ -201,7 +209,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         super.onStop()
     }
 
-    fun onMap2D3D() {
+
+    private fun onMap2D3D() {
         // Обработчик кнопки FAB "2D/3D".
         // Функция меняет режим карты 2D / 3D.
 
@@ -222,7 +231,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         ))
     }
 
-    fun onMapNord() {
+
+    private fun onMapNord() {
         // Обработчик кнопки FAB "На север".
         // Функция поворачивает карту в положение север сверху.
 
@@ -234,7 +244,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         ))
     }
 
-    fun onMapZoomIn() {
+
+    private fun onMapZoomIn() {
         // Обработчик кнопки FAB "Zoom In".
         // Функция приближает объекты на карте.
 
@@ -251,7 +262,8 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         ))
     }
 
-    fun onMapZoomOut() {
+
+    private fun onMapZoomOut() {
         // Обработчик кнопки FAB "Zoom Out".
         // Функция отдаляет объекты на карте.
 
@@ -267,6 +279,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             map.cameraPosition.tilt
         ))
     }
+
 
     private fun setFabStatus() {
         // Функция устанавливает в правильное состояние все FAB'ы.
@@ -298,6 +311,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         }
     }
 
+
     override fun onCameraPositionChanged(
         map: Map, cameraPosition: CameraPosition,
         cameraUpdateReason: CameraUpdateReason,
@@ -308,6 +322,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
             setFabStatus()
         }
     }
+
 
     override fun onMapWindowSizeChanged(
         mapWindow: MapWindow,

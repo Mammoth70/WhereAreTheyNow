@@ -50,6 +50,7 @@ class UserActivity : AppActivity() {
     private var colorOutline = 0
     private var colorError = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Подготовка структуры данных для вывода карточки контакта.
@@ -71,7 +72,6 @@ class UserActivity : AppActivity() {
                 ilName.error = null //
             }
         }
-
 
         colorOnSurfaceVariant = getThemeColor(R.attr.colorOnSurfaceVariant)
         colorOutline = getThemeColor(R.attr.colorOutline)
@@ -174,6 +174,7 @@ class UserActivity : AppActivity() {
         }
     }
 
+
     private fun getAction(intent: Intent) {
         // Функция выясняет, какое действие над записью контакта будем выполнять.
         // Получает через intent поля из запускающей activity.
@@ -213,7 +214,8 @@ class UserActivity : AppActivity() {
         }
     }
 
-    fun setMarkColor(color: String) {
+
+    private fun setMarkColor(color: String) {
         // Функция выставляет цвет метки.
 
         tvMark.text = ""

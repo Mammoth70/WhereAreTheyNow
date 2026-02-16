@@ -37,7 +37,6 @@ class SettingsActivity : AppActivity() {
     private val lbCircleRadius: TextView by lazy { findViewById(R.id.lbCircleRadius) }
     private val sliderCircleRadius: Slider by lazy { findViewById(R.id.sliderCircleRadius) }
 
-
     private val checkBoxService: MaterialSwitch by lazy { findViewById(R.id.checkBoxService) }
 
     private val sliderColorsSpanCount: Slider by lazy { findViewById(R.id.sliderColorsSpanCount) }
@@ -196,14 +195,11 @@ class SettingsActivity : AppActivity() {
             }
         }
 
-
         // Назначение слайдера масштаба карты.
         sliderMapZoom.value = SettingsManager.selectedMapZoom
 
-
         // Назначение слайдера наклона камеры Яндекс-карты.
         sliderMapTilt.value = SettingsManager.selectedMapTilt
-
 
         // Назначение переключателя показа кругов вокруг метки на Яндекс-карте.
         checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)

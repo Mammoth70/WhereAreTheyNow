@@ -4,6 +4,7 @@ import androidx.core.content.edit
 
 private const val NAME_MY_PHONE = "myphone"
 
+
 object DataRepository {
     // Основной список объектов (единственный источник истины).
 
@@ -16,9 +17,11 @@ object DataRepository {
     private val phoneMap = HashMap<String, User>()    // Индекс (поиск по номеру телефона за O(1)).
     private val idMap = HashMap<Int, User>()          // Индекс (поиск по id за O(1)).
 
+
     var lastAnswerRecord: PointRecord? = null         // Запись с данными последнего ответа.
         get() = synchronized(this) { field }
         private set
+
 
     var myPhone: String = ""
         get() = synchronized(this) {        // Номер моего телефона.
@@ -90,6 +93,7 @@ object DataRepository {
         return false
     }
 
+
     fun deleteUser(id: Int): Boolean {
         // Функция для добавления контакта.
         // Возвращает true, если успешно и false, если нет.
@@ -117,6 +121,7 @@ object DataRepository {
 
         return false
     }
+
 
     fun editUser(user: User): Boolean {
         // Функция для редактирования контакта.
@@ -170,6 +175,7 @@ object DataRepository {
         return false
     }
 
+
     fun writeLastPoint(record: PointRecord): Boolean {
         // Функция заносит в память и в БД последние известные координаты контакта.
 
@@ -196,6 +202,7 @@ object DataRepository {
 
         return true
     }
+
 
     // Методы доступа, заменяющие мапы.
     fun getUser(phone: String) = synchronized(this) { phoneMap[phone] }

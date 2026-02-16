@@ -22,11 +22,13 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 "(phone text UNIQUE, latitude text, longitude text, datetime text);"
     }
 
+
     override fun onCreate(db: SQLiteDatabase) {
         // Функция создаёт таблицы users и points.
         db.execSQL(CREATE_TABLE_USERS)
         db.execSQL(CREATE_TABLE_POINTS)
     }
+
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Функция делает апгрейд БД.
@@ -58,6 +60,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             }
         }
     }
+
 
     fun readDbAllUsers(): List<User> {
         // Функция считывает из БД данные контактов и координат.
@@ -115,6 +118,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         return userList
     }
 
+
     fun readDbMenuUsers(): List<String> {
         // Функция возвращает список телефонов, отсортированный по id ASC,
         // которые имеют координаты, отсортированные по дате DESC, и по id ASC,
@@ -142,6 +146,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         return list
     }
 
+
     fun addDbUser(user: User): Long {
         // Функция добавляет контакт в БД.
 
@@ -163,6 +168,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             -1L
         }
     }
+
 
     fun editDbUser(user: User): Boolean {
         // Функция меняет контакт в БД.
@@ -193,6 +199,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
         }
     }
 
+
     fun deleteDbUser(user: User): Boolean {
         // Функция удаляет контакт из БД.
 
@@ -203,13 +210,14 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                 // Удаляем его координаты
                 delete("points", "phone = ?", arrayOf(user.phone))
             }
-            // Если транзакция завершилась без ошибок — успех
+            // Если транзакция завершилась без ошибок - успех
             true
         } catch (e: SQLException) {
             LogSmart.e("DBhelper", "SQLException в deleteDbUser($user)", e)
             false
         }
     }
+
 
     fun writeDbLastPoint(record: PointRecord) {
         // Функция заносит в БД последние известные координаты контакта.
@@ -231,6 +239,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             LogSmart.e("DBhelper", "SQLException в writeDbLastPoint($record)", e)
         }
     }
+
 
     fun readDbLastAnswer(): PointRecord? {
         // Функция считывает из БД последнюю запись и возвращает PointRecord.
@@ -263,6 +272,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
             } else { null }
         }
     }
+
 
     fun checkDbRecords() {
         // Функция удаляет из таблицы points записи, не имеющие ссылок на таблицу phones.

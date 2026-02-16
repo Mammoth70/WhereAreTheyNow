@@ -18,6 +18,7 @@ class UsersAdapter(
 ) : ListAdapter<User, UsersAdapter.ListItemViewHolder>(UserDiffCallback()) {
     // ListAdapter для списка контактов.
 
+
     inner class ListItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         // Представление viewHolder'а для списка контактов.
@@ -77,6 +78,7 @@ class UsersAdapter(
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет.
 
@@ -85,10 +87,12 @@ class UsersAdapter(
         return ListItemViewHolder(view)
     }
 
+
     override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
         holder.bind(getItem(position))
     }
+
 
     class UserDiffCallback : DiffUtil.ItemCallback<User>() {
         // Callback для рассчёта разницы между двумя элементами.

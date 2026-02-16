@@ -20,6 +20,7 @@ class BrowserActivity : LocationActivity() {
 
     private val webView: WebView by lazy { findViewById(R.id.itemWebView) }
 
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun initMap(context: Context) {
         // Функция делает начальную настройку карты.
@@ -28,6 +29,7 @@ class BrowserActivity : LocationActivity() {
         val webSettings = webView.getSettings()
         webSettings.javaScriptEnabled = true
     }
+
 
     override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
         // Функция выводит uri по PointRecord.

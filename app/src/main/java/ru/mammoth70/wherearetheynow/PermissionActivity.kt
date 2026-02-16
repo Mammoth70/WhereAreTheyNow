@@ -47,6 +47,7 @@ class PermissionActivity : AppActivity() {
     private var colorGranted = 0
     private var colorError = 0
 
+
     private val permissionsLauncher = registerForActivityResult(
         RequestMultiplePermissions()
     ) { results ->
@@ -75,7 +76,7 @@ class PermissionActivity : AppActivity() {
             if (!fineGranted) {
                 showErrorSnackbar(btnLocation, R.string.location_request_blocked)
             } else {
-                // Если это разрешение только что дали — инициируем запрос фоновой локации.
+                // Если это разрешение только что дали - инициируем запрос фоновой локации.
                 requestBackgroundLocationPermission(btnNotifications)
             }
         }
@@ -87,6 +88,7 @@ class PermissionActivity : AppActivity() {
             }
         }
     }
+
 
     private fun showErrorSnackbar(view: View, @StringRes messageRes: Int) {
         // Функция выводит ошибку в Snackbar.
@@ -205,6 +207,7 @@ class PermissionActivity : AppActivity() {
         )
     }
 
+
     private fun requestBackgroundLocationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса работы в фоновом режиме.
         // Запрашивает разрешения работы в фоновом режиме.
@@ -218,7 +221,7 @@ class PermissionActivity : AppActivity() {
             return
         }
 
-        // Если основное есть, а фонового нет — запрашиваем.
+        // Если основное есть, а фонового нет - запрашиваем.
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -231,6 +234,7 @@ class PermissionActivity : AppActivity() {
             permissionsLauncher.launch(arrayOf(Manifest.permission.ACCESS_BACKGROUND_LOCATION))
         }
     }
+
 
     private fun requestSMSPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений SMS.
@@ -254,7 +258,7 @@ class PermissionActivity : AppActivity() {
     }
 
 
-    fun requestNotificationPermissionButtonClick(view: View) {
+    private fun requestNotificationPermissionButtonClick(view: View) {
         // Функция - обработчик кнопки запроса разрешений на уведомления.
 
         // Проверка актуальна только для Android 13 (API 33) и выше
@@ -367,6 +371,7 @@ class PermissionActivity : AppActivity() {
         }
     }
 
+
     private fun setViewsGranted(@StringRes resId: Int, text: TextView, label: TextView) {
         // Функция заполняет text, в label выводит галочку и красит всё в зелёный.
         text.setText(resId)
@@ -375,6 +380,7 @@ class PermissionActivity : AppActivity() {
         label.setText(R.string.granted1)
         label.setTextColor(colorGranted)
     }
+
 
     private fun setViewsDenied(@StringRes resId: Int, text: TextView, label: TextView) {
         // Функция заполняет и зачеркивает text, в label выводит крестик и красит всё в красный.
@@ -385,11 +391,13 @@ class PermissionActivity : AppActivity() {
         label.setTextColor(colorError)
     }
 
+
     private fun setButtonEnable(button: Button) {
         // Функция включает и показывает кнопочку.
         button.setEnabled(true)
         button.visibility = View.VISIBLE
     }
+
 
     private fun setButtonDisable(button: Button) {
         // Функция выключает и прячет кнопочку.

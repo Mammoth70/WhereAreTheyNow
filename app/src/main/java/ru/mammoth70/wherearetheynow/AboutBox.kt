@@ -15,6 +15,7 @@ class AboutBox : DialogFragment() {
         const val ABOUT_TITLE = "ABOUT_TITLE"
     }
 
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Функция создаёт диалоговое окно About.
 

@@ -14,10 +14,12 @@ private const val REGEXP_ANSWER =
     "^WATN [AR] lat (-?\\d{1,3}\\.\\d{6}), lon (-?\\d{1,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$"
 private val pattern = Pattern.compile(REGEXP_ANSWER)
 
+
 class SMSmonitor : BroadcastReceiver() {
     // Класс слушает поток SMS. Если SMS-сообщение приходит от разрешённых абонентов,
     // делается парсинг сообщения (запрос геолокации или ответ с голокацией)
     // и передача дальнейшей обработки.
+
 
     override fun onReceive(context: Context, intent: Intent) {
         // Функция слушает входящие SMS-сообщения, парсит их и передает обработку в другие функции.
@@ -77,8 +79,8 @@ class SMSmonitor : BroadcastReceiver() {
 
     private fun receiveLocation(context: Context, smsFrom: String, message: String, show: Boolean) {
         // Функция проверяет правильность заполнения полей SMS-сообщения с геолокацией,
-        // (поскольку данные приходят извне, проверять надо тщательно)
         // сохраняет полученные данные и передаёт обработку в MapUtil.
+        // (вся проверка и парсинг выпоняются функцией parseSMS)
 
         val record = parseSMS(smsFrom, message)
         record?.let {
@@ -93,6 +95,8 @@ class SMSmonitor : BroadcastReceiver() {
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal fun parseSMS(smsFrom: String, message: String): PointRecord? {
         // Фунция парсит SMS и возвращает в случае удачи PointRecord, иначе null.
+        // (поскольку данные приходят извне, проверять надо тщательно)
+
         val matcher = pattern.matcher(message)
         if (!matcher.find()) return null
 

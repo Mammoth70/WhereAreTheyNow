@@ -25,6 +25,7 @@ const val INTENT_EXTRA_TIME = "time"
 
 private const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
 
+
 fun themeMode(mode: Int) {
     // Функция включает или выключает ночную тему в соответствии с переданными настройками.
 
@@ -34,6 +35,7 @@ fun themeMode(mode: Int) {
         else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 }
+
 
 fun setAppThemeColor(application: Application, color: Int, refresh: Boolean) {
     // Функция переключает темы с динамическими цветами в соответствии с переданными настройками.
@@ -111,10 +113,13 @@ fun stringToDate(dateTime: String): Date? {
 
 
 fun Context.getThemeColor(@AttrRes attr: Int): Int {
+    // Функция-расширение класса Context. Возвращает числовое значение цвета по ID-атрибута темы.
+
     val typedValue = TypedValue()
     theme.resolveAttribute(attr, typedValue, true)
     return typedValue.data
 }
+
 
 object LogSmart {
     // Функции выводят в лог ошибки и отладочные сообщения, только если приложение собрано для отладки.

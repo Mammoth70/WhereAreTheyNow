@@ -130,7 +130,7 @@ object SettingsManager {
             }
         }
  
-   var selectedMapTilt: Float   // Начальный наклон камеры на Яндекс-карте.
+    var selectedMapTilt: Float   // Начальный наклон камеры на Яндекс-карте.
         get() = cachedMapTilt
         set(value) {
             if (value != cachedMapTilt ) {

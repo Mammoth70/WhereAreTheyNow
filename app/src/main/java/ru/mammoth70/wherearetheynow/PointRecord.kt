@@ -4,12 +4,12 @@ import java.util.Date
 import java.util.Locale
 
 data class PointRecord (
-    // data класс - для хранения телефона, координат и времени получения координат.
+    // Класс данных для хранения телефона, координат и времени получения координат.
     val phone: String = "",
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,
-    val dateTime: String = "")
-{
+    val dateTime: String = "",
+){
 
     companion object {
         const val FORMAT_DOUBLE = "%1$.6f"

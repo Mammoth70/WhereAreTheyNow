@@ -38,6 +38,7 @@ class MainActivity : AppActivity() {
     private val floatingActionButtonAdd: FloatingActionButton by lazy { findViewById(R.id.floatingActionButtonAdd) }
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.itemUsersRecycler) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Чтение списков и словарей контактов из БД.
@@ -110,10 +111,12 @@ class MainActivity : AppActivity() {
         }
     }
 
+
     override fun onResume() {
         super.onResume()
         navBarView.menu[NM_MAP_ID].isEnabled = (DataRepository.lastAnswerRecord != null)
     }
+
 
     private fun showContextMenu(view: View, position: Int) : Boolean {
         // Функция вызывается по длинному клику на элемент списка.
@@ -121,6 +124,7 @@ class MainActivity : AppActivity() {
         showPopupMenu(view, position)
         return true
     }
+
 
     private fun showPopupMenu(view: View, position: Int) {
         // Функция вызывается по клику на кнопку меню.
@@ -161,6 +165,7 @@ class MainActivity : AppActivity() {
         popupMenu.show()
     }
 
+
     private fun addUser() {
         // Функция добавляет контакт.
 
@@ -169,6 +174,7 @@ class MainActivity : AppActivity() {
             UserActivity.ACTION_ADD_USER)
         startActivityUserIntent.launch(intent)
     }
+
 
     private fun editUser(position: Int) {
         // Функция редактирует контакт.
@@ -184,6 +190,7 @@ class MainActivity : AppActivity() {
         startActivityUserIntent.launch(intent)
     }
 
+
     private fun deleteUser(position: Int) {
         // Функция удаляет контакт.
 
@@ -197,6 +204,7 @@ class MainActivity : AppActivity() {
         intent.putExtra(UserActivity.INTENT_EXTRA_COLOR, user.color)
         startActivityUserIntent.launch(intent)
     }
+
 
     private fun smsRequestUser(position: Int) {
         // Функция посылает контакту запрос координат.
@@ -220,6 +228,7 @@ class MainActivity : AppActivity() {
         }
     }
 
+
     private fun smsAnswerUser(position: Int) {
         // Функция посылает контакту геолокацию.
 
@@ -241,6 +250,7 @@ class MainActivity : AppActivity() {
         }
     }
 
+
     private fun selfPosition() {
         // Функция определяет собственную геолокацию и вызывает карту.
 
@@ -249,12 +259,14 @@ class MainActivity : AppActivity() {
             "", false)
     }
 
+
     private fun startPermissionActivity() {
         // Функция запускает PermissionActivity.
 
         val intent = Intent(this, PermissionActivity::class.java)
         startActivity(intent)
     }
+
 
     private fun checkAllPermissions(): Boolean {
         // Функция проверяет все необходимые разрешения
@@ -294,6 +306,7 @@ class MainActivity : AppActivity() {
         return basePermissions && notificationPermission
     }
 
+
     var startActivityUserIntent = registerForActivityResult(StartActivityForResult()
         // Функция возвращает результат формы контакта
 
@@ -302,6 +315,7 @@ class MainActivity : AppActivity() {
             usersAdapter.submitList(DataRepository.users.toList())
         }
     }
+
 
     var startActivitySettingsIntent = registerForActivityResult(StartActivityForResult()
         // Функция возвращает результат вызова формы настроек.

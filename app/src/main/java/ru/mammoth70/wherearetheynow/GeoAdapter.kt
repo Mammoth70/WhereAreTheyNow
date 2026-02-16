@@ -19,6 +19,7 @@ class GeoAdapter(
         private const val LAST_ITEM_VIEW = 3
     }
 
+
     class GeoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка контактов с координатами.
 
@@ -39,6 +40,7 @@ class GeoAdapter(
 
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GeoViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
@@ -50,8 +52,8 @@ class GeoAdapter(
         }
         val view = LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
         return GeoViewHolder(view)
-
     }
+
 
     override fun onBindViewHolder(holder: GeoViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
@@ -59,11 +61,13 @@ class GeoAdapter(
         holder.bind(data[position])
     }
 
+
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.
 
         return data.size
     }
+
 
     override fun getItemViewType(position: Int): Int {
         // Функция определяет тип элемента.

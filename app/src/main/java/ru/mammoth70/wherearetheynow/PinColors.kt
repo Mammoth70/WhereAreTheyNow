@@ -36,45 +36,46 @@ object PinColors {
     }
 
 
-        enum class Alpha(val transparent: String) {
-            ALPHA_48("#48"),
-            ALPHA_16("#16"),
+    enum class Alpha(val transparent: String) {
+        ALPHA_48("#48"),
+        ALPHA_16("#16"),
+    }
+
+
+    fun getColorAlpha(color: String?): Int {
+        // Функция возвращает номер прозрачного цвета по строке с цветом.
+
+        return addTransparenty(color, Alpha.ALPHA_48).toColorInt()
+    }
+
+
+    fun getColorAlpha16(color: String?): Int {
+        // Функция возвращает номер прозрачного цвета по строке с цветом.
+
+        return addTransparenty(color, Alpha.ALPHA_16).toColorInt()
+    }
+
+
+    fun getPin(color: String?): Int {
+        // Функция возвращает метку по строке с цветом.
+
+        return Color.fromHex(color)?.drawableRes ?: R.drawable.ic_pin_empty
+    }
+
+
+    private fun addTransparenty(color: String?, alpha: Alpha): String {
+        // Функция добавляет прозрачность к цвету без прозрачности.
+        // Если что-то не так - возвращает белый цвет.
+
+        return if ((!color.isNullOrBlank()) && (color.length == 7) && (color[0] == '#')) {
+            alpha.transparent + color.substring(1, 7)
+        } else {
+            "#FFFFFFFF"
         }
+    }
 
 
-        fun getColorAlpha(color: String?): Int {
-            // Функция возвращает номер прозрачного цвета по строке с цветом.
+    fun isValidColors(color: String): Boolean = Color.fromHex(color) != null
+    // Функция проверяет вхождение строки в список.
 
-            return addTransparenty(color, Alpha.ALPHA_48).toColorInt()
-        }
-
-
-        fun getColorAlpha16(color: String?): Int {
-            // Функция возвращает номер прозрачного цвета по строке с цветом.
-
-            return addTransparenty(color, Alpha.ALPHA_16).toColorInt()
-        }
-
-
-        fun getPin(color: String?): Int {
-            // Функция возвращает метку по строке с цветом.
-
-            return Color.fromHex(color)?.drawableRes ?: R.drawable.ic_pin_empty
-        }
-
-
-        private fun addTransparenty(color: String?, alpha: Alpha): String {
-            // Функция добавляет прозрачность к цвету без прозрачности.
-            // Если что-то не так - возвращает белый цвет.
-
-            return if ((!color.isNullOrBlank()) && (color.length == 7) && (color[0] == '#')) {
-                alpha.transparent + color.substring(1, 7)
-            } else {
-                "#FFFFFFFF"
-            }
-        }
-
-
-        fun isValidColors(color: String): Boolean = Color.fromHex(color) != null
-        // Функция проверяет вхождение строки в список.
 }

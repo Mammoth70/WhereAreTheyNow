@@ -12,6 +12,7 @@ class ColorsActivity : AppActivity() {
     override val idLayout = R.layout.activity_colors
     override val idActivity = R.id.frameColorsActivity
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Обработка данных для подготовки списка меток.
@@ -32,7 +33,8 @@ class ColorsActivity : AppActivity() {
         }
     }
 
-    fun onClickViewItem(position: Int) {
+
+    private fun onClickViewItem(position: Int) {
         // Функция вызывается по клику на элемент списка.
 
         val selectedItem = PinColors.Color.entries[position].hex
@@ -41,4 +43,5 @@ class ColorsActivity : AppActivity() {
         setResult(RESULT_OK, intent)
         finish()
     }
+
 }

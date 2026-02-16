@@ -14,6 +14,7 @@ class App : Application() {
             private set
     }
 
+
     override fun onCreate() {
         // Функция вызывается при запуске приложения.
         // Производит выполнение стартовых настроек.

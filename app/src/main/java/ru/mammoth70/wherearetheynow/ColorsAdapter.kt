@@ -11,6 +11,7 @@ class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
     RecyclerView.Adapter<ColorsAdapter.ColorViewHolder>() {
     // RecyclerView adapter для выбора цвета.
 
+
     class ColorViewHolder(view: View, onItemClick: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
         // Представление viewHolder'а для списка цветов.
 
@@ -34,6 +35,7 @@ class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColorViewHolder {
         // Функция вызывается LayoutManager'ом, чтобы создать viewHolder'ы и передать им макет,
         // по которому будут отображаться элементы списка.
@@ -43,11 +45,13 @@ class ColorsAdapter(private val onItemClick: (Int) -> Unit ):
         return ColorViewHolder(view, onItemClick)
     }
 
+
     override fun onBindViewHolder(holder: ColorViewHolder, position: Int) {
         // Функция вызывается LayoutManager'ом, чтобы привязать к viewHolder'у данные, которые он должен отображать.
 
         holder.bind(PinColors.Color.entries[position].hex)
     }
+
 
     override fun getItemCount(): Int {
         // Функция вызывается LayoutManager'ом и возвращает общее количество элементов в списке.

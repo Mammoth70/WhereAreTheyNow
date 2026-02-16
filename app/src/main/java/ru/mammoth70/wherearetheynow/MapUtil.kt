@@ -43,6 +43,7 @@ fun viewLocation(context: Context, record: PointRecord, newTask: Boolean) {
     context.startActivity(intent)
 }
 
+
 fun timePassed(dateTime: String?, context: Context): String {
     // Функция возвращает разницу текстом между текущим временем и временем в пришедшем SMS-сообщении.
     return calculateTimePassed(
@@ -57,6 +58,7 @@ fun timePassed(dateTime: String?, context: Context): String {
         }
     )
 }
+
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 internal fun calculateTimePassed(

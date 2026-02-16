@@ -19,6 +19,7 @@ abstract class AppActivity : AppCompatActivity() {
 
     protected open val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBar) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Может (и даже должна) быть переопределена.

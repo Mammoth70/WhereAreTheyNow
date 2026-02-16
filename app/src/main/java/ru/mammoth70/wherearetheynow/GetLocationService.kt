@@ -18,6 +18,7 @@ class GetLocationService : Service() {
         const val NOTIFICATION_ID = 1
     }
 
+
     override fun onCreate() {
         // Функция создаёт сервис, создаёт в нём fusedLocationClient.
 
@@ -25,6 +26,7 @@ class GetLocationService : Service() {
         createNotificationChannel()
         LocationServices.getFusedLocationProviderClient(this)
     }
+
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Функция стартует сервис, и получает через Intent телефонный номер SMS-сообщения.
@@ -58,9 +60,11 @@ class GetLocationService : Service() {
         return START_NOT_STICKY
     }
 
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
+
 
     private fun someTask(smsTo: String?, sendRequest: Boolean) {
         // Функция с основной работой сервиса.
@@ -71,6 +75,7 @@ class GetLocationService : Service() {
         val getLocation = GetLocation()
         getLocation.sendLocation(this, GetLocation.WAY_SMS, smsTo, sendRequest){ stopSelf() }
     }
+
 
     private fun createNotificationChannel() {
         // Функция открывает NotificationChannel и информирует о работе сервиса.

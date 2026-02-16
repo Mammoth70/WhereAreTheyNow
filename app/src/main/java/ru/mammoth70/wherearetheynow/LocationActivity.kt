@@ -18,6 +18,7 @@ abstract class LocationActivity : AppActivity() {
 
     override val topAppBar: MaterialToolbar by lazy { findViewById(R.id.topAppBarMap) }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
         // Может быть переопределена, но обычно не переопределяется.
@@ -28,6 +29,7 @@ abstract class LocationActivity : AppActivity() {
         initMap(this)
         reloadMapFromPoint(this, startRecord)
     }
+
 
     protected fun createFrameTitle(context: Context) {
         // Функция вызывается из onCreate после вызова setContentView.
@@ -68,6 +70,7 @@ abstract class LocationActivity : AppActivity() {
         }
     }
 
+
     protected open fun reloadMapFromId(context: Context, id: Int) {
         // Функция вызывается из меню со списком контактов.
         // Может быть переопределена, но обычно не переопределяется.
@@ -81,14 +84,16 @@ abstract class LocationActivity : AppActivity() {
         reloadMapFromPoint(context, record)
     }
 
+
     protected abstract fun initMap(context: Context)
     // Абстрактная функция, должна быть переопределена.
     // Вызывается из onCreate после createFrameTitle и перед reloadMapFromPoint.
     // Функция делает начальную настройку карты.
 
+
     protected abstract fun reloadMapFromPoint(context: Context, rec: PointRecord)
     // Абстрактная функция, должна быть переопределена.
-    // Вызывается из onCreate после initMap, а также из reloadMapFromId.
+    // Вызывается из onCreate после initMap, вызывается также из reloadMapFromId.
     // Функция перестраивает карту по передаваемой записи PointRecord.
 
 }
