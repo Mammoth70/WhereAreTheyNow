@@ -86,19 +86,7 @@ class MainActivity : AppActivity() {
 
                 R.id.item_about -> {
                     // Обработчик кнопки меню "about".
-                    val title = getString(R.string.app_name)
-                    val text = """
-                        |${getString(R.string.description)}
-                        |${getString(R.string.version)} ${BuildConfig.VERSION_NAME}
-                        |
-                        |${getString(R.string.for_about)}
-                        """.trimMargin()
-                    AboutBox().apply {
-                        arguments = Bundle().apply {
-                            putString(AboutBox.ABOUT_TITLE, title)
-                            putString(AboutBox.ABOUT_MESSAGE, text)
-                        }
-                    }.show(supportFragmentManager, "ABOUT_DIALOG")
+                    AboutDialog().show(supportFragmentManager, "ABOUT_DIALOG")
                 }
 
             }

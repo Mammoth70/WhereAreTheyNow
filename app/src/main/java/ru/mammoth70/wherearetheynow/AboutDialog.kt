@@ -7,13 +7,8 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class AboutBox : DialogFragment() {
+class AboutDialog : DialogFragment() {
     // Диалоговое окно About.
-
-    companion object {
-        const val ABOUT_MESSAGE = "ABOUT_MESSAGE"
-        const val ABOUT_TITLE = "ABOUT_TITLE"
-    }
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -21,13 +16,19 @@ class AboutBox : DialogFragment() {
 
         val customView = layoutInflater.inflate(R.layout.dialog_about, null)
         val textView = customView.findViewById<TextView>(R.id.about_text_content)
-
-        textView.text = arguments?.getString(ABOUT_MESSAGE)
+        val title = getString(R.string.app_name)
+        val text = """
+                        |${getString(R.string.description)}
+                        |${getString(R.string.version)} ${BuildConfig.VERSION_NAME}
+                        |
+                        |${getString(R.string.for_about)}
+                        """.trimMargin()
+        textView.text = text
         textView.movementMethod = LinkMovementMethod.getInstance()
 
         return MaterialAlertDialogBuilder(requireActivity())
             .setIcon(R.mipmap.ic_launcher_round)
-            .setTitle(arguments?.getString(ABOUT_TITLE))
+            .setTitle(title)
             .setView(customView)
             .setPositiveButton(R.string.ok, null)
             .create()
