@@ -20,6 +20,7 @@ class PermissionActivity : AppActivity() {
     // а также (для невыданных разрешений) кнопки,
     // вызвающие код с запросом на выдачу этих разрешений.
 
+
     override val idLayout = R.layout.activity_permission
     override val idActivity = R.id.framePermissionsActivity
 

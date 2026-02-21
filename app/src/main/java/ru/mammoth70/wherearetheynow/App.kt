@@ -9,6 +9,7 @@ class App : Application() {
     // Приложение предназначено для определения местоположения родственников и друзей.
     // Обмен запросами положения и ответами с геолокацией реализован через SMS-сообщения.
 
+
     companion object {
         lateinit var appContext: Context
             private set

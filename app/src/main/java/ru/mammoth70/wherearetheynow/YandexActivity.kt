@@ -31,6 +31,7 @@ import java.util.Locale
 class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     // Activity выводит yandex-карту с геолокацией, переданной через intent.
 
+
     override val idLayout = R.layout.activity_yandex
     override val idActivity = R.id.frameYandexActivity
 

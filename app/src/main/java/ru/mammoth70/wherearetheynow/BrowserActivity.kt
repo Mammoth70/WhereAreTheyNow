@@ -10,6 +10,7 @@ class BrowserActivity : LocationActivity() {
     // Activity выводит карту с геолокацией, переданной через intent.
     // Url карты определяется данными, переданными через intent.
 
+
     override val idLayout = R.layout.activity_browser
     override val idActivity = R.id.frameBrowserActivity
 

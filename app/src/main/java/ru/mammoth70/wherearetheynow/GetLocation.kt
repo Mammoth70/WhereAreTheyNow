@@ -15,6 +15,7 @@ import java.util.Locale
 class GetLocation {
     // Класс запрашивает геолокацию и возвращает её указанным способом.
 
+
     companion object {
         const val WAY_SMS = 1
         const val WAY_LOCAL = 2

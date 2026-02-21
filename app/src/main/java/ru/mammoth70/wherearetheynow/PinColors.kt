@@ -7,6 +7,7 @@ import org.intellij.lang.annotations.Language
 object PinColors {
     // Объект для работы с цветовыми метками и цветами.
 
+
     enum class Color(
         @field:Language("HTML-color")
         val hex: String, @field:DrawableRes val drawableRes: Int

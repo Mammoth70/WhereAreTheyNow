@@ -15,6 +15,7 @@ import kotlin.getValue
 class UserActivity : AppActivity() {
     // Activity выводит карточку контакта для добавления, редактирования, удаления.
 
+
     override val idLayout = R.layout.activity_user
     override val idActivity = R.id.frameUserActivity
 

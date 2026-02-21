@@ -8,6 +8,7 @@ import java.util.Locale
 class TextActivity : LocationActivity() {
     // Activity выводит текст с геолокацией, переданной через intent.
 
+
     override val idLayout = R.layout.activity_text
     override val idActivity = R.id.frameTextActivity
 

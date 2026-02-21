@@ -21,6 +21,7 @@ class MainActivity : AppActivity() {
     // Главная activity приложения.
     // Выводит список контактов и bottom Navigation bar.
 
+
     override val idLayout = R.layout.activity_main
     override val idActivity = R.id.frameMainActivity
 

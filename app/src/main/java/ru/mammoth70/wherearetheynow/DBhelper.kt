@@ -13,6 +13,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
     null, DB_VERSION) {
     // Класс обслуживает базу данных со списком контактов и прочими структурами контактов.
 
+
     companion object {
         private const val DB_VERSION = 3 // версия БД
         val dbHelper = DBhelper(appContext)

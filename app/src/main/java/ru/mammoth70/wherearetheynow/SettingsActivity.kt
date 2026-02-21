@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputEditText
 class SettingsActivity : AppActivity() {
     // Activity управляет настройками.
 
+
     override val idLayout = R.layout.activity_settings
     override val idActivity = R.id.frameSettingsActivity
 

@@ -12,6 +12,7 @@ import com.google.android.material.appbar.MaterialToolbar
 abstract class AppActivity : AppCompatActivity() {
     // Абстрактный класс для создания Activity приложения.
 
+
     @get:LayoutRes
     protected abstract val idLayout : Int
     @get:IdRes

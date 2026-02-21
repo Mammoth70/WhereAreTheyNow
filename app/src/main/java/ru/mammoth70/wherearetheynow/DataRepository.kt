@@ -1,12 +1,14 @@
 package ru.mammoth70.wherearetheynow
 
 import androidx.core.content.edit
-
-private const val NAME_MY_PHONE = "myphone"
+import ru.mammoth70.wherearetheynow.SettingsManager.NAME_SETTINGS
 
 
 object DataRepository {
     // Основной список объектов (единственный источник истины).
+
+
+    private const val NAME_MY_PHONE = "myphone"
 
     private val _users = mutableListOf<User>()        // Список контактов с телефонами.
     val users: List<User> get() = synchronized(this) { _users.toList() }

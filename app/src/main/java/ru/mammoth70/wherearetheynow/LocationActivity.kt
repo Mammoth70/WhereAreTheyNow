@@ -10,6 +10,7 @@ import com.google.android.material.appbar.MaterialToolbar
 abstract class LocationActivity : AppActivity() {
     // Абстрактный класс для создания Activity вывода геолокации, переданной через intent.
 
+
     protected val startRecord: PointRecord by lazy { PointRecord(
         intent.getStringExtra(INTENT_EXTRA_SMS_FROM)!!,
         intent.getDoubleExtra(INTENT_EXTRA_LATITUDE, 0.0),

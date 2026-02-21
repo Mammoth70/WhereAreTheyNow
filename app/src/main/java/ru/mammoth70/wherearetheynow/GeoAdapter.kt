@@ -13,6 +13,7 @@ class GeoAdapter(
 ) : RecyclerView.Adapter<GeoAdapter.GeoViewHolder>() {
     // RecyclerView adapter для списка контактов с координатами.
 
+
     companion object {
         private const val FIRST_ITEM_VIEW = 1
         private const val CENTER_ITEM_VIEW = 2

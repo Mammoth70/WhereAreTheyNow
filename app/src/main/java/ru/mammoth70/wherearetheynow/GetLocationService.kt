@@ -13,6 +13,7 @@ class GetLocationService : Service() {
     // и посылает в ответ SMS-сообщение с данными геолокации.
     // Работает, через вызов объекта GetLocation.
 
+
     companion object {
         const val CHANNEL_ID = "LocationServiceChannel"
         const val NOTIFICATION_ID = 1

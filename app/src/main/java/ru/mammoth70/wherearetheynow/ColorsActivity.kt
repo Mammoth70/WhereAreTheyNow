@@ -9,6 +9,7 @@ import ru.mammoth70.wherearetheynow.UserActivity.Companion.INTENT_EXTRA_COLOR
 class ColorsActivity : AppActivity() {
     // Activity выбора цвета.
 
+
     override val idLayout = R.layout.activity_colors
     override val idActivity = R.id.frameColorsActivity
 
