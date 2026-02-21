@@ -12,7 +12,10 @@ private const val HEADER_REQUEST_AND_LOCATION = "^WATN R "
 private const val HEADER_ANSWER = "^WATN A "
 private const val REGEXP_ANSWER =
     "^WATN [AR] lat (-?\\d{1,3}\\.\\d{6}), lon (-?\\d{1,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$"
-private val pattern = Pattern.compile(REGEXP_ANSWER)
+private val patternHeaderRequest = Pattern.compile(HEADER_REQUEST)
+private val patternHeaderRequestAnswer = Pattern.compile(HEADER_REQUEST_AND_LOCATION)
+private val patternHeaderAnswer = Pattern.compile(HEADER_ANSWER)
+private val patternAnswer = Pattern.compile(REGEXP_ANSWER)
 
 
 class SMSmonitor : BroadcastReceiver() {
@@ -36,9 +39,6 @@ class SMSmonitor : BroadcastReceiver() {
         val bodyText = StringBuilder()
         messages.forEach { bodyText.append(it.messageBody) }
         val smsBody = bodyText.toString()
-        val patternHeaderRequest = Pattern.compile(HEADER_REQUEST)
-        val patternHeaderRequestAnswer = Pattern.compile(HEADER_REQUEST_AND_LOCATION)
-        val patternHeaderAnswer = Pattern.compile(HEADER_ANSWER)
         val matcherHeaderRequest = patternHeaderRequest.matcher(smsBody)
         val matcherHeaderRequestAnswer = patternHeaderRequestAnswer.matcher(smsBody)
         val matcherHeaderAnswer = patternHeaderAnswer.matcher(smsBody)
@@ -97,7 +97,7 @@ class SMSmonitor : BroadcastReceiver() {
         // Фунция парсит SMS и возвращает в случае удачи PointRecord, иначе null.
         // (поскольку данные приходят извне, проверять надо тщательно)
 
-        val matcher = pattern.matcher(message)
+        val matcher = patternAnswer.matcher(message)
         if (!matcher.find()) return null
 
         return try {
