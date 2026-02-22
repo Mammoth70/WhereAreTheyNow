@@ -1,4 +1,4 @@
-﻿dateTime;              resKey;            description
+dateTime;              expectedResKey;   description
 "2025-10-10 11:58:00"; now;              "Только что (2 мин назад)"
 "2025-10-10 11:45:00"; minutes_ago;      "Минуты назад (15 мин)"
 "2025-10-10 09:00:00"; hours_ago;        "Часы назад (3 часа)"

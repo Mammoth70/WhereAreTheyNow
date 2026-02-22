@@ -17,11 +17,13 @@ class LocationIntegrationTest {
     @ParameterizedTest(name = "{index} => {2}")
     @DisplayName("Интеграционное тестирование логики кодирования и декодирования координат и времени")
     @CsvFileSource(resources = ["/location_integration.csv"], numLinesToSkip = 1, delimiter = ';')
-    fun `integration test format to parse`(
+    fun `integration test sender to monitor`(
         testLat: Double,
         testLon: Double,
-        description: String
+        description: String,
     ) {
+
+        // Заполняем список с датами.
         val phone = "+70000000000"
         val testDates = listOf(
             Date(),                                      // текущее время
@@ -42,21 +44,25 @@ class LocationIntegrationTest {
 
         testDates.forEach { testDate ->
 
-            // Тестируем оба режима: Answer (false) и Request (true).
+            // Запускаем тестирование в обоих режимах: Answer (false) и Request (true).
             listOf(true, false).forEach { isRequest ->
 
                 // Кодируем помаленьку.
                 val smsText = sender.formatLocation(testLat, testLon, testDate, isRequest)
-                assertNotNull(smsText, "Ошибка формирования SMS (тест: $description)")
+                assertNotNull(smsText, "Ошибка формирования SMS для варианта $description")
 
                 // Декодируем.
                 val result = monitor.parseSMS(phone, smsText)
 
-                // Проверяем целостность данных.
-                assertNotNull(result, "Парсер не смог разобрать SMS: $smsText (тест: $description)")
-                assertEquals(testLat, result.latitude, 0.000001, "Широта исказилась")
-                assertEquals(testLon, result.longitude, 0.000001, "Долгота исказилась")
-                assertEquals(sdf.format(testDate), result.dateTime, "Дата/время исказились")
+                // Сначала проверяем, что объект вообще создался.
+                assertNotNull(result, "Объект не должен быть null для варианта $description")
+
+                // Теперь проверяем поля.
+                assertAll(
+                        "Проверка полей PointRecord для варианта '$description'",
+                        {assertEquals(testLat, result.latitude, 0.000001, "Не совпадает широта")},
+                        {assertEquals(testLon, result.longitude, 0.000001, "Не совпадает долгота")},
+                        {assertEquals(sdf.format(testDate), result.dateTime, "Не совпадает время")},)
             }
         }
     }

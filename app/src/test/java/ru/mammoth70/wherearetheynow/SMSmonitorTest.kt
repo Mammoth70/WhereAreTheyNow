@@ -9,31 +9,35 @@ class SMSmonitorTest {
 
     private val monitor = SMSmonitor()
 
-    @ParameterizedTest(name = "{index} {6}")
-    @DisplayName("Тестирование проверки SMS сообщений")
+    @ParameterizedTest(name = "{index} => {6}")
+    @DisplayName("Тестирование функции разбора SMS сообщений")
     @CsvFileSource(resources = ["/sms_data.csv"], numLinesToSkip = 1, delimiter = ';')
-    fun `ParseSms validation test`(
+    fun `parseSms validation test`(
         phone: String,
         message: String,
         expectedLat: Double,
         expectedLon: Double,
         expectedTime: String?,
-        shouldBeObj: Boolean,
+        isValid: Boolean,
         description: String,
     ) {
+
+        // Запускаем тестируемую функцию.
         val result = monitor.parseSMS(phone, message)
 
-        // Проверка корректности (сравнение ожиданий с реальностью).
-        if (shouldBeObj) {
-            assertNotNull(result,  "Ошибка в тесте '$description': ожидался объект")
+        if (isValid) {
+            // Сначала проверяем, что объект вообще создался.
+            assertNotNull(result,  "Объект не должен быть null для варианта $description")
 
-            // Проверка всех полей.
-            assertEquals(phone, result.phone, "Неверный номер телефона")
-            assertEquals(expectedLat, result.latitude, 0.000001, "Широта не совпадает")
-            assertEquals(expectedLon, result.longitude, 0.000001, "Долгота не совпадает")
-            assertEquals(expectedTime, result.dateTime, "Время не совпадает")
+            // Теперь проверяем поля.
+            assertAll(
+                "Проверка полей PointRecord для варианта $description",
+                {assertEquals(phone, result.phone, "Неверный номер телефона")},
+                {assertEquals(expectedLat, result.latitude, 0.000001, "Не совпадает широта")},
+                {assertEquals(expectedLon, result.longitude, 0.000001, "Не совпадает долгота")},
+                {assertEquals(expectedTime, result.dateTime, "Не совпадает время")},)
         } else {
-            assertNull(result, "Ошибка в тесте '$description': ожидался null")
+            assertNull(result, "Ожидался null для невалидного варианта $description")
         }
     }
 }

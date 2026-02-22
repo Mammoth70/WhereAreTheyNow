@@ -1,6 +1,7 @@
 package ru.mammoth70.wherearetheynow
 
 import org.junit.jupiter.api.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
 import java.util.*
@@ -12,10 +13,14 @@ class MapUtilTest {
         set(Calendar.MILLISECOND, 0)
     }.time
 
-    @ParameterizedTest(name = "{index} => Дата: {0}, Ожидаем: {1} ({2})")
-    @DisplayName("Тестирование логики вывода разности во времени")
+    @ParameterizedTest(name = "{index} => {2}")
+    @DisplayName("Тестирование функции вывода текстом разности во времени")
     @CsvFileSource(resources = ["/time_data.csv"], numLinesToSkip = 1, delimiter = ';')
-    fun `timePassed validation test`(smsDate: String?, resKey: String, description: String) {
+    fun `timePassed validation test`(
+        smsDate: String?,
+        resKey: String,
+        description: String,
+    ) {
 
         // Превращаем строковый ключ из CSV в реальный ID ресурса.
         val expectedResId = when (resKey) {
@@ -29,7 +34,7 @@ class MapUtilTest {
             else -> 0
         }
 
-        // Обрабатываем "null" из CSV (библиотека может передавать строку "null").
+        // Обрабатываем "null" из CSV.
         val cleanDate = if (smsDate == "null") null else smsDate
 
         // Запускаем тестируемую функцию.
@@ -60,6 +65,6 @@ class MapUtilTest {
             }
         }
 
-        Assertions.assertEquals(expected, result, "Сценарий: $description")
+        assertEquals(expected, result, "Ошибка в варианте $description")
     }
 }
