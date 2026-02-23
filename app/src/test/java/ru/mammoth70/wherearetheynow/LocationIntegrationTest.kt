@@ -59,7 +59,7 @@ class LocationIntegrationTest {
 
                 // Теперь проверяем поля.
                 assertAll(
-                        "Проверка полей PointRecord для варианта '$description'",
+                        "Проверка полей PointRecord для варианта $description",
                         {assertEquals(testLat, result.latitude, 0.000001, "Не совпадает широта")},
                         {assertEquals(testLon, result.longitude, 0.000001, "Не совпадает долгота")},
                         {assertEquals(sdf.format(testDate), result.dateTime, "Не совпадает время")},)
