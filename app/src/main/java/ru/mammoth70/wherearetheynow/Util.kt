@@ -16,7 +16,7 @@ import java.util.Locale
 // Константы и статические функции.
 
 const val INTENT_EXTRA_SMS_TO = "sms_to"
-const val INTENT_EXTRA_NEW_VERSION_REQUEST = "new_version_request"
+const val INTENT_EXTRA_REQUEST = "request"
 
 const val INTENT_EXTRA_SMS_FROM = "sms_from"
 const val INTENT_EXTRA_LATITUDE = "latitude"
@@ -41,7 +41,6 @@ const val COLOR_DYNAMIC_M3 = 5
 const val MAP_TEXT = 0
 const val MAP_YANDEX = 1
 const val MAP_OPENSTREET = 2
-const val MAP_DEFAULT = MAP_YANDEX
 
 const val MAP_ZOOM_DEFAULT = 17f
 const val MAP_TILT_DEFAULT = 30f

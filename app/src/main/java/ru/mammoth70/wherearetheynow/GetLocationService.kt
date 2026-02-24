@@ -38,7 +38,7 @@ class GetLocationService : Service() {
         }
 
         val smsTo = intent.getStringExtra(INTENT_EXTRA_SMS_TO)
-        val request = intent.getBooleanExtra(INTENT_EXTRA_NEW_VERSION_REQUEST, false)
+        val request = intent.getBooleanExtra(INTENT_EXTRA_REQUEST, false)
 
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(getString(R.string.notification_title))

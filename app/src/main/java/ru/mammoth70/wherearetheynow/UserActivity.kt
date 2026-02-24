@@ -42,7 +42,7 @@ class UserActivity : AppActivity() {
     private val edName: TextInputEditText by lazy { findViewById(R.id.edName) }
     private val cardColor: MaterialCardView by lazy { findViewById(R.id.cardColor) }
     private val tvColorError: TextView by lazy { findViewById(R.id.tvColorError) }
-    private val id: Int  by lazy { intent.getIntExtra(INTENT_EXTRA_ID, 0) }
+    private val id: Long  by lazy { intent.getLongExtra(INTENT_EXTRA_ID, 0) }
     private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
     private val tvMark: TextView by lazy {findViewById(R.id.tvMark)}
     private var selectedColorTemp = ""
@@ -188,7 +188,7 @@ class UserActivity : AppActivity() {
 
             ACTION_EDIT_USER -> {
                 btnAction.setText(R.string.edit)
-                if (id == 0) {
+                if (id == 0L) {
                     finish()
                 }
                 edPhone.setText(intent.getStringExtra(INTENT_EXTRA_PHONE))
@@ -198,7 +198,7 @@ class UserActivity : AppActivity() {
 
             ACTION_DELETE_USER -> {
                 btnAction.setText(R.string.delete)
-                if (id == 0) {
+                if (id == 0L) {
                     finish()
                 }
                 edPhone.setText(intent.getStringExtra(INTENT_EXTRA_PHONE))

@@ -206,7 +206,7 @@ class MainActivity : AppActivity() {
                 // Функция передаёт обработку запроса геолокации в GetLocationService.
                 val intent = Intent(this, GetLocationService::class.java)
                 intent.putExtra(INTENT_EXTRA_SMS_TO, user.phone)
-                intent.putExtra(INTENT_EXTRA_NEW_VERSION_REQUEST, true)
+                intent.putExtra(INTENT_EXTRA_REQUEST, true)
                 this.startService(intent)
             } else {
                 // Функция передаёт обработку запроса геолокации в GetLocation.

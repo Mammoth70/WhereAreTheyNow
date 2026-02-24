@@ -18,12 +18,12 @@ class SMSmonitor : BroadcastReceiver() {
         private const val HEADER_REQUEST = "^WATN R$"
         private const val HEADER_REQUEST_AND_LOCATION = "^WATN R "
         private const val HEADER_ANSWER = "^WATN A "
-        private const val REGEXP_ANSWER =
+        private const val REGEXP_SMS =
             "^WATN [AR] lat (-?\\d{1,3}\\.\\d{6}), lon (-?\\d{1,3}\\.\\d{6}), time (\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$"
         private val patternHeaderRequest = Pattern.compile(HEADER_REQUEST)
         private val patternHeaderRequestAnswer = Pattern.compile(HEADER_REQUEST_AND_LOCATION)
         private val patternHeaderAnswer = Pattern.compile(HEADER_ANSWER)
-        private val patternAnswer = Pattern.compile(REGEXP_ANSWER)
+        private val patternSMS = Pattern.compile(REGEXP_SMS)
     }
 
 
@@ -100,7 +100,7 @@ class SMSmonitor : BroadcastReceiver() {
         // Фунция парсит SMS и возвращает в случае удачи PointRecord, иначе null.
         // (поскольку данные приходят извне, проверять надо тщательно)
 
-        val matcher = patternAnswer.matcher(message)
+        val matcher = patternSMS.matcher(message)
         if (!matcher.find()) return null
 
         return try {

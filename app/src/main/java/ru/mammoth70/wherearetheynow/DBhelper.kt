@@ -104,7 +104,7 @@ class DBhelper(context: Context?) : SQLiteOpenHelper(context, "watnDB",
                     }
 
                     val user = User(
-                        id = cursor.getInt(idIdx),
+                        id = cursor.getLong(idIdx),
                         phone = phone,
                         name = cursor.getString(nameIdx) ?: "",
                         color = cursor.getString(colorIdx) ?: "",

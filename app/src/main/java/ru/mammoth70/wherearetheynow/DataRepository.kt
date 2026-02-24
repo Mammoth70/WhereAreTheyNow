@@ -17,7 +17,7 @@ object DataRepository {
     val menuPhones: List<String> get() = synchronized(this) { _menuPhones.toList() }
 
     private val phoneMap = HashMap<String, User>()    // Индекс (поиск по номеру телефона за O(1)).
-    private val idMap = HashMap<Int, User>()          // Индекс (поиск по id за O(1)).
+    private val idMap = HashMap<Long, User>()          // Индекс (поиск по id за O(1)).
 
 
     var lastAnswerRecord: PointRecord? = null         // Запись с данными последнего ответа.
@@ -83,7 +83,7 @@ object DataRepository {
 
         val newId = DBhelper.dbHelper.addDbUser(User(-1, phone, name, color))
         if (newId != -1L) {
-            val newUser = User(newId.toInt(), phone, name, color)
+            val newUser = User(newId, phone, name, color)
             synchronized(this) {
                 if (phoneMap.containsKey(phone)) return false
                 _users.add(newUser)
@@ -96,7 +96,7 @@ object DataRepository {
     }
 
 
-    fun deleteUser(id: Int): Boolean {
+    fun deleteUser(id: Long): Boolean {
         // Функция для добавления контакта.
         // Возвращает true, если успешно и false, если нет.
 
@@ -208,5 +208,5 @@ object DataRepository {
 
     // Методы доступа, заменяющие мапы.
     fun getUser(phone: String) = synchronized(this) { phoneMap[phone] }
-    fun getUser(id: Int): User? = synchronized(this) { idMap[id] }
+    fun getUser(id: Long): User? = synchronized(this) { idMap[id] }
 }

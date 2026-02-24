@@ -53,26 +53,36 @@ abstract class LocationActivity : AppActivity() {
                     val popupMenu = PopupMenu(context, anchorView ?: topAppBar)
                     popupMenu.gravity = Gravity.END
 
-                    DataRepository.menuPhones.forEach { phone ->
+                    val menuMapping = mutableMapOf<Int, Long>() // Карта соответствия id и пункта меню.
+
+                    DataRepository.menuPhones.forEachIndexed { index, phone ->
                         DataRepository.getUser(phone)?.let { user ->
-                            popupMenu.menu.add(0, user.id, 0, user.name)
+                            menuMapping[index] = user.id
+                            popupMenu.menu.add(0, index, 0, user.name)
                         }
                     }
 
+                    popupMenu.setOnDismissListener {
+                        menuMapping.clear()
+                    }
+
                     popupMenu.setOnMenuItemClickListener { item ->
-                        reloadMapFromId(context, item.itemId)
+                        val userId = menuMapping[item.itemId]
+                        userId?.let { reloadMapFromId(context, userId) }
                         true
                     }
+
                     popupMenu.show()
                     true
                 }
+
                 else -> false
             }
         }
     }
 
 
-    protected open fun reloadMapFromId(context: Context, id: Int) {
+    protected open fun reloadMapFromId(context: Context, id: Long) {
         // Функция вызывается из меню со списком контактов.
         // Может быть переопределена, но обычно не переопределяется.
         // Функция выводит в заголовок карты имя контакта и время получения координат.

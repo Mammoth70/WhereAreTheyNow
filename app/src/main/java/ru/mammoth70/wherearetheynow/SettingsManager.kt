@@ -19,7 +19,6 @@ object SettingsManager {
     private const val NAME_MAP_TILT = "tilt"
     private const val NAME_MAP_CIRCLE = "circle"
     private const val NAME_MAP_CIRCLE_RADIUS = "radius"
-    private const val COLORS_SPAN_COUNT_DEFAULT = 2
 
     private val prefs by lazy {
         App.appContext.getSharedPreferences(NAME_SETTINGS, Context.MODE_PRIVATE)
@@ -33,9 +32,9 @@ object SettingsManager {
     @Volatile
     private var cachedUseService: Boolean = prefs.getBoolean(NAME_USE_SERVICE, true)
     @Volatile
-    private var cachedColorsSpanCount: Int = prefs.getInt(NAME_COLORS_SPAN_COUNT, COLORS_SPAN_COUNT_DEFAULT)
+    private var cachedColorsSpanCount: Int = prefs.getInt(NAME_COLORS_SPAN_COUNT, 2)
     @Volatile
-    private var cachedSelectedMap: Int = prefs.getInt(NAME_MAP, MAP_DEFAULT)
+    private var cachedSelectedMap: Int = prefs.getInt(NAME_MAP, MAP_YANDEX)
     @Volatile
     private var cachedMapZoom: Float = prefs.getFloat(NAME_MAP_ZOOM, MAP_ZOOM_DEFAULT)
     @Volatile
