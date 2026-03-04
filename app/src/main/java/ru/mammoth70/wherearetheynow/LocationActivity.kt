@@ -27,8 +27,8 @@ abstract class LocationActivity : AppActivity() {
         super.onCreate(savedInstanceState)
 
         createFrameTitle(this)
-        initMap(this)
-        reloadMapFromPoint(this, startRecord)
+        initMap()
+        reloadMapFromPoint(startRecord)
     }
 
 
@@ -92,17 +92,17 @@ abstract class LocationActivity : AppActivity() {
         val record = user.lastRecord ?: return
         topAppBar.setTitle(user.name)
         topAppBar.setSubtitle(timePassed(record.dateTime, context))
-        reloadMapFromPoint(context, record)
+        reloadMapFromPoint(record)
     }
 
 
-    protected abstract fun initMap(context: Context)
+    protected abstract fun initMap()
     // Абстрактная функция, должна быть переопределена.
     // Вызывается из onCreate после createFrameTitle и перед reloadMapFromPoint.
     // Функция делает начальную настройку карты.
 
 
-    protected abstract fun reloadMapFromPoint(context: Context, rec: PointRecord)
+    protected abstract fun reloadMapFromPoint(rec: PointRecord)
     // Абстрактная функция, должна быть переопределена.
     // Вызывается из onCreate после initMap, вызывается также из reloadMapFromId.
     // Функция перестраивает карту по передаваемой записи PointRecord.

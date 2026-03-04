@@ -10,7 +10,8 @@
     android:layout_height="wrap_content"
     app:behavior_hideable="false"
     app:behavior_peekHeight="80dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:ignore="MergeRootFrame">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"

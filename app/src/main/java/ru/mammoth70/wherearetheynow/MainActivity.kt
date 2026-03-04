@@ -107,6 +107,7 @@ class MainActivity : AppActivity() {
     }
 
 
+    @Suppress("SameReturnValue")
     private fun showContextMenu(view: View, position: Int) : Boolean {
         // Функция вызывается по длинному клику на элемент списка.
 

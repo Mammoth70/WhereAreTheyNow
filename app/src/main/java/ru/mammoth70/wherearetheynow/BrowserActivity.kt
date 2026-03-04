@@ -1,7 +1,6 @@
 package ru.mammoth70.wherearetheynow
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import java.util.Locale
@@ -23,7 +22,7 @@ class BrowserActivity : LocationActivity() {
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun initMap(context: Context) {
+    override fun initMap() {
         // Функция делает начальную настройку карты.
 
         webView.setWebViewClient(WebViewClient())
@@ -32,7 +31,7 @@ class BrowserActivity : LocationActivity() {
     }
 
 
-    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
+    override fun reloadMapFromPoint(rec: PointRecord) {
         // Функция выводит uri по PointRecord.
 
         val uri: String?

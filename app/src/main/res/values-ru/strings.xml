@@ -6,9 +6,6 @@
     <string name="for_about">Андрей Яковлев © 2025–2026\nhttps://github.com/mammoth70\n\nУсловия использования отдельных сервисов Яндекс Карт:\nhttps://yandex.ru/legal/maps_api/</string>
 
     <string name="ok">OK</string>
-    <string name="cancel">Отмена</string>
-    <string name="yes">Да</string>
-    <string name="no">Нет</string>
     <string name="add">Добавить</string>
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
@@ -26,7 +23,6 @@
     <string name="settings">настройки</string>
     <string name="titleSettings">Настройки</string>
     <string name="about">инфо</string>
-    <string name="titleAbout">О программе</string>
 
     <string name="selectMap">Выбрать карту</string>
     <string name="map_text">вывести координаты текстом</string>
@@ -58,13 +54,11 @@
     <string name="themeSystem">системный</string>
     <string name="themeNight">ночной</string>
 
-    <string name="denied">"запрещено"</string>
-    <string name="granted">"разрешено"</string>
     <string name="request">"запросить"</string>
-    <string name="request_fine_location">"запросить разрешение определения точного местоположения"</string>
-    <string name="request_background_location">"запросить разрешение работы геолокации в любом режиме"</string>
-    <string name="request_SMS">"запросить разрешение приёма и отправки SMS"</string>
-    <string name="request_notifications">"запросить разрешение уведомлений"</string>
+    <string name="request_fine_location">"Запросить разрешение определения точного местоположения"</string>
+    <string name="request_background_location">"Запросить разрешение работы геолокации в любом режиме"</string>
+    <string name="request_SMS">"Запросить разрешение приёма и отправки SMS"</string>
+    <string name="request_notifications">"Запросить разрешение уведомлений"</string>
     <string name="access_coarse_location">Примерное местоположение</string>
     <string name="access_fine_location">Точное местоположение</string>
     <string name="access_background_location">Работа в фоновом режиме</string>
@@ -76,7 +70,6 @@
     <string name="allow_background_location">Разрешите работу геолокации в любом режиме.</string>
     <string name="allow_SMS">Разрешите приём и отправку SMS.</string>
     <string name="allow_notifications">Разрешите уведомления.</string>
-    <string name="request_blocked">Запрос заблокирован.</string>
     <string name="location_request_blocked">Запрос разрешений геолокации заблокирован.</string>
     <string name="location_bg_request_blocked">Запрос работы в фоновом режиме заблокирован.</string>
     <string name="sms_request_blocked">Запрос разрешений СМС заблокирован.</string>
@@ -93,7 +86,6 @@
         \nПоэтому, приложению нужны права на получение и отправку SMS.
         \n\nУведомления нужны, чтобы приложение могло сообщить, когда оно запрашивает геолокацию.</string>
 
-    <string name="phone">телефон</string>
     <string name="latitude">широта</string>
     <string name="longitude">долгота</string>
     <string name="time">время</string>

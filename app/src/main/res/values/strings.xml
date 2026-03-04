@@ -6,9 +6,6 @@
     <string name="for_about">Andrey Yakovlev © 2025–2026\nhttps://github.com/mammoth70\n\nTerms of use of individual Yandex Maps services:\n https://yandex.ru/legal/maps_api/</string>
 
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
@@ -26,7 +23,6 @@
     <string name="settings">settings</string>
     <string name="titleSettings">Settings</string>
     <string name="about">about</string>
-    <string name="titleAbout">About</string>
 
     <string name="selectMap">Select a map</string>
     <string name="map_text">output coordinates as text</string>
@@ -58,13 +54,11 @@
     <string name="themeSystem">system</string>
     <string name="themeNight">night</string>
 
-    <string name="denied">"denied"</string>
-    <string name="granted">"granted"</string>
     <string name="request">"request"</string>
-    <string name="request_fine_location">"request the fine location permission"</string>
-    <string name="request_background_location">"request the background location permission"</string>
-    <string name="request_SMS">"request the SMS permission"</string>
-    <string name="request_notifications">"request the notifications permission"</string>
+    <string name="request_fine_location">"Request the fine location permission"</string>
+    <string name="request_background_location">"Request the background location permission"</string>
+    <string name="request_SMS">"Request the SMS permission"</string>
+    <string name="request_notifications">"Request the notifications permission"</string>
     <string name="access_coarse_location">Coarse location</string>
     <string name="access_fine_location">Fine location</string>
     <string name="access_background_location">Background location</string>
@@ -76,7 +70,6 @@
     <string name="allow_background_location">Please allow the background location permission.</string>
     <string name="allow_SMS">Please allow the SMS permission.</string>
     <string name="allow_notifications">Please allow notifications permission.</string>
-    <string name="request_blocked">Request is blocked.</string>
     <string name="location_request_blocked">Geolocation permission request is blocked.</string>
     <string name="location_bg_request_blocked">Background work request is blocked.</string>
     <string name="sms_request_blocked">SMS permission request is blocked.</string>
@@ -93,14 +86,13 @@
         \nTherefore, the application needs rights to receive and send SMS.
         \n\nNotifications allow the app to alert you whenever it accesses your geolocation.</string>
 
-    <string name="phone">phone</string>
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
     <string name="time">time</string>
     <string name="now">now</string>
     <string name="long_ago">long ago</string>
-    <string name="minutes_ago">%1$d minutes ago</string>
-    <string name="hours_ago">%1$d hours ago</string>
+    <string name="minutes_ago">%1$d min. ago</string>
+    <string name="hours_ago">%1$d h. ago</string>
     <string name="today">today</string>
     <string name="yesterday">yesterday</string>
     <string name="before_yesterday">the day before yesterday</string>

@@ -1,6 +1,5 @@
 package ru.mammoth70.wherearetheynow
 
-import android.content.Context
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.Locale
@@ -16,7 +15,7 @@ class TextActivity : LocationActivity() {
     private val tvLongitude: TextView by lazy { findViewById(R.id.tvLongitude) }
 
 
-    override fun initMap(context: Context) {
+    override fun initMap() {
         // Функция делает настройку recyclerView для вывода списка контактов с координатами.
 
         val geoAdapter = GeoAdapter(DataRepository.users.filter { it.lastRecord != null })
@@ -28,7 +27,7 @@ class TextActivity : LocationActivity() {
     }
 
 
-    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
+    override fun reloadMapFromPoint(rec: PointRecord) {
         // Функция выводит текстом широту и долготу по PointRecord.
 
         tvLatitude.text = String.format(Locale.US,

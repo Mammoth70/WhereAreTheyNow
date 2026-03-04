@@ -1,6 +1,5 @@
 package ru.mammoth70.wherearetheynow
 
-import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -47,7 +46,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
         findViewById(R.id.floatingActionButtonMapTilt) }
 
 
-    override fun initMap(context: Context) {
+    override fun initMap() {
         // Функция делает начальную настройку карты.
 
         mapView.mapWindow.map.addCameraListener(this)
@@ -119,7 +118,7 @@ class YandexActivity : LocationActivity(), CameraListener, SizeChangedListener {
     }
 
 
-    override fun reloadMapFromPoint(context: Context, rec: PointRecord) {
+    override fun reloadMapFromPoint(rec: PointRecord) {
         // Функция передвигает карту на PointRecord.
 
         map.move(CameraPosition(Point(rec.latitude, rec.longitude),
