@@ -1,0 +1,201 @@
+﻿### MainActivity
+
+LinearLayout
+└── CoordinatorLayout
+    └── AppBarLayout
+        └── MaterialToolbar
+    └── RecyclerView
+        └── MaterialCardView
+        └── ...
+        └── ...
+        └── MaterialCardView
+            └── ConstraintLayout
+                └── TextView
+                └── TextView
+                └── TextView
+                └── Button
+                └── Button
+    └── FloatingActionButton
+└── FrameLayout
+    └── BottomNavigationView
+
+
+
+### BrowserActivity
+
+LinearLayout
+└── AppBarLayout
+    └── MaterialToolbar
+└── WebView
+
+
+
+### YandexMapActivity
+
+LinearLayout
+└── AppBarLayout
+    └── MaterialToolbar
+└── ConstraintLayout
+    └── MapView
+    └── FloatingActionButton
+    └── ...
+    └── FloatingActionButton
+
+
+
+### TextActivity
+
+LinearLayout
+└── AppBarLayout
+    └── MaterialToolbar
+└── ConstraintLayout
+    └── TextView
+    └── ...
+    └── TextView
+└── MaterialCardView
+    └── ConstraintLayout
+         └── TextView
+         └── TextView
+         └── TextView
+└── CoordinatorLayout
+    └── RecyclerView
+        └── MaterialCardView
+        └── ...
+        └── ...
+        └── MaterialCardView
+            └── FrameLayout
+                └── ConstraintLayout
+                    └── TextView
+                    └── ...
+                    └── TextView
+
+
+
+### ColorsActivity
+
+CoordinatorLayout
+└── AppBarLayout
+    └── MaterialToolbar
+└── RecyclerView
+    └── MaterialCardView
+    └── ...
+    └── ...
+    └── MaterialCardView
+    └── MaterialCardView
+        └── ConstraintLayout
+            └── TextView
+
+
+
+### PermissionActivity
+
+CoordinatorLayout
+└── CoordinatorLayout
+    └── AppBarLayout
+        └── MaterialToolbar
+    └── NestedScrollView
+        └── LinearLayout
+            └── MaterialCardView
+                └── ConstraintLayout
+                    └── TextView
+                    └── ...
+                    └── TextView
+                    └── Button
+            └── MaterialCardView
+                └── ConstraintLayout
+                    └── TextView
+                    └── TextView
+                    └── TextView
+                    └── Button
+            └── MaterialCardView
+                └── ConstraintLayout
+                    └── TextView
+                    └── ...
+                    └── TextView
+                    └── Button
+            └── MaterialCardView
+                └── ConstraintLayout
+                    └── TextView
+                    └── TextView
+                    └── Button
+└── FrameLayout
+    └── BottomSheetDragHandleView
+        └── TextView
+        └── TextView
+
+
+
+### SettingsActivity
+
+LinearLayout
+└── CoordinatorLayout
+    └── AppBarLayout
+        └── MaterialToolbar
+    └── NestedScrollView
+        └── LinearLayout
+            └── MaterialCardView
+                └── LinearLayout
+                    └── TextInputLayout
+                        └── TextInputEditText
+            └── MaterialCardView
+                └── LinearLayout
+                    └── TextView
+                    └── RadioGroup
+                        └── RadioButton
+                        └── ...
+                        └── RadioButton
+                    └── TextView
+                    └── RadioGroup
+                        └── RadioButton
+                        └── ...
+                        └── RadioButton
+            └── MaterialCardView
+                └── LinearLayout
+                    └── TextView
+                    └── RadioGroup
+                        └── RadioButton
+                        └── ...
+                        └── RadioButton
+                    └── TextView
+                    └── Slider
+                    └── TextView
+                    └── Slider
+                    └── MaterialSwitch
+                    └── TextView
+                    └── Slider
+            └── MaterialCardView
+                └── LinearLayout
+                    └── MaterialSwitch
+            └── MaterialCardView
+                └── LinearLayout
+                    └── TextView
+                    └── Slider
+└── ConstraintLayout
+    └── Button
+
+
+
+### UserActivity
+
+LinearLayout
+└── CoordinatorLayout
+    └── AppBarLayout
+        └── MaterialToolbar
+    └── NestedScrollView
+        └── MaterialCardView
+            └── LinearLayout
+                └── ImageView
+                └── TextInputLayout
+                    └── TextInputEditText
+            └── LinearLayout
+                └── ImageView
+                └── TextInputLayout
+                    └── TextInputEditText
+            └── LinearLayout
+                └── ImageView
+                └── MaterialCardView
+                    └── TextView
+            └── LinearLayout
+                └── TextView
+└── ConstraintLayout
+    └── Button
