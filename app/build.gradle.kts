@@ -31,9 +31,10 @@ android {
     defaultConfig {
         val versionMajor = 3
         val versionMinor = 16
-        val versionPatch = 13
+        val versionPatch = 14
         applicationId = "ru.mammoth70.wherearetheynow"
         minSdk = 31
+        //noinspection OldTargetApi
         targetSdk = 36
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
         versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch

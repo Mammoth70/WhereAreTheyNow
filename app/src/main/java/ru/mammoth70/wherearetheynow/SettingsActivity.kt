@@ -111,6 +111,37 @@ class SettingsActivity : AppActivity() {
             }
         }
 
+        // Назначение слайдера масштаба карты.
+        sliderMapZoom.value = SettingsManager.selectedMapZoom
+
+        // Назначение слайдера наклона камеры Яндекс-карты.
+        sliderMapTilt.value = SettingsManager.selectedMapTilt
+
+        // Назначение переключателя показа кругов вокруг метки на Яндекс-карте.
+        checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)
+
+        // Обработчик переключения состояния чекера круга.
+        checkBoxCircle.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (buttonView.isPressed) {
+                if (isChecked) {
+                    lbCircleRadius.visibility = View.VISIBLE
+                    sliderCircleRadius.visibility = View.VISIBLE
+                } else {
+                    lbCircleRadius.visibility = View.GONE
+                    sliderCircleRadius.visibility = View.GONE
+                }
+            }
+        }
+
+        // Назначение слайдера диаметра кругов вокруг метки на Яндекс-карте.
+        sliderCircleRadius.value = SettingsManager.selectedMapCircleRadius
+        if (SettingsManager.selectedMapCircle) {
+            lbCircleRadius.visibility = View.VISIBLE
+            sliderCircleRadius.visibility = View.VISIBLE
+        } else {
+            lbCircleRadius.visibility = View.GONE
+            sliderCircleRadius.visibility = View.GONE
+        }
 
         // Назначение кнопки переключателя карт и видимости настроек карты, в зависимости от выбранной.
         var selectedMapTemp = SettingsManager.selectedMap
@@ -194,38 +225,6 @@ class SettingsActivity : AppActivity() {
                     }
                 }
             }
-        }
-
-        // Назначение слайдера масштаба карты.
-        sliderMapZoom.value = SettingsManager.selectedMapZoom
-
-        // Назначение слайдера наклона камеры Яндекс-карты.
-        sliderMapTilt.value = SettingsManager.selectedMapTilt
-
-        // Назначение переключателя показа кругов вокруг метки на Яндекс-карте.
-        checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)
-
-        // Обработчик переключения состояния чекера круга.
-        checkBoxCircle.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (buttonView.isPressed) {
-                if (isChecked) {
-                    lbCircleRadius.visibility = View.VISIBLE
-                    sliderCircleRadius.visibility = View.VISIBLE
-                } else {
-                    lbCircleRadius.visibility = View.GONE
-                    sliderCircleRadius.visibility = View.GONE
-                }
-            }
-        }
-
-        // Назначение слайдера диаметра кругов вокруг метки на Яндекс-карте.
-        sliderCircleRadius.value = SettingsManager.selectedMapCircleRadius
-        if (SettingsManager.selectedMapCircle) {
-            lbCircleRadius.visibility = View.VISIBLE
-            sliderCircleRadius.visibility = View.VISIBLE
-        } else {
-            lbCircleRadius.visibility = View.GONE
-            sliderCircleRadius.visibility = View.GONE
         }
 
 
