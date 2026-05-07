@@ -11,7 +11,7 @@ secrets {
 android {
     namespace = "ru.mammoth70.wherearetheynow"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     testOptions {
@@ -31,11 +31,10 @@ android {
     defaultConfig {
         val versionMajor = 3
         val versionMinor = 16
-        val versionPatch = 14
+        val versionPatch = 15
         applicationId = "ru.mammoth70.wherearetheynow"
         minSdk = 31
-        //noinspection OldTargetApi
-        targetSdk = 36
+        targetSdk = 37
         versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
         versionCode = versionMajor * 10000 + versionMinor * 100 + versionPatch
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
