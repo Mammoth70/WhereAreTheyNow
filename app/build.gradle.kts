@@ -31,7 +31,7 @@ android {
     defaultConfig {
         val versionMajor = 4
         val versionMinor = 0
-        val versionPatch = 0
+        val versionPatch = 1
         applicationId = "ru.mammoth70.wherearetheynow"
         minSdk = 31
         targetSdk = 37

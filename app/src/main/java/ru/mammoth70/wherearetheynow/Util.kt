@@ -8,6 +8,7 @@ import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -132,14 +133,20 @@ fun Context.getThemeColor(@AttrRes attr: Int): Int {
 fun formatUtcToLocalTime(utcDateTimeString: String): String {
     // Функция преобразует UTC-строку (PointRecord.dateTime) в строку с местным временем устройства.
     if (utcDateTimeString.isEmpty()) return ""
-    val utcFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.US).apply {
-        timeZone = TimeZone.getTimeZone("UTC")
+    return try {
+        val utcFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        val date: Date = utcFormatter.parse(utcDateTimeString) ?: return utcDateTimeString
+
+        val localFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault()).apply {
+            timeZone = TimeZone.getDefault()
+        }
+        localFormatter.format(date)
+    } catch (e: ParseException) {
+        LogSmart.e("Util", "ParseException в formatUtcToLocalTime(${utcDateTimeString})", e)
+        ""
     }
-    val date: Date = utcFormatter.parse(utcDateTimeString) ?: return utcDateTimeString
-    val localFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault()).apply {
-        timeZone = TimeZone.getDefault()
-    }
-    return localFormatter.format(date)
 }
 
 
