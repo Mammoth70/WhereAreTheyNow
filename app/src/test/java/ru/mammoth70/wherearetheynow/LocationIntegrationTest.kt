@@ -7,12 +7,16 @@ import org.junit.jupiter.params.provider.CsvFileSource
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class LocationIntegrationTest {
 
     private val sender = GetLocation()
     private val monitor = SMSmonitor()
-    private val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+
+    private val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
 
     @ParameterizedTest(name = "{index} => {2}")
     @DisplayName("Интеграционное тестирование логики кодирования и декодирования координат и времени")
@@ -47,8 +51,13 @@ class LocationIntegrationTest {
             // Запускаем тестирование в обоих режимах: Answer (false) и Request (true).
             listOf(true, false).forEach { isRequest ->
 
+                val utcFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).apply {
+                    timeZone = TimeZone.getTimeZone("UTC")
+                }
+                val testDateStr = utcFormatter.format(testDate)
+
                 // Кодируем помаленьку.
-                val smsText = sender.formatLocation(testLat, testLon, testDate, isRequest)
+                val smsText = sender.formatLocation(testLat, testLon, testDateStr, isRequest)
                 assertNotNull(smsText, "Ошибка формирования SMS для варианта $description")
 
                 // Декодируем.

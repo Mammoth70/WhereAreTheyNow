@@ -106,15 +106,14 @@ class SMSmonitor : BroadcastReceiver() {
         return try {
             val latStr = matcher.group(1)
             val lonStr = matcher.group(2)
-            val timeStr = matcher.group(3)
+            val timeStr = matcher.group(3) ?: return null
 
             val latitude = latStr?.toDouble() ?: return null
             val longitude = lonStr?.toDouble() ?: return null
-            val dateTime = stringToDate(timeStr ?: "") ?: return null
 
             if (latitude !in -90.0..90.0 || longitude !in -180.0..180.0) return null
 
-            PointRecord(smsFrom, latitude, longitude, dateTime)
+            PointRecord(smsFrom, latitude, longitude, timeStr)
 
         } catch (e: Exception) {
             LogSmart.e("SMSmonitor", "Ошибка парсинга SMS в parseSMS( $smsFrom , $message )", e)

@@ -9,8 +9,10 @@ import androidx.annotation.VisibleForTesting
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 class GetLocation {
     // Класс запрашивает геолокацию и возвращает её указанным способом.
@@ -19,8 +21,8 @@ class GetLocation {
     companion object {
         const val WAY_SMS = 1
         const val WAY_LOCAL = 2
-        private const val FORMAT_ANSWER = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
-        private const val FORMAT_REQUEST_AND_LOCATION = $$"WATN R lat %1$.6f, lon %2$.6f, time %3$tF %3$tT"
+        private const val FORMAT_ANSWER = $$"WATN A lat %1$.6f, lon %2$.6f, time %3$s"
+        private const val FORMAT_REQUEST_AND_LOCATION = $$"WATN R lat %1$.6f, lon %2$.6f, time %3$s"
     }
 
 
@@ -58,17 +60,21 @@ class GetLocation {
         // Функция форматирует геолокацию для SMS-сообщения.
 
         location ?: return null
-        return formatLocation(location.latitude, location.longitude, Date(location.time), sendRequest)
+        val utcFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        val utcDateTimeString = utcFormatter.format(Date(location.time))
+        return formatLocation(location.latitude, location.longitude, utcDateTimeString, sendRequest)
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun formatLocation(latitude: Double, longitude: Double, date: Date, sendRequest: Boolean): String? {
+    internal fun formatLocation(latitude: Double, longitude: Double, dateTimeStr: String, sendRequest: Boolean): String? {
         // Функция форматирует для SMS-сообщения геолокацию, разбитую по отдельным полям.
 
         return if (sendRequest) {
-            String.format(Locale.US, FORMAT_REQUEST_AND_LOCATION, latitude, longitude, date)
+            String.format(Locale.US, FORMAT_REQUEST_AND_LOCATION, latitude, longitude, dateTimeStr)
         } else {
-            String.format(Locale.US, FORMAT_ANSWER, latitude, longitude, date)
+            String.format(Locale.US, FORMAT_ANSWER, latitude, longitude, dateTimeStr)
         }
     }
 

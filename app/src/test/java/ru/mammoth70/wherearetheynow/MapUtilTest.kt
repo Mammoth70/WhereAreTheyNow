@@ -4,14 +4,19 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MapUtilTest {
 
-    private val fixedNow: Date = Calendar.getInstance().apply {
+    private val fixedNow: Date = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
         set(2025, Calendar.OCTOBER, 10, 12, 0, 0)
         set(Calendar.MILLISECOND, 0)
     }.time
+
+    private val utcFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
 
     @ParameterizedTest(name = "{index} => {2}")
     @DisplayName("Тестирование функции вывода текстом разности во времени")
@@ -50,13 +55,13 @@ class MapUtilTest {
             when (expectedResId) {
                 // Если в CSV указано "minutes_ago", рассчитываем минуты для сравнения.
                 R.string.minutes_ago -> {
-                    val dateSMS = stringToDate(cleanDate!!)!!
+                    val dateSMS = utcFormatter.parse(cleanDate!!)!!
                     val diff = (fixedNow.time - dateSMS.time) / 60000
                     "$expectedResId $diff"
                 }
                 // Если в CSV указано "hours_ago", рассчитываем часы для сравнения.
                 R.string.hours_ago -> {
-                    val dateSMS = stringToDate(cleanDate!!)!!
+                    val dateSMS = utcFormatter.parse(cleanDate!!)!!
                     val diff = (fixedNow.time - dateSMS.time) / 3600000
                     "$expectedResId $diff"
                 }

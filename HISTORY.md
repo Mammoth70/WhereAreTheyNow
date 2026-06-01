@@ -423,3 +423,7 @@ Patch - совсем незначительные изменения.
 ### 3.16.16
 Смена версии Gradle на 9.5.1.  
 Обновлены версии зависимостей.
+
+### 4.0.0
+Переход на время-UTC при передаче SMS и хранении в БД.
+Изменения в файлах кода PointRecord.kt, Util.kt, MapUtil.kt, GetLocation.kt, SMSmonitor.kt, GeoAdapter.kt и в модульных тестах MapUtilTest.kt, LocationIntegrationTest.kt.

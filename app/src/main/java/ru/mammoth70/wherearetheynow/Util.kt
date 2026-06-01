@@ -8,10 +8,10 @@ import androidx.annotation.AttrRes
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.color.DynamicColorsOptions
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 // Константы и статические функции.
 
@@ -23,7 +23,7 @@ const val INTENT_EXTRA_LATITUDE = "latitude"
 const val INTENT_EXTRA_LONGITUDE = "longitude"
 const val INTENT_EXTRA_TIME = "time"
 
-private const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
+const val FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss"
 
 
 // Константы для управления настройками.
@@ -120,26 +120,26 @@ fun setAppThemeColor(application: Application, color: Int, refresh: Boolean) {
 }
 
 
-fun stringToDate(dateTime: String): Date? {
-    // Функция преобразовывает строку в дату.
-
-    val dateFormat = SimpleDateFormat(FORMAT_DATETIME, Locale.US)
-    dateFormat.isLenient = false // Включаем строгую проверку календаря.
-    return try {
-        dateFormat.parse(dateTime)
-    } catch (e: ParseException) {
-        LogSmart.e("Util", "ParseException в stringToDate(${dateTime})", e)
-        null
-    }
-}
-
-
 fun Context.getThemeColor(@AttrRes attr: Int): Int {
     // Функция-расширение класса Context. Возвращает числовое значение цвета по ID-атрибута темы.
 
     val typedValue = TypedValue()
     theme.resolveAttribute(attr, typedValue, true)
     return typedValue.data
+}
+
+
+fun formatUtcToLocalTime(utcDateTimeString: String): String {
+    // Функция преобразует UTC-строку (PointRecord.dateTime) в строку с местным временем устройства.
+    if (utcDateTimeString.isEmpty()) return ""
+    val utcFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.US).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
+    }
+    val date: Date = utcFormatter.parse(utcDateTimeString) ?: return utcDateTimeString
+    val localFormatter = SimpleDateFormat(FORMAT_DATETIME, Locale.getDefault()).apply {
+        timeZone = TimeZone.getDefault()
+    }
+    return localFormatter.format(date)
 }
 
 

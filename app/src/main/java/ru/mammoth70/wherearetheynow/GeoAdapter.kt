@@ -35,7 +35,7 @@ class GeoAdapter(
             itemUserName.text = user.name
             itemLattitude.text = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.latitude)
             itemLongitude.text = String.format(Locale.US, PointRecord.FORMAT_DOUBLE, record.longitude)
-            itemDate.text = record.dateTime
+            itemDate.text = formatUtcToLocalTime(record.dateTime)
             itemCardGeo.setCardBackgroundColor(PinColors.getColorAlpha16(user.color))
         }
 

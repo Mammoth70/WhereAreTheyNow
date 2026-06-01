@@ -3,9 +3,11 @@ package ru.mammoth70.wherearetheynow
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.VisibleForTesting
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 // Утилиты работы с данными карт.
@@ -70,11 +72,18 @@ internal fun calculateTimePassed(
 
     if (dateTime.isNullOrBlank()) return ""
 
-    val dateSMS = stringToDate(dateTime) ?: return ""
+    val dateSMS = try {
+        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }.parse(dateTime) ?: return ""
+    } catch (_: Exception) {
+        return ""
+    }
+
     val durationMs = now.time - dateSMS.time
 
-    val calSMS = Calendar.getInstance().apply { time = dateSMS }
-    val calNow = Calendar.getInstance().apply { time = now }
+    val calSMS = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply { time = dateSMS }
+    val calNow = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply { time = now }
 
     fun Calendar.toStartOfDay() {
         set(Calendar.HOUR_OF_DAY, 0)

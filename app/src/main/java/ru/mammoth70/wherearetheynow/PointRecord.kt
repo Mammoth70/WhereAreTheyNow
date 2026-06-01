@@ -1,7 +1,9 @@
 package ru.mammoth70.wherearetheynow
 
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 data class PointRecord (
     // Класс данных для хранения телефона, координат и времени получения координат.
@@ -14,7 +16,6 @@ data class PointRecord (
     companion object {
         const val FORMAT_DOUBLE = "%1$.6f"
         const val FORMAT_POINT = "%1$.6f %2$.6f"
-        const val FORMAT_DATE = $$"%1$tF %1$tT"
     }
 
     internal constructor(
@@ -26,7 +27,9 @@ data class PointRecord (
         initPhone,
         initLatitude,
         initLongitude,
-        String.format(Locale.US, FORMAT_DATE, initDateTime)
+        SimpleDateFormat(FORMAT_DATETIME, Locale.US).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }.format(initDateTime)
     )
 
 }
