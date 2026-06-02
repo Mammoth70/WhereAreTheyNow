@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 
@@ -34,16 +34,15 @@ class SettingsActivity : AppActivity() {
     private val sliderMapZoom: Slider by lazy { findViewById(R.id.sliderMapZoom) }
     private val lbMapTilt: TextView by lazy { findViewById(R.id.lbMapTilt) }
     private val sliderMapTilt: Slider by lazy { findViewById(R.id.sliderMapTilt) }
-    private val checkBoxCircle: MaterialSwitch by lazy { findViewById(R.id.checkBoxCircle) }
+    private val checkBoxCircle: MaterialCheckBox by lazy { findViewById(R.id.checkBoxCircle) }
     private val lbCircleRadius: TextView by lazy { findViewById(R.id.lbCircleRadius) }
     private val sliderCircleRadius: Slider by lazy { findViewById(R.id.sliderCircleRadius) }
-
-    private val checkBoxService: MaterialSwitch by lazy { findViewById(R.id.checkBoxService) }
 
     private val sliderColorsSpanCount: Slider by lazy { findViewById(R.id.sliderColorsSpanCount) }
 
     private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
 
+    private val checkBoxInternet: MaterialCheckBox by lazy { findViewById(R.id.checkBoxInternet) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -118,7 +117,7 @@ class SettingsActivity : AppActivity() {
         sliderMapTilt.value = SettingsManager.selectedMapTilt
 
         // Назначение переключателя показа кругов вокруг метки на Яндекс-карте.
-        checkBoxCircle.setChecked(SettingsManager.selectedMapCircle)
+        checkBoxCircle.isChecked = SettingsManager.selectedMapCircle
 
         // Обработчик переключения состояния чекера круга.
         checkBoxCircle.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -228,12 +227,12 @@ class SettingsActivity : AppActivity() {
         }
 
 
-        // Назначение переключателя включения сервиса.
-        checkBoxService.setChecked(SettingsManager.useService)
-
-
         // Назначение слайдера, определяющего количество колонок в списке выбора метки.
         sliderColorsSpanCount.value = SettingsManager.colorsSpanCount.toFloat()
+
+
+        // Назначение переключателя работы через интернет-сервер.
+        checkBoxInternet.isChecked = SettingsManager.useInternet
 
 
         // Обработчик кнопки "сохранить настройки".
@@ -268,11 +267,11 @@ class SettingsActivity : AppActivity() {
             SettingsManager.selectedMapCircle = checkBoxCircle.isChecked
             SettingsManager.selectedMapCircleRadius = sliderCircleRadius.value
 
-            // Флаг работы сервиса.
-            SettingsManager.useService = checkBoxService.isChecked
-
             // Количество колонок выбора цвета.
             SettingsManager.colorsSpanCount = sliderColorsSpanCount.value.toInt()
+
+            // Настройки работы через интернет-сервер.
+            SettingsManager.useInternet = checkBoxInternet.isChecked
 
             // Intent информирует об изменении настроек, требующих действий в MainActivity.
             val intent = Intent().apply {

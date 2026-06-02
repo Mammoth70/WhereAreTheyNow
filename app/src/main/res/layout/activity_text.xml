@@ -8,7 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TextActivity">
+    tools:context=".TextActivity"
+    tools:ignore="VisualLintSystemUi">
 
     <!-- Top AppBar. -->
     <include layout="@layout/partial_app_bar_map" />

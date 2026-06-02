@@ -66,17 +66,11 @@ class SMSmonitor : BroadcastReceiver() {
 
 
     private fun requestLocation(context: Context, smsTo: String?) {
-        if (SettingsManager.useService) {
-            // Функция передаёт обработку запроса геолокации в GetLocationService.
-            val intent = Intent(context, GetLocationService::class.java)
-            intent.putExtra(INTENT_EXTRA_SMS_TO, smsTo)
-            context.startService(intent)
-        } else {
-            // Функция передаёт обработку запроса геолокации в GetLocation.
-            val getLocation = GetLocation()
-            getLocation.sendLocation(context, GetLocation.WAY_SMS,
-                smsTo, false)
-        }
+        // Функция передаёт обработку запроса геолокации в GetLocationService.
+        val intent = Intent(context, GetLocationService::class.java)
+        intent.putExtra(INTENT_EXTRA_SMS_TO, smsTo)
+        //context.startService(intent)
+        androidx.core.content.ContextCompat.startForegroundService(context, intent)
     }
 
 

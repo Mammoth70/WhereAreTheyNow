@@ -203,18 +203,10 @@ class MainActivity : AppActivity() {
         if (user.phone == DataRepository.myPhone) {
             selfPosition()
         } else {
-            if (SettingsManager.useService) {
-                // Функция передаёт обработку запроса геолокации в GetLocationService.
-                val intent = Intent(this, GetLocationService::class.java)
-                intent.putExtra(INTENT_EXTRA_SMS_TO, user.phone)
-                intent.putExtra(INTENT_EXTRA_REQUEST, true)
-                this.startService(intent)
-            } else {
-                // Функция передаёт обработку запроса геолокации в GetLocation.
-                val getLocation = GetLocation()
-                getLocation.sendLocation(this, GetLocation.WAY_SMS,
-                    user.phone, true)
-            }
+            // Функция передаёт обработку запроса геолокации в GetLocation.
+            val getLocation = GetLocation()
+            getLocation.sendLocation(this, GetLocation.WAY_SMS,
+           user.phone, true)
         }
     }
 
@@ -226,17 +218,10 @@ class MainActivity : AppActivity() {
         if (user.phone == DataRepository.myPhone) {
             selfPosition()
         } else {
-            if (SettingsManager.useService) {
-                // Функция передаёт обработку запроса геолокации в GetLocationService.
-                val intent = Intent(this, GetLocationService::class.java)
-                intent.putExtra(INTENT_EXTRA_SMS_TO, user.phone)
-                this.startService(intent)
-            } else {
-                // Функция передаёт обработку запроса геолокации в GetLocation.
-                val getLocation = GetLocation()
-                getLocation.sendLocation(this, GetLocation.WAY_SMS,
-                    user.phone, false)
-            }
+            // Функция передаёт обработку запроса геолокации в GetLocation.
+            val getLocation = GetLocation()
+            getLocation.sendLocation(this, GetLocation.WAY_SMS,
+           user.phone, false)
         }
     }
 

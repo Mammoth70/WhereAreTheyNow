@@ -10,7 +10,6 @@ object SettingsManager {
 
     const val NAME_SETTINGS = "Settings"
 
-    private const val NAME_USE_SERVICE = "UseService"
     private const val NAME_COLORS_SPAN_COUNT = "ColorsSpanCount"
     private const val NAME_THEME_MODE = "theme"
     private const val NAME_THEME_COLOR = "color"
@@ -19,6 +18,7 @@ object SettingsManager {
     private const val NAME_MAP_TILT = "tilt"
     private const val NAME_MAP_CIRCLE = "circle"
     private const val NAME_MAP_CIRCLE_RADIUS = "radius"
+    private const val NAME_USE_INTERNET = "UseInternet"
 
     private val prefs by lazy {
         App.appContext.getSharedPreferences(NAME_SETTINGS, Context.MODE_PRIVATE)
@@ -29,8 +29,6 @@ object SettingsManager {
     private var cachedThemeColor: Int = prefs.getInt(NAME_THEME_COLOR, COLOR_DYNAMIC_NO)
     @Volatile
     private var cachedThemeMode: Int = prefs.getInt(NAME_THEME_MODE, MODE_NIGHT_FOLLOW_SYSTEM)
-    @Volatile
-    private var cachedUseService: Boolean = prefs.getBoolean(NAME_USE_SERVICE, true)
     @Volatile
     private var cachedColorsSpanCount: Int = prefs.getInt(NAME_COLORS_SPAN_COUNT, 2)
     @Volatile
@@ -43,6 +41,8 @@ object SettingsManager {
     private var cachedMapCircle: Boolean = prefs.getBoolean(NAME_MAP_CIRCLE, MAP_CIRCLE_DEFAULT)
     @Volatile
     private var cachedMapCircleRadius: Float = prefs.getFloat(NAME_MAP_CIRCLE_RADIUS, MAP_CIRCLE_DEFAULT_RADIUS)
+    @Volatile
+    private var cachedUseInternet: Boolean = prefs.getBoolean(NAME_USE_INTERNET, false)
 
     // Тема
     var themeColor: Int   // Цвет темы.
@@ -63,17 +63,6 @@ object SettingsManager {
             }
         }
 
-
-
-    // Сервис
-    var useService: Boolean  // Флаг использования при определении координат сервиса (flase - напрямую, без сервиса).
-        get() = cachedUseService
-        set(value) {
-            if (value != cachedUseService ) {
-                cachedUseService = value
-                prefs.edit { putBoolean(NAME_USE_SERVICE, value) }
-            }
-        }
 
 
     // UI
@@ -130,6 +119,17 @@ object SettingsManager {
             if (value != cachedMapCircleRadius ) {
                 cachedMapCircleRadius = value
                 prefs.edit { putFloat(NAME_MAP_CIRCLE_RADIUS, value) }
+            }
+        }
+
+
+    // Работа через интернет
+    var useInternet: Boolean  // Флаг использования интернет-сервера при определении координат сервиса.
+        get() = cachedUseInternet
+        set(value) {
+            if (value != cachedUseInternet ) {
+                cachedUseInternet = value
+                prefs.edit { putBoolean(NAME_USE_INTERNET, value) }
             }
         }
 

@@ -24,12 +24,13 @@
     <string name="titleSettings">Settings</string>
     <string name="about">about</string>
 
+    <string name="selectInternet">Exchange via internet</string>
+
     <string name="selectMap">Select a map</string>
     <string name="map_text">output coordinates as text</string>
     <string name="map_openstreet_org">OpenStreet maps</string>
     <string name="map_yandex_ru">Yandex Maps</string>
     <string name="my_phone_number">My phone number</string>
-    <string name="selectService">Work as a service</string>
     <string name="mapZoom">Map zoom</string>
     <string name="mapTilt">Camera tilt \u00b0</string>
     <string name="mapNord">Rotate the map to the north</string>

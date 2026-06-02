@@ -16,7 +16,8 @@
         android:text="@string/latitude"
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="VisualLintSystemUi" />
 
     <TextView
         android:id="@+id/lbLongitude"
@@ -38,7 +39,8 @@
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/lbLatitude"
         app:layout_constraintStart_toEndOf="@+id/lbLatitude"
-        tools:text="55.768533" />
+        tools:text="55.768533"
+        tools:ignore="VisualLintSystemUi" />
 
     <TextView
         android:id="@+id/tvLongitude"

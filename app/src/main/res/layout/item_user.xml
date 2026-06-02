@@ -30,7 +30,8 @@
             android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="VisualLintSystemUi" />
 
         <TextView
             android:id="@+id/itemUserName"
@@ -40,7 +41,8 @@
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="@+id/itemUserLabel"
             app:layout_constraintStart_toEndOf="@+id/itemUserLabel"
-            tools:text="Имя фамилия контакта" />
+            tools:text="Имя фамилия контакта"
+            tools:ignore="VisualLintSystemUi" />
 
         <TextView
             android:id="@+id/itemUserPhone"
@@ -65,7 +67,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnUserMenu"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            tools:ignore="VisualLintSystemUi" />
 
         <Button
             style="?attr/materialIconButtonStyle"
@@ -78,6 +81,7 @@
             app:iconTint="?attr/colorOnSurface"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="VisualLintSystemUi" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -24,12 +24,13 @@
     <string name="titleSettings">Настройки</string>
     <string name="about">инфо</string>
 
+    <string name="selectInternet">Обмен через интернет</string>
+
     <string name="selectMap">Выбрать карту</string>
     <string name="map_text">вывести координаты текстом</string>
     <string name="map_openstreet_org">карты OpenStreet</string>
     <string name="map_yandex_ru">Яндекс Карты</string>
     <string name="my_phone_number">Мой номер телефона</string>
-    <string name="selectService">Работать как сервис</string>
     <string name="mapZoom">Масштаб карты</string>
     <string name="mapTilt">Наклон камеры \u00b0</string>
     <string name="mapNord">Повернуть карту на север</string>

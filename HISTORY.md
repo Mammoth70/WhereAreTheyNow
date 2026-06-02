@@ -429,4 +429,19 @@ Patch - совсем незначительные изменения.
 Изменения в файлах кода PointRecord.kt, Util.kt, MapUtil.kt, GetLocation.kt, SMSmonitor.kt, GeoAdapter.kt и в модульных тестах MapUtilTest.kt, LocationIntegrationTest.kt.
 
 ### 4.0.1
-Функция formatUtcToLocalTime обёрнутв в блок try catch.
+Функция formatUtcToLocalTime теперь обёрнута в блок try catch.
+
+### 4.0.2
+Изменения в коде и макете SettingsActivity.  
+В соответствии с принципами MaterialDesign3 Switch заменён на CheckBox.
+
+Изменения в коде и макете SettingsActivity. Изменения в коде SettingsManager, MainActivity и SMSmonitor.  
+Флаг "работать как сервис" больше не используется и отключён. Теперь работа с геолокацией в фоновом режиме всегда происходит через сервис, а в интерактивном режиме всегда через вызов функции.
+
+Изменения в коде SMSmonitor.  
+Вызов context.startService(intent) сменён на androidx.core.content.ContextCompat.startForegroundService(context, intent).
+
+Изменения в коде и макете SettingsActivity. Изменения в коде SettingsManager. Изменения в ресурсах строк.  
+Подготовка настроек для работы через интернет-сервер.
+
+Удалены неиспользуемые ресурсы.  

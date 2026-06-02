@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Скроллируемая часть с полями ввода для SettingsActivity. -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <!-- Мой номер телефона. -->
@@ -38,6 +38,34 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Настройки работы с интернет-сервером. -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkBoxInternet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/selectInternet"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                app:useMaterialThemeColors="true"
+                tools:ignore="VisualLintLocaleText,VisualLintBounds,VisualLintButtonSize" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <!-- Настройки темы. -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -54,8 +82,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/selectThemeColor"
                 android:textSize="16sp" />
 
@@ -63,9 +91,9 @@
                 android:id="@+id/radioThemeColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/themeDefault"
@@ -113,8 +141,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/selectThemeMode"
                 android:textSize="16sp" />
 
@@ -122,9 +150,9 @@
                 android:id="@+id/radioTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/themeDay"
@@ -134,9 +162,9 @@
 
                 <RadioButton
                     android:id="@+id/themeSystem"
-                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:text="@string/themeSystem" />
 
                 <RadioButton
@@ -154,7 +182,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        tools:ignore="VisualLintBounds">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,7 +196,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:text="@string/selectMap"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="VisualLintBounds" />
 
             <RadioGroup
                 android:id="@+id/radioMap"
@@ -175,7 +205,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                tools:ignore="VisualLintBounds">
 
                 <RadioButton
                     android:id="@+id/frameTextActivity"
@@ -250,18 +281,20 @@
                 android:visibility="gone"
                 tools:ignore="VisualLintBounds" />
 
-            <com.google.android.material.materialswitch.MaterialSwitch
+            <com.google.android.material.checkbox.MaterialCheckBox
                 android:id="@+id/checkBoxCircle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/mapCircle"
-                android:textSize="16sp"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                app:useMaterialThemeColors="true"
                 tools:visibility="visible"
                 android:visibility="gone"
-                tools:ignore="VisualLintLocaleText,VisualLintBounds" />
+                tools:ignore="VisualLintLocaleText,VisualLintBounds,VisualLintButtonSize" />
 
             <TextView
                 android:id="@+id/lbCircleRadius"
@@ -288,33 +321,6 @@
                 tools:visibility="visible"
                 android:visibility="gone"
                 tools:ignore="VisualLintBounds" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <!-- Работать как сервис. -->
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        tools:ignore="VisualLintBounds">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/checkBoxService"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/selectService"
-                android:textSize="16sp"
-                tools:ignore="VisualLintBounds,VisualLintLocaleText" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
