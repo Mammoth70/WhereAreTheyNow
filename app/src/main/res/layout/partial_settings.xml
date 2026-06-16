@@ -28,12 +28,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/myphone"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
                     android:digits="+-1234567890 ()"
                     android:inputType="phone"
                     android:maxLength="20"
-                    android:layout_width="220dp"
-                    android:layout_height="wrap_content"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -63,6 +63,55 @@
                 android:textAppearance="?attr/textAppearanceBodyLarge"
                 app:useMaterialThemeColors="true"
                 tools:ignore="VisualLintLocaleText,VisualLintBounds,VisualLintButtonSize" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/activationLink"
+                android:hint="@string/activationLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/activationLinkEd"
+                    android:inputType="textUri"
+                    android:maxLength="200"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/btnActivateDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/activateDevice"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:enabled="false"
+                tools:ignore="VisualLintLocaleText,VisualLintBounds"
+                />
+
+            <Button
+                style="?attr/materialButtonOutlinedStyle"
+                app:strokeColor="?attr/colorError"
+                android:textColor="?attr/colorError"
+                android:id="@+id/btnDeactivateDevice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/deactivateDevice"
+                tools:visibility="visible"
+                android:visibility="gone"
+                tools:ignore="VisualLintLocaleText,VisualLintBounds"
+                />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -129,7 +178,8 @@
                     android:id="@+id/themeBlue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/themeBlue" />
+                    android:text="@string/themeBlue"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <RadioButton
                     android:id="@+id/themeM3"

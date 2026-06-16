@@ -17,7 +17,7 @@ object DataRepository {
     val menuPhones: List<String> get() = synchronized(this) { _menuPhones.toList() }
 
     private val phoneMap = HashMap<String, User>()    // Индекс (поиск по номеру телефона за O(1)).
-    private val idMap = HashMap<Long, User>()          // Индекс (поиск по id за O(1)).
+    private val idMap = HashMap<Long, User>()         // Индекс (поиск по id за O(1)).
 
 
     var lastAnswerRecord: PointRecord? = null         // Запись с данными последнего ответа.
@@ -178,14 +178,31 @@ object DataRepository {
     }
 
 
-    fun writeLastPoint(record: PointRecord): Boolean {
-        // Функция заносит в память и в БД последние известные координаты контакта.
+    fun writeLastPoint(record: PointRecord, alwaysWrite: Boolean = true): Boolean {
+        // Функция заносит в память и в БД последние известные координаты контакта, если они более свежие, чем в БД.
+
+        if (!alwaysWrite) {
+            synchronized(this) {
+                val oldUser = phoneMap[record.phone] ?: return false
+                val currentDateTime = oldUser.lastRecord?.dateTime
+                if (currentDateTime != null && record.dateTime <= currentDateTime) {
+                    return false
+                }
+            }
+        }
 
         DBhelper.dbHelper.writeDbLastPoint(record)
         val freshMenu = DBhelper.dbHelper.readDbMenuUsers()
 
         synchronized(this) {
             val oldUser = phoneMap[record.phone] ?: return false
+
+            if (!alwaysWrite) {
+                val currentDateTime = oldUser.lastRecord?.dateTime
+                if (currentDateTime != null && record.dateTime <= currentDateTime) {
+                    return false
+                }
+            }
 
             val updatedUser = oldUser.copy(lastRecord = record)
 

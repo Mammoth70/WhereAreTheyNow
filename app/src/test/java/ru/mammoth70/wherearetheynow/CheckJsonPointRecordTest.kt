@@ -1,20 +1,20 @@
 package ru.mammoth70.wherearetheynow
 
+import org.json.JSONObject
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
+import ru.mammoth70.wherearetheynow.NetworkManager.checkJsonPointRecord
 
-class SMSmonitorTest {
-
-    private val monitor = SMSmonitor()
+class CheckJsonPointRecordTest  {
 
     @ParameterizedTest(name = "{index} => {6}")
-    @DisplayName("Тестирование функции разбора SMS сообщений")
-    @CsvFileSource(resources = ["/sms_data.csv"], numLinesToSkip = 1, delimiter = ';')
-    fun `parseSms validation test`(
+    @DisplayName("Тестирование функции проверки JSON сообщений")
+    @CsvFileSource(resources = ["/json_data.csv"], numLinesToSkip = 1, delimiter = ';')
+    fun `CheckJsonPointRecord validation test`(
         phone: String,
-        message: String,
+        json: String,
         expectedLat: Double,
         expectedLon: Double,
         expectedTime: String?,
@@ -22,8 +22,16 @@ class SMSmonitorTest {
         description: String,
     ) {
 
+        // Достаем данные как строки
+        val cleanJson = json.trim()
+        val validJson = cleanJson.replace("'", "\"")
+        val jsonObject = JSONObject(validJson)
+        val latitude = jsonObject.getString("latitude")     // "55.774266"
+        val longitude = jsonObject.getString("longitude")    // "37.483221"
+        val dateTime = jsonObject.getString("created_at")
+
         // Запускаем тестируемую функцию.
-        val result = monitor.parseSMS(phone, message)
+        val result = checkJsonPointRecord(phone, latitude, longitude, dateTime)
 
         if (isValid) {
             // Сначала проверяем, что объект вообще создался.

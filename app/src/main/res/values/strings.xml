@@ -25,6 +25,13 @@
     <string name="about">about</string>
 
     <string name="selectInternet">Exchange via internet</string>
+    <string name="activationLink">Activation link</string>
+    <string name="activateDevice">Activate</string>
+    <string name="deactivateDevice">Deactivate</string>
+    <string name="activated">%s acivated</string>
+    <string name="activationError">Activation error</string>
+    <string name="sync">Sync</string>
+    <string name="noInternet">No internet connection</string>
 
     <string name="selectMap">Select a map</string>
     <string name="map_text">output coordinates as text</string>

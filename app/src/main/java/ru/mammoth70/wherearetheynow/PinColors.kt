@@ -9,6 +9,7 @@ object PinColors {
 
 
     enum class Color(
+        // Класс перечисления цветов и меток
         @field:Language("HTML-color")
         val hex: String, @field:DrawableRes val drawableRes: Int
     ) {

@@ -1,0 +1,339 @@
+openapi: 3.0.3
+info:
+  title: WATN API
+  version: 5.0.0
+  description: API для первичной настройки Android-приложения, активации устройств отправки своей геолокации и получения геолокации контактов.
+servers:
+  - url: https://{server_domain}
+    description: Рабочий сервер телеметрии
+    variables:
+      server_domain:
+        default: "myserver.com"
+        description: Адрес сервера, возвращаемый в поле "server" при активации
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: В качестве токена передается постоянный api_token, полученный при активации.
+paths:
+  /activate_device:
+    get:
+      summary: Активация устройства по одноразовой ссылке
+      description: Принимает одноразовый токен. В случае успеха возвращает постоянный api_token, параметры подключения и профиль пользователя.
+      parameters:
+        - name: token
+          in: query
+          required: true
+          description: Одноразовый токен активации (строго 64 символа от a до f в нижнем регистре и цифры)
+          schema:
+            type: string
+            pattern: '^[a-f0-9]{64}$'
+            example: "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+      responses:
+        '200':
+          description: Успешная активация устройства
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, phone, server, api_token]
+                properties:
+                  status:
+                    type: string
+                    enum: [success]
+                    example: "success"
+                  phone:
+                    type: string
+		    description: Номер телефона пользователя (строго знак плюс и цифры)	
+                    pattern: '^\+?\d+$'
+                    example: "+15551234567"
+                  label:
+                    type: string
+                    description: Отображаемое имя пользователя в интерфейсе
+                    example: "Тамазий"
+                  color:
+                    type: string
+                    description: Цвет метки на карте в формате HEX (в верхнем регистре)
+                    pattern: '^#[0-9A-F]{6}$'
+                    example: "#FF001A"
+                  server:
+                    type: string
+                    description: Адрес сервера (в нижнем регистре, без http:// и https://, может содержать порт)
+                    pattern: '^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])(:\d{1,5})?$'
+                    example: "api.myserver.ru:8443"
+                  api_token:
+                    type: string
+                    description: Постоянный авторизационный токен (строго 64 символа от a до f в нижнем регистре и цифры)
+                    pattern: '^[a-f0-9]{64}$'
+                    example: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+        '400':
+          description: Ошибка валидации (токен не передан или у него неверный формат)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missingToken:
+                  value:
+                    status: "error"
+                    message: "Invalid or missing token"
+        '403':
+          description: Ссылка не существует, заблокирована или просрочена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidLink:
+                  value:
+                    status: "error"
+                    message: "Link is invalid or expired"
+        '405':
+          description: Запрос отправлен неверным HTTP-методом (ожидался только GET)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                methodNotAllowed:
+                  value:
+                    status: "error"
+                    message: "Method Not Allowed"
+
+  /set_location:
+    post:
+      summary: Отправка текущей геолокации устройства
+      description: Передает географические координаты и уровень заряда батареи на сервер. Требует Bearer-авторизацию.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [latitude, longitude, battery_level]
+              properties:
+                latitude:
+                  type: number
+                  description: Географическая широта
+                  format: float
+                  minimum: -90.0
+                  maximum: 90.0
+                  example: 57.123456
+                longitude:
+                  type: number
+                  description: Географическая долгота
+                  format: float
+                  minimum: -180.0
+                  maximum: 180.0
+                  example: 31.123456
+                battery_level:
+                  type: integer
+		  description: Заряд батареи в процентах
+                  minimum: 0
+                  maximum: 100
+                  example: 88
+      responses:
+        '200':
+          description: Координаты успешно приняты и записаны сервером
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, message]
+                properties:
+                  status:
+                    type: string
+                    enum: [success]
+                    example: "success"
+                  message:
+                    type: string
+                    enum: ["Location logged"]
+                    example: "Location logged"
+        '400':
+          description: Ошибка в теле запроса (неверный JSON или координаты вышли за допустимые границы)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidFormat:
+                  value:
+                    status: "error"
+                    message: "Invalid data format"
+                outOfBounds:
+                  value:
+                    status: "error"
+                    message: "Coordinates out of bounds"
+        '401':
+          description: Ошибка авторизации (токен отсутствует или неверный формат токена)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  value:
+                    status: "error"
+                    message: "Unauthorized"
+                invalidTokenFormat:
+                  value:
+                    status: "error"
+                    message: "Invalid token format"
+        '403':
+          description: Доступ запрещен (устройство отсутствует или заблокировано на сервере)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                forbidden:
+                  value:
+                    status: "error"
+                    message: "Forbidden"
+        '405':
+          description: Запрос отправлен неверным HTTP-методом (ожидался только POST)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                methodNotAllowed:
+                  value:
+                    status: "error"
+                    message: "Method Not Allowed"
+        '500':
+          description: Внутренняя ошибка базы данных или сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                serverError:
+                  value:
+                    status: "error"
+                    message: "Server error"
+  /get_locations:
+    get:
+      summary: Получение геолокации контактов
+      description: Возвращает список контактов с их последними известными координатами, уровнем батареи и настройками профиля. Требует Bearer-авторизацию.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Список контактов успешно получен
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, data]
+                properties:
+                  status:
+                    type: string
+                    enum: [success]
+                    example: "success"
+                  data:
+                    type: array
+                    description: Массив с геолокацией контактов. Может быть пустым, если контакты или геолокация отсутствуют.
+                    items:
+                      type: object
+                      required: [device_id, label, phone, color, latitude, longitude, battery_level, created_at]
+                      properties:
+                        device_id:
+                          type: integer
+                          example: 1
+                        label:
+                          type: string
+                          example: "Тамазий"
+                        phone:
+                          type: string
+                          pattern: '^\+?\d+$'
+                          example: "+15551234567"
+                        color:
+                          type: string
+                          description: Цвет интерфейса контакта в формате HEX (в верхнем регистре)
+                          pattern: '^#[0-9A-F]{6}$'
+                          example: "#FF001A"
+                        latitude:
+                          type: string
+                          description: Географическая широта (в виде строки с шестью знаками после запятой)
+                          example: "55.769842"
+                        longitude:
+                          type: string
+                          description: Географическая долгота (в виде строки с шестью знаками после запятой)
+                          example: "37.633518"
+                        battery_level:
+                          type: integer
+                          description: Заряд батареи в процентах
+                          minimum: 0
+                          maximum: 100
+                          example: 88
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Время обновления локации в формате ISO 8601 UTC
+                          example: "2026-06-16T11:05:23Z"
+        '401':
+          description: Ошибка авторизации (токен отсутствует или неверный формат токена)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  value:
+                    status: "error"
+                    message: "Unauthorized"
+                invalidTokenFormat:
+                  value:
+                    status: "error"
+                    message: "Invalid token format"
+        '403':
+          description: Доступ запрещен (устройство отсутствует или заблокировано на сервере)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                forbidden:
+                  value:
+                    status: "error"
+                    message: "Forbidden"
+        '405':
+          description: Запрос отправлен неверным HTTP-методом (ожидался только GET)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                methodNotAllowed:
+                  value:
+                    status: "error"
+                    message: "Method Not Allowed"
+        '500':
+          description: Внутренняя ошибка сервера или базы данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                serverError:
+                  value:
+                    status: "error"
+                    message: "Server error"
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      required: [status, message]
+      properties:
+        status:
+          type: string
+          enum: [error]
+          example: "error"
+        message:
+          type: string
+          description: Текстовое описание причины ошибки
+          example: "Error description text"

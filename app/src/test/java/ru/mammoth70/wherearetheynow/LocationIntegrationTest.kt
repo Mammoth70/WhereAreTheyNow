@@ -57,7 +57,7 @@ class LocationIntegrationTest {
                 val testDateStr = utcFormatter.format(testDate)
 
                 // Кодируем помаленьку.
-                val smsText = sender.formatLocation(testLat, testLon, testDateStr, isRequest)
+                val smsText = sender.formatSmsLocation(testLat, testLon, testDateStr, isRequest)
                 assertNotNull(smsText, "Ошибка формирования SMS для варианта $description")
 
                 // Декодируем.

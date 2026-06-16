@@ -17,7 +17,7 @@
         android:layout_weight="1">
 
         <!-- Top AppBar. -->
-        <include layout="@layout/partial_app_bar" />
+        <include layout="@layout/partial_app_bar_main" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemUsersRecycler"

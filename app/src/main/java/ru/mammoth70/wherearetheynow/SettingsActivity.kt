@@ -7,9 +7,12 @@ import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class SettingsActivity : AppActivity() {
     // Activity управляет настройками.
@@ -40,9 +43,14 @@ class SettingsActivity : AppActivity() {
 
     private val sliderColorsSpanCount: Slider by lazy { findViewById(R.id.sliderColorsSpanCount) }
 
+    private val checkBoxInternet: MaterialCheckBox by lazy { findViewById(R.id.checkBoxInternet) }
+    private val btnActivateDevice: Button by lazy { findViewById(R.id.btnActivateDevice) }
+    private val btnDeactivateDevice: Button by lazy { findViewById(R.id.btnDeactivateDevice) }
+    private val ilActivationLink: TextInputLayout by lazy { findViewById(R.id.activationLink) }
+    private val edActivationLink: TextInputEditText by lazy { findViewById(R.id.activationLinkEd) }
+
     private val btnAction: Button by lazy { findViewById(R.id.btnAction) }
 
-    private val checkBoxInternet: MaterialCheckBox by lazy { findViewById(R.id.checkBoxInternet) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Функция вызывается при создании Activity.
@@ -233,6 +241,94 @@ class SettingsActivity : AppActivity() {
 
         // Назначение переключателя работы через интернет-сервер.
         checkBoxInternet.isChecked = SettingsManager.useInternet
+
+        // Обработчик переключателя работы через интернет-сервер.
+        checkBoxInternet.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (buttonView.isPressed) {
+                if (isChecked) {
+                    if (SettingsManager.InternetToken.isEmpty()) {
+                        btnActivateDevice.visibility = View.VISIBLE
+                        ilActivationLink.visibility = View.VISIBLE
+                    } else {
+                        btnActivateDevice.visibility = View.GONE
+                        btnDeactivateDevice.visibility = View.GONE
+                        ilActivationLink.visibility = View.GONE
+                    }
+                } else {
+                    if (SettingsManager.InternetToken.isEmpty()) {
+                        btnActivateDevice.visibility = View.GONE
+                        btnDeactivateDevice.visibility = View.GONE
+                        ilActivationLink.visibility = View.GONE
+                    } else {
+                        btnDeactivateDevice.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+
+        // Назначение кнопки и ссылки активации устройства.
+        if (SettingsManager.useInternet && SettingsManager.InternetToken.isEmpty()) {
+            btnActivateDevice.visibility = View.VISIBLE
+            ilActivationLink.visibility = View.VISIBLE
+        } else {
+            btnActivateDevice.visibility = View.GONE
+            ilActivationLink.visibility = View.GONE
+        }
+
+        // Назначение кнопки деактивации устройства.
+        if (SettingsManager.useInternet || SettingsManager.InternetToken.isEmpty()) {
+            btnDeactivateDevice.visibility = View.GONE
+        } else {
+            btnDeactivateDevice.visibility = View.VISIBLE
+        }
+
+        // Обработчик кнопки активации устройства.
+        btnActivateDevice.setOnClickListener { _ ->
+            if (!isInternetAvailable(this)) {
+                Toast.makeText(this, getString(R.string.noInternet), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (edActivationLink.text.toString().isBlank()) {
+                return@setOnClickListener
+            }
+            btnActivateDevice.isEnabled = false
+            NetworkManager.fetchJsonAsync(
+                url = edActivationLink.text.toString(),
+                requestMethod = NetworkManager.HttpMethod.GET,
+                onFinished = { btnActivateDevice.isEnabled = true },
+                onResult = { networkResult ->
+                    networkResult.onSuccess { json ->
+                        val credentials = NetworkManager.parseActivationJson(json)
+                        if (credentials != null) {
+                            val (server, phone, apiToken) = credentials
+                            val message = getString(R.string.activated, phone)
+                            SettingsManager.InternetServer = server
+                            SettingsManager.InternetToken = apiToken
+                            edActivationLink.text?.clear()
+                            btnActivateDevice.visibility = View.GONE
+                            ilActivationLink.visibility = View.GONE
+                            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(applicationContext, R.string.activationError, Toast.LENGTH_LONG).show()
+                        }
+                    }.onFailure { _ ->
+                        Toast.makeText(applicationContext, R.string.activationError, Toast.LENGTH_LONG).show()
+                    }
+                }
+            )
+        }
+
+        // Обработчик кнопки деактивации устройства.
+        btnDeactivateDevice.setOnClickListener { _ ->
+            SettingsManager.InternetServer = ""
+            SettingsManager.InternetToken = ""
+            btnDeactivateDevice.visibility = View.GONE
+        }
+
+        // Обработчик поля ввода линка.
+        edActivationLink.doOnTextChanged { text, _, _, _ ->
+            btnActivateDevice.isEnabled = text.isNullOrBlank() == false
+        }
 
 
         // Обработчик кнопки "сохранить настройки".

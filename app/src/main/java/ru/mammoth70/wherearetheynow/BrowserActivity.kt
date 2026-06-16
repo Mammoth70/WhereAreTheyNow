@@ -25,8 +25,8 @@ class BrowserActivity : LocationActivity() {
     override fun initMap() {
         // Функция делает начальную настройку карты.
 
-        webView.setWebViewClient(WebViewClient())
-        val webSettings = webView.getSettings()
+        webView.webViewClient = WebViewClient()
+        val webSettings = webView.settings
         webSettings.javaScriptEnabled = true
     }
 

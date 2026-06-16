@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationBarView
 
@@ -38,6 +40,7 @@ class MainActivity : AppActivity() {
         ::selfPosition) }
     private val floatingActionButtonAdd: FloatingActionButton by lazy { findViewById(R.id.floatingActionButtonAdd) }
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.itemUsersRecycler) }
+    private val btnSync: MaterialButton by lazy { findViewById(R.id.btnSync) }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,18 @@ class MainActivity : AppActivity() {
         topAppBar.setNavigationOnClickListener {
             finish()
         }
+
+        btnSync.setOnClickListener {
+            // Обработчик кнопки "синхронизация через интернет".
+            // Вызывает функцию параллельной отправки и приёма геолокации через интернет-сервер.
+            if (!isInternetAvailable(this)) {
+                Toast.makeText(this, getString(R.string.noInternet), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            syncLocationsInternet()
+        }
+
+        setButtonSync()
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = usersAdapter
@@ -113,6 +128,19 @@ class MainActivity : AppActivity() {
 
         showPopupMenu(view, position)
         return true
+    }
+
+
+    private fun setButtonSync() {
+        // Функция настраивает видимость и доступность кнопки синхронизации.
+        if (SettingsManager.useInternet
+            && SettingsManager.InternetServer.isNotEmpty() && SettingsManager.InternetToken.isNotEmpty()) {
+            btnSync.isEnabled = true
+            btnSync.visibility = View.VISIBLE
+        } else {
+            btnSync.visibility = View.GONE
+            btnSync.isEnabled = false
+        }
     }
 
 
@@ -235,6 +263,55 @@ class MainActivity : AppActivity() {
     }
 
 
+    private fun syncLocationsInternet() {
+        // Функция параллельно делает отправку и приём геолокации через интернет-сервер.
+        // После выполнения обоих задач вызывает карту.
+
+        btnSync.isEnabled = false
+        var sendError: String? = null
+        var recvError: String? = null
+        var activeTasks = 2
+
+        fun checkAllTasksFinished() {
+            // Функция проверяет, завершились ли обе задачи и выводит результат
+            activeTasks--
+            if (activeTasks == 0) {
+                btnSync.isEnabled = true
+                if (sendError == null && recvError == null) {
+                    DataRepository.lastAnswerRecord?.let {
+                        viewLocation(this, it, false)
+                    }
+                } else {
+                    val message = listOfNotNull(sendError, recvError).joinToString("\n")
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        // Отправка геолокации на интернет-сервер.
+        val getLocation = GetLocation()
+        getLocation.sendLocation(this, GetLocation.WAY_INTERNET, "", false,
+            onFinished = { checkAllTasksFinished() },
+            onResult = { result ->
+                result.onFailure { exception ->
+                    sendError = "${exception.message}"
+                }
+            }
+        )
+
+        // Получение группы геолокаций с интернет-сервера.
+        NetworkManager.getLocationsInternet(
+            onFinished = { checkAllTasksFinished() },
+            onResult = { result ->
+                result.onFailure { exception ->
+                    recvError = "${exception.message}"
+                }
+            }
+        )
+
+    }
+
+
     private fun startPermissionActivity() {
         // Функция запускает PermissionActivity.
 
@@ -283,7 +360,7 @@ class MainActivity : AppActivity() {
 
 
     var startActivityUserIntent = registerForActivityResult(StartActivityForResult()
-        // Функция возвращает результат формы контакта
+        // Функция возвращает результат формы контакта.
 
     ){ result: ActivityResult? ->
         if (result!!.resultCode == RESULT_OK) {
@@ -299,6 +376,7 @@ class MainActivity : AppActivity() {
         if (result!!.resultCode == RESULT_OK) {
             val intent = result.data
             intent?.let {
+                setButtonSync()
                 val themeChanged = intent.getBooleanExtra(SettingsActivity.INTENT_THEME_COLOR_CHANGED, false)
                 val phoneChanged = intent.getBooleanExtra(SettingsActivity.INTENT_PHONE_CHANGED, false)
                 when {

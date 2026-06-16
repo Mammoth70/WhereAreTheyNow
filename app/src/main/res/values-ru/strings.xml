@@ -25,6 +25,13 @@
     <string name="about">инфо</string>
 
     <string name="selectInternet">Обмен через интернет</string>
+    <string name="activationLink">Ссылка активации</string>
+    <string name="activateDevice">Активировать</string>
+    <string name="deactivateDevice">Деактивировать</string>
+    <string name="activated">%s активирован</string>
+    <string name="activationError">Ошибка активации</string>
+    <string name="sync">Синхронизивать</string>
+    <string name="noInternet">Нет подключения к интернету</string>
 
     <string name="selectMap">Выбрать карту</string>
     <string name="map_text">вывести координаты текстом</string>

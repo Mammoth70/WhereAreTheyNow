@@ -13,6 +13,7 @@ googleMaterial = "1.14.0"
 #noinspection NewerVersionAvailable
 yandexMaps = "4.19.0-lite"
 secretsPlugin = "2.0.1"
+kotlinxCoroutines = "1.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -28,6 +29,7 @@ play-services-location = { module = "com.google.android.gms:play-services-locati
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 yandex-maps-mobile = { group = "com.yandex.android", name = "maps.mobile", version.ref = "yandexMaps" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

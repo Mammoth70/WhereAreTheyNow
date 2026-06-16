@@ -2,6 +2,9 @@ package ru.mammoth70.wherearetheynow
 
 import android.app.Application
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.BatteryManager
 import android.util.Log
 import android.util.TypedValue
 import androidx.annotation.AttrRes
@@ -147,6 +150,25 @@ fun formatUtcToLocalTime(utcDateTimeString: String): String {
         LogSmart.e("Util", "ParseException в formatUtcToLocalTime(${utcDateTimeString})", e)
         ""
     }
+}
+
+
+fun getBatteryLevel(context: Context): Int {
+    // Функция возвращает текущий заряд батареи в процентах (0-100).
+    return try {
+        val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+        batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+    } catch (_: Exception) {
+        100
+    }
+}
+
+
+fun isInternetAvailable(context: Context): Boolean {
+    // Функция возвращает результат проверки того, что устройство имеет хоть какой-то доступ в интернет.
+    val cm = context.getSystemService(ConnectivityManager::class.java) ?: return false
+    val capabilities = cm.getNetworkCapabilities(cm.activeNetwork) ?: return false
+    return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
 }
 
 

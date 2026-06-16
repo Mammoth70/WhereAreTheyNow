@@ -19,6 +19,8 @@ object SettingsManager {
     private const val NAME_MAP_CIRCLE = "circle"
     private const val NAME_MAP_CIRCLE_RADIUS = "radius"
     private const val NAME_USE_INTERNET = "UseInternet"
+    private const val NAME_INTERNET_SERVER = "InternetServer"
+    private const val NAME_INTERNET_TOKEN = "InternetToken"
 
     private val prefs by lazy {
         App.appContext.getSharedPreferences(NAME_SETTINGS, Context.MODE_PRIVATE)
@@ -43,6 +45,10 @@ object SettingsManager {
     private var cachedMapCircleRadius: Float = prefs.getFloat(NAME_MAP_CIRCLE_RADIUS, MAP_CIRCLE_DEFAULT_RADIUS)
     @Volatile
     private var cachedUseInternet: Boolean = prefs.getBoolean(NAME_USE_INTERNET, false)
+    @Volatile
+    private var cachedInternetServer: String = prefs.getString(NAME_INTERNET_SERVER, "") ?: ""
+    @Volatile
+    private var cachedInternetToken: String = prefs.getString(NAME_INTERNET_TOKEN, "") ?: ""
 
     // Тема
     var themeColor: Int   // Цвет темы.
@@ -130,6 +136,24 @@ object SettingsManager {
             if (value != cachedUseInternet ) {
                 cachedUseInternet = value
                 prefs.edit { putBoolean(NAME_USE_INTERNET, value) }
+            }
+        }
+
+    var InternetServer: String  // Интернет-сервер.
+        get() = cachedInternetServer
+        set(value) {
+            if (value != cachedInternetServer ) {
+                cachedInternetServer = value
+                prefs.edit { putString(NAME_INTERNET_SERVER, value) }
+            }
+        }
+
+    var InternetToken: String  // Токен авторизации на интернет-сервере.
+        get() = cachedInternetToken
+        set(value) {
+            if (value != cachedInternetToken ) {
+                cachedInternetToken = value
+                prefs.edit { putString(NAME_INTERNET_TOKEN, value) }
             }
         }
 

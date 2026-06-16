@@ -29,9 +29,9 @@ android {
     } */
 
     defaultConfig {
-        val versionMajor = 4
+        val versionMajor = 5
         val versionMinor = 0
-        val versionPatch = 2
+        val versionPatch = 0
         applicationId = "ru.mammoth70.wherearetheynow"
         minSdk = 31
         targetSdk = 37
@@ -84,9 +84,12 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.play.services.location)
     implementation(libs.yandex.maps.mobile)
+    implementation(libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.jupiter.params)
+    //noinspection UseTomlInstead
+    testImplementation("org.json:json:20260522")
     testRuntimeOnly(libs.junit.platform.launcher)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
