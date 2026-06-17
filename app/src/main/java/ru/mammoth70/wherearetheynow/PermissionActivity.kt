@@ -395,14 +395,14 @@ class PermissionActivity : AppActivity() {
 
     private fun setButtonEnable(button: Button) {
         // Функция включает и показывает кнопочку.
-        button.setEnabled(true)
+        button.isEnabled = true
         button.visibility = View.VISIBLE
     }
 
 
     private fun setButtonDisable(button: Button) {
         // Функция выключает и прячет кнопочку.
-        button.setEnabled(false)
+        button.isEnabled = false
         button.visibility = View.INVISIBLE
     }
 

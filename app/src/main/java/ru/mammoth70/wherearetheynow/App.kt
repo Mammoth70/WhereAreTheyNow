@@ -32,6 +32,9 @@ class App : Application() {
         // Установка режима и цвета темы приложения.
         themeMode(SettingsManager.themeMode)
         setAppThemeColor(this, SettingsManager.themeColor, false)
+
+        // Старт воркера отправки геолокации на интернет-сервер.
+        LocationWorkManager.startTracking(this)
     }
 
 }

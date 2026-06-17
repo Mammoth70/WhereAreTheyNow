@@ -24,14 +24,18 @@
     <string name="titleSettings">Settings</string>
     <string name="about">about</string>
 
-    <string name="selectInternet">Exchange via internet</string>
+    <string name="selectInternet">Sync via internet</string>
     <string name="activationLink">Activation link</string>
     <string name="activateDevice">Activate</string>
     <string name="deactivateDevice">Deactivate</string>
     <string name="activated">%s acivated</string>
     <string name="activationError">Activation error</string>
+    <string name="getLocationsError">Recv location error</string>
+    <string name="setLocationError">Send location error</string>
     <string name="sync">Sync</string>
     <string name="noInternet">No internet connection</string>
+    <string name="workerStarted">Server sync started</string>
+    <string name="workerStopped">Server sync stopped</string>
 
     <string name="selectMap">Select a map</string>
     <string name="map_text">output coordinates as text</string>

@@ -73,8 +73,7 @@ class GetLocationService : Service() {
         // после чего сервис автоматически останавливается.
         // Работает через вызов объекта GetLocation.
 
-        val getLocation = GetLocation()
-        getLocation.sendLocation(this, GetLocation.WAY_SMS, smsTo, sendRequest,
+        getAndSendLocationAsync(this, WAY_SMS, smsTo, sendRequest,
             onFinished = { stopSelf() })
     }
 

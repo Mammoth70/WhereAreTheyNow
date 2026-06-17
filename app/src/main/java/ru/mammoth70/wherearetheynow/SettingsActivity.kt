@@ -9,6 +9,9 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
+import androidx.work.WorkManager
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
@@ -43,6 +46,7 @@ class SettingsActivity : AppActivity() {
 
     private val sliderColorsSpanCount: Slider by lazy { findViewById(R.id.sliderColorsSpanCount) }
 
+    private val tvWorkerStatus: TextView by lazy { findViewById(R.id.tvWorkerStatus) }
     private val checkBoxInternet: MaterialCheckBox by lazy { findViewById(R.id.checkBoxInternet) }
     private val btnActivateDevice: Button by lazy { findViewById(R.id.btnActivateDevice) }
     private val btnDeactivateDevice: Button by lazy { findViewById(R.id.btnDeactivateDevice) }
@@ -239,6 +243,15 @@ class SettingsActivity : AppActivity() {
         sliderColorsSpanCount.value = SettingsManager.colorsSpanCount.toFloat()
 
 
+        // Подписка на обновление статуса воркера в реальном времени.
+        isWorkerActiveLiveData().observe(this) { isActive ->
+            if (isActive) {
+                tvWorkerStatus.text = getString(R.string.workerStarted)
+            } else {
+                tvWorkerStatus.text = getString(R.string.workerStopped)
+            }
+        }
+
         // Назначение переключателя работы через интернет-сервер.
         checkBoxInternet.isChecked = SettingsManager.useInternet
 
@@ -284,7 +297,7 @@ class SettingsActivity : AppActivity() {
 
         // Обработчик кнопки активации устройства.
         btnActivateDevice.setOnClickListener { _ ->
-            if (!isInternetAvailable(this)) {
+            if (!isInternetAvailable()) {
                 Toast.makeText(this, getString(R.string.noInternet), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -296,8 +309,8 @@ class SettingsActivity : AppActivity() {
                 url = edActivationLink.text.toString(),
                 requestMethod = NetworkManager.HttpMethod.GET,
                 onFinished = { btnActivateDevice.isEnabled = true },
-                onResult = { networkResult ->
-                    networkResult.onSuccess { json ->
+                onResult = { result ->
+                    result.onSuccess { json ->
                         val credentials = NetworkManager.parseActivationJson(json)
                         if (credentials != null) {
                             val (server, phone, apiToken) = credentials
@@ -307,12 +320,12 @@ class SettingsActivity : AppActivity() {
                             edActivationLink.text?.clear()
                             btnActivateDevice.visibility = View.GONE
                             ilActivationLink.visibility = View.GONE
-                            Toast.makeText(applicationContext, message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(applicationContext, R.string.activationError, Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, R.string.activationError, Toast.LENGTH_LONG).show()
                         }
                     }.onFailure { _ ->
-                        Toast.makeText(applicationContext, R.string.activationError, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.activationError, Toast.LENGTH_LONG).show()
                     }
                 }
             )
@@ -320,6 +333,7 @@ class SettingsActivity : AppActivity() {
 
         // Обработчик кнопки деактивации устройства.
         btnDeactivateDevice.setOnClickListener { _ ->
+            LocationWorkManager.stopTracking(this)
             SettingsManager.InternetServer = ""
             SettingsManager.InternetToken = ""
             btnDeactivateDevice.visibility = View.GONE
@@ -369,6 +383,14 @@ class SettingsActivity : AppActivity() {
             // Настройки работы через интернет-сервер.
             SettingsManager.useInternet = checkBoxInternet.isChecked
 
+            // Включение/выключение воркера отправки геолокации на интернет-сервер..
+            if (SettingsManager.useInternet &&
+                SettingsManager.InternetServer.isNotBlank() && SettingsManager.InternetToken.isNotBlank()) {
+                LocationWorkManager.startTracking(this, restartIfExists = true)
+            } else {
+                LocationWorkManager.stopTracking(this)
+            }
+
             // Intent информирует об изменении настроек, требующих действий в MainActivity.
             val intent = Intent().apply {
                 putExtra(INTENT_THEME_COLOR_CHANGED, isThemeColorChanged)
@@ -378,4 +400,16 @@ class SettingsActivity : AppActivity() {
             finish()
         }
     }
+
+
+    private fun isWorkerActiveLiveData(): LiveData<Boolean> {
+        // Функция возвращает true, если воркер запущен/активен, и false, если остановлен.
+        return WorkManager.getInstance(applicationContext)
+            .getWorkInfosForUniqueWorkLiveData(LocationWorkManager.WORKER_NAME)
+            .map { workInfoList ->
+                val firstWork = workInfoList.firstOrNull() ?: return@map false
+                return@map !firstWork.state.isFinished
+            }
+    }
+
 }

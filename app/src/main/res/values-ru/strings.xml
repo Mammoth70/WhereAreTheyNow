@@ -30,8 +30,12 @@
     <string name="deactivateDevice">Деактивировать</string>
     <string name="activated">%s активирован</string>
     <string name="activationError">Ошибка активации</string>
+    <string name="getLocationsError">Ошибка получения геолокации</string>
+    <string name="setLocationError">Ошибка отправки геолокации</string>
     <string name="sync">Синхронизивать</string>
     <string name="noInternet">Нет подключения к интернету</string>
+    <string name="workerStarted">Синхронизация с интернет-сервером запущена</string>
+    <string name="workerStopped">Синхронизация с интернет-сервером остановлена</string>
 
     <string name="selectMap">Выбрать карту</string>
     <string name="map_text">вывести координаты текстом</string>

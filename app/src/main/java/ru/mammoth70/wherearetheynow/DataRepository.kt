@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow
 import androidx.core.content.edit
 import ru.mammoth70.wherearetheynow.SettingsManager.NAME_SETTINGS
 
-
 object DataRepository {
     // Основной список объектов (единственный источник истины).
 

@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: WATN API
-  version: 5.0.0
-  description: API для первичной настройки Android-приложения, активации устройств отправки своей геолокации и получения геолокации контактов.
+  version: 5.1.0
+  description: API для первичной настройки Android-приложения и активации устройства, отправки своей геолокации и получения геолокации контактов.
 servers:
   - url: https://{server_domain}
     description: Рабочий сервер телеметрии
@@ -15,7 +15,27 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
-      description: В качестве токена передается постоянный api_token, полученный при активации.
+      description: В качестве токена передается постоянный api_token (64 шестнадцатеричных цифры), полученный при активации.
+  schemas:
+    Token:
+      type: string
+      description: Токен для активации или авторизации (64 шестнадцатеричных цифры).
+      minLength: 64
+      maxLength: 64
+      pattern: '^[0-9a-fA-F]{64}$'
+      example: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+    ErrorResponse:
+      type: object
+      required: [status, message]
+      properties:
+        status:
+          type: string
+          enum: [error]
+          example: "error"
+        message:
+          type: string
+          description: Текстовое описание причины ошибки
+          example: "Error description text"
 paths:
   /activate_device:
     get:
@@ -25,11 +45,9 @@ paths:
         - name: token
           in: query
           required: true
-          description: Одноразовый токен активации (строго 64 символа от a до f в нижнем регистре и цифры)
+          description: Одноразовый токен активации (64 шестнадцатеричных цифры)
           schema:
-            type: string
-            pattern: '^[a-f0-9]{64}$'
-            example: "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+            $ref: '#/components/schemas/Token'
       responses:
         '200':
           description: Успешная активация устройства
@@ -45,7 +63,7 @@ paths:
                     example: "success"
                   phone:
                     type: string
-		    description: Номер телефона пользователя (строго знак плюс и цифры)	
+                    description: Номер телефона пользователя (знак плюс и цифры)
                     pattern: '^\+?\d+$'
                     example: "+15551234567"
                   label:
@@ -54,8 +72,8 @@ paths:
                     example: "Тамазий"
                   color:
                     type: string
-                    description: Цвет метки на карте в формате HEX (в верхнем регистре)
-                    pattern: '^#[0-9A-F]{6}$'
+                    description: Цвет метки на карте в формате HEX
+                    pattern: '^#[0-9A-Fa-f]{6}$'
                     example: "#FF001A"
                   server:
                     type: string
@@ -63,10 +81,7 @@ paths:
                     pattern: '^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])(:\d{1,5})?$'
                     example: "api.myserver.ru:8443"
                   api_token:
-                    type: string
-                    description: Постоянный авторизационный токен (строго 64 символа от a до f в нижнем регистре и цифры)
-                    pattern: '^[a-f0-9]{64}$'
-                    example: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+                    $ref: '#/components/schemas/Token'
         '400':
           description: Ошибка валидации (токен не передан или у него неверный формат)
           content:
@@ -100,7 +115,6 @@ paths:
                   value:
                     status: "error"
                     message: "Method Not Allowed"
-
   /set_location:
     post:
       summary: Отправка текущей геолокации устройства
@@ -118,26 +132,26 @@ paths:
                 latitude:
                   type: number
                   description: Географическая широта
-                  format: float
+                  format: double
                   minimum: -90.0
                   maximum: 90.0
                   example: 57.123456
                 longitude:
                   type: number
                   description: Географическая долгота
-                  format: float
+                  format: double
                   minimum: -180.0
                   maximum: 180.0
                   example: 31.123456
                 battery_level:
                   type: integer
-		  description: Заряд батареи в процентах
+                  description: Заряд батареи в процентах
                   minimum: 0
                   maximum: 100
                   example: 88
       responses:
         '200':
-          description: Координаты успешно приняты и записаны сервером
+          description: Координаты успешно приняты сервером
           content:
             application/json:
               schema:
@@ -150,7 +164,6 @@ paths:
                     example: "success"
                   message:
                     type: string
-                    enum: ["Location logged"]
                     example: "Location logged"
         '400':
           description: Ошибка в теле запроса (неверный JSON или координаты вышли за допустимые границы)
@@ -205,7 +218,7 @@ paths:
                     status: "error"
                     message: "Method Not Allowed"
         '500':
-          description: Внутренняя ошибка базы данных или сервера
+          description: Внутренняя ошибка сервера
           content:
             application/json:
               schema:
@@ -223,7 +236,7 @@ paths:
         - BearerAuth: []
       responses:
         '200':
-          description: Список контактов успешно получен
+          description: Список контактов успешно передан клиенту
           content:
             application/json:
               schema:
@@ -257,12 +270,18 @@ paths:
                           pattern: '^#[0-9A-F]{6}$'
                           example: "#FF001A"
                         latitude:
-                          type: string
+                          type: number
                           description: Географическая широта (в виде строки с шестью знаками после запятой)
+                          format: double
+                          minimum: -90.0
+                          maximum: 90.0
                           example: "55.769842"
                         longitude:
-                          type: string
+                          type: number
                           description: Географическая долгота (в виде строки с шестью знаками после запятой)
+                          format: double
+                          minimum: -180.0
+                          maximum: 180.0
                           example: "37.633518"
                         battery_level:
                           type: integer
@@ -313,7 +332,7 @@ paths:
                     status: "error"
                     message: "Method Not Allowed"
         '500':
-          description: Внутренняя ошибка сервера или базы данных
+          description: Внутренняя ошибка сервера
           content:
             application/json:
               schema:
@@ -323,17 +342,3 @@ paths:
                   value:
                     status: "error"
                     message: "Server error"
-components:
-  schemas:
-    ErrorResponse:
-      type: object
-      required: [status, message]
-      properties:
-        status:
-          type: string
-          enum: [error]
-          example: "error"
-        message:
-          type: string
-          description: Текстовое описание причины ошибки
-          example: "Error description text"

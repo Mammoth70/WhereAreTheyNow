@@ -58,7 +58,7 @@ class MainActivity : AppActivity() {
         btnSync.setOnClickListener {
             // Обработчик кнопки "синхронизация через интернет".
             // Вызывает функцию параллельной отправки и приёма геолокации через интернет-сервер.
-            if (!isInternetAvailable(this)) {
+            if (!isInternetAvailable()) {
                 Toast.makeText(this, getString(R.string.noInternet), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -232,8 +232,7 @@ class MainActivity : AppActivity() {
             selfPosition()
         } else {
             // Функция передаёт обработку запроса геолокации в GetLocation.
-            val getLocation = GetLocation()
-            getLocation.sendLocation(this, GetLocation.WAY_SMS,
+            getAndSendLocationAsync(this, WAY_SMS,
            user.phone, true)
         }
     }
@@ -247,8 +246,7 @@ class MainActivity : AppActivity() {
             selfPosition()
         } else {
             // Функция передаёт обработку запроса геолокации в GetLocation.
-            val getLocation = GetLocation()
-            getLocation.sendLocation(this, GetLocation.WAY_SMS,
+            getAndSendLocationAsync(this, WAY_SMS,
            user.phone, false)
         }
     }
@@ -257,8 +255,7 @@ class MainActivity : AppActivity() {
     private fun selfPosition() {
         // Функция определяет собственную геолокацию и вызывает карту.
 
-        val getLocation = GetLocation()
-        getLocation.sendLocation(this, GetLocation.WAY_LOCAL,
+        getAndSendLocationAsync(this, WAY_LOCAL,
             "", false)
     }
 
@@ -289,22 +286,21 @@ class MainActivity : AppActivity() {
         }
 
         // Отправка геолокации на интернет-сервер.
-        val getLocation = GetLocation()
-        getLocation.sendLocation(this, GetLocation.WAY_INTERNET, "", false,
+        getAndSendLocationAsync(this, WAY_INTERNET, "", false,
             onFinished = { checkAllTasksFinished() },
             onResult = { result ->
-                result.onFailure { exception ->
-                    sendError = "${exception.message}"
+                result.onFailure { _ ->
+                    sendError = getString(R.string.setLocationError)
                 }
             }
         )
 
         // Получение группы геолокаций с интернет-сервера.
-        NetworkManager.getLocationsInternet(
+        getLocationsInternetAsync(
             onFinished = { checkAllTasksFinished() },
             onResult = { result ->
-                result.onFailure { exception ->
-                    recvError = "${exception.message}"
+                result.onFailure { _ ->
+                    recvError = getString(R.string.getLocationsError)
                 }
             }
         )

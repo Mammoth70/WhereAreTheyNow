@@ -202,11 +202,11 @@ class UserActivity : AppActivity() {
                     finish()
                 }
                 edPhone.setText(intent.getStringExtra(INTENT_EXTRA_PHONE))
-                edPhone.setEnabled(false)
+                edPhone.isEnabled = false
                 edName.setText(intent.getStringExtra(INTENT_EXTRA_NAME))
-                edName.setEnabled(false)
+                edName.isEnabled = false
                 setMarkColor(intent.getStringExtra(INTENT_EXTRA_COLOR)!!)
-                cardColor.setEnabled(false)
+                cardColor.isEnabled = false
             }
 
             else -> {

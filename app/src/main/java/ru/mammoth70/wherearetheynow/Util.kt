@@ -164,9 +164,9 @@ fun getBatteryLevel(context: Context): Int {
 }
 
 
-fun isInternetAvailable(context: Context): Boolean {
+fun isInternetAvailable(): Boolean {
     // Функция возвращает результат проверки того, что устройство имеет хоть какой-то доступ в интернет.
-    val cm = context.getSystemService(ConnectivityManager::class.java) ?: return false
+    val cm = App.appContext.getSystemService(ConnectivityManager::class.java) ?: return false
     val capabilities = cm.getNetworkCapabilities(cm.activeNetwork) ?: return false
     return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
 }

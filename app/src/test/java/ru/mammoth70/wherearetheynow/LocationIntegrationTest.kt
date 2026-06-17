@@ -11,7 +11,6 @@ import java.util.TimeZone
 
 class LocationIntegrationTest {
 
-    private val sender = GetLocation()
     private val monitor = SMSmonitor()
 
     private val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).apply {
@@ -57,7 +56,7 @@ class LocationIntegrationTest {
                 val testDateStr = utcFormatter.format(testDate)
 
                 // Кодируем помаленьку.
-                val smsText = sender.formatSmsLocation(testLat, testLon, testDateStr, isRequest)
+                val smsText = formatSmsLocation(testLat, testLon, testDateStr, isRequest)
                 assertNotNull(smsText, "Ошибка формирования SMS для варианта $description")
 
                 // Декодируем.

@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit
 
 // Утилиты работы с данными карт.
 
+
 fun viewLocation(context: Context, record: PointRecord, newTask: Boolean) {
     // Функция получает данные из последней SMS, проверяет их и выводит в выбранную карту.
 

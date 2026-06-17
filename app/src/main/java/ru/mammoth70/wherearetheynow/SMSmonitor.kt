@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.provider.Telephony
 import androidx.annotation.VisibleForTesting
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 import java.util.regex.Pattern
-
 
 class SMSmonitor : BroadcastReceiver() {
     // Класс слушает поток SMS. Если SMS-сообщение приходит от разрешённых абонентов,
@@ -106,6 +108,16 @@ class SMSmonitor : BroadcastReceiver() {
             val longitude = lonStr?.toDouble() ?: return null
 
             if (latitude !in -90.0..90.0 || longitude !in -180.0..180.0) return null
+
+            val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+                isLenient = false
+            }
+            try {
+                formatter.parse(timeStr)
+            } catch (_: Exception) {
+                return null
+            }
 
             PointRecord(smsFrom, latitude, longitude, timeStr)
 

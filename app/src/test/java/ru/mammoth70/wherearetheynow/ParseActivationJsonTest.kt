@@ -1,6 +1,5 @@
 package ru.mammoth70.wherearetheynow
 
-import org.json.JSONObject
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
@@ -38,9 +37,9 @@ class ParseActivationJsonTest  {
                 "Проверка полей triple для варианта $description",
                 {assertEquals(expectedServer, server, "Не совпадает сервер")},
                 {assertEquals(expectedPhone, phone, "Не совпадает номер телефона")},
-                {assertEquals(expectedToken, apiToken, "Не совпадает токен")},)
+                {assertEquals(expectedToken, apiToken, "Не совпадает токен")}, )
         } else {
-            assertNull(result, "Ожидался null для невалидного варианта $description")
+            assertNull(result, "Ожидался null для невалидного варианта $description, но пришло: $result")
         }
     }
 }

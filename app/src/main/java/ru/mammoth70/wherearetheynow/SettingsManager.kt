@@ -3,7 +3,6 @@ package ru.mammoth70.wherearetheynow
 import android.content.Context
 import androidx.core.content.edit
 
-
 object SettingsManager {
     // Объект содержит переменные с настройками.
 

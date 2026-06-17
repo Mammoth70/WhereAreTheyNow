@@ -37,7 +37,7 @@ class SMSmonitorTest {
                 {assertEquals(expectedLon, result.longitude, 0.000001, "Не совпадает долгота")},
                 {assertEquals(expectedTime, result.dateTime, "Не совпадает время")},)
         } else {
-            assertNull(result, "Ожидался null для невалидного варианта $description")
+            assertNull(result, "Ожидался null для невалидного варианта $description, но пришло: $result")
         }
     }
 }

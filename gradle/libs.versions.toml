@@ -1,6 +1,6 @@
 [versions]
 agp = "9.2.1"
-coreKtx = "1.18.0"
+coreKtx = "1.19.0"
 #junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
@@ -14,6 +14,8 @@ googleMaterial = "1.14.0"
 yandexMaps = "4.19.0-lite"
 secretsPlugin = "2.0.1"
 kotlinxCoroutines = "1.11.0"
+workManager = "2.11.2"
+jsonOrg = "20260522"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,10 +28,13 @@ junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 google-material = { group = "com.google.android.material", name = "material", version.ref = "googleMaterial" }
 yandex-maps-mobile = { group = "com.yandex.android", name = "maps.mobile", version.ref = "yandexMaps" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
+org-json = { group = "org.json", name = "json", version.ref = "jsonOrg" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

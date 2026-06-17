@@ -5,7 +5,6 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvFileSource
-import ru.mammoth70.wherearetheynow.NetworkManager.checkJsonPointRecord
 
 class CheckJsonPointRecordTest  {
 
@@ -26,9 +25,9 @@ class CheckJsonPointRecordTest  {
         val cleanJson = json.trim()
         val validJson = cleanJson.replace("'", "\"")
         val jsonObject = JSONObject(validJson)
-        val latitude = jsonObject.getString("latitude")     // "55.774266"
-        val longitude = jsonObject.getString("longitude")    // "37.483221"
-        val dateTime = jsonObject.getString("created_at")
+        val latitude = jsonObject.optString("latitude")     // "55.774266"
+        val longitude = jsonObject.optString("longitude")    // "37.483221"
+        val dateTime = jsonObject.optString("created_at")
 
         // Запускаем тестируемую функцию.
         val result = checkJsonPointRecord(phone, latitude, longitude, dateTime)
@@ -45,7 +44,7 @@ class CheckJsonPointRecordTest  {
                 {assertEquals(expectedLon, result.longitude, 0.000001, "Не совпадает долгота")},
                 {assertEquals(expectedTime, result.dateTime, "Не совпадает время")},)
         } else {
-            assertNull(result, "Ожидался null для невалидного варианта $description")
+            assertNull(result, "Ожидался null для невалидного варианта $description, но пришло: $result")
         }
     }
 }

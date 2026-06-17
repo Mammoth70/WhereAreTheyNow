@@ -1,6 +1,5 @@
 package ru.mammoth70.wherearetheynow
 
-import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -8,20 +7,17 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
-import java.time.Instant
 import java.util.regex.Pattern
 
-
 object NetworkManager {
-// Объект обеспечивает работу с сервером-интернета.
+// Объект обеспечивает работу с интернет-сервером.
 
 
-    private val REGEXP_ISO_Z_DATE = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$")
     private val REGEXP_PHONE = Pattern.compile("^\\+?\\d+$")
     private val REGEXP_DOMAIN = Pattern.compile(
         "^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)+([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])(:\\d{1,5})?$"
 )
-    private val REGEXP_TOKEN = Pattern.compile("^[a-f0-9]{64}$")
+    private val REGEXP_TOKEN = Pattern.compile("^[0-9a-fA-F]{64}$")
 
     enum class HttpMethod {
         // Класс перечисления методов запроса.
@@ -89,6 +85,13 @@ object NetworkManager {
                        onResult: ((Result<String>) -> Unit)? = null
         // Функция посылает JSON указанным методом по указанному URL и возвращает коллбеком строку JSON с ответом.
     ) {
+
+        if (!isInternetAvailable()) {
+            onResult?.invoke(Result.failure(Exception("No internet connection")))
+            onFinished?.invoke()
+            return
+        }
+
         CoroutineScope(Dispatchers.Main).launch {
             try {
                 val result = fetchJson(url, token, json, requestMethod)
@@ -127,83 +130,6 @@ object NetworkManager {
             LogSmart.e("NetworkManager", "Exception в parseActivationJson($json)", e)
             null
         }
-    }
-
-    fun parseAndWriteLocations(json: String) {
-        // Функция парсит JSON-строку со списком координат
-        // и обновляет данные в DataRepository.
-        try {
-            val rootObject = JSONObject(json)
-
-            val status = rootObject.optString("status")
-            if (status != "success") return
-
-            val dataArray = rootObject.optJSONArray("data") ?: return
-
-            for (i in 0 until dataArray.length()) {
-                val deviceObject = dataArray.getJSONObject(i)
-
-                val validRecord = checkJsonPointRecord(
-                    deviceObject.optString("phone").trim(),
-                    deviceObject.optString("latitude").trim(),
-                    deviceObject.optString("longitude").trim(),
-                    deviceObject.optString("created_at").trim())
-
-                if (validRecord != null) {
-                    DataRepository.writeLastPoint(validRecord, alwaysWrite = false)
-                }
-            }
-        } catch (e: Exception) {
-            LogSmart.e("NetworkManager", "Exception в parseAndWriteLocations($json)", e)
-        }
-    }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal fun checkJsonPointRecord(phone: String?, latitude: String?, longitude: String?, dateTime: String?): PointRecord? {
-        // Фунция разбирает строковые поля и возвращает в случае удачи PointRecord, иначе null.
-        // (поскольку данные приходят извне, проверять надо тщательно)
-
-        return try {
-        if (phone.isNullOrBlank()) return null
-
-        val lat = latitude?.toDoubleOrNull() ?: return null
-        val lon = longitude?.toDoubleOrNull() ?: return null
-
-        if (lat !in -90.0..90.0 || lon !in -180.0..180.0) return null
-
-        if (dateTime.isNullOrBlank()) return null
-        val matcher = REGEXP_ISO_Z_DATE.matcher(dateTime)
-        if (!matcher.matches()) return null
-        Instant.parse(dateTime)
-        val cleanUtcDateTime = dateTime.substring(0, 19).replace('T', ' ')
-
-        PointRecord(phone.trim(), lat, lon, cleanUtcDateTime)
-
-        } catch (e: Exception) {
-            LogSmart.e("NetworkManager", "Exception в checkRecord( $phone, $latitude, $longitude, $dateTime)", e)
-            null
-        }
-    }
-
-
-    fun getLocationsInternet(
-        onFinished: (() -> Unit)?,
-        onResult: ((Result<String>) -> Unit)?
-    ) {
-        // Функция получает с интернет-сервера и записывает в БД координаты и заряд батареи.
-
-        fetchJsonAsync(
-            url = "https://${SettingsManager.InternetServer}/get_locations",
-            token = SettingsManager.InternetToken,
-            requestMethod = HttpMethod.GET,
-            onFinished = onFinished,
-            onResult = { result ->
-                result.onSuccess { json ->
-                    parseAndWriteLocations(json)
-                }
-                onResult?.invoke(result)
-            }
-        )
     }
 
 }
